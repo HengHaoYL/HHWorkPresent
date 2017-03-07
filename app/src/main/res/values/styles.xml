@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/app_bg</item>
+    </style>
+    <!-- 启动样式 -->
+    <style name="Theme.Start" parent="AppBaseTheme">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Shop.Widget.EditText" parent="android:Widget.EditText">
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/edittext_background</item>
+        <item name="android:textColor">@color/login_font_color</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- activity 启动样式 -->
+    <style name="Activity.Theme" parent="AppBaseTheme">
+        <!-- 将Activity的Theme设置成透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/app_bg</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+</resources>

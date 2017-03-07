@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/cheliang_linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <GridView
+            android:id="@+id/gridview1"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"></GridView>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_below="@id/cheliang_linear1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#e3e3e3" />
+
+    <LinearLayout
+        android:layout_below="@id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <GridView
+            android:id="@+id/gridview2"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"></GridView>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/tabs_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#e3e3e3" />
+
+        <RadioGroup
+            android:id="@+id/tabs_rg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/padding_normal">
+
+            <RadioButton
+                android:id="@+id/xm_project"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:checked="true"
+                android:drawablePadding="@dimen/padding_small"
+                android:padding="@dimen/padding_normal"
+                android:singleLine="true"
+                android:drawableTop="@drawable/selector_help"
+                android:gravity="center"
+                android:text="帮助"
+                android:textColor="@drawable/tab_selector"
+                android:textSize="15dp" />
+
+            <RadioButton
+                android:id="@+id/xm_my"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:drawablePadding="@dimen/padding_small"
+                android:padding="@dimen/padding_normal"
+                android:singleLine="true"
+                android:drawableTop="@drawable/selector_guanli"
+                android:text="管理应用"
+                android:textColor="@drawable/tab_selector"
+                android:textSize="15dp" />
+            <!-- 工作台 -->
+
+
+        </RadioGroup>
+    </LinearLayout>
+</RelativeLayout>

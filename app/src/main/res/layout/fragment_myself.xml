@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ecf0f1"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/myself_linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/item_selfhead"/>
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/myself_linear2"
+        android:layout_below="@id/myself_linear1"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/item_self_ziliao"
+            android:textSize="16dp"
+            android:padding="@dimen/padding_big"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/item_point_right"
+            android:drawablePadding="@dimen/padding_big"
+            android:textColor="@color/tab_text_nonr"
+            android:text="个人资料"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/icon_shiyong"
+            android:textSize="16dp"
+            android:padding="@dimen/padding_big"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/item_point_right"
+            android:drawablePadding="@dimen/padding_big"
+            android:textColor="@color/tab_text_nonr"
+            android:text="使用说明"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/icon_selfwe"
+            android:textSize="16dp"
+            android:padding="@dimen/padding_big"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/item_point_right"
+            android:drawablePadding="@dimen/padding_big"
+            android:textColor="@color/tab_text_nonr"
+            android:text="关于我们"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/myself_linear2"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_cheliangSP"
+            android:layout_width="240dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_redcicrcleframe"
+            android:paddingBottom="@dimen/padding_normal"
+            android:paddingLeft="@dimen/padding_big"
+            android:paddingRight="@dimen/padding_big"
+            android:paddingTop="@dimen/padding_normal"
+            android:text="退出登录"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+</RelativeLayout>
