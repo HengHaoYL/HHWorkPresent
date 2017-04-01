@@ -41,9 +41,6 @@ public class MainActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.main_radioGroup)
     private RadioGroup radioGroup;
 
-    @ViewInject(R.id.tab_top)
-    public View mTabLinearLayout;
-
     public List<FragmentSupport> fragments = new ArrayList<FragmentSupport>();
 
     private List<HCMenuEntity> menuLists;

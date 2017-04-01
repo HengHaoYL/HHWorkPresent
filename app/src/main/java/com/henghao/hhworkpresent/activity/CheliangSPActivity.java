@@ -7,7 +7,8 @@ import android.widget.GridView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.adapter.ItemGridAdapter;
+import com.henghao.hhworkpresent.adapter.CheliangFirstAdapter;
+import com.henghao.hhworkpresent.adapter.CheliangSecAdapter;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -27,8 +28,11 @@ public class CheliangSPActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.gridview2)
     private GridView secGridView;
 
-    private ItemGridAdapter adapter;
+    private CheliangFirstAdapter firstAdapter;
 
+    private CheliangSecAdapter secAdapter;
+
+    private List<AppGridEntity> mList1;
     private List<AppGridEntity> mList2;
 
     @Override
@@ -50,7 +54,7 @@ public class CheliangSPActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("车辆审批");
+        mLeftTextView.setText("车辆管理");
         mLeftTextView.setVisibility(View.VISIBLE);
         mLeftImageView.setVisibility(View.VISIBLE);
         mLeftImageView.setImageResource(R.drawable.item_point_left);
@@ -68,25 +72,25 @@ public class CheliangSPActivity extends ActivityFragmentSupport {
     }
 
     public void initFirstGrid(){
-        mList2 = new ArrayList<AppGridEntity>();
+        mList1 = new ArrayList<AppGridEntity>();
         //第一个
         AppGridEntity mEntity = new AppGridEntity();
         mEntity.setImageId(R.drawable.item_daiwoshenpi);
         mEntity.setName("待我审批");
-        mList2.add(mEntity);
+        mList1.add(mEntity);
         //第二个
         AppGridEntity mEntity2 = new AppGridEntity();
         mEntity2.setImageId(R.drawable.item_wofaqide);
         mEntity2.setName("我发起的");
-        mList2.add(mEntity2);
+        mList1.add(mEntity2);
         //第三个
         AppGridEntity mEntity3 = new AppGridEntity();
         mEntity3.setImageId(R.drawable.item_chaosongwode);
         mEntity3.setName("抄送我的");
-        mList2.add(mEntity3);
-        adapter = new ItemGridAdapter(this, mList2);
-        this.firstGridView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        mList1.add(mEntity3);
+        firstAdapter = new CheliangFirstAdapter(this, mList1);
+        this.firstGridView.setAdapter(firstAdapter);
+        firstAdapter.notifyDataSetChanged();
     }
 
     public void initSecondGrid(){
@@ -126,9 +130,9 @@ public class CheliangSPActivity extends ActivityFragmentSupport {
         mEntity7.setImageId(R.drawable.item_add);
         mEntity7.setName("添加模块");
         mList2.add(mEntity7);
-        adapter = new ItemGridAdapter(this, mList2);
-        this.secGridView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        secAdapter = new CheliangSecAdapter(this, mList2);
+        this.secGridView.setAdapter(secAdapter);
+        secAdapter.notifyDataSetChanged();
     }
 
 }

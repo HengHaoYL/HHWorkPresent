@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ecf0f1"
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/myself_linear1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
+        android:background="#51CA65"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:src="@drawable/item_selfhead"/>
-        </LinearLayout>
+
+        <com.henghao.hhworkpresent.views.CircleImageView
+            android:id="@+id/fragment_my_circleImageview"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/testhead"
+            app:border_width="2dp"
+            app:border_color="@color/text_color_green" />
+
+        <TextView
+            android:id="@+id/fragment_my_changeImageTV"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置个人头像" />
+
+    </RelativeLayout>
 
 
     <LinearLayout
@@ -45,6 +59,26 @@
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="@color/line"/>
+
+        <TextView
+            android:id="@+id/fragment_my_tongxunlu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/item_self_tongxunlu"
+            android:textSize="16dp"
+            android:padding="@dimen/padding_big"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/item_point_right"
+            android:drawablePadding="@dimen/padding_big"
+            android:textColor="@color/tab_text_nonr"
+            android:text="通讯录"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line"/>
+
 
 
         <TextView

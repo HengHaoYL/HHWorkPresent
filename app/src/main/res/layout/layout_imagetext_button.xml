@@ -17,7 +17,6 @@
         android:text="确定"
         android:textSize="10dp"
         android:id="@+id/item_textview"
-        android:layout_gravity="center_vertical"
         />
 
 

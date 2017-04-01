@@ -11,34 +11,43 @@
 
     <ImageView
         android:id="@+id/msg_imageview"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:src="@drawable/icon_logo"/>
 
     <RelativeLayout
         android:layout_toRightOf="@id/msg_imageview"
-        android:layout_marginLeft="5dp"
-        android:layout_width="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tv_content"
             android:layout_marginTop="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="贵阳市安全生产监督管理局.............."
+            android:text="贵阳市安全生产监督管理局"
             android:textSize="16dp" />
         <TextView
             android:id="@id/tv_time"
             android:layout_below="@id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="16dp"
             android:text="Smartwork 2017.3.3"
             android:textColor="@color/text_color_b"
             android:textSize="12dp" />
 
     </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/msg_delete"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notificat_delete1"
+            android:layout_gravity="center" />
+
     </LinearLayout>
 
     <View

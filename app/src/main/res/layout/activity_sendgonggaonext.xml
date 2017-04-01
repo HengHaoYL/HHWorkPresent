@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="#BBBBBB"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/gonggao_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="发送范围"/>
+        <TextView
+            android:id="@+id/gonggao_tv_peopleNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="250dp"
+            android:text="0人"
+            android:drawableRight="@drawable/item_point_right"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#BBBBBB">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="添加封面图片"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="wrap_content">
+        <GridView
+            android:id="@+id/add_picture_gridView"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:horizontalSpacing="5dp"
+            android:verticalSpacing="5dp"
+            android:numColumns="1"
+            android:columnWidth="90dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center" >
+        </GridView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#BBBBBB">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="设为保密公告"/>
+        <com.henghao.hhworkpresent.views.MySlideButtonView
+            android:id="@+id/slideButton"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="190dp"
+            android:layout_gravity="center"
+             />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#BBBBBB">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="接收人只能查看，消息不可转发和拷贝;"/>
+    </LinearLayout>
+
+</LinearLayout>

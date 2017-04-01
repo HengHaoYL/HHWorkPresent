@@ -46,7 +46,6 @@ public class MsgFragment extends FragmentSupport {
     }
 
     private void initwithContent() {
-        // TODO Auto-generated method stub
         initWithCenterBar();
         this.mCenterTextView.setVisibility(View.VISIBLE);
         this.mCenterTextView.setText("我的消息");

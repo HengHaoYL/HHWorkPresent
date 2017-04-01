@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/myview"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <com.henghao.hhworkpresent.views.CircleImageView
+            android:id="@+id/fragment_my_circleImageview"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/testhead"
+            app:border_width="2dp"
+            app:border_color="@color/text_color_green" />
+
+        <TextView
+            android:id="@+id/kaoqing_chidao_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:textColor="#2C1D07"
+            android:text="张  剑"/>
+
+
+        <TextView
+            android:id="@+id/kaoqing_chidao_currentdate"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_gravity="center"
+            android:text="2016年12月20日"
+            android:textColor="#323232"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/kaoqing_chidao_currentweek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
+            android:text="星期日"
+            android:textColor="#323232"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="#CCCCCC"
+        android:layout_height="35dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:text="班次：A 09:00-18:00  考勤组：考勤"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="40dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/item_dakatoday"
+            android:text="今日打卡0次，工时总计0分钟"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/kaoqing_chidao_shangbantime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/item_shangban"
+                android:text="打卡时间"/>
+
+            <TextView
+                android:id="@+id/kaoqing_chidao_shangbantime"
+                android:layout_toRightOf="@id/kaoqing_chidao_shangbantime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:text="无"/>
+
+            <TextView
+                android:id="@+id/kaoqing_chidao_shangbanDakaState"
+                android:layout_below="@id/kaoqing_chidao_shangbantime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#D78A18"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="35dp"
+                android:text=""/>
+
+            <Button
+                android:id="@+id/kaoqing_chidao_shangbanBuka"
+                android:layout_below="@id/kaoqing_chidao_shangbanDakaState"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="25dp"
+                android:visibility="gone"
+                android:textSize="10dp"
+                android:text="申请补卡"/>
+
+            <Button
+                android:layout_below="@id/kaoqing_chidao_shangbanBuka"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:textSize="10dp"
+                android:layout_marginRight="50dp"
+                android:text="改为正常"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/kaoqing_chidao_xiabanLinear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/kaoqing_chidao_xiabantime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/item_xiaban"
+                android:text="打卡时间"/>
+
+            <TextView
+                android:id="@+id/kaoqing_chidao_xiabantime"
+                android:layout_toRightOf="@id/kaoqing_chidao_xiabantime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:text="无"/>
+
+            <TextView
+                android:id="@+id/kaoqing_chidao_xiabanDakaState"
+                android:layout_below="@id/kaoqing_chidao_xiabantime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#D78A18"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="35dp"
+                android:text=""/>
+
+            <Button
+                android:id="@+id/kaoqing_chidao_xiabanBuka"
+                android:layout_below="@id/kaoqing_chidao_xiabanDakaState"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="25dp"
+                android:textSize="10dp"
+                android:text="申请补卡"/>
+
+            <Button
+                android:layout_below="@id/kaoqing_chidao_xiabanBuka"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:textSize="10dp"
+                android:layout_marginRight="50dp"
+                android:text="改为正常"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

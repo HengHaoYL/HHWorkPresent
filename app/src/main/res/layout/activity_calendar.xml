@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:baselineAligned="false">
+
+        <LinearLayout
+            android:id="@+id/myview"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#CCCCCC"
+            android:orientation="horizontal">
+
+            <com.henghao.hhworkpresent.views.CircleImageView
+                android:id="@+id/fragment_my_circleImageview"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/testhead"
+                app:border_width="2dp"
+                app:border_color="@color/text_color_green" />
+
+            <TextView
+                android:id="@+id/kaoqing_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:textColor="#2C1D07"
+                android:text="张  剑"/>
+
+
+            <TextView
+                android:id="@+id/tv_current_date"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:layout_gravity="center"
+                android:text="2016年12月20日"
+                android:textColor="#323232"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_current_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center"
+                android:text="星期日"
+                android:textColor="#323232"
+                android:textSize="15sp" />
+        </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+        <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dip"
+                android:layout_marginBottom="2dip"
+                android:layout_marginTop="10dip">
+
+                <TableRow>
+
+                    <TextView
+                        style="@style/dateStyle"
+                        android:text="日" />
+
+                    <TextView
+                        style="@style/dateStyle"
+                        android:text="一"
+                        android:textColor="@color/main_color" />
+
+                    <TextView
+                        style="@style/dateStyle"
+                        android:text="二"
+                        android:textColor="@color/main_color" />
+
+                    <TextView
+                        style="@style/dateStyle"
+                        android:text="三"
+                        android:textColor="@color/main_color" />
+
+                    <TextView
+                        style="@style/dateStyle"
+                        android:text="四"
+                        android:textColor="@color/main_color" />
+
+                    <TextView
+                        style="@style/dateStyle"
+                        android:text="五"
+                        android:textColor="@color/main_color" />
+
+                    <TextView
+                        style="@style/dateStyle"
+                        android:text="六" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+    <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:orientation="vertical"
+          android:layout_weight="1"
+          android:layout_marginTop="15dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white" >
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+
+    <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+                <!--<com.henghao.hhworkpresent.views.MyCalendarView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="320dp" />-->
+        <!--</LinearLayout>-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line"/>
+   <LinearLayout
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="24dp">
+        <TextView
+            android:id="@+id/kaoqing_calendar_dakatimes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/item_dakatoday"
+            android:text="今日打卡0次"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/kaoqing_calendar_shangbantime1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/item_shangban"
+            android:text="打卡时间"/>
+
+        <TextView
+            android:id="@+id/kaoqing_calendar_shangbantime"
+            android:layout_toRightOf="@id/kaoqing_calendar_shangbantime1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:text="无"/>
+
+        <TextView
+            android:id="@+id/kaoqing_calendar_shangbanstate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:textColor="#D78A18"
+            android:text="缺卡"/>
+
+        <Button
+            android:id="@+id/kaoqing_calendar_shangbanBuka"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="10dp"
+            android:text="申请补卡"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/kaoqing_calendar_xiabantime1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/item_xiaban"
+                android:text="打卡时间"/>
+
+            <TextView
+                android:id="@+id/kaoqing_calendar_xiabantime"
+                android:layout_toRightOf="@id/kaoqing_calendar_xiabantime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:text="无"/>
+
+            <TextView
+                android:id="@+id/kaoqing_calendar_xiabanstate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:textColor="#D78A18"
+                android:text="缺卡"/>
+
+            <Button
+                android:id="@+id/kaoqing_calendar_xiabanBuka"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:layout_marginLeft="25dp"
+                android:textSize="10dp"
+                android:text="申请补卡"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/location_mapView"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:clickable="true"/>
+
+    <com.benefit.buy.library.views.xlistview.XListView
+        android:id="@+id/placeweitiao_lisview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/transparent"
+        android:fadingEdge="none"
+        android:listSelector="@drawable/list_selector_transition"
+        android:splitMotionEvents="false" />
+
+</LinearLayout>

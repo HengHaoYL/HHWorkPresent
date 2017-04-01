@@ -14,7 +14,7 @@ import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.EmailActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
-import com.henghao.hhworkpresent.activity.WaiQingQDActivity;
+import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -78,7 +78,7 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                 switch (position) {
                     case 0:
                         //外勤签到
-                        intent.setClass(mActivityFragmentSupport, WaiQingQDActivity.class);
+                        intent.setClass(mActivityFragmentSupport, WaiqingQiandaoActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
                         break;
                     case 1:

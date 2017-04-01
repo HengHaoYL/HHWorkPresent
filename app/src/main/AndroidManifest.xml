@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.henghao.hhworkpresent"
     android:versionCode="1"
-    android:versionName="1.0.0">
+    android:versionName="1.0.1">
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -16,11 +16,22 @@
     <!-- 程序退出操作权限 -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
+    <!-- 扫描二维码所需权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
 
+
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- 百度地图 -->
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -59,7 +70,7 @@
         android:name=".FMApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icon_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
@@ -77,18 +88,43 @@
             </intent-filter>
         </service>
 
+        <!-- 启动页 -->
+        <activity
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
         <!-- 主页 -->
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
+        <!-- activity 登录注册 -->
+        <activity
+            android:name=".activity.user.LoginAndRegActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+        <!-- 通讯录界面 -->
+
+        <activity
+            android:name=".activity.MyTongxunluActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 通讯录详细界面 -->
+        <activity
+            android:name=".activity.MyTongxunluDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
 
         <!-- 办公任务界面 -->
         <activity
@@ -118,15 +154,57 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
-        <!-- 外勤签到界面 -->
-       <activity
-            android:name=".activity.WaiQingQDActivity"
+        <!-- 上班签到勤界面 -->
+        <activity
+            android:name=".activity.QiandaoShangbanSubmitActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
-        <!-- 签到提交界面 -->
+        <!-- 下班签到界面 -->
         <activity
-            android:name=".activity.QiandaoSubmitActivity"
+            android:name=".activity.QiandaoXiabanSubmitActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 考勤迟到详情界面 -->
+        <activity
+            android:name=".activity.KaoqingChidaoDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 考勤早退详情界面 -->
+        <activity
+            android:name=".activity.KaoqingZaotuiDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 考勤缺卡详情界面 -->
+        <activity
+            android:name=".activity.KaoqingQuekaDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 考勤旷工详情界面 -->
+        <activity
+            android:name=".activity.KaoqingKuanggongDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 外勤签到界面 -->
+        <activity
+            android:name=".activity.WaiqingQiandaoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 地点微调界面 -->
+        <activity
+            android:name=".activity.LocationTrimActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 外勤签到提交界面 -->
+        <activity
+            android:name=".activity.WaiqingQiandaoSubmitActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
@@ -138,9 +216,195 @@
 
         <!-- 行政审批界面 -->
         <activity
-            android:name=".activity.XingZhneSPActivity"
+            android:name=".activity.XingZhenSPActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
+
+        <!-- 用车申请界面 -->
+        <activity
+            android:name=".activity.UseCarApplyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 派车审批界面 -->
+        <activity
+            android:name=".activity.CarApprovalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 实时监控界面 -->
+        <activity
+            android:name=".activity.MomentMonitorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 回站收车界面 -->
+        <activity
+            android:name=".activity.BackStationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 运营统计界面 -->
+        <activity
+            android:name=".activity.OperationStatisticsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 车辆保养界面 -->
+        <activity
+            android:name=".activity.VehicleMaintenanceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 任务派单界面 -->
+        <activity
+            android:name=".activity.TaskOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 执法反馈界面 -->
+        <activity
+            android:name=".activity.LawFeedbackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 结项申请界面 -->
+        <activity
+            android:name=".activity.ItemApplicationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 任务预警界面 -->
+        <activity
+            android:name=".activity.TaskWarningActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 任务评分界面 -->
+        <activity
+            android:name=".activity.TaskScoreActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 进度跟踪界面 -->
+        <activity
+            android:name=".activity.ProgressTrackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 执法监控界面 -->
+        <activity
+            android:name=".activity.LawMonitorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 执法指标界面 -->
+        <activity
+            android:name=".activity.LawIndexActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 员工分析界面 -->
+        <activity
+            android:name=".activity.StaffAnalysisActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 执法综合查询界面 -->
+        <activity
+            android:name=".activity.ZFTotalQueryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 执法统计分析界面 -->
+        <activity
+            android:name=".activity.ZFTotalAnalysisActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 投诉反馈界面 -->
+        <activity
+            android:name=".activity.ComplaintFeedbackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 业务办理及跟踪界面 -->
+        <activity
+            android:name=".activity.BusinessTrackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 业务办理行为分析界面 -->
+        <activity
+            android:name=".activity.BusinessBehaviorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 绩效考核界面 -->
+        <activity
+            android:name=".activity.PerformanceAppraisalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 审批综合查询界面 -->
+        <activity
+            android:name=".activity.SPTotalQueryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 审批统计分析界面 -->
+        <activity
+            android:name=".activity.SPTotalAnalysisActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 数据接口界面 -->
+        <activity
+            android:name=".activity.DataInterfaceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 考勤月历界面 -->
+        <activity
+            android:name=".activity.CalendarActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 发送公告界面 -->
+        <activity
+            android:name=".activity.SendGonggaoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 未读已读公告详情页面 -->
+        <activity
+            android:name=".activity.GonggaoDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 下一步发送公告界面 -->
+        <activity
+            android:name=".activity.SendGonggaoNextActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 选择联系人界面 -->
+        <activity
+            android:name=".activity.ChooseContactsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+
+        <!-- activity 启动本地图片和相机 -->
+        <activity
+            android:name="com.benefit.buy.library.phoneview.MultiImageSelectorActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 

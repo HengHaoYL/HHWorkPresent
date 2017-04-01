@@ -7,7 +7,8 @@ import android.widget.GridView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.adapter.ItemGridAdapter;
+import com.henghao.hhworkpresent.adapter.BangongRWFirstAdapter;
+import com.henghao.hhworkpresent.adapter.BangongRWSecAdapter;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -29,7 +30,9 @@ public class BangGongRWActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.gridview2)
     private GridView secGridView;
 
-    private ItemGridAdapter adapter;
+    private BangongRWFirstAdapter firstAdapter;
+
+    private BangongRWSecAdapter secAdapter;
 
     private List<AppGridEntity> mList2;
 
@@ -86,9 +89,9 @@ public class BangGongRWActivity extends ActivityFragmentSupport {
         mEntity3.setImageId(R.drawable.item_chaosongwode);
         mEntity3.setName("抄送我的");
         mList2.add(mEntity3);
-        adapter = new ItemGridAdapter(this, mList2);
-        this.firstGridView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        firstAdapter = new BangongRWFirstAdapter(this, mList2);
+        this.firstGridView.setAdapter(firstAdapter);
+        firstAdapter.notifyDataSetChanged();
     }
 
     public void initSecondGrid(){
@@ -128,8 +131,8 @@ public class BangGongRWActivity extends ActivityFragmentSupport {
         mEntity7.setImageId(R.drawable.item_add);
         mEntity7.setName("添加模块");
         mList2.add(mEntity7);
-        adapter = new ItemGridAdapter(this, mList2);
-        this.secGridView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        secAdapter = new BangongRWSecAdapter(this, mList2);
+        this.secGridView.setAdapter(secAdapter);
+        secAdapter.notifyDataSetChanged();
     }
 }

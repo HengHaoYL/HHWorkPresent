@@ -64,4 +64,7 @@
     <color name="text_10">#333333</color>
     <color name="text_11">#999999</color>
     <color name="gray_bg">#f8f8f8</color>
+
+    <color name="main_color">#51aaed</color>
+
 </resources>

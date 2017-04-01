@@ -13,7 +13,7 @@ import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.BangGongRWActivity;
 import com.henghao.hhworkpresent.activity.CheliangSPActivity;
 import com.henghao.hhworkpresent.activity.XingZhenZFActivity;
-import com.henghao.hhworkpresent.activity.XingZhneSPActivity;
+import com.henghao.hhworkpresent.activity.XingZhenSPActivity;
 import com.henghao.hhworkpresent.views.AutoScrollViewPager;
 import com.henghao.hhworkpresent.views.CommonAutoViewpager;
 import com.lidroid.xutils.ViewUtils;
@@ -30,8 +30,6 @@ import static com.henghao.hhworkpresent.R.id.tv_xingzhengZF;
  */
 
 public class AppFragment extends FragmentSupport {
-
-
 
     @ViewInject(R.id.tv_cheliangSP)
     private TextView cheliangSP;
@@ -96,15 +94,15 @@ public class AppFragment extends FragmentSupport {
                 intent.setClass(getActivity(), CheliangSPActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.tv_xingzhengSP:
-                intent.setClass(getActivity(), XingZhneSPActivity.class);
+            case tv_xingzhengSP:
+                intent.setClass(getActivity(), XingZhenSPActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.tv_xingzhengZF:
+            case tv_xingzhengZF:
                 intent.setClass(getActivity(), XingZhenZFActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.tv_bangongRW:
+            case tv_bangongRW:
                 intent.setClass(getActivity(), BangGongRWActivity.class);
                 startActivity(intent);
                 break;

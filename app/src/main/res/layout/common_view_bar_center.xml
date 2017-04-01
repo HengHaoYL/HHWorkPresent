@@ -16,6 +16,6 @@
         android:layout_marginLeft="@dimen/padding_small"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:textSize="@dimen/gj_f"/>
+        android:textSize="14dp"/>
 
 </merge>

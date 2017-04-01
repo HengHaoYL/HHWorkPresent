@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ecf0f1"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/daka_linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <com.henghao.hhworkpresent.views.CircleImageView
+            android:id="@+id/fragment_my_circleImageview"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/testhead"
+            app:border_width="2dp"
+            app:border_color="@color/text_color_green" />
+
+        <TextView
+            android:id="@+id/kaoqing_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:textColor="#2C1D07"
+            android:text="张  剑"/>
+
+        <TextView
+            android:id="@+id/tv_datepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#2C1D07"
+            android:layout_marginLeft="140dp"
+            android:background="@drawable/outside_stroke"
+            android:drawablePadding="@dimen/padding_normal"
+            android:drawableRight="@drawable/item_point_down"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingLeft="@dimen/padding_big"
+            android:paddingRight="@dimen/padding_big"
+            android:paddingTop="@dimen/padding_small"
+            android:text="2017.3.10"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_below="@id/daka_linear1"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:id="@+id/daka_linear2"
+        android:layout_below="@id/daka_linear1"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:text="调整心情，开启美好心情开始工作"
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/daka_shangban_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/daka_shangbantime1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/item_shangban"
+                    android:text="打卡时间"/>
+
+                <TextView
+                    android:id="@+id/daka_shangbantime"
+                    android:layout_toRightOf="@id/daka_shangbantime1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:text="无"/>
+
+                <TextView
+                    android:id="@+id/daka_shangbanDakaState"
+                    android:layout_below="@id/daka_shangbantime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#D78A18"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="35dp"
+                    android:text="缺卡"/>
+
+                <Button
+                    android:id="@+id/btn_daka_shangbanbuka"
+                    android:layout_below="@id/daka_shangbanDakaState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="10dp"
+                    android:text="申请补卡"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/daka_xiaban_layout"
+                android:layout_below="@id/daka_shangban_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:id="@+id/daka_xiabantime1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/item_xiaban"
+                    android:text="打卡时间"/>
+
+                <TextView
+                    android:id="@+id/daka_xiabantime"
+                    android:layout_toRightOf="@id/daka_xiabantime1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:text="无"/>
+
+                <TextView
+                    android:id="@+id/daka_xiabanDakaState"
+                    android:layout_below="@id/daka_xiabantime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#D78A18"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="35dp"
+                    android:text="缺卡"/>
+
+                <Button
+                    android:id="@+id/btn_daka_xiabanBuka"
+                    android:layout_below="@id/daka_xiabanDakaState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="10dp"
+                    android:text="申请补卡"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

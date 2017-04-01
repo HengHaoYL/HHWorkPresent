@@ -1,19 +1,51 @@
 package com.henghao.hhworkpresent.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
+import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.activity.MyTongxunluActivity;
+import com.henghao.hhworkpresent.views.CircleImageView;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import java.util.ArrayList;
 
 /**
  * Created by bryanrady on 2017/2/28.
  */
 
 public class MyFragment extends FragmentSupport {
+
+    /**
+     * 圆形图片头像制作
+     */
+    @ViewInject(R.id.fragment_my_circleImageview)
+    private CircleImageView circleImageView;
+
+    @ViewInject(R.id.fragment_my_changeImageTV)
+    private TextView tvChangeImage;
+
+    @ViewInject(R.id.fragment_my_tongxunlu)
+    private TextView tv_tongxunlu;
+
+
+    private ArrayList<String> mSelectPath;
+
+    private static final int REQUEST_IMAGE = 0x00;
+
+    private ArrayList<String> mImageList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,14 +69,73 @@ public class MyFragment extends FragmentSupport {
     }
 
     public void initData(){
-
+        /*tvChangeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choosePicture();
+            }
+        });*/
     }
 
     private void initwithContent() {
-        // TODO Auto-generated method stub
         initWithCenterBar();
         this.mCenterTextView.setVisibility(View.VISIBLE);
         this.mCenterTextView.setText("个人中心");
     }
 
+    public void choosePicture(){
+        // 查看session是否过期
+        // int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
+        //设置单选模式
+        int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
+        int maxNum = 9;
+        Intent picIntent = new Intent(this.mActivity, MultiImageSelectorActivity.class);
+        // 是否显示拍摄图片
+        picIntent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+        // 最大可选择图片数量
+        picIntent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, maxNum);
+        // 选择模式
+        picIntent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, selectedMode);
+        // 默认选择
+        if ((this.mSelectPath != null) && (this.mSelectPath.size() > 0)) {
+            picIntent.putExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, this.mSelectPath);
+        }
+        startActivityForResult(picIntent, REQUEST_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            if (requestCode == REQUEST_IMAGE) {
+                if ((resultCode == Activity.RESULT_OK) || (resultCode == Activity.RESULT_CANCELED)) {
+                    this.mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                    if (!ToolsKit.isEmpty(this.mSelectPath)) {
+                        for (String imagePath : mSelectPath) {
+                            Bitmap bm = BitmapFactory.decodeFile(imagePath);
+                            //设置图片
+                            circleImageView.setImageBitmap(bm);
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    @OnClick({R.id.fragment_my_changeImageTV,R.id.fragment_my_tongxunlu})
+    private void viewOnClick(View v) {
+        switch (v.getId()) {
+            case R.id.fragment_my_changeImageTV:
+                choosePicture();
+                break;
+
+            case R.id.fragment_my_tongxunlu:        //通讯录
+                Intent intent = new Intent();
+                intent.setClass(mActivity,MyTongxunluActivity.class);
+                startActivity(intent);
+                break;
+
+        }
+    }
 }

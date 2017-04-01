@@ -50,7 +50,7 @@
                 android:textSize="12dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -61,7 +61,7 @@
                 android:text="【车辆审批】:申请成功，请........."
                 android:textColor="@color/text_color_b"
                 android:textSize="12dp" />
-        </LinearLayout>
+        </LinearLayout>-->
         </LinearLayout>
 
         <ImageView

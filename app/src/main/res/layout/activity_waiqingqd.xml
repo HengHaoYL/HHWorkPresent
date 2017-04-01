@@ -69,18 +69,17 @@
 
         <TextView
             android:id="@+id/tv_place_name"
-            android:layout_width="match_parent"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_place_weitiao"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="地点微调"
-            android:visibility="gone"
             android:textColor="#1A6BE6"
             android:textSize="12sp" />
     </LinearLayout>
@@ -92,12 +91,12 @@
         android:layout_height="wrap_content"
         android:background="#ffffff"
         android:orientation="horizontal"
-        android:padding="10dp" >
+        android:padding="5dp" >
 
         <com.baidu.mapapi.map.MapView
             android:id="@+id/bmapview"
             android:layout_width="360dp"
-            android:layout_height="160dp"
+            android:layout_height="135dp"
             android:clickable="true" />
 
     </LinearLayout>
@@ -111,11 +110,9 @@
         android:id="@+id/waiqing_linear4"
         android:layout_below="@id/waiqing_linear3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#ffffff"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:padding="5dp" >
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -128,7 +125,7 @@
             style="@style/Shop.Widget.EditText"
             android:layout_width="220dp"
             android:layout_marginLeft="20dp"
-            android:layout_height="@dimen/view_height"
+            android:layout_height="40dp"
             android:gravity="center_horizontal|bottom"
             android:hint="请选择或输入"
             android:inputType="text"
@@ -139,11 +136,12 @@
             android:singleLine="true"
             android:textColorHint="@color/hint_color" />
 
-        <com.henghao.hhworkpresent.views.ImageTextButton
+        <com.henghao.hhworkpresent.views.MyImageTextButton
             android:id="@+id/waiqingqd_choose"
+            android:clickable="true"
             android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="20dp" />
     </LinearLayout>
 
@@ -152,14 +150,15 @@
         android:layout_height="1dp"
         android:background="#a9b7b7" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/waiqing_linear5"
         android:layout_below="@id/waiqing_linear4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="200dp"
+        android:orientation="vertical" >
 
         <RelativeLayout
+            android:id="@+id/qiandao_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" >
@@ -203,23 +202,22 @@
                 android:id="@+id/img_confirm_qiandao"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_alignTop="@+id/tv_state_qiandao"
                 android:layout_marginRight="3dp"
-                android:layout_toLeftOf="@+id/tv_state_qiandao"
                 android:src="@drawable/icon_confirm_qiandao"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tv_state_qiandao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/img_qiandao"
-                android:layout_centerHorizontal="true"
-                android:text="今日你还未签到"
-                android:textColor="#2C1D07"
-                android:textSize="14sp" />
         </RelativeLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_state_qiandao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qiandao_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="今日你还未签到"
+            android:textColor="#2C1D07"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -231,6 +229,7 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <View
