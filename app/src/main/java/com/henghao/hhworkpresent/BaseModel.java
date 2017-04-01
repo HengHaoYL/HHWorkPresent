@@ -26,7 +26,6 @@ import java.util.ArrayList;
  * @since [产品/模块版本]
  */
 public class BaseModel implements BusinessResponse {
-
     protected BeeQuery aq;
 
     protected ArrayList<BusinessResponse> businessResponseArrayList = new ArrayList<BusinessResponse>();
