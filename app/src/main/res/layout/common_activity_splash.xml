@@ -43,7 +43,7 @@
                 android:paddingRight="@dimen/padding_big"
                 android:paddingTop="@dimen/padding_normal"
                 android:text="跳过"
-                android:textColor="@color/white"
+
                 android:textSize="@dimen/gj_d" >
             </TextView>
         </LinearLayout>

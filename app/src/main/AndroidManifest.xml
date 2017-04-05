@@ -99,6 +99,11 @@
             </intent-filter>
         </activity>
 
+        <!-- activity 登录界面 -->
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
 
         <!-- 主页 -->
         <activity
@@ -107,12 +112,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>
-
-        <!-- activity 登录注册 -->
-        <activity
-            android:name=".activity.user.LoginAndRegActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
 
         <!-- 个人资料界面 -->
         <activity

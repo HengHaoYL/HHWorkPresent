@@ -39,37 +39,59 @@
             android:layout_marginBottom="@dimen/padding_big"
             android:src="@drawable/icon_login" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
 
-        <EditText
-            android:id="@+id/login_user"
-            style="@style/Shop.Widget.EditText"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/view_height"
-            android:gravity="bottom"
-            android:hint="@string/login_user"
-            android:inputType="text"
-            android:maxLength="16"
-            android:maxLines="1"
-            android:paddingBottom="@dimen/padding_normal"
-            android:paddingLeft="@dimen/padding_normal"
-            android:singleLine="true"
-            android:textColorHint="@color/hint_color" />
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="用  户  名"
+                android:textSize="@dimen/gj_f" />
 
-        <EditText
-            android:id="@+id/login_pass"
-            style="@style/Shop.Widget.EditText"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/view_height"
-            android:gravity="bottom"
-            android:hint="@string/login_pass_hint"
-            android:inputType="textPassword"
-            android:maxLength="16"
-            android:maxLines="1"
-            android:paddingBottom="@dimen/padding_normal"
-            android:paddingLeft="@dimen/padding_normal"
-            android:singleLine="true"
-            android:textColorHint="@color/hint_color" />
+            <EditText
+                android:id="@+id/login_user"
+                style="@style/Shop.Widget.EditText"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/view_height"
+                android:gravity="bottom"
+                android:hint="请输入用户名"
+                android:inputType="text"
+                android:maxLength="16"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingLeft="@dimen/padding_normal"
+                android:singleLine="true"
+                android:textColorHint="@color/hint_color" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="密        码"
+                android:textSize="@dimen/gj_f" />
+
+            <EditText
+                android:id="@+id/login_pass"
+                style="@style/Shop.Widget.EditText"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/view_height"
+                android:gravity="bottom"
+                android:hint="请输入密码"
+                android:inputType="text"
+                android:maxLength="16"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingLeft="@dimen/padding_normal"
+                android:singleLine="true"
+                android:textColorHint="@color/hint_color" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -82,18 +104,6 @@
         android:layout_marginRight="@dimen/padding_big"
         android:layout_marginTop="18dip"
         android:orientation="vertical">
-
-        <Button
-            android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/view_height"
-            android:background="@drawable/btn_bluecircleframe"
-            android:gravity="center"
-            android:text="@string/login"
-            android:textColor="@color/white"
-            android:textSize="@dimen/gj_f"
-            android:textStyle="bold"
-            android:visibility="gone" />
 
 
         <TextView
@@ -110,28 +120,6 @@
             android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="@dimen/gj_d" />
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/login_pass_quick"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
-                android:gravity="center_horizontal"
-                android:padding="@dimen/padding_normal"
-                android:text="@string/login_pass_quick"
-                android:textColor="@color/text_color_b"
-                android:textSize="@dimen/gj_d"
-               />
-        </RelativeLayout>
-
 
     </LinearLayout>
 

@@ -99,10 +99,14 @@ public class ProtocolUrl {
 
 
 
+    /**
+     * 用户登录验证接口
+     */
+    public static final String APP_USER_LOGIN = "/safetySuperviseApp/user/loginCheck";
+
 
 
     /************************* 考勤 start **************************/
-
 
     /**
      * 查询考勤界面信息

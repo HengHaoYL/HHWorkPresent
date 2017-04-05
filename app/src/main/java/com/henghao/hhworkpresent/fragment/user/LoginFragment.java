@@ -35,8 +35,8 @@ import org.json.JSONException;
  */
 public class LoginFragment extends FragmentSupport {
 
-    @ViewInject(R.id.login_pass_quick)
-    private TextView login_pass_quick;
+   /* @ViewInject(R.id.login_pass_quick)
+    private TextView login_pass_quick;*/
 
     @ViewInject(R.id.login_user)
     private EditText login_user;
