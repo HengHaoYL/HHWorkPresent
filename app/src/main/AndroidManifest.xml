@@ -113,10 +113,16 @@
             android:name=".activity.user.LoginAndRegActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
-        <!-- 通讯录界面 -->
 
+        <!-- 个人资料界面 -->
         <activity
             android:name=".activity.MyTongxunluActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 通讯录界面 -->
+        <activity
+            android:name=".activity.MySelfZiliaoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 

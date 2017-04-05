@@ -14,6 +14,7 @@ import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
 import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.activity.MySelfZiliaoActivity;
 import com.henghao.hhworkpresent.activity.MyTongxunluActivity;
 import com.henghao.hhworkpresent.views.CircleImageView;
 import com.lidroid.xutils.ViewUtils;
@@ -36,6 +37,9 @@ public class MyFragment extends FragmentSupport {
 
     @ViewInject(R.id.fragment_my_changeImageTV)
     private TextView tvChangeImage;
+
+    @ViewInject(R.id.fragment_my_selfziliao)
+    private TextView tv_selfziliao;
 
     @ViewInject(R.id.fragment_my_tongxunlu)
     private TextView tv_tongxunlu;
@@ -123,15 +127,20 @@ public class MyFragment extends FragmentSupport {
         }
     }
 
-    @OnClick({R.id.fragment_my_changeImageTV,R.id.fragment_my_tongxunlu})
+    @OnClick({R.id.fragment_my_changeImageTV,R.id.fragment_my_selfziliao,R.id.fragment_my_tongxunlu})
     private void viewOnClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.fragment_my_changeImageTV:
                 choosePicture();
                 break;
 
+            case R.id.fragment_my_selfziliao:    //个人资料
+                intent.setClass(mActivity, MySelfZiliaoActivity.class);
+                startActivity(intent);
+                break;
+
             case R.id.fragment_my_tongxunlu:        //通讯录
-                Intent intent = new Intent();
                 intent.setClass(mActivity,MyTongxunluActivity.class);
                 startActivity(intent);
                 break;

@@ -200,13 +200,17 @@ public class ProtocolUrl {
 
     /************************ 公告 end **************************/
 
-    /************************ 通讯录 start **************************/
+    /************************ 个人资料界面 start **************************/
+
+    /**
+     * 个人详细资料查询
+     */
+    public static final String APP_QUERY_MYSELF_ZILIAO = "/safetySuperviseApp/user/findPersonal";
 
     /**
      * 通讯录列表查询
      */
     public static final String APP_QUERY_TONGXUNLU = "/safetySuperviseApp/user/findAllUser";
 
-
-    /************************ 通讯录 end **************************/
+    /************************ 个人资料界面 end **************************/
 }
