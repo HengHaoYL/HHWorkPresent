@@ -1,7 +1,9 @@
 package com.henghao.hhworkpresent.fragment;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,9 +16,11 @@ import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
 import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.activity.LoginActivity;
 import com.henghao.hhworkpresent.activity.MySelfZiliaoActivity;
 import com.henghao.hhworkpresent.activity.MyTongxunluActivity;
 import com.henghao.hhworkpresent.views.CircleImageView;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -44,12 +48,17 @@ public class MyFragment extends FragmentSupport {
     @ViewInject(R.id.fragment_my_tongxunlu)
     private TextView tv_tongxunlu;
 
+    @ViewInject(R.id.tv_exitlogin)
+    private TextView tv_exitlogin;
 
     private ArrayList<String> mSelectPath;
 
     private static final int REQUEST_IMAGE = 0x00;
 
     private ArrayList<String> mImageList = new ArrayList<>();
+
+    private DatabaseHelper dbHelper;
+    private SQLiteDatabase db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -127,7 +136,7 @@ public class MyFragment extends FragmentSupport {
         }
     }
 
-    @OnClick({R.id.fragment_my_changeImageTV,R.id.fragment_my_selfziliao,R.id.fragment_my_tongxunlu})
+    @OnClick({R.id.fragment_my_changeImageTV,R.id.fragment_my_selfziliao,R.id.fragment_my_tongxunlu,R.id.tv_exitlogin})
     private void viewOnClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
@@ -142,6 +151,17 @@ public class MyFragment extends FragmentSupport {
 
             case R.id.fragment_my_tongxunlu:        //通讯录
                 intent.setClass(mActivity,MyTongxunluActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.tv_exitlogin:        //退出登录
+                dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
+                // 只有调用了DatabaseHelper的getWritableDatabase()方法或者getReadableDatabase()方法之后，才会创建或打开一个连接 
+                db = dbHelper.getWritableDatabase();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("password","null");
+                db.update("user",contentValues,null,null);
+                intent.setClass(mActivity,LoginActivity.class);
                 startActivity(intent);
                 break;
 

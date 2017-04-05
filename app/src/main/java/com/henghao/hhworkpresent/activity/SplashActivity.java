@@ -16,6 +16,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -160,11 +161,13 @@ public class SplashActivity extends ActivityFragmentSupport {
 							id = cursor.getString((cursor.getColumnIndex("id")));
 							username = cursor.getString((cursor.getColumnIndex("username")));
 							password = cursor.getString((cursor.getColumnIndex("password")));
-
+							Log.d("wangqingbin","id=="+id);
+							Log.d("wangqingbin","username=="+username);
+							Log.d("wangqingbin","password=="+password);
 						}
 					}
 					if(("null".equals(username)|| username ==null)
-							&& ("null".equals(password)|| password == null )){
+							|| ("null".equals(password)|| password == null )){
 						_intent.setClass(SplashActivity.this, LoginActivity.class);
 						SplashActivity.this.startActivity(_intent);
 						finishDelayed();
