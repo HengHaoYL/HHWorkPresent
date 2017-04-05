@@ -214,6 +214,24 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 请假申请界面 -->
+        <activity
+            android:name=".activity.QingjiaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 外出申请界面 -->
+        <activity
+            android:name=".activity.WaichuActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 补签申请界面 -->
+        <activity
+            android:name=".activity.BuqianActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 行政执法界面 -->
         <activity
             android:name=".activity.XingZhenZFActivity"

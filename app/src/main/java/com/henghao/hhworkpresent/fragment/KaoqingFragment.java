@@ -187,11 +187,11 @@ public class KaoqingFragment extends FragmentSupport {
         mKuanggongAdapter.notifyDataSetChanged();
 
         initEvent();
+
+        initRequest();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void initRequest(){
         httpRequest();
         httpRequestChidao();
         httpRequestZaotui();

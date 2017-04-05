@@ -75,6 +75,21 @@
                 android:textColor="@drawable/tab_selector"
                 android:textSize="18dp" />
 
+            <!-- 请假 -->
+            <RadioButton
+                android:id="@+id/main_qingjia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:button="@null"
+                android:drawablePadding="@dimen/padding_small"
+                android:drawableTop="@drawable/selector_qingjia"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="请假"
+                android:textColor="@drawable/tab_selector"
+                android:textSize="18dp" />
+
         </RadioGroup>
     </LinearLayout>
 
