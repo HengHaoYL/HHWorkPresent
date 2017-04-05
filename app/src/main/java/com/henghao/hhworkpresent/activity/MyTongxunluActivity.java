@@ -107,9 +107,11 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
             @Override
             public void onTouchingLetterChanged(String s) {
                 //该字母首次出现的位置
-                int position = adapter.getPositionForSection(s.charAt(0));
-                if (position != -1) {
-                    sortListView.setSelection(position + 1);
+                if(adapter!=null){
+                    int position = adapter.getPositionForSection(s.charAt(0));
+                    if (position != -1) {
+                        sortListView.setSelection(position + 1);
+                    }
                 }
             }
         });
