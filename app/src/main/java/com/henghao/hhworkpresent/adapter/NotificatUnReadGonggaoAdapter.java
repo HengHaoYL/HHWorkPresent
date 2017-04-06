@@ -2,6 +2,8 @@ package com.henghao.hhworkpresent.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.GonggaoEntity;
 import com.henghao.hhworkpresent.protocol.GonggaoProtocol;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.BitmapUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -105,7 +108,7 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
                         mdeleteList.add(getItem(position));
                         mdeleteList.remove(position);
 
-                        gonggaoProtocol.queryReadGongao("张三");
+                        gonggaoProtocol.queryReadGongao(getLoginUid());
                         dialog.dismiss();
                     }
                 });
@@ -121,6 +124,21 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
         });
 
         return convertView;
+    }
+
+    /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(mActivityFragmentSupport,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
     }
 
 

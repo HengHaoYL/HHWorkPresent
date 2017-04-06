@@ -1,6 +1,8 @@
 package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -17,6 +19,7 @@ import com.henghao.hhworkpresent.adapter.NotificatUnReadGonggaoAdapter;
 import com.henghao.hhworkpresent.entity.BaseEntity;
 import com.henghao.hhworkpresent.entity.GonggaoEntity;
 import com.henghao.hhworkpresent.protocol.GonggaoProtocol;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -106,15 +109,30 @@ public class GongGaoActivity extends ActivityFragmentSupport {
         queryUnReadGonggao();
     }
 
+    /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
+    }
+
     public void queryUnReadGonggao(){
         gonggaoProtocol.addResponseListener(this);
-        gonggaoProtocol.queryUnreadGongao("张三");
+        gonggaoProtocol.queryUnreadGongao(getLoginUid());
         mActivityFragmentView.viewLoading(View.VISIBLE);
     }
 
     public void queryReadGonggao(){
         gonggaoProtocol.addResponseListener(this);
-        gonggaoProtocol.queryReadGongao("张三");
+        gonggaoProtocol.queryReadGongao(getLoginUid());
         mActivityFragmentView.viewLoading(View.VISIBLE);
     }
 
@@ -123,7 +141,7 @@ public class GongGaoActivity extends ActivityFragmentSupport {
      */
     public void addAllReadGonggao(){
         gonggaoProtocol.addResponseListener(this);
-        gonggaoProtocol.addAllReadGonggao("张三");
+        gonggaoProtocol.addAllReadGonggao(getLoginUid());
         mActivityFragmentView.viewLoading(View.VISIBLE);
     }
 

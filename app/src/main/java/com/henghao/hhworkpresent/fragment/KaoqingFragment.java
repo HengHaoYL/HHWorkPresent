@@ -1,8 +1,11 @@
 package com.henghao.hhworkpresent.fragment;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -61,6 +64,8 @@ import java.util.List;
 
 public class KaoqingFragment extends FragmentSupport {
 
+    public static final String KAOQING_TIME = "com.henghao.kaoqing.time";
+
     @ViewInject(R.id.tv_datepicker)
     private TextView tv_datepicker;
 
@@ -112,6 +117,7 @@ public class KaoqingFragment extends FragmentSupport {
     @ViewInject(R.id.tv_lateTimes)
     private TextView tv_lateTimes;
 
+    private MyBroadcastReceiver myBroadcastReceiver;
 
     private ChidaoListAdapter mChidaoAdapter;
     private ZaotuiListAdapter mZaotuiAdapter;
@@ -166,6 +172,10 @@ public class KaoqingFragment extends FragmentSupport {
     }
 
     public void initData(){
+        myBroadcastReceiver = new MyBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(KAOQING_TIME);
+        mActivity.registerReceiver(myBroadcastReceiver, filter);
 
         DynamicArray();
 
@@ -678,6 +688,17 @@ public class KaoqingFragment extends FragmentSupport {
         }
     }
 
+    class MyBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(KAOQING_TIME)) {
+                initRequest();
+            }
+        }
+    }
+
     /**
      * 展示单选对话框
      */
@@ -686,7 +707,6 @@ public class KaoqingFragment extends FragmentSupport {
         builder.setSingleChoiceItems(datas, listener.getIndex(), listener);
         builder.show();
     }
-
 
     class RadioOnClick implements DialogInterface.OnClickListener {
 
@@ -708,9 +728,14 @@ public class KaoqingFragment extends FragmentSupport {
         public void onClick(DialogInterface dialog, int whichButton){
             setIndex(whichButton);
             tv_datepicker.setText(datas[index]);
+            Intent intent = new Intent(KAOQING_TIME);
+            getContext().sendBroadcast(intent);
             dialog.dismiss();
+
         }
 
     }
+
+
 
 }

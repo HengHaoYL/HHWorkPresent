@@ -207,6 +207,11 @@ public class ProtocolUrl {
     /************************ 个人资料界面 start **************************/
 
     /**
+     * 上传用户头像接口
+     */
+    public static final String APP_REQUEST_HEAD_IMAGE = "/safetySuperviseApp/user/imageUpLoad";
+
+    /**
      * 个人详细资料查询
      */
     public static final String APP_QUERY_MYSELF_ZILIAO = "/safetySuperviseApp/user/findPersonal";

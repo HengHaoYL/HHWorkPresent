@@ -24,12 +24,13 @@
             app:border_color="@color/text_color_green" />
 
         <TextView
-            android:id="@+id/fragment_my_changeImageTV"
+            android:id="@+id/fragment_my_login_username"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
+            android:textSize="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="设置个人头像" />
+            android:text="[请登录]" />
 
     </RelativeLayout>
 
