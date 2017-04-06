@@ -1,7 +1,6 @@
 package com.henghao.hhworkpresent.protocol;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.benefit.buy.library.http.query.callback.AjaxStatus;
 import com.benefit.buy.library.utils.tools.ToolsJson;
@@ -49,7 +48,6 @@ public class GonggaoProtocol extends BaseModel {
             params.put("gonggao_content",content);
             params.put("gonggao_imageUrl",imageUrl);
             params.put("gonggao_isEncrypt",isEncrypt);
-            Log.d("wangqingbin","params"+params);
             this.mBeeCallback.url(url).type(String.class).params(params);
             this.aq.ajax(this.mBeeCallback);
         } catch (Exception e){
@@ -152,7 +150,6 @@ public class GonggaoProtocol extends BaseModel {
                     GonggaoProtocol.this.OnMessageResponse(url, mBaseEntity, status);
                 }
                 String data = ToolsJson.toJson(mBaseEntity.getData());
-                Log.d("wangqingbin","data=="+data);
                 if (ToolsKit.isEmpty(data)) {
                     GonggaoProtocol.this.OnMessageResponse(url, mBaseEntity, status);
                     return;
@@ -164,14 +161,10 @@ public class GonggaoProtocol extends BaseModel {
                     GonggaoProtocol.this.OnMessageResponse(url, mBaseEntity, status);
 
                 } else if (url.endsWith(ProtocolUrl.APP_QUERY_UNREAD_GONGGAO)){
-                    Log.d("wangqingbin","进入url判断");
                     // 查询未读公告
                     Type type = new TypeToken<List<GonggaoEntity>>() {
                     }.getType();
-                    Log.d("wangqingbin","type=="+type);
-                    Log.d("wangqingbin","ToolsJson=="+ToolsJson.parseObjecta(data, type));
                     List<GonggaoEntity> homeData = ToolsJson.parseObjecta(data, type);
-                    Log.d("wangqingbin","homeData=="+homeData);
                     GonggaoProtocol.this.OnMessageResponse(url, homeData, status);
 
                 } else if (url.endsWith(ProtocolUrl.APP_QUERY_READ_GONGGAO)){
