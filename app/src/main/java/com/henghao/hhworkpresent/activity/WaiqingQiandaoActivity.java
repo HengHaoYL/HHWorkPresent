@@ -3,6 +3,8 @@ package com.henghao.hhworkpresent.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +36,7 @@ import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.MyImageTextButton;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -134,7 +137,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("wangqingbin","WaiqingQiandaoActivity onCreate.....");
         super.onCreate(savedInstanceState);
         // 在使用SDK各组件之前初始化context信息，传入ApplicationContext
         // 注意该方法要再setContentView方法之前实现
@@ -272,7 +274,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                 return;
             }
             tv_place_qiandao.setText(addrStr);
-            Log.d("wangqingbin","addrStr=="+addrStr);
             img_qiandao.setClickable(true);
             img_qiandao.setImageResource(R.drawable.icon_orangecircle);
         }
@@ -390,7 +391,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                    /* LatLng ll = new LatLng(latitude,longitude);
                     mCurrentMarker.setPosition(ll);*/
                     String addressName = bundle.getString("addressName");
-                    Log.d("wangqingbin","addressName=="+addressName);
                     tv_place_qiandao.setText(addressName);
 
                 }
@@ -406,20 +406,32 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
 
     private Handler mHandler = new Handler(){};
 
+    /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
+    }
+
     private void httpRequestKaoqingofPastDate() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-/*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
-        String UID = preferences.getString(Constant.USERID, null);*/
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String request_date = dateFormat.format(date);
-        requestBodyBuilder.add("uid", "1");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", request_date);
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
-        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -453,8 +465,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                     //早上打卡的次数
                     morningCount = Integer.parseInt(dataObject.getString("morningCount"));
                     afterCount = Integer.parseInt(dataObject.getString("afterCount"));
-                    Log.d("wangqingbin","morningCount=="+morningCount);
-                    Log.d("wangqingbin","afterCount=="+afterCount);
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {

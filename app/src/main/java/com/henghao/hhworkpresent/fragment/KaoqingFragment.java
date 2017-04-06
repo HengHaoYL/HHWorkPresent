@@ -221,8 +221,6 @@ public class KaoqingFragment extends FragmentSupport {
     private void httpRequest() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-   //     SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
-  //      String UID = preferences.getString(Constant.USERID, null);
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));

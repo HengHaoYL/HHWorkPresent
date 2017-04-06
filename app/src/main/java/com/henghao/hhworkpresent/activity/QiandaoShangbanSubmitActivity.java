@@ -1,6 +1,8 @@
 package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.BaseEntity;
 import com.henghao.hhworkpresent.protocol.QianDaoProtocol;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -70,7 +73,6 @@ public class QiandaoShangbanSubmitActivity extends ActivityFragmentSupport {
 
     @Override
     public void initWidget() {
-        // TODO Auto-generated method stub
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         mLeftTextView.setText("返回");
@@ -98,11 +100,25 @@ public class QiandaoShangbanSubmitActivity extends ActivityFragmentSupport {
                 // 提交
                 QianDaoProtocol mQianDaoProtocol = new QianDaoProtocol(this);
                 mQianDaoProtocol.addResponseListener(this);
-                //        mQianDaoProtocol.qiandao(getLoginUid(), address, et_note_qiandao.getText().toString().trim());
-                mQianDaoProtocol.qiandao("1", longitude+"", latitude+"", address,"1");
+                mQianDaoProtocol.qiandao(getLoginUid(), longitude+"", latitude+"", address,"1");
                 mActivityFragmentView.viewLoading(View.VISIBLE);
                 break;
         }
+    }
+
+    /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
     }
 
     @Override
@@ -117,6 +133,5 @@ public class QiandaoShangbanSubmitActivity extends ActivityFragmentSupport {
         }
 
     }
-
 
 }

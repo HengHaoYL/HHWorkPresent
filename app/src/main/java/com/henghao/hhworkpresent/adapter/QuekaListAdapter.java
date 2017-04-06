@@ -1,6 +1,5 @@
 package com.henghao.hhworkpresent.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,6 @@ public class QuekaListAdapter extends ArrayAdapter<KaoqingEntity> {
         } else {
             mHodlerView = (QuekaListAdapter.HodlerView) convertView.getTag();
         }
-        Log.d("wangqingbin","判断 getItem(position).getClockInTime()=="+getItem(position).getClockInTime());
         mHodlerView.tv_queka_datetime.setText(getItem(position).getCurrentDate());
         mHodlerView.tv_queka_week.setText(getItem(position).getWorkDay());
         mHodlerView.tv_queka_time.setText(getItem(position).getClockInTime());

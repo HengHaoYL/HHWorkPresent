@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.MySlideButtonView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -118,6 +120,21 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
     }
 
     /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
+    }
+
+    /**
      * 访问网络
      */
     private void requestNetwork() {
@@ -131,7 +148,7 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
         multipartBuilder.type(MultipartBuilder.FORM)//
-                .addFormDataPart("uid", "张三")//用户ID
+                .addFormDataPart("uid", getLoginUid())//用户ID
                 .addFormDataPart("gonggao_title",gonggao_title)//公告标题
                 .addFormDataPart("gonggao_author", gonggao_author)//公告作者
                 .addFormDataPart("gonggao_content", gonggao_content)//公告内容
@@ -140,12 +157,8 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
 
         for (File file : mFileList) {
             multipartBuilder.addFormDataPart("imageFile", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
-            Log.d("wangqingbin","file.getName=="+file.getName());
         }
-
         RequestBody requestBody = multipartBuilder.build();
-        Log.d("wangqingbin","requestBody=="+requestBody);
-        Log.d("wangqingbin","postUrl=="+ProtocolUrl.ROOT_URL + "/" + ProtocolUrl.APP_SEND_GONGGAO);
         Request request = builder.post(requestBody).url(ProtocolUrl.ROOT_URL + "/" + ProtocolUrl.APP_SEND_GONGGAO).build();
         mActivityFragmentView.viewLoading(View.VISIBLE);
         Call call = okHttpClient.newCall(request);
@@ -208,7 +221,6 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
                 {
                     gonggao_isEncrypt = "1";
                     Toast.makeText(SendGonggaoNextActivity.this, "此公告已被设为保密公告，如想更改，可点击开关按钮关闭", Toast.LENGTH_SHORT).show();
-             //       Toast.makeText(SendGonggaoNextActivity.this, "开关已打开", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {

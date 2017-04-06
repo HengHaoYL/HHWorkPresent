@@ -156,7 +156,7 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
        //设置对话框图标，可以使用自己的图片，Android本身也提供了一些图标供我们使用
        // builder.setIcon(android.R.drawable.ic_dialog_alert);
-      //设置对话框标题
+       //设置对话框标题
         builder.setTitle("放弃输入");
         //设置对话框内的文本
         builder.setMessage("是否要放弃此次编辑？");
@@ -216,7 +216,6 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
                 if ((resultCode == Activity.RESULT_OK) || (resultCode == Activity.RESULT_CANCELED)) {
                     //返回的图片路径集合
                     this.mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                    Log.d("mSelectPath",mSelectPath+"");
                     if (!ToolsKit.isEmpty(this.mSelectPath)) {
                         mFileList.clear();
                         for (String imagePath : mSelectPath) {

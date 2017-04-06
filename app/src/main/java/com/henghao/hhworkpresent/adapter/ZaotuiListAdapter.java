@@ -1,6 +1,5 @@
 package com.henghao.hhworkpresent.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +51,6 @@ public class ZaotuiListAdapter extends ArrayAdapter<KaoqingEntity> {
         } else {
             mHodlerView = (ZaotuiListAdapter.HodlerView) convertView.getTag();
         }
-        Log.d("wangqingbin","zaotui getItem(position).getCurrentDate()=="+getItem(position).getCurrentDate());
-        Log.d("wangqingbin","getItem(position).getWorkDay()=="+getItem(position).getWorkDay());
-        Log.d("wangqingbin","getItem(position).getClockOutTime()=="+getItem(position).getClockOutTime());
         mHodlerView.tv_zaotui_datetime.setText(getItem(position).getCurrentDate());
         mHodlerView.tv_zaotui_work.setText(getItem(position).getWorkDay());
         mHodlerView.tv_zaotui_time.setText(getItem(position).getClockOutTime());

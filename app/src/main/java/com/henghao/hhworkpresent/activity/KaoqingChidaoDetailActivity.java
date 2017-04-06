@@ -1,6 +1,8 @@
 package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.okhttp.Call;
@@ -108,17 +111,29 @@ public class KaoqingChidaoDetailActivity extends ActivityFragmentSupport {
 
     private Handler mHandler = new Handler(){};
 
+    /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
+    }
+
     private void httpRequestKaoqingChidaoofDate() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-/*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
-        String UID = preferences.getString(Constant.USERID, null);*/
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid", "1");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", "2017-03-22");
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_CHIDAO;
-        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -151,8 +166,6 @@ public class KaoqingChidaoDetailActivity extends ActivityFragmentSupport {
                     final JSONObject dataObject = jsonObject.getJSONObject("data");
                     final String clockInTime = dataObject.optString("clockInTime");
                     final String clockOutTime = dataObject.optString("clockOutTime");
-                    Log.d("wangqingbin","上班打卡=="+clockInTime);
-                    Log.d("wangqingbin","下班打卡=="+clockOutTime);
                     //这时的clockInTime是一个null字符串 ，不是null
                     mHandler.post(new Runnable() {
                         @Override

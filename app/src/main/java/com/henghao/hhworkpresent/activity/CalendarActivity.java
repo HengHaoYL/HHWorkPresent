@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -21,6 +23,7 @@ import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.CalendarViewAdapter;
 import com.henghao.hhworkpresent.utils.CustomDate;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.MyCalendarView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -168,15 +171,6 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         }
     }
 
-    /*public void queryKaoqingofDatetime(){
-        String currentDatetime = tvCurrentDate.getText().toString();
-        KaoqingProtocol kaoqingProtocol = new KaoqingProtocol(this);
-        kaoqingProtocol.queryKaoqingofDatetime("1","2017-03-22");
-        kaoqingProtocol.addResponseListener(this);
-        mActivityFragmentView.viewLoading(View.VISIBLE);
-    }*/
-
-
     @Override
     public void initWidget() {
         super.initWidget();
@@ -299,17 +293,29 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
 
     private Handler mHandler = new Handler(){};
 
+    /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
+    }
+
     private void httpRequestKaoqingofDate() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-/*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
-        String UID = preferences.getString(Constant.USERID, null);*/
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid", "1");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", "2017-03-22");
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
-        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -342,8 +348,6 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                     final JSONObject dataObject = jsonObject.getJSONObject("data");
                     final String clockInTime = dataObject.optString("clockInTime");
                     final String clockOutTime = dataObject.optString("clockOutTime");
-                    Log.d("wangqingbin","上班打卡=="+clockInTime);
-                    Log.d("wangqingbin","下班打卡=="+clockOutTime);
                     //这时的clockInTime是一个null字符串 ，不是null
                     mHandler.post(new Runnable() {
                         @Override

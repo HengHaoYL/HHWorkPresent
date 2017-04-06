@@ -54,22 +54,22 @@ public class WorkFragment extends FragmentSupport {
         mEntity.setImageId(R.drawable.item_waiqingqiandao);
         mEntity.setName("外勤签到");
         mList.add(mEntity);
-        //第三个
+        //第二个
         AppGridEntity mEntity2 = new AppGridEntity();
         mEntity2.setImageId(R.drawable.item_kaoqing);
         mEntity2.setName("考勤");
         mList.add(mEntity2);
-        //第四个
+        //第三个
         AppGridEntity mEntity3 = new AppGridEntity();
         mEntity3.setImageId(R.drawable.item_email);
         mEntity3.setName("邮箱");
         mList.add(mEntity3);
-        //第五个
+        //第四个
         AppGridEntity mEntity4 = new AppGridEntity();
         mEntity4.setImageId(R.drawable.item_notification);
         mEntity4.setName("通知公告");
         mList.add(mEntity4);
-        //第六个
+        //第五个
         AppGridEntity mEntity5 = new AppGridEntity();
         mEntity5.setImageId(R.drawable.item_add);
         mEntity5.setName("添加");
@@ -80,7 +80,6 @@ public class WorkFragment extends FragmentSupport {
 
     }
     private void initwithContent() {
-        // TODO Auto-generated method stub
         initWithCenterBar();
         this.mCenterTextView.setVisibility(View.VISIBLE);
         this.mCenterTextView.setText("工作");

@@ -1,7 +1,6 @@
 package com.henghao.hhworkpresent.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +69,6 @@ public class ContactsListAdapter extends BaseAdapter {
         if (convertView == null) {
             // 获得ViewHolder对象
             holder = new ViewHolder();
-            Log.d("wangqingbin","holder=="+holder);
             // 导入布局并赋值给convertview
             convertView = inflater.inflate(R.layout.listview_contacts_item, null);
             holder.textView = (TextView) convertView.findViewById(R.id.contacts_tvName);

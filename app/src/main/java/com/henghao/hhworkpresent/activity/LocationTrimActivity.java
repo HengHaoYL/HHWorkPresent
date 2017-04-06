@@ -141,7 +141,6 @@ public class LocationTrimActivity extends ActivityFragmentSupport implements OnG
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("wangqingbin", "poiInfo==" + poiInfo);
                 if (poiInfo != null) {
                     Intent intent = new Intent();
                     latitude = poiInfo.location.latitude;
@@ -391,7 +390,6 @@ public class LocationTrimActivity extends ActivityFragmentSupport implements OnG
 
     @Override
     protected void onDestroy() {
-        Log.d("wangqingbin","LocationTrimActivity onDestroy.....");
         // 退出时销毁定位
         if(handler!=null){
             handler.removeMessages(0);
@@ -403,20 +401,17 @@ public class LocationTrimActivity extends ActivityFragmentSupport implements OnG
         mPoiSearch = null;
         this.mLocationClient.stop();
         mMapView.onDestroy();
-        Log.d("wangqingbin","LocationTrimActivity mMapView.onDestroy();.....");
         super.onDestroy();
     }
 
     @Override
     public void onPause() {
-        Log.d("wangqingbin","LocationTrimActivity onPause.....");
         if(handler!=null){
             handler.removeMessages(0);
             handler = null;
         }
         this.mLocationClient.stop();
         mMapView.onPause();
-        Log.d("wangqingbin","LocationTrimActivity mMapView.onPause();.....");
         super.onPause();
     }
 }

@@ -1,8 +1,9 @@
 package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.BaseEntity;
 import com.henghao.hhworkpresent.protocol.QianDaoProtocol;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -86,7 +88,6 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
 
     @Override
     public void initWidget() {
-        // TODO Auto-generated method stub
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         mLeftTextView.setText("返回");
@@ -124,11 +125,25 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
                 // 提交
                 QianDaoProtocol mQianDaoProtocol = new QianDaoProtocol(this);
                 mQianDaoProtocol.addResponseListener(this);
-        //        mQianDaoProtocol.qiandao(getLoginUid(), address, et_note_qiandao.getText().toString().trim());
-                mQianDaoProtocol.qiandao("1", longitude+"", latitude+"", address,"2");
+                mQianDaoProtocol.qiandao(getLoginUid(), longitude+"", latitude+"", address,"2");
                 mActivityFragmentView.viewLoading(View.VISIBLE);
                 break;
         }
+    }
+
+    /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
     }
 
    /* public void choosePicture(){
@@ -176,7 +191,6 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
     @Override
     public void OnMessageResponse(String url, Object jo, AjaxStatus status) throws JSONException {
         super.OnMessageResponse(url, jo, status);
-        Log.d("OnMessageResponse:","status:"+status.toString());
         if (jo instanceof BaseEntity) {
             BaseEntity base = (BaseEntity) jo;
             msg(base.getMsg());

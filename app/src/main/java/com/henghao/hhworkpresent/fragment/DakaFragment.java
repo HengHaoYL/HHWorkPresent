@@ -2,6 +2,8 @@ package com.henghao.hhworkpresent.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,6 +24,7 @@ import com.henghao.hhworkpresent.activity.QiandaoShangbanSubmitActivity;
 import com.henghao.hhworkpresent.activity.QiandaoXiabanSubmitActivity;
 import com.henghao.hhworkpresent.listener.OnDateChooseDialogListener;
 import com.henghao.hhworkpresent.utils.LocationUtils;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.DateChooseDialog;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -245,9 +248,6 @@ public class DakaFragment extends FragmentSupport {
         String address = shangban_qiandao_location.getText().toString(); // 签到地址
         double longitude = LocationUtils.getLng();
         double latitude = LocationUtils.getLat();
-        Log.d("wangqingbin","address=="+address);
-        Log.d("wangqingbin","longitude=="+longitude);
-        Log.d("wangqingbin","latitude=="+latitude);
         if (address.equals("当前没有定位信息!")) {
             Toast.makeText(mActivity, "当前没有定位，请定位后再签到！", Toast.LENGTH_SHORT).show();
             return;
@@ -338,7 +338,6 @@ public class DakaFragment extends FragmentSupport {
                 datepickerTV.setText(textDate);
                 int type = equalsDate(datepickerTV.getText().toString());
                 //大于当前日期：1，等于当前日期：0，小于当前日期：-1
-                Log.d("wangqingbin","type=="+type);
                 if(type==0){
                     Date date = new Date();
                     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
@@ -386,18 +385,30 @@ public class DakaFragment extends FragmentSupport {
 
     private Handler mHandler = new Handler(){};
 
+    /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
+    }
+
     private void httpRequestKaoqingofCurrentDateShangwu() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-/*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
-        String UID = preferences.getString(Constant.USERID, null);*/
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         String date ="2017-03-31";
-        requestBodyBuilder.add("uid", "1");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", date);
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
-        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -430,7 +441,6 @@ public class DakaFragment extends FragmentSupport {
                     final JSONObject dataObject = jsonObject.getJSONObject("data");
                     final String clockInTime = dataObject.optString("clockInTime");
                     final String clockOutTime = dataObject.optString("clockOutTime");
-                    Log.d("wangqingbin","上班打卡=="+clockInTime);
                     //这时的clockInTime是一个null字符串 ，不是null
                     mHandler.post(new Runnable() {
                         @Override
@@ -475,15 +485,12 @@ public class DakaFragment extends FragmentSupport {
     private void httpRequestKaoqingofPastDate() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-/*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
-        String UID = preferences.getString(Constant.USERID, null);*/
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         String date ="2017-03-22";
-        requestBodyBuilder.add("uid", "2");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", date);
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
-        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -516,8 +523,6 @@ public class DakaFragment extends FragmentSupport {
                     final JSONObject dataObject = jsonObject.getJSONObject("data");
                     final String clockInTime = dataObject.optString("clockInTime");
                     final String clockOutTime = dataObject.optString("clockOutTime");
-                    Log.d("wangqingbin","上班打卡=="+clockInTime);
-                    Log.d("wangqingbin","下班打卡=="+clockOutTime);
                     //这时的clockInTime是一个null字符串 ，不是null
                     mHandler.post(new Runnable() {
                         @Override

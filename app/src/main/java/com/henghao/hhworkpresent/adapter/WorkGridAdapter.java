@@ -1,6 +1,7 @@
 package com.henghao.hhworkpresent.adapter;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.EmailActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
@@ -88,7 +88,14 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                         break;
                     case 2:
                         //邮箱
-                        intent.setClass(mActivityFragmentSupport, EmailActivity.class);
+                        PackageManager packageManager = mActivityFragmentSupport.getPackageManager();
+                        try {
+                            //启动网易邮箱
+                            intent =packageManager.getLaunchIntentForPackage("com.netease.mail");
+                        } catch (Exception e) {
+                            //如果系统找不到此应用，就提示下面的信息
+                            mActivityFragmentSupport.msg("你的系统没有这个应用，请安装！");
+                        }
                         mActivityFragmentSupport.startActivity(intent);
                         break;
                     case 3:

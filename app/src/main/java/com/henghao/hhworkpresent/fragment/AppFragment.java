@@ -80,7 +80,6 @@ public class AppFragment extends FragmentSupport {
     }
 
     private void initwithContent() {
-        // TODO Auto-generated method stub
         initWithCenterBar();
         this.mCenterTextView.setVisibility(View.VISIBLE);
         this.mCenterTextView.setText("应用");
