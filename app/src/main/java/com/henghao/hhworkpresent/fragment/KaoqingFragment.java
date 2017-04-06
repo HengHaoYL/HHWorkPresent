@@ -613,9 +613,7 @@ public class KaoqingFragment extends FragmentSupport {
         chidaoListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("wangqingbin","mChidaoAdapter=="+mChidaoAdapter);
                 String currentDate = mChidaoAdapter.getItem(position-1).getCurrentDate();
-                Log.d("wangqingbin","currentDate=="+currentDate);
                 String currentWeek = mChidaoAdapter.getItem(position-1).getWorkDay();
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);

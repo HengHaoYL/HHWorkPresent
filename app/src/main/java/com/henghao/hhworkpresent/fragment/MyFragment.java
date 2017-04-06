@@ -74,11 +74,7 @@ public class MyFragment extends FragmentSupport {
     }
 
     public void initWidget(){
-        initWithBar();
         initwithContent();
-        initWithRightBar();
-        mRightImageView.setVisibility(View.VISIBLE);
-        mRightImageView.setImageResource(R.drawable.item_add_gray);
     }
 
     public void initData(){

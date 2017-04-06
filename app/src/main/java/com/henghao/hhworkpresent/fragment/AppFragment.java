@@ -66,13 +66,7 @@ public class AppFragment extends FragmentSupport {
     }
 
     public void initWidget(){
-        initWithBar();
-        mLeftImageView.setVisibility(View.VISIBLE);
-        mLeftImageView.setImageResource(R.drawable.item_setting);
         initwithContent();
-        initWithRightBar();
-        mRightImageView.setVisibility(View.VISIBLE);
-        mRightImageView.setImageResource(R.drawable.item_searching);
     }
 
     public void initData(){

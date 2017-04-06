@@ -40,11 +40,7 @@ public class WorkFragment extends FragmentSupport {
     }
 
     public void initWidget(){
-        initWithBar();
         initwithContent();
-        initWithRightBar();
-        mRightImageView.setVisibility(View.VISIBLE);
-        mRightImageView.setImageResource(R.drawable.item_searching);
     }
 
     public void initData(){

@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -313,7 +312,8 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         requestBodyBuilder.add("uid", getLoginUid());
-        requestBodyBuilder.add("date", "2017-03-22");
+        String date = tvCurrentDate.getText().toString().trim();
+        requestBodyBuilder.add("date", transferDateTime(date));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
         Request request = builder.url(request_url).post(requestBody).build();
@@ -466,5 +466,14 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         return false;
     }
 
+    /**
+     * 进行时间转换
+     */
+    public String transferDateTime(String date){
+        String newDate = date.replace("年","-");
+        newDate = newDate.replace("月","-");
+        newDate = newDate.replace("日","");
+        return newDate;
+    }
 
 }
