@@ -16,7 +16,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -142,7 +141,7 @@ public class SplashActivity extends ActivityFragmentSupport {
 					dbHelper = new DatabaseHelper(SplashActivity.this,"user_login.db");
 					// 只有调用了DatabaseHelper的getWritableDatabase()方法或者getReadableDatabase()方法之后，才会创建或打开一个连接
 					db = dbHelper.getReadableDatabase();
-					String id = null;
+					String uid = null;
 					String username = null;
 					String password = null;
 					// 调用SQLiteDatabase对象的query方法进行查询，返回一个Cursor对象：由数据库查询返回的结果集对象  
@@ -153,18 +152,12 @@ public class SplashActivity extends ActivityFragmentSupport {
 					// 第五个参数String:对查询的结果进行分组  
 					// 第六个参数String：对分组的结果进行限制  
 					// 第七个参数String：对查询的结果进行排序 
-					Cursor cursor = db.query("user",new String[]{"id","username","password"},null,null,null,null,null);
+					Cursor cursor = db.query("user",new String[]{"uid","username","password"},null,null,null,null,null);
 					// 将光标移动到下一行，从而判断该结果集是否还有下一条数据，如果有则返回true，没有则返回false
-					if(cursor!=null){
-						cursor.moveToFirst();
-						while (cursor.moveToNext()){
-							id = cursor.getString((cursor.getColumnIndex("id")));
-							username = cursor.getString((cursor.getColumnIndex("username")));
-							password = cursor.getString((cursor.getColumnIndex("password")));
-							Log.d("wangqingbin","id=="+id);
-							Log.d("wangqingbin","username=="+username);
-							Log.d("wangqingbin","password=="+password);
-						}
+					while (cursor.moveToNext()){
+						uid = cursor.getString((cursor.getColumnIndex("uid")));
+						username = cursor.getString((cursor.getColumnIndex("username")));
+						password = cursor.getString((cursor.getColumnIndex("password")));
 					}
 					if(("null".equals(username)|| username ==null)
 							|| ("null".equals(password)|| password == null )){

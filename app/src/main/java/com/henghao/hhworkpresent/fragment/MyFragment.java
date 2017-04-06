@@ -1,12 +1,13 @@
 package com.henghao.hhworkpresent.fragment;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,11 +157,14 @@ public class MyFragment extends FragmentSupport {
 
             case R.id.tv_exitlogin:        //退出登录
                 dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-                // 只有调用了DatabaseHelper的getWritableDatabase()方法或者getReadableDatabase()方法之后，才会创建或打开一个连接 
-                db = dbHelper.getWritableDatabase();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("password","null");
-                db.update("user",contentValues,null,null);
+                db = dbHelper.getReadableDatabase();
+                Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+                String uid = null;
+                while (cursor.moveToNext()){
+                   uid = cursor.getString((cursor.getColumnIndex("uid")));
+                }
+                //删除用户信息
+                db.delete("user","id=?",new String[]{uid});
                 intent.setClass(mActivity,LoginActivity.class);
                 startActivity(intent);
                 break;

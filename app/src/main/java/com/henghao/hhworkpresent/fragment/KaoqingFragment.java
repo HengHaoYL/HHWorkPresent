@@ -3,6 +3,8 @@ package com.henghao.hhworkpresent.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -29,6 +31,7 @@ import com.henghao.hhworkpresent.adapter.KuanggongListAdapter;
 import com.henghao.hhworkpresent.adapter.QuekaListAdapter;
 import com.henghao.hhworkpresent.adapter.ZaotuiListAdapter;
 import com.henghao.hhworkpresent.entity.KaoqingEntity;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -163,9 +166,7 @@ public class KaoqingFragment extends FragmentSupport {
     }
 
     public void initData(){
-       /* datas = new String[]{"2017年3月","2017年2月", "2017年1月", "2016年12月", "2016年11月",
-                "2016年10月", "2016年9月" , "206年8月", "2016年7月", "2016年6月"};
-*/
+
         DynamicArray();
 
         mChidaoData = new ArrayList<>();
@@ -199,6 +200,20 @@ public class KaoqingFragment extends FragmentSupport {
         httpRequestKuanggong();
     }
 
+    /**
+     * 从本地数据库读取登录用户Id 用来作为数据请求id
+     * @return
+     */
+    public String getLoginUid(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
+        String uid = null;
+        while (cursor.moveToNext()){
+            uid = cursor.getString((cursor.getColumnIndex("uid")));
+        }
+        return uid;
+    }
 
     /**
      * 访问网络
@@ -206,14 +221,13 @@ public class KaoqingFragment extends FragmentSupport {
     private void httpRequest() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-/*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
-        String UID = preferences.getString(Constant.USERID, null);*/
+   //     SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
+  //      String UID = preferences.getString(Constant.USERID, null);
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid", "1");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_MOUNTH_KAOQING;
-        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -281,11 +295,10 @@ public class KaoqingFragment extends FragmentSupport {
 /*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
         String UID = preferences.getString(Constant.USERID, null);*/
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid", "1");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_MONTH_CHIDAO;
-        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -354,7 +367,7 @@ public class KaoqingFragment extends FragmentSupport {
 /*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
         String UID = preferences.getString(Constant.USERID, null);*/
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid", "1");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_MONTH_ZAOTUI;
@@ -423,7 +436,7 @@ public class KaoqingFragment extends FragmentSupport {
 /*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
         String UID = preferences.getString(Constant.USERID, null);*/
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid", "1");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_MONTH_QUEKA;
@@ -499,7 +512,7 @@ public class KaoqingFragment extends FragmentSupport {
 /*        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_SET, 0);
         String UID = preferences.getString(Constant.USERID, null);*/
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid", "1");
+        requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_MONTH_KUANGGONG;

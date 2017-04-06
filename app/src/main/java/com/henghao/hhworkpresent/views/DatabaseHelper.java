@@ -11,10 +11,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int VERSION =1;
+    private static final int VERSION = 10;
 
     public DatabaseHelper(Context context, String name) {
-        this(context,name,null,1);
+        this(context,name,null,VERSION);
     }
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -27,11 +27,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table user(id integer PRIMARY KEY AUTOINCREMENT NOT NULL,username varchar(20),password varchar(20))");
+        db.execSQL("create table user(id integer PRIMARY KEY AUTOINCREMENT NOT NULL,uid varchar(20),username varchar(20),password varchar(20))");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("drop table if exists user");
+        onCreate(db);
     }
 }

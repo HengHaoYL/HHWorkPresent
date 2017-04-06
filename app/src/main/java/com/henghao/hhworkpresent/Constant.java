@@ -105,7 +105,8 @@ public class Constant {
 	/**
 	 * 用户ID
 	 */
-	public static final String USERID = "userId";
+	public static final String USERID = "" +
+			"";
 
 	public static final String USERNAME = "user_name";
 

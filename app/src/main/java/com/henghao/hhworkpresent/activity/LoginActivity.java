@@ -133,10 +133,12 @@ public class LoginActivity extends ActivityFragmentSupport {
                         });
                     }
                     if(status == 1){
+                        JSONObject dataObject = jsonObject.getJSONObject("data");
+                        String uid = dataObject.optString("id");
                         dbHelper = new DatabaseHelper(LoginActivity.this,"user_login.db");
-                        // 只有调用了DatabaseHelper的getWritableDatabase()方法或者getReadableDatabase()方法之后，才会创建或打开一个连接 
                         db = dbHelper.getWritableDatabase();
                         ContentValues contentValues = new ContentValues();
+                        contentValues.put("uid",uid);
                         contentValues.put("username",login_user.getText().toString().trim());
                         contentValues.put("password",login_pass.getText().toString().trim());
                         db.insert("user", null, contentValues);
