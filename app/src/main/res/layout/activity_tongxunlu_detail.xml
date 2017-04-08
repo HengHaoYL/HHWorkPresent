@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -28,67 +34,12 @@
                 android:textSize="@dimen/gj_f" />
 
         </LinearLayout>
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dip"
-            android:background="@color/line" />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dip"
+        android:background="@color/line" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dip"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_big"
-                android:text="性        别"
-                android:textSize="@dimen/gj_f" />
-
-
-            <TextView
-                android:id="@+id/tongxunlu_tv_sex"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:padding="@dimen/padding_big"
-                android:textColor="@color/text_color_c"
-                android:textSize="@dimen/gj_f" />
-
-        </LinearLayout>
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dip"
-            android:background="@color/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dip"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_big"
-                android:text="部        门"
-                android:textSize="@dimen/gj_f" />
-
-            <TextView
-                android:id="@+id/tongxunlu_tv_bumen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:padding="@dimen/padding_big"
-                android:textColor="@color/text_color_c"
-                android:textSize="@dimen/gj_f" />
-
-        </LinearLayout>
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dip"
-            android:background="@color/line" />
-
-        <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -97,11 +48,11 @@
             android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_big"
-            android:text="政治面貌"
+            android:text="性        别"
             android:textSize="@dimen/gj_f" />
 
         <TextView
-            android:id="@+id/tongxunlu_tv_zhengzhimianmao"
+            android:id="@+id/tongxunlu_tv_sex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -110,25 +61,25 @@
             android:textSize="@dimen/gj_f" />
 
     </LinearLayout>
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dip"
-            android:background="@color/line" />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dip"
+        android:background="@color/line" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_big"
-            android:text="职        位"
+            android:text="出生日期"
             android:textSize="@dimen/gj_f" />
 
         <TextView
-            android:id="@+id/tongxunlu_tv_zhiwei"
+            android:id="@+id/tongxunlu_tv_birth_DATE"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -137,7 +88,63 @@
             android:textSize="@dimen/gj_f" />
 
     </LinearLayout>
-        <View
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dip"
+        android:background="@color/line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_big"
+            android:text="员工编号"
+            android:textSize="@dimen/gj_f" />
+
+
+        <TextView
+            android:id="@+id/tongxunlu_tv_emp_NUM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/padding_big"
+            android:textColor="@color/text_color_c"
+            android:textSize="@dimen/gj_f" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dip"
+        android:background="@color/line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_big"
+            android:text="固定电话"
+            android:textSize="@dimen/gj_f" />
+
+
+        <TextView
+            android:id="@+id/tongxunlu_tv_telephone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/padding_big"
+            android:textColor="@color/text_color_c"
+            android:textSize="@dimen/gj_f" />
+
+    </LinearLayout>
+    <View
         android:layout_width="wrap_content"
         android:layout_height="1dip"
         android:background="@color/line" />
@@ -154,8 +161,9 @@
             android:text="手机号码"
             android:textSize="@dimen/gj_f" />
 
+
         <TextView
-            android:id="@+id/tongxunlu_tv_moblenumber"
+            android:id="@+id/tongxunlu_tv_cellphone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -169,6 +177,118 @@
         android:layout_height="1dip"
         android:background="@color/line" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_big"
+            android:text="职        位"
+            android:textSize="@dimen/gj_f" />
+
+
+        <TextView
+            android:id="@+id/tongxunlu_tv_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/padding_big"
+            android:textColor="@color/text_color_c"
+            android:textSize="@dimen/gj_f" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dip"
+        android:background="@color/line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_big"
+            android:text="工作地点"
+            android:textSize="@dimen/gj_f" />
+
+
+        <TextView
+            android:id="@+id/tongxunlu_tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/padding_big"
+            android:textColor="@color/text_color_c"
+            android:textSize="@dimen/gj_f" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dip"
+        android:background="@color/line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_big"
+            android:text="部        门"
+            android:textSize="@dimen/gj_f" />
+
+
+        <TextView
+            android:id="@+id/tongxunlu_tv_dept_NAME"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/padding_big"
+            android:textColor="@color/text_color_c"
+            android:textSize="@dimen/gj_f" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dip"
+        android:background="@color/line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_big"
+            android:text="工作职责"
+            android:textSize="@dimen/gj_f" />
+
+
+        <TextView
+            android:id="@+id/tongxunlu_tv_work_DESC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/padding_big"
+            android:textColor="@color/text_color_c"
+            android:textSize="@dimen/gj_f" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dip"
+        android:background="@color/line" />
+
+    </LinearLayout>
+</ScrollView>
 

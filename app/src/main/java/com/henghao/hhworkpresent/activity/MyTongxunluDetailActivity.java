@@ -20,28 +20,43 @@ public class MyTongxunluDetailActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tongxunlu_tv_name)
     private TextView tv_name;
 
-    @ViewInject(R.id.tongxunlu_tv_zhiwei)
-    private TextView tv_sysname;
-
-    @ViewInject(R.id.tongxunlu_tv_zhengzhimianmao)
-    private TextView tv_political;
-
     @ViewInject(R.id.tongxunlu_tv_sex)
     private TextView tv_sex;
 
-    @ViewInject(R.id.tongxunlu_tv_bumen)
-    private TextView tv_orgname;
+    @ViewInject(R.id.tongxunlu_tv_birth_DATE)
+    private TextView tv_birth_Date;
 
-    @ViewInject(R.id.tongxunlu_tv_moblenumber)
-    private TextView tv_mobilephone;
+    @ViewInject(R.id.tongxunlu_tv_emp_NUM)
+    private TextView tv_emp_Num;
 
+    @ViewInject(R.id.tongxunlu_tv_telephone)
+    private TextView tv_telePhone;
 
-    private String username;
-    private String sysname;
-    private String political;
+    @ViewInject(R.id.tongxunlu_tv_cellphone)
+    private TextView tv_cellPhone;
+
+    @ViewInject(R.id.tongxunlu_tv_position)
+    private TextView tv_position;
+
+    @ViewInject(R.id.tongxunlu_tv_address)
+    private TextView tv_address;
+
+    @ViewInject(R.id.tongxunlu_tv_dept_NAME)
+    private TextView tv_dept_Name;
+
+    @ViewInject(R.id.tongxunlu_tv_work_DESC)
+    private TextView tv_work_DESC;
+
+    private String name;
+    private String emp_NUM;
+    private String birth_DATE;
+    private String telephone;
     private String sex;
-    private String orgname;
-    private String mobilephone;
+    private String position;
+    private String address;
+    private String cellphone;
+    private String work_DESC;
+    private String dept_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,19 +85,32 @@ public class MyTongxunluDetailActivity extends ActivityFragmentSupport {
     public void initData() {
         super.initData();
         Intent intent = getIntent();
-        username = intent.getStringExtra("username");
-        sysname = intent.getStringExtra("sysname");
-        political = intent.getStringExtra("political");
+        name = intent.getStringExtra("name");
+        emp_NUM = intent.getStringExtra("emp_NUM");
+        telephone = intent.getStringExtra("telephone");
+        birth_DATE = intent.getStringExtra("birth_DATE");
         sex = intent.getStringExtra("sex");
-        orgname = intent.getStringExtra("orgname");
-        mobilephone = intent.getStringExtra("mobilephone");
+        position = intent.getStringExtra("position");
+        address = intent.getStringExtra("address");
+        cellphone = intent.getStringExtra("cellphone");
+        work_DESC = intent.getStringExtra("work_DESC");
+        dept_NAME = intent.getStringExtra("dept_NAME");
 
-        tv_name.setText(username);
+        if("0".equals(sex)){
+            sex = "男";
+        }else if("1".equals(sex)){
+            sex = "女";
+        }
+
+        tv_name.setText(name);
         tv_sex.setText(sex);
-        tv_orgname.setText(orgname);
-        tv_political.setText(political);
-        tv_sysname.setText(sysname);
-        tv_mobilephone.setText(mobilephone);
-
+        tv_birth_Date.setText(birth_DATE);
+        tv_emp_Num.setText(emp_NUM);
+        tv_telePhone.setText(telephone);
+        tv_cellPhone.setText(cellphone);
+        tv_position.setText(position);
+        tv_address.setText(address);
+        tv_work_DESC.setText(work_DESC);
+        tv_dept_Name.setText(dept_NAME);
     }
 }

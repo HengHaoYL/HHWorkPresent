@@ -1,20 +1,18 @@
 package com.henghao.hhworkpresent.activity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.GridView;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.adapter.XingZhenSPSecAdapter;
-import com.henghao.hhworkpresent.adapter.XingzhenSPFirstAdapter;
-import com.henghao.hhworkpresent.entity.AppGridEntity;
+import com.henghao.hhworkpresent.views.ProgressWebView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -23,23 +21,16 @@ import java.util.List;
 
 public class XingZhenSPActivity extends ActivityFragmentSupport {
 
-    @ViewInject(R.id.gridview1)
-    private GridView firstGridView;
+    @ViewInject(R.id.carapply_webview)
+    private ProgressWebView progressWebView;
 
-    @ViewInject(R.id.gridview2)
-    private GridView secGridView;
-
-    private XingzhenSPFirstAdapter firstAdapter;
-
-    private XingZhenSPSecAdapter secAdapter;
-
-    private List<AppGridEntity> mList2;
+    private String requestUrl = "http://172.16.0.20:8080/hz7/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.mActivityFragmentView.viewMain(R.layout.activity_cheliangshenpi);
+        this.mActivityFragmentView.viewMain(R.layout.activity_carapply);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
@@ -54,84 +45,41 @@ public class XingZhenSPActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("行政审批");
-        mLeftTextView.setVisibility(View.VISIBLE);
-        mLeftImageView.setVisibility(View.VISIBLE);
-        mLeftImageView.setImageResource(R.drawable.item_point_left);
-        initWithRightBar();
-        mRightTextView.setVisibility(View.VISIBLE);
-        mRightTextView.setText("帮助");
     }
 
     @Override
     public void initData() {
         super.initData();
-        initFirstGrid();
-        initSecondGrid();
-
+        init();
     }
 
-    public void initFirstGrid(){
-        mList2 = new ArrayList<AppGridEntity>();
-        //第一个
-        AppGridEntity mEntity = new AppGridEntity();
-        mEntity.setImageId(R.drawable.item_daiwoshenpi);
-        mEntity.setName("待我审批");
-        mList2.add(mEntity);
-        //第二个
-        AppGridEntity mEntity2 = new AppGridEntity();
-        mEntity2.setImageId(R.drawable.item_wofaqide);
-        mEntity2.setName("我发起的");
-        mList2.add(mEntity2);
-        //第三个
-        AppGridEntity mEntity3 = new AppGridEntity();
-        mEntity3.setImageId(R.drawable.item_chaosongwode);
-        mEntity3.setName("抄送我的");
-        mList2.add(mEntity3);
-        firstAdapter = new XingzhenSPFirstAdapter(this, mList2);
-        this.firstGridView.setAdapter(firstAdapter);
-        firstAdapter.notifyDataSetChanged();
-    }
+    public void init() {
+        WebSettings webSettings = progressWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);//关闭WebView中缓存
+        progressWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                System.out.println("Page开始  " + url + "   " + favicon);
+            }
 
-    public void initSecondGrid(){
-        mList2 = new ArrayList<AppGridEntity>();
-        //第一个
-        AppGridEntity mEntity = new AppGridEntity();
-        mEntity.setImageId(R.drawable.item_yewubanli);
-        mEntity.setName("业务办理及跟踪");
-        mList2.add(mEntity);
-        //第二个
-        AppGridEntity mEntity2 = new AppGridEntity();
-        mEntity2.setImageId(R.drawable.item_yewubanli2);
-        mEntity2.setName("业务办理行为分析");
-        mList2.add(mEntity2);
-        //第三个
-        AppGridEntity mEntity3 = new AppGridEntity();
-        mEntity3.setImageId(R.drawable.item_jixiaokaohe);
-        mEntity3.setName("绩效考核");
-        mList2.add(mEntity3);
-        //第四个
-        AppGridEntity mEntity4 = new AppGridEntity();
-        mEntity4.setImageId(R.drawable.item_zonghechaxun);
-        mEntity4.setName("综合查询");
-        mList2.add(mEntity4);
-        //第五个
-        AppGridEntity mEntity5 = new AppGridEntity();
-        mEntity5.setImageId(R.drawable.item_tongjifenxi);
-        mEntity5.setName("统计分析");
-        mList2.add(mEntity5);
-        //第六个
-        AppGridEntity mEntity6 = new AppGridEntity();
-        mEntity6.setImageId(R.drawable.item_shujujiekou);
-        mEntity6.setName("数据接口");
-        mList2.add(mEntity6);
-        //第七个
-        AppGridEntity mEntity7 = new AppGridEntity();
-        mEntity7.setImageId(R.drawable.item_add);
-        mEntity7.setName("添加模块");
-        mList2.add(mEntity7);
-        secAdapter = new XingZhenSPSecAdapter(this, mList2);
-        this.secGridView.setAdapter(secAdapter);
-        secAdapter.notifyDataSetChanged();
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                System.out.println("Page结束  " + url);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //return super.shouldOverrideUrlLoading(view, url);
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        progressWebView.loadUrl(requestUrl);
     }
 }

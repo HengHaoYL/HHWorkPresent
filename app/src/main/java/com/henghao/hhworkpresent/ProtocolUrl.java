@@ -226,12 +226,12 @@ public class ProtocolUrl {
     /**
      * 个人详细资料查询
      */
-    public static final String APP_QUERY_MYSELF_ZILIAO = "/safetySuperviseApp/user/findPersonal";
+    public static final String APP_QUERY_MYSELF_ZILIAO = "/statisticsInfo/user/findByUid";
 
     /**
      * 通讯录列表查询
      */
-    public static final String APP_QUERY_TONGXUNLU = "/safetySuperviseApp/user/findAllUser";
+    public static final String APP_QUERY_TONGXUNLU = "/statisticsInfo/user/findAllUser";
 
     /************************ 个人资料界面 end **************************/
 }

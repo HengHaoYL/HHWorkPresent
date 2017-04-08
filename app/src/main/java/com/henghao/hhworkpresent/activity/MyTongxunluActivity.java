@@ -60,6 +60,17 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
     private EditTextWithDel mEtSearchName;
     private List<ContactSortModel> SourceDateList = new ArrayList<>();
 
+    private String name;
+    private String emp_NUM;
+    private String birth_DATE;
+    private String telephone;
+    private String sex;
+    private String position;
+    private String address;
+    private String cellphone;
+    private String work_DESC;
+    private String dept_NAME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,25 +132,32 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+                                    int position1, long id) {
                 showname_layout.setVisibility(View.VISIBLE);
-                mTvTitle.setText(((ContactSortModel) adapter.getItem(position - 1)).getUsername());
-        //        Toast.makeText(getApplication(), ((ContactSortModel) adapter.getItem(position-1)).getUsername(), Toast.LENGTH_SHORT).show();
-                username = ((ContactSortModel) adapter.getItem(position -1 )).getUsername();
-                sysname = ((ContactSortModel) adapter.getItem(position - 1)).getSysname();
-                political = ((ContactSortModel) adapter.getItem(position - 1)).getPolitical();
-                sex = ((ContactSortModel) adapter.getItem(position - 1)).getSex();
-                orgname = ((ContactSortModel) adapter.getItem(position - 1)).getOrgname();
-                mobilephone = ((ContactSortModel) adapter.getItem(position - 1)).getMobilephone();
+                mTvTitle.setText(((ContactSortModel) adapter.getItem(position1 - 1)).getName());
+                name = ((ContactSortModel) adapter.getItem(position1 -1 )).getName();
+                emp_NUM = ((ContactSortModel) adapter.getItem(position1 - 1)).getEmp_NUM();
+                birth_DATE = ((ContactSortModel) adapter.getItem(position1 - 1)).getBirth_DATE();
+                telephone = ((ContactSortModel) adapter.getItem(position1 - 1)).getTelephone();
+                sex = ((ContactSortModel) adapter.getItem(position1 - 1)).getSex();
+                cellphone = ((ContactSortModel) adapter.getItem(position1 - 1)).getCellphone();
+                address = ((ContactSortModel) adapter.getItem(position1 - 1)).getAddress();
+                position = ((ContactSortModel) adapter.getItem(position1 - 1)).getPosition();
+                work_DESC = ((ContactSortModel) adapter.getItem(position1 - 1)).getWork_DESC();
+                dept_NAME = ((ContactSortModel) adapter.getItem(position1 - 1)).getDept_NAME();
 
                 Intent intent = new Intent();
                 intent.setClass(getContext(),MyTongxunluDetailActivity.class);
-                intent.putExtra("username",username);
-                intent.putExtra("sysname",sysname);
-                intent.putExtra("political",political);
+                intent.putExtra("name",name);
+                intent.putExtra("emp_NUM",emp_NUM);
+                intent.putExtra("birth_Date",birth_DATE);
+                intent.putExtra("telephone",telephone);
                 intent.putExtra("sex",sex);
-                intent.putExtra("orgname",orgname);
-                intent.putExtra("mobilephone",mobilephone);
+                intent.putExtra("cellphone",cellphone);
+                intent.putExtra("address",address);
+                intent.putExtra("position",position);
+                intent.putExtra("work_DESC",work_DESC);
+                intent.putExtra("dept_NAME",dept_NAME);
                 startActivity(intent);
             }
         });
@@ -180,7 +198,7 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
         } else {
             mSortList.clear();
             for (ContactSortModel sortModel : SourceDateList) {
-                String name = sortModel.getUsername();
+                String name = sortModel.getName();
                 if (name.toUpperCase().indexOf(filterStr.toString().toUpperCase()) != -1 || PinyinUtils.getPingYin(name).toUpperCase().startsWith(filterStr.toString().toUpperCase())) {
                     mSortList.add(sortModel);
                 }
@@ -195,13 +213,6 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
     private Handler mHandler = new Handler(){};
 
     private ArrayList<String> indexString;
-
-    private String username;
-    private String sysname;
-    private String political;
-    private String sex;
-    private String orgname;
-    private String mobilephone;
 
     private void httpRequestMyTongxunlu() {
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -243,22 +254,30 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
                     for(int i=0;i<jsonArray.length();i++){
                         ContactSortModel contactSortModel = new ContactSortModel();
                         JSONObject dataObject = jsonArray.getJSONObject(i);
-                        username = dataObject.getString("username");
-                        sysname = dataObject.getString("sysname");
-                        political = dataObject.getString("political");
+                        name = dataObject.getString("name");
+                        emp_NUM = dataObject.getString("emp_NUM");
+                        birth_DATE = dataObject.getString("birth_DATE");
+                        telephone = dataObject.getString("telephone");
                         sex = dataObject.getString("sex");
-                        orgname = dataObject.getString("orgname");
-                        mobilephone = dataObject.getString("mobilephone");
+                        position = dataObject.getString("position");
+                        address = dataObject.getString("address");
+                        cellphone = dataObject.getString("cellphone");
+                        work_DESC = dataObject.getString("work_DESC");
+                        dept_NAME = dataObject.getString("dept_NAME");
 
-                        contactSortModel.setUsername(username);
-                        contactSortModel.setSysname(sysname);
-                        contactSortModel.setPolitical(political);
+                        contactSortModel.setName(name);
+                        contactSortModel.setEmp_NUM(emp_NUM);
+                        contactSortModel.setBirth_DATE(birth_DATE);
+                        contactSortModel.setTelephone(telephone);
                         contactSortModel.setSex(sex);
-                        contactSortModel.setOrgname(orgname);
-                        contactSortModel.setMobilephone(mobilephone);
+                        contactSortModel.setPosition(position);
+                        contactSortModel.setAddress(address);
+                        contactSortModel.setCellphone(cellphone);
+                        contactSortModel.setWork_DESC(work_DESC);
+                        contactSortModel.setDept_NAME(dept_NAME);
 
                         //将名字转化为拼音
-                        String pinyin = PinyinUtils.getPingYin(username);
+                        String pinyin = PinyinUtils.getPingYin(name);
                         String sortString = pinyin.substring(0, 1).toUpperCase();
                         if (sortString.matches("[A-Z]")) {
                             contactSortModel.setSortLetters(sortString.toUpperCase());

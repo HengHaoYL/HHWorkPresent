@@ -23,7 +23,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,48 +34,48 @@ import java.io.IOException;
 
 public class MySelfZiliaoActivity extends ActivityFragmentSupport {
 
-    @ViewInject(R.id.myself_tv_username)
-    private TextView tv_username;
+    @ViewInject(R.id.tongxunlu_tv_name)
+    private TextView tv_name;
 
-    @ViewInject(R.id.myself_tv_sex)
+    @ViewInject(R.id.tongxunlu_tv_sex)
     private TextView tv_sex;
 
-    @ViewInject(R.id.myself_tv_bumen)
-    private TextView tv_bumen;
+    @ViewInject(R.id.tongxunlu_tv_birth_DATE)
+    private TextView tv_birth_Date;
 
-    @ViewInject(R.id.myself_tv_zhengzhimianmao)
-    private TextView tv_zhenzhimiaomao;
+    @ViewInject(R.id.tongxunlu_tv_emp_NUM)
+    private TextView tv_emp_Num;
 
-    @ViewInject(R.id.myself_tv_zhiwei)
-    private TextView tv_zhiwei;
+    @ViewInject(R.id.tongxunlu_tv_telephone)
+    private TextView tv_telePhone;
 
-    @ViewInject(R.id.myself_tv_moblenumber)
-    private TextView tv_moblenumber;
+    @ViewInject(R.id.tongxunlu_tv_cellphone)
+    private TextView tv_cellPhone;
 
-    @ViewInject(R.id.myself_tv_birthday)
-    private TextView tv_birthday;
+    @ViewInject(R.id.tongxunlu_tv_position)
+    private TextView tv_position;
 
-    @ViewInject(R.id.myself_tv_joinwork)
-    private TextView tv_joinwork;
+    @ViewInject(R.id.tongxunlu_tv_address)
+    private TextView tv_address;
 
-    @ViewInject(R.id.myself_tv_fixednumber)
-    private TextView tv_fixednumber;
+    @ViewInject(R.id.tongxunlu_tv_dept_NAME)
+    private TextView tv_dept_Name;
 
-    @ViewInject(R.id.myself_tv_renzhidate)
-    private TextView tv_renzhidate;
+    @ViewInject(R.id.tongxunlu_tv_work_DESC)
+    private TextView tv_work_DESC;
+
+    private String name;
+    private String emp_NUM;
+    private String birth_DATE;
+    private String telephone;
+    private String sex;
+    private String position;
+    private String address;
+    private String cellphone;
+    private String work_DESC;
+    private String dept_NAME;
 
     private Handler mHandler = new Handler(){};
-
-    private String username;
-    private String sex;
-    private String bumen;
-    private String zhenzhimiaomao;
-    private String zhiwei;
-    private String mobilephone;
-    private String birthday;
-    private String joinwork;
-    private String fixednumber;
-    private String renzhidate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +104,6 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
     public void initData() {
         super.initData();
         httpRequestMySelfZiliao();
-        httpRequestBumenAndZhiwei();
     }
 
     /**
@@ -163,84 +161,35 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
                         });
                     }
                     JSONObject dataObject = jsonObject.getJSONObject("data");
-                    username = dataObject.getString("username");
+                    name = dataObject.getString("name");
+                    emp_NUM = dataObject.getString("emp_NUM");
+                    birth_DATE = dataObject.getString("birth_DATE");
+                    telephone = dataObject.getString("telephone");
                     sex = dataObject.getString("sex");
-                    zhenzhimiaomao = dataObject.getString("political");
-                    mobilephone = dataObject.getString("mobilePhone");
-                    birthday = dataObject.getString("birth");
-                    joinwork = dataObject.getString("joinDate");
-                    fixednumber = dataObject.getString("fixedPhone");
-                    renzhidate = dataObject.getString("beInOfficeDate");
+                    position = dataObject.getString("position");
+                    address = dataObject.getString("address");
+                    cellphone = dataObject.getString("cellphone");
+                    work_DESC = dataObject.getString("work_DESC");
+                    dept_NAME = dataObject.getString("dept_NAME");
 
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            tv_username.setText(username);
-                            tv_sex.setText(sex);
-                            tv_zhenzhimiaomao.setText(zhenzhimiaomao);
-                            tv_moblenumber.setText(mobilephone);
-                            tv_birthday.setText(birthday);
-                            tv_joinwork.setText(joinwork);
-                            tv_fixednumber.setText(fixednumber);
-                            tv_renzhidate.setText(renzhidate);
-                            mActivityFragmentView.viewLoading(View.GONE);
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void httpRequestBumenAndZhiwei() {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request.Builder builder = new Request.Builder();
-        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        String uid = "1";
-        requestBodyBuilder.add("uid", uid);
-        RequestBody requestBody = requestBodyBuilder.build();
-        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_TONGXUNLU;
-        Request request = builder.url(request_url).post(requestBody).build();
-        Call call = okHttpClient.newCall(request);
-        mActivityFragmentView.viewLoading(View.VISIBLE);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                String result_str = response.body().string();
-                try {
-                    JSONObject jsonObject = new JSONObject(result_str);
-                    int status = jsonObject.getInt("status");
-                    if (status == 0) {
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                mActivityFragmentView.viewLoading(View.GONE);
+                            if("0".equals(sex)){
+                                sex = "男";
+                            }else if("1".equals(sex)){
+                                sex = "女";
                             }
-                        });
-                    }
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-                    for(int i=0;i<jsonArray.length();i++){
-                        JSONObject dataObject = jsonArray.getJSONObject(i);
-                        bumen = dataObject.getString("orgname");
-                        zhiwei = dataObject.getString("sysname");
-                    }
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            tv_bumen.setText(bumen);
-                            tv_zhiwei.setText(zhiwei);
+                            tv_name.setText(name);
+                            tv_sex.setText(sex);
+                            tv_birth_Date.setText(birth_DATE);
+                            tv_emp_Num.setText(emp_NUM);
+                            tv_telePhone.setText(telephone);
+                            tv_cellPhone.setText(cellphone);
+                            tv_position.setText(position);
+                            tv_address.setText(address);
+                            tv_work_DESC.setText(work_DESC);
+                            tv_dept_Name.setText(dept_NAME);
                             mActivityFragmentView.viewLoading(View.GONE);
                         }
                     });
@@ -250,4 +199,5 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
             }
         });
     }
+
 }

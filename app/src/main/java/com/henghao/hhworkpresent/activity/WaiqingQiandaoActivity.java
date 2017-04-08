@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -476,6 +475,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                                 tv_state_qiandao.setVisibility(View.GONE);
                                 qiandao_layout.setVisibility(View.GONE);
                             }
+                            mActivityFragmentView.viewLoading(View.GONE);
                         }
                     });
 

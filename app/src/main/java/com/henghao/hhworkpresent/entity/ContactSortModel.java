@@ -30,64 +30,77 @@ public class ContactSortModel {
         this.sortLetters = sortLetters;
     }
 
-    /**
-     * 通讯录名字
-     */
+    // 用户ID
     @Expose
-    private String username;  //显示的数据*/
-
-    /**
-     * 通讯录  岗位
-     */
+    private String id;
+    // 用户名
     @Expose
-    private String sysname;
-
-    /**
-     * 通讯录  政治面貌
-     */
+    private String name;
     @Expose
-    private String political;
-
-    /**
-     * 通讯录 性别
-     */
+    private String birth_DATE;
+    //固定电话号码
+    @Expose
+    private String telephone;
+    ///手机号码
+    @Expose
+    private String cellphone;
+    // 性别   0:男 1：女
     @Expose
     private String sex;
-
-    /**
-     * 通讯录  部门名字
-     */
+    //工作所在地
     @Expose
-    private String orgname;
-
-    /**
-     * 通讯录  电话号码
-     */
+    private String address;
+    //职位
     @Expose
-    private String mobilephone;
+    private String position;
+    //工作职责
+    @Expose
+    private String work_DESC;
+    //部门名字
+    @Expose
+    private String dept_NAME;
+    //员工编号
+    @Expose
+    private String emp_NUM;
 
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getSysname() {
-        return sysname;
+    public String getName() {
+        return name;
     }
 
-    public void setSysname(String sysname) {
-        this.sysname = sysname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPolitical() {
-        return political;
+    public String getCellphone() {
+        return cellphone;
     }
 
-    public void setPolitical(String political) {
-        this.political = political;
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     public String getSex() {
@@ -98,19 +111,42 @@ public class ContactSortModel {
         this.sex = sex;
     }
 
-    public String getOrgname() {
-        return orgname;
+    public String getWork_DESC() {
+        return work_DESC;
     }
 
-    public void setOrgname(String orgname) {
-        this.orgname = orgname;
+    public void setWork_DESC(String work_DESC) {
+        this.work_DESC = work_DESC;
     }
 
-    public String getMobilephone() {
-        return mobilephone;
+    public String getPosition() {
+        return position;
     }
 
-    public void setMobilephone(String mobilephone) {
-        this.mobilephone = mobilephone;
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getDept_NAME() {
+        return dept_NAME;
+    }
+
+    public void setDept_NAME(String dept_NAME) {
+        this.dept_NAME = dept_NAME;
+    }
+
+    public String getEmp_NUM() {
+        return emp_NUM;
+    }
+
+    public void setEmp_NUM(String emp_NUM) {
+        this.emp_NUM = emp_NUM;
+    }
+
+    public String getBirth_DATE() {
+        return birth_DATE;
+    }
+    public void setBirth_DATE(String birth_DATE) {
+        this.birth_DATE = birth_DATE;
     }
 }
