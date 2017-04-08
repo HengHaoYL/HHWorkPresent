@@ -12,9 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.benefit.buy.library.utils.tools.ToolsKit;
+import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.entity.UserInfoEntity;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -93,7 +95,6 @@ public class LoginActivity extends ActivityFragmentSupport {
         }
     }
 
-
     public void httpRequestLogin(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
@@ -121,6 +122,7 @@ public class LoginActivity extends ActivityFragmentSupport {
             public void onResponse(Response response) throws IOException {
                 String result_str = response.body().string();
                 try {
+                    UserInfoEntity userInfoEntity = new Gson().fromJson(result_str, UserInfoEntity.class);
                     JSONObject jsonObject = new JSONObject(result_str);
                     int status = jsonObject.getInt("status");
                     if (status == 0) {
@@ -133,14 +135,19 @@ public class LoginActivity extends ActivityFragmentSupport {
                         });
                     }
                     if(status == 1){
-                        JSONObject dataObject = jsonObject.getJSONObject("data");
-                        String uid = dataObject.optString("id");
+                        UserInfoEntity.UserInfo userInfo = userInfoEntity.getData();
+                        String uid = userInfo.getId();
+                        String firstName = userInfo.getFirstname();
+                        String giveName = userInfo.getGivenname();
+
                         dbHelper = new DatabaseHelper(LoginActivity.this,"user_login.db");
                         db = dbHelper.getWritableDatabase();
                         ContentValues contentValues = new ContentValues();
                         contentValues.put("uid",uid);
                         contentValues.put("username",login_user.getText().toString().trim());
                         contentValues.put("password",login_pass.getText().toString().trim());
+                        contentValues.put("firstName",firstName);
+                        contentValues.put("giveName",giveName);
                         db.insert("user", null, contentValues);
 
                         Intent intent = new Intent();
@@ -165,5 +172,4 @@ public class LoginActivity extends ActivityFragmentSupport {
         }
         return true;
     }
-
 }

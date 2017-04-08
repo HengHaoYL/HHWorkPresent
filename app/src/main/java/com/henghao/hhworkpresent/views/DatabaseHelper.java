@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int VERSION = 10;
+    private static final int VERSION = 13;
 
     public DatabaseHelper(Context context, String name) {
         this(context,name,null,VERSION);
@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table user(id integer PRIMARY KEY AUTOINCREMENT NOT NULL,uid varchar(20),username varchar(20),password varchar(20))");
+        db.execSQL("create table user(id integer PRIMARY KEY AUTOINCREMENT NOT NULL,uid varchar(20),username varchar(20),password varchar(20),firstName varchar(20),giveName varchar(20))");
     }
 
     @Override

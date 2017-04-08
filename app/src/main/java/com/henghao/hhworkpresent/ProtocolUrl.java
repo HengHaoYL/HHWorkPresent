@@ -102,7 +102,7 @@ public class ProtocolUrl {
     /**
      * 用户登录验证接口
      */
-    public static final String APP_USER_LOGIN = "/safetySuperviseApp/user/loginCheck";
+    public static final String APP_USER_LOGIN = "/statisticsInfo/user/loginCheck";
 
 
 
@@ -205,6 +205,18 @@ public class ProtocolUrl {
     /************************ 公告 end **************************/
 
     /************************ 个人资料界面 start **************************/
+
+
+    /**
+     * 下载用户头像Uri
+     */
+    public static final String APP_LODAING_HEAD_IMAGE_URI = "/safetySuperviseApp/uploadImage/";
+
+
+    /**
+     * 下载用户头像接口
+     */
+    public static final String APP_LODAING_HEAD_IMAGE = "/safetySuperviseApp/user/showUserImage";
 
     /**
      * 上传用户头像接口
