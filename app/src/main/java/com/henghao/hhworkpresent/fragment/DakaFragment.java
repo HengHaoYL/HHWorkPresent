@@ -24,11 +24,14 @@ import com.henghao.hhworkpresent.activity.QiandaoShangbanSubmitActivity;
 import com.henghao.hhworkpresent.activity.QiandaoXiabanSubmitActivity;
 import com.henghao.hhworkpresent.listener.OnDateChooseDialogListener;
 import com.henghao.hhworkpresent.utils.LocationUtils;
+import com.henghao.hhworkpresent.views.CircleImageView;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.DateChooseDialog;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -45,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
+import static com.henghao.hhworkpresent.ProtocolUrl.APP_LODAING_HEAD_IMAGE_URI;
 
 /**
  * Created by bryanrady on 2017/3/10.
@@ -53,9 +57,19 @@ import static android.app.Activity.RESULT_OK;
 
 public class DakaFragment extends FragmentSupport {
 
+    private ImageLoader imageLoader;
+
+    private DisplayImageOptions options;
+
     @ViewInject(R.id.tv_datepicker)
     private TextView datepickerTV;
     private String textString;
+
+    @ViewInject(R.id.daka_headimage)
+    private CircleImageView headImage;
+
+    @ViewInject(R.id.daka_name)
+    private TextView tv_loginName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,10 +137,81 @@ public class DakaFragment extends FragmentSupport {
     }
 
     public void initData(){
+        httpLoadingHeadImage();
+        tv_loginName.setText(getLoginFirstName() + getLoginGiveName());
+
         SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         textString = f.format(date);
         datepickerTV.setText(textString);
+    }
+
+    public void httpLoadingHeadImage(){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
+        requestBodyBuilder.add("uid",getLoginUid());
+        RequestBody requestBody = requestBodyBuilder.build();
+        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;
+        Request request = builder.url(request_url).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    int status = jsonObject.getInt("status");
+                    if (status == 1) {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mActivityFragmentView.viewLoading(View.GONE);
+                                mActivity.msg("下载错误");
+                            }
+                        });
+                    }
+                    if(status == 0){
+                        final String imageName = jsonObject.optString("data");
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
+                                options = new DisplayImageOptions.Builder()
+                                        .showImageOnLoading(R.drawable.icon_logo) // 设置图片下载期间显示的图片
+                                        .showImageForEmptyUri(R.drawable.icon_logo) // 设置图片Uri为空或是错误的时候显示的图片
+                                        .showImageOnFail(R.drawable.icon_logo) // 设置图片加载或解码过程中发生错误显示的图片
+                                        .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
+                                        .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
+                                        //              .displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片  如果使用这句代码，图片直接显示不出来。
+                                        .build(); // 构建完成
+
+                                imageLoader = ImageLoader.getInstance();
+                                //imageLoader.init(ImageLoaderConfiguration.createDefault(mActivity));
+                                String imageUri = ProtocolUrl.ROOT_URL + APP_LODAING_HEAD_IMAGE_URI + imageName;
+                                imageLoader.displayImage(imageUri, headImage, options);
+                                mActivityFragmentView.viewLoading(View.GONE);
+                            }
+                        });
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
    /*************** 三大布局 *********************/
@@ -398,6 +483,28 @@ public class DakaFragment extends FragmentSupport {
             uid = cursor.getString((cursor.getColumnIndex("uid")));
         }
         return uid;
+    }
+
+    public String getLoginFirstName(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"firstName"},null,null,null,null,null);
+        String firstName = null;
+        while (cursor.moveToNext()){
+            firstName = cursor.getString((cursor.getColumnIndex("firstName")));
+        }
+        return firstName;
+    }
+
+    public String getLoginGiveName(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("user",new String[]{"giveName"},null,null,null,null,null);
+        String giveName = null;
+        while (cursor.moveToNext()){
+            giveName = cursor.getString((cursor.getColumnIndex("giveName")));
+        }
+        return giveName;
     }
 
     private void httpRequestKaoqingofCurrentDateShangwu() {

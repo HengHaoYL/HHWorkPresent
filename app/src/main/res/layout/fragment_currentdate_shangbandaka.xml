@@ -13,7 +13,7 @@
         android:layout_marginTop="5dp">
 
         <com.henghao.hhworkpresent.views.CircleImageView
-            android:id="@+id/fragment_my_circleImageview"
+            android:id="@+id/daka_headimage"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
@@ -22,7 +22,7 @@
             app:border_color="@color/text_color_green" />
 
         <TextView
-            android:id="@+id/kaoqing_name"
+            android:id="@+id/daka_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

@@ -19,7 +19,7 @@
         android:layout_marginTop="20dp">
 
         <com.henghao.hhworkpresent.views.CircleImageView
-            android:id="@+id/fragment_my_circleImageview"
+            android:id="@+id/kaoqing_headimage"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
