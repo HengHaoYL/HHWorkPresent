@@ -28,7 +28,6 @@ import com.henghao.hhworkpresent.activity.KaoqingChidaoDetailActivity;
 import com.henghao.hhworkpresent.activity.KaoqingKuanggongDetailActivity;
 import com.henghao.hhworkpresent.activity.KaoqingQuekaDetailActivity;
 import com.henghao.hhworkpresent.activity.KaoqingZaotuiDetailActivity;
-import com.henghao.hhworkpresent.activity.MainActivity;
 import com.henghao.hhworkpresent.adapter.ChidaoListAdapter;
 import com.henghao.hhworkpresent.adapter.KuanggongListAdapter;
 import com.henghao.hhworkpresent.adapter.QuekaListAdapter;
@@ -161,9 +160,7 @@ public class KaoqingFragment extends FragmentSupport {
         mLeftTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getContext(),MainActivity.class);
-                startActivity(intent);
+            mActivity.finish();
             }
         });
         mLeftImageView.setImageResource(R.drawable.item_point_left);
@@ -171,14 +168,9 @@ public class KaoqingFragment extends FragmentSupport {
         mLeftImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getContext(),MainActivity.class);
-                startActivity(intent);
+                mActivity.finish();
             }
         });
-        initWithRightBar();
-        mRightImageView.setVisibility(View.VISIBLE);
-        mRightImageView.setImageResource(R.drawable.item_wenhao);
 
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月");

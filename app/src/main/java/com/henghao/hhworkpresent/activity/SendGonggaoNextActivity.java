@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -161,7 +160,6 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
                     int status = jsonObject.getInt("status");
                     if(status == 0){
                         String uids = jsonObject.getString("data");
-                        Log.d("wangqingbin","查询出来 uids=="+uids);
                         Intent intent = getIntent();
                         String gonggao_title = intent.getStringExtra("gonggao_title");
                         String gonggao_author = intent.getStringExtra("gonggao_author");
@@ -188,7 +186,6 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
                         call.enqueue(new Callback() {
                             @Override
                             public void onFailure(Request request, IOException e){
-                                Log.d("wangqingbin","发送失败");
                                 e.printStackTrace();
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -201,28 +198,16 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
 
                             @Override
                             public void onResponse(Response response) throws IOException {
-                                Log.d("wangqingbin","发送成功");
                                 Intent intent = new Intent();
                                 intent.setClass(SendGonggaoNextActivity.this,GongGaoActivity.class);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(SendGonggaoNextActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                                 startActivity(intent);
                                 finish();
-                                /*String content = response.body().string();
-                                try {
-                                    JSONObject jsonObject = new JSONObject(content);
-                                    final String msg = jsonObject.getString("msg");
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(SendGonggaoNextActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    Intent intent = new Intent();
-                                    intent.setClass(SendGonggaoNextActivity.this,GongGaoActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }*/
                             }
                         });
                     }

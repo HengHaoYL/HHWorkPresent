@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,9 +85,7 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
         //      imageLoader.init(ImageLoaderConfiguration.createDefault(mActivityFragmentSupport));
 
         String imageUri = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_GONGGAO_IMAGE + getItem(position).getGonggao_imageUrl();
-        Log.d("wangqingbin","imageUri=="+imageUri);
         imageLoader.displayImage(imageUri, mHodlerView.imageView, options);
-        Log.d("wangqingbin","下载完成");
         mHodlerView.tv_titile.setText(getItem(position).getGonggao_titile());
         mHodlerView.tv_time.setText(getItem(position).getGonggao_sendDate());
 
