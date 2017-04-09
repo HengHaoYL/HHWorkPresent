@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -79,11 +81,11 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
     @ViewInject(R.id.gonggao_tv_peopleNum)
     private TextView propleNumTV;
 
-    /**记录要发送的人数*/
+    /**记录要发送的人数*//*
     private String peopleNum;
 
-    /**判断是否为保密公告*/
-    private String gonggao_isEncrypt;
+    *//**判断是否为保密公告*//*
+    private String gonggao_isEncrypt;*/
 
     private ArrayList<File> mFileList = new ArrayList<>();//被选中的公告封面图片文件
 
@@ -114,7 +116,7 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestNetwork();
+                queryAllUserID();
             }
         });
     }
@@ -135,70 +137,101 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
     }
 
     /**
-     * 访问网络
+     * 查询所有用户id
      */
-    private void requestNetwork() {
-        Intent intent = getIntent();
-        String gonggao_title = intent.getStringExtra("gonggao_title");
-        String gonggao_author = intent.getStringExtra("gonggao_author");
-        String gonggao_content = intent.getStringExtra("gonggao_content");
-        String gonggao_imageUrl = mSelectPath.get(0);
-
+    public void queryAllUserID(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        MultipartBuilder multipartBuilder = new MultipartBuilder();
-        multipartBuilder.type(MultipartBuilder.FORM)//
-                .addFormDataPart("uid", getLoginUid())//用户ID
-                .addFormDataPart("gonggao_title",gonggao_title)//公告标题
-                .addFormDataPart("gonggao_author", gonggao_author)//公告作者
-                .addFormDataPart("gonggao_content", gonggao_content)//公告内容
-                .addFormDataPart("gonggao_imageUrl", gonggao_imageUrl)//公告图片Url
-                .addFormDataPart("gonggao_isEncrypt", gonggao_isEncrypt);//公告是否加密
-
-        for (File file : mFileList) {
-            multipartBuilder.addFormDataPart("imageFile", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
-        }
-        RequestBody requestBody = multipartBuilder.build();
-        Request request = builder.post(requestBody).url(ProtocolUrl.ROOT_URL + "/" + ProtocolUrl.APP_SEND_GONGGAO).build();
-        mActivityFragmentView.viewLoading(View.VISIBLE);
+        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
+        RequestBody requestBody = requestBodyBuilder.build();
+        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_GET_ALL_UERID;
+        Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                e.printStackTrace();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        msg("网络请求错误！");
-                    }
-                });
-                finish();
+                Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
-                String content = response.body().string();
+                String result_str = response.body().string();
                 try {
-                    JSONObject jsonObject = new JSONObject(content);
-                    final String msg = jsonObject.getString("msg");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mActivityFragmentView.viewLoading(View.GONE);
-                            Toast.makeText(SendGonggaoNextActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    int status = jsonObject.getInt("status");
+                    if(status == 0){
+                        String uids = jsonObject.getString("data");
+                        Log.d("wangqingbin","查询出来 uids=="+uids);
+                        Intent intent = getIntent();
+                        String gonggao_title = intent.getStringExtra("gonggao_title");
+                        String gonggao_author = intent.getStringExtra("gonggao_author");
+                        String gonggao_content = intent.getStringExtra("gonggao_content");
+                        String gonggao_imageUrl = mSelectPath.get(0);
+
+                        OkHttpClient okHttpClient = new OkHttpClient();
+                        Request.Builder builder = new Request.Builder();
+                        MultipartBuilder multipartBuilder = new MultipartBuilder();
+                        multipartBuilder.type(MultipartBuilder.FORM)//
+                                .addFormDataPart("uids", uids)//要发送给所有人的用户id
+                                .addFormDataPart("gonggao_title",gonggao_title)//公告标题
+                                .addFormDataPart("gonggao_author", gonggao_author)//公告作者
+                                .addFormDataPart("gonggao_content", gonggao_content)//公告内容
+                                .addFormDataPart("gonggao_imageUrl", gonggao_imageUrl);//公告图片Url
+
+                        for (File file : mFileList) {
+                            multipartBuilder.addFormDataPart("imageFile", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
                         }
-                    });
-                    Intent intent = new Intent();
-                    intent.setClass(SendGonggaoNextActivity.this,GongGaoActivity.class);
-                    startActivity(intent);
-                    finish();
+                        RequestBody requestBody = multipartBuilder.build();
+                        Request request = builder.post(requestBody).url(ProtocolUrl.ROOT_URL + "/" + ProtocolUrl.APP_SEND_GONGGAO).build();
+                        Call call = okHttpClient.newCall(request);
+
+                        call.enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Request request, IOException e){
+                                Log.d("wangqingbin","发送失败");
+                                e.printStackTrace();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        msg("网络请求错误！");
+                                    }
+                                });
+                                finish();
+                            }
+
+                            @Override
+                            public void onResponse(Response response) throws IOException {
+                                Log.d("wangqingbin","发送成功");
+                                Intent intent = new Intent();
+                                intent.setClass(SendGonggaoNextActivity.this,GongGaoActivity.class);
+                                startActivity(intent);
+                                finish();
+                                /*String content = response.body().string();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(content);
+                                    final String msg = jsonObject.getString("msg");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(SendGonggaoNextActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    Intent intent = new Intent();
+                                    intent.setClass(SendGonggaoNextActivity.this,GongGaoActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }*/
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
     }
-
 
     @OnClick({R.id.gonggao_linearLayout})
     private void viewOnClick(View v) {
@@ -213,7 +246,7 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
     @Override
     public void initData() {
         super.initData();
-        slideButtonView = (MySlideButtonView) findViewById(R.id.slideButton);
+        /*slideButtonView = (MySlideButtonView) findViewById(R.id.slideButton);
         slideButtonView.setOnStateChangedListener(new MySlideButtonView.OnStateChangedListener() {
             @Override
             public void onStateChanged(boolean state) {
@@ -230,10 +263,9 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
 
             }
         });
-
+*/
         adapter = new GridAdapter();
         gridView.setAdapter(adapter);
-
     }
 
     public void choosePicture(){
@@ -278,7 +310,7 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
                         }
                     }
                 }
-            } else if (requestCode ==REQUEST_CONTACTS){
+            } /*else if (requestCode ==REQUEST_CONTACTS){
                 if ((resultCode == Activity.RESULT_OK) || (resultCode == Activity.RESULT_CANCELED)) {
                     Bundle bundle = data.getExtras();
                     if (bundle != null) {
@@ -286,7 +318,7 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
                         propleNumTV.setText(peopleNum+"人");
                     }
                 }
-            }
+            }*/
         }
     }
 

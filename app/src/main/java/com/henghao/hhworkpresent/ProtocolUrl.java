@@ -175,7 +175,7 @@ public class ProtocolUrl {
     /**
      * 查询公告封面图片
      */
-    public static final String APP_QUERY_GONGGAO_IMAGE = "/safetySuperviseApp/upload/";
+    public static final String APP_QUERY_GONGGAO_IMAGE = "/safetySuperviseApp/uploadImage/";
 
     /**
      * 查询未读公告接口
@@ -206,6 +206,10 @@ public class ProtocolUrl {
 
     /************************ 个人资料界面 start **************************/
 
+    /**
+     * 获取所有人员用户id
+     */
+    public static final String APP_GET_ALL_UERID = "/statisticsInfo/statistics/getIds";
 
     /**
      * 下载用户头像Uri

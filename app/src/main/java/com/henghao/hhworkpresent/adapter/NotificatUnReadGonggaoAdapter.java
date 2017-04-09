@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.BitmapUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +78,7 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
                 .showImageOnFail(R.drawable.ic_launcher) // 设置图片加载或解码过程中发生错误显示的图片
                 .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
                 .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
-                .displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
+        //        .displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
                 .build(); // 构建完成
 
         imageLoader = ImageLoader.getInstance();
@@ -86,7 +86,9 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
         //      imageLoader.init(ImageLoaderConfiguration.createDefault(mActivityFragmentSupport));
 
         String imageUri = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_GONGGAO_IMAGE + getItem(position).getGonggao_imageUrl();
+        Log.d("wangqingbin","imageUri=="+imageUri);
         imageLoader.displayImage(imageUri, mHodlerView.imageView, options);
+        Log.d("wangqingbin","下载完成");
         mHodlerView.tv_titile.setText(getItem(position).getGonggao_titile());
         mHodlerView.tv_time.setText(getItem(position).getGonggao_sendDate());
 
@@ -103,7 +105,7 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
                     public void onClick(DialogInterface dialog, int which) {
                         GonggaoProtocol gonggaoProtocol = new GonggaoProtocol(mActivityFragmentSupport);
                         gonggaoProtocol.addResponseListener(mActivityFragmentSupport);
-                        gonggaoProtocol.deleteGonggao(getItem(position).getGid());
+                        gonggaoProtocol.deleteGonggao(getItem(position).getGid(),getLoginUid());
 
                         mdeleteList.add(getItem(position));
                         mdeleteList.remove(position);

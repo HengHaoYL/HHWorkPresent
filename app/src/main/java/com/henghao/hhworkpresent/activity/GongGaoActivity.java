@@ -197,7 +197,7 @@ public class GongGaoActivity extends ActivityFragmentSupport {
                  * 将一条未读公告变为已读
                  */
                 gonggaoProtocol.addResponseListener(GongGaoActivity.this);
-                gonggaoProtocol.addReadGonggao(mUnReadAdaper.getItem(position-1).getGid());
+                gonggaoProtocol.addReadGonggao(mUnReadAdaper.getItem(position-1).getGid(),getLoginUid());
                 mActivityFragmentView.viewLoading(View.VISIBLE);
             }
         });

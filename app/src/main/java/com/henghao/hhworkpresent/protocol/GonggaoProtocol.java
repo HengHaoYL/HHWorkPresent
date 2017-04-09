@@ -25,34 +25,8 @@ import java.util.Map;
 
 public class GonggaoProtocol extends BaseModel {
 
-        public GonggaoProtocol(Context context) {
+    public GonggaoProtocol(Context context) {
         super(context);
-    }
-
-
-    /**
-     * @param uid           发公告用户
-     * @param title         公告标题
-     * @param author        作者
-     * @param content       内容
-     * @param imageUrl      封面图片
-     * @param isEncrypt      是否保密
-     */
-    public void  sendGonggao(String uid, String title, String author, String content, String imageUrl, String isEncrypt){
-        try {
-            String url = ProtocolUrl.APP_SEND_GONGGAO;
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("uid", uid);
-            params.put("gonggao_title", title);
-            params.put("gonggao_author", author);
-            params.put("gonggao_content",content);
-            params.put("gonggao_imageUrl",imageUrl);
-            params.put("gonggao_isEncrypt",isEncrypt);
-            this.mBeeCallback.url(url).type(String.class).params(params);
-            this.aq.ajax(this.mBeeCallback);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -89,11 +63,12 @@ public class GonggaoProtocol extends BaseModel {
      * 将一条未读变为已读
      * @param gid
      */
-    public void addReadGonggao(Integer gid){
+    public void addReadGonggao(Integer gid,String uid){
         try {
             String url = ProtocolUrl.APP_ADD_READ_GONGGAO;
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("gid", gid);
+            params.put("uid", uid);
             this.mBeeCallback.url(url).type(String.class).params(params);
             this.aq.ajax(this.mBeeCallback);
         } catch (Exception e){
@@ -121,11 +96,12 @@ public class GonggaoProtocol extends BaseModel {
      * 删除公告接口
      * @param gid
      */
-    public void deleteGonggao(Integer gid){
+    public void deleteGonggao(Integer gid,String uid){
         try {
             String url = ProtocolUrl.APP_DELETE_GONGGAO;
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("gid", gid);
+            params.put("uid", uid);
             this.mBeeCallback.url(url).type(String.class).params(params);
             this.aq.ajax(this.mBeeCallback);
         } catch (Exception e){

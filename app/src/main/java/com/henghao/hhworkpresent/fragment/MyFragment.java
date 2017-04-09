@@ -343,6 +343,10 @@ public class MyFragment extends FragmentSupport {
                         @Override
                         public void run() {
                             mActivityFragmentView.viewLoading(View.GONE);
+                            if(("图片上传失败").equals(msg)){
+                                mActivity.msg(msg);
+                                return;
+                            }
                             for(String filePath : mSelectPath){
                                 Bitmap bm = BitmapFactory.decodeFile(filePath);
                                 //设置图片
@@ -394,6 +398,7 @@ public class MyFragment extends FragmentSupport {
                 db.delete("user","id=?",new String[]{uid});
                 intent.setClass(mActivity,LoginActivity.class);
                 startActivity(intent);
+                mActivity.finish();
                 break;
 
         }

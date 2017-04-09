@@ -37,18 +37,6 @@ public class GonggaoEntity extends IdEntity {
     @Expose
     private String gonggao_sendDate;
 
-    /**
-     * 公告是否加密  0:不加密  1:加密
-     */
-    @Expose
-    private String isEncrpt;
-
-    /**
-     * 公告是否已读  0:未读  1:已读
-     */
-    @Expose
-    private String isRead;
-
 
     public Integer getGid() {
         return gid;
@@ -98,19 +86,4 @@ public class GonggaoEntity extends IdEntity {
         this.gonggao_sendDate = gonggao_date;
     }
 
-    public String getIsEncrpt() {
-        return isEncrpt;
-    }
-
-    public void setIsEncrpt(String isEncrpt) {
-        this.isEncrpt = isEncrpt;
-    }
-
-    public String getIsRead() {
-        return isRead;
-    }
-
-    public void setIsRead(String isRead) {
-        this.isRead = isRead;
-    }
 }

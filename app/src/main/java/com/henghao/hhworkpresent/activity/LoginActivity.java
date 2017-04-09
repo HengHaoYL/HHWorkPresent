@@ -125,7 +125,7 @@ public class LoginActivity extends ActivityFragmentSupport {
                     UserInfoEntity userInfoEntity = new Gson().fromJson(result_str, UserInfoEntity.class);
                     JSONObject jsonObject = new JSONObject(result_str);
                     int status = jsonObject.getInt("status");
-                    if (status == 0) {
+                    if (status == 1) {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -134,7 +134,7 @@ public class LoginActivity extends ActivityFragmentSupport {
                             }
                         });
                     }
-                    if(status == 1){
+                    if(status == 0){
                         UserInfoEntity.UserInfo userInfo = userInfoEntity.getData();
                         String uid = userInfo.getId();
                         String firstName = userInfo.getFirstname();
