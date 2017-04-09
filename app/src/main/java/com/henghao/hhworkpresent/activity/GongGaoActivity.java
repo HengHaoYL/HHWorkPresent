@@ -172,6 +172,7 @@ public class GongGaoActivity extends ActivityFragmentSupport {
                         }
                     });
                 } else if (tabId.equals("two")) {
+                    mCenterTextView.setVisibility(View.GONE);
                     queryReadGonggao();
                 }
             }

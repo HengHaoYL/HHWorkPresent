@@ -182,7 +182,6 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
                         RequestBody requestBody = multipartBuilder.build();
                         Request request = builder.post(requestBody).url(ProtocolUrl.ROOT_URL + "/" + ProtocolUrl.APP_SEND_GONGGAO).build();
                         Call call = okHttpClient.newCall(request);
-
                         call.enqueue(new Callback() {
                             @Override
                             public void onFailure(Request request, IOException e){

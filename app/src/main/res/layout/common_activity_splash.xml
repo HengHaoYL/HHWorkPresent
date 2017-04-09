@@ -86,7 +86,7 @@
                 android:layout_width="@dimen/fitment_smallmark"
                 android:layout_height="@dimen/fitment_smallmark"
                 android:layout_centerVertical="true"
-                android:src="@drawable/icon_logo" />
+                android:src="@drawable/icon_ajj_logo" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_normal"
                     android:textColor="@color/text_color_b"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:text="贵州恒昊软件科技有限公司 "
                     android:textSize="@dimen/gj_b" />
             </LinearLayout>
