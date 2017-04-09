@@ -24,7 +24,7 @@ public class XingZhenSPActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.carapply_webview)
     private ProgressWebView progressWebView;
 
-    private String requestUrl = "http://172.16.0.20:8080/hz7/";
+    private String requestUrl = "http://10.10.101.120:8080/hz7/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

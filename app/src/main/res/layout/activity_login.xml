@@ -84,7 +84,7 @@
                 android:layout_height="@dimen/view_height"
                 android:gravity="bottom"
                 android:hint="请输入密码"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:maxLength="16"
                 android:maxLines="1"
                 android:paddingBottom="@dimen/padding_normal"
