@@ -79,36 +79,13 @@ public class DakaFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
-
-        Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-        String currentTime = format.format(date);
-        //如果没超过12.00 表示上午
-        if(equalsString12(currentTime)){
-            pastdate_layout.setVisibility(View.GONE);
-            shangban_layout.setVisibility(View.VISIBLE);
-            xiaban_layout.setVisibility(View.GONE);
-            Date date1 = new Date();
-            SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
-            String currentTime1 = format.format(date1);
-            shangban_qiandao_date.setText(currentTime1);
-        }else {
-            //下午
-            pastdate_layout.setVisibility(View.GONE);
-            shangban_layout.setVisibility(View.GONE);
-            xiaban_layout.setVisibility(View.VISIBLE);
-            httpRequestKaoqingofCurrentDateShangwu();
-            Date date1 = new Date();
-            SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
-            String currentTime1 = format.format(date1);
-            xiaban_qiandao_date.setText(currentTime1);
-        }
         //注册定位监听
         LocationUtils.Location(this.mActivity);
         initWidget();
         initData();
         return this.mActivityFragmentView;
     }
+
 
     public void initWidget(){
         initWithBar();
@@ -144,6 +121,8 @@ public class DakaFragment extends FragmentSupport {
         Date date = new Date();
         textString = f.format(date);
         datepickerTV.setText(textString);
+
+        httpRequestKaoqingofCurrentDay();
     }
 
     public void httpLoadingHeadImage(){
@@ -359,7 +338,6 @@ public class DakaFragment extends FragmentSupport {
             xiaban_layout.setVisibility(View.VISIBLE);
             httpRequestKaoqingofCurrentDateShangwu();
             Date date1 = new Date();
-            SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
             String currentTime1 = format.format(date1);
             xiaban_qiandao_date.setText(currentTime1);
         }
@@ -368,9 +346,6 @@ public class DakaFragment extends FragmentSupport {
         String address = xiaban_qiandao_location.getText().toString(); // 签到地址
         double longitude = LocationUtils.getLng();
         double latitude = LocationUtils.getLat();
-        Log.d("wangqingbin","address=="+address);
-        Log.d("wangqingbin","longitude=="+longitude);
-        Log.d("wangqingbin","latitude=="+latitude);
         if (address.equals("当前没有定位信息!")) {
             Toast.makeText(mActivity, "当前没有定位，请定位后再签到！", Toast.LENGTH_SHORT).show();
             return;
@@ -387,7 +362,7 @@ public class DakaFragment extends FragmentSupport {
         super.onActivityResult(requestCode, resultCode, data);
         //上班打卡成功
         if (requestCode == SHANGBAN_QIANDAO_REQUEST && resultCode == RESULT_OK) {
-            //下午
+            //显示下班签到布局
             pastdate_layout.setVisibility(View.GONE);
             shangban_layout.setVisibility(View.GONE);
             xiaban_layout.setVisibility(View.VISIBLE);
@@ -433,7 +408,6 @@ public class DakaFragment extends FragmentSupport {
                         shangban_layout.setVisibility(View.VISIBLE);
                         xiaban_layout.setVisibility(View.GONE);
                         Date date1 = new Date();
-                        SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
                         String currentTime1 = format.format(date1);
                         shangban_qiandao_date.setText(currentTime1);
                     }else{
@@ -443,7 +417,6 @@ public class DakaFragment extends FragmentSupport {
                         xiaban_layout.setVisibility(View.VISIBLE);
                         httpRequestKaoqingofCurrentDateShangwu();
                         Date date1 = new Date();
-                        SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
                         String currentTime1 = format.format(date1);
                         xiaban_qiandao_date.setText(currentTime1);
                     }
@@ -466,6 +439,152 @@ public class DakaFragment extends FragmentSupport {
         });
         builder.create().show();
     }
+
+    /**
+     * 格式化日期  将.换为-
+     */
+    public String changeDate(String date){
+        String newDate = null;
+        String[] arr = date.split("\\.");
+        int year = Integer.parseInt(arr[0]);
+        int month = Integer.parseInt(arr[1]);
+        int dayOfMonth = Integer.parseInt(arr[2]);
+        String month1 = null;
+        String dayOfMonth1 = null;
+
+        newDate = year + "-" + month + "-" + dayOfMonth;
+        if(month<10 && dayOfMonth<10){
+            month1 = "0"+ month;
+            dayOfMonth1 = "0"+ dayOfMonth;
+            newDate = year + "-" + month1 + "-" + dayOfMonth1;
+        }
+        if(month<10 && dayOfMonth>=10){
+            month1 = "0"+ month;
+            dayOfMonth1 = dayOfMonth+"";
+            newDate = year + "-" + month1 + "-" + dayOfMonth1;
+        }
+        if(month>=10 && dayOfMonth<10){
+            month1 = month+"";
+            dayOfMonth1 = "0"+ dayOfMonth;
+            newDate = year + "-" + month1 + "-" + dayOfMonth1;
+        }
+        return newDate;
+    }
+
+
+    /**
+     * 查询当天签到信息
+     */
+    private void httpRequestKaoqingofCurrentDay() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
+        Log.d("wangqingbin","date=="+datepickerTV.getText().toString());
+        Log.d("wangqingbin","getLoginUid()=="+getLoginUid());
+        requestBodyBuilder.add("userId", getLoginUid());
+        requestBodyBuilder.add("date", datepickerTV.getText().toString());
+        RequestBody requestBody = requestBodyBuilder.build();
+        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
+        Request request = builder.url(request_url).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {mActivityFragmentView.viewLoading(View.GONE);
+                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    final JSONObject jsonObject = new JSONObject(result_str);
+                    int status = jsonObject.getInt("status");
+                    final String msg = jsonObject.getString("msg");
+                    if (status == 1) {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mActivityFragmentView.viewLoading(View.GONE);
+                                mActivity.msg(msg);
+                            }
+                        });
+                    }
+                    final JSONObject dataObject = jsonObject.getJSONObject("data");
+                    final String morningCount = dataObject.optString("morningCount");
+                    final String afterCount = dataObject.optString("afterCount");
+                    Log.d("wangqingbin","morningCount=="+morningCount);
+                    Log.d("wangqingbin","afterCount=="+afterCount);
+
+                    //代表上午还没有签到
+                    if("0".equals(morningCount)){
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                pastdate_layout.setVisibility(View.GONE);
+                                shangban_layout.setVisibility(View.VISIBLE);
+                                xiaban_layout.setVisibility(View.GONE);
+                                Date date = new Date();
+                                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                                String currentTime1 = format.format(date);
+                                shangban_qiandao_date.setText(currentTime1);
+                            }
+                        });
+                    }else {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                //如果不是0 则显示下午签到布局
+                                pastdate_layout.setVisibility(View.GONE);
+                                shangban_layout.setVisibility(View.GONE);
+                                xiaban_layout.setVisibility(View.VISIBLE);
+                                httpRequestKaoqingofCurrentDateShangwu();
+                                Date date1 = new Date();
+                                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                                String currentTime1 = format.format(date1);
+                                xiaban_qiandao_date.setText(currentTime1);
+                            }
+                        });
+                    }
+
+                    //代表下午还没有签到
+                    if("0".equals(afterCount)){
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                pastdate_layout.setVisibility(View.GONE);
+                                shangban_layout.setVisibility(View.GONE);
+                                xiaban_layout.setVisibility(View.VISIBLE);
+                                httpRequestKaoqingofCurrentDateShangwu();
+                                Date date1 = new Date();
+                                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                                String currentTime1 = format.format(date1);
+                                xiaban_qiandao_date.setText(currentTime1);
+                            }
+                        });
+                    }else{
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                pastdate_layout.setVisibility(View.VISIBLE);
+                                shangban_layout.setVisibility(View.GONE);
+                                xiaban_layout.setVisibility(View.GONE);
+                                httpRequestKaoqingofPastDate();
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 
 
     private Handler mHandler = new Handler(){};
@@ -511,8 +630,8 @@ public class DakaFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        String date ="2017-03-31";
-        requestBodyBuilder.add("uid", getLoginUid());
+        String date = datepickerTV.getText().toString();
+        requestBodyBuilder.add("userId", getLoginUid());
         requestBodyBuilder.add("date", date);
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
@@ -547,7 +666,6 @@ public class DakaFragment extends FragmentSupport {
                     }
                     final JSONObject dataObject = jsonObject.getJSONObject("data");
                     final String clockInTime = dataObject.optString("clockInTime");
-                    final String clockOutTime = dataObject.optString("clockOutTime");
                     //这时的clockInTime是一个null字符串 ，不是null
                     mHandler.post(new Runnable() {
                         @Override
@@ -557,7 +675,7 @@ public class DakaFragment extends FragmentSupport {
                     });
 
                     //缺卡情况
-                    if(("null").equals(clockInTime)){
+                    if(("null").equals(clockInTime)||clockInTime==null){
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -582,6 +700,7 @@ public class DakaFragment extends FragmentSupport {
 
                         }
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -593,8 +712,8 @@ public class DakaFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        String date ="2017-03-22";
-        requestBodyBuilder.add("uid", getLoginUid());
+        String date = datepickerTV.getText().toString();
+        requestBodyBuilder.add("userId", getLoginUid());
         requestBodyBuilder.add("date", date);
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;

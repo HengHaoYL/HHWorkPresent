@@ -11,7 +11,6 @@
 package com.henghao.hhworkpresent.protocol;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.benefit.buy.library.http.query.callback.AjaxStatus;
 import com.benefit.buy.library.utils.tools.ToolsJson;
@@ -39,47 +38,20 @@ public class QianDaoProtocol extends BaseModel {
     }
 
     /**
-     * 登陆
-     *
-     * @param site 地址
-     * @param comments 备注
-     * @see [类、类#方法、类#成员]
-     * @since [产品/模块版本]
-     */
-/*    public void qiandao(String uid, String site,String comments) {
-        try {
-            String url = ProtocolUrl.APP_QIANDAO;
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("uid", uid);
-            params.put("site", site);
-            params.put("comments", comments);
-            this.mBeeCallback.url(url).type(String.class).params(params);
-            this.aq.ajax(this.mBeeCallback);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    /**
      * 签到
      * @param uid 用户Id
      * @param lon 纬度
      * @param lat 经度
-     * @param address 地址
-     * @param checkType 签到类型  1 表示正常签到 2表示外勤签到
      * @see [类、类#方法、类#成员]
      * @since [产品/模块版本]
      */
-    public void qiandao(String uid, String lon,String lat, String address,String checkType) {
+    public void qiandao(String uid, String lon,String lat) {
         try {
             String url = ProtocolUrl.APP_QIANDAO;
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("userId", uid);
             params.put("lon", lon);
             params.put("lat", lat);
-            params.put("checkLocation", address);
-            params.put("checkType",checkType);
-            Log.d("wangqingbin","params"+ params);
             this.mBeeCallback.url(url).type(String.class).params(params);
             this.aq.ajax(this.mBeeCallback);
         } catch (Exception e) {

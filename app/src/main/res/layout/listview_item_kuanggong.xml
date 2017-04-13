@@ -36,7 +36,6 @@
                         android:id="@+id/tv_kuanggong_week"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_marginLeft="5dp"
                         android:text="星期五"
                         android:textColor="@color/text_color_b"

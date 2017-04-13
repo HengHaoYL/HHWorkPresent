@@ -45,13 +45,14 @@ public class KuanggongListAdapter extends ArrayAdapter<KaoqingEntity> {
             mHodlerView = new KuanggongListAdapter.HodlerView();
             convertView = this.inflater.inflate(R.layout.listview_item_kuanggong, null);
             mHodlerView.tv_kuanggong_datetime = (TextView) convertView.findViewById(R.id.tv_kuanggong_datetime);
-    //        mHodlerView.tv_kuanggong_week = (TextView) convertView.findViewById(R.id.tv_kuanggong_week);
+            mHodlerView.tv_kuanggong_week = (TextView) convertView.findViewById(R.id.tv_kuanggong_week);
             convertView.setTag(mHodlerView);
         } else {
             mHodlerView = (KuanggongListAdapter.HodlerView) convertView.getTag();
         }
         mHodlerView.tv_kuanggong_datetime.setText(getItem(position).getCurrentDate());
-   //     mHodlerView.tv_kuanggong_week.setText(getItem(position).getWorkDay());
+        mHodlerView.tv_kuanggong_week.setText(getItem(position).getWeek());
+        mHodlerView.tv_kuanggong_datetime.setText(getItem(position).getCurrentDate());
         return convertView;
     }
 
@@ -59,7 +60,7 @@ public class KuanggongListAdapter extends ArrayAdapter<KaoqingEntity> {
 
         TextView tv_kuanggong_datetime;
 
-  //      TextView tv_kuanggong_week;
+        TextView tv_kuanggong_week;
 
     }
 }

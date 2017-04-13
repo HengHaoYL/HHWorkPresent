@@ -161,6 +161,7 @@
         android:layout_below="@id/daka_linear2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:padding="10dp"
         android:orientation="vertical" >
 

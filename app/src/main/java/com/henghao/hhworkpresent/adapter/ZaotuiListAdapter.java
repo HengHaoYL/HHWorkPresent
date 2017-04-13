@@ -52,7 +52,7 @@ public class ZaotuiListAdapter extends ArrayAdapter<KaoqingEntity> {
             mHodlerView = (ZaotuiListAdapter.HodlerView) convertView.getTag();
         }
         mHodlerView.tv_zaotui_datetime.setText(getItem(position).getCurrentDate());
-        mHodlerView.tv_zaotui_work.setText(getItem(position).getWorkDay());
+        mHodlerView.tv_zaotui_work.setText(getItem(position).getWeek());
         mHodlerView.tv_zaotui_time.setText(getItem(position).getClockOutTime());
         return convertView;
     }

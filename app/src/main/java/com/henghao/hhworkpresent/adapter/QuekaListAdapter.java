@@ -53,7 +53,7 @@ public class QuekaListAdapter extends ArrayAdapter<KaoqingEntity> {
             mHodlerView = (QuekaListAdapter.HodlerView) convertView.getTag();
         }
         mHodlerView.tv_queka_datetime.setText(getItem(position).getCurrentDate());
-        mHodlerView.tv_queka_week.setText(getItem(position).getWorkDay());
+        mHodlerView.tv_queka_week.setText(getItem(position).getWeek());
         mHodlerView.tv_queka_time.setText(getItem(position).getClockInTime());
         return convertView;
     }

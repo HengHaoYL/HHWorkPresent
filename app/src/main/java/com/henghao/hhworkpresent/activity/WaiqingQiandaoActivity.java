@@ -433,14 +433,14 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
-        mActivityFragmentView.viewLoading(View.VISIBLE);
+    //    mActivityFragmentView.viewLoading(View.VISIBLE);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mActivityFragmentView.viewLoading(View.GONE);
+              //          mActivityFragmentView.viewLoading(View.GONE);
                         Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -456,7 +456,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                mActivityFragmentView.viewLoading(View.GONE);
+                      //          mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
                     }
@@ -475,7 +475,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                                 tv_state_qiandao.setVisibility(View.GONE);
                                 qiandao_layout.setVisibility(View.GONE);
                             }
-                            mActivityFragmentView.viewLoading(View.GONE);
+                //            mActivityFragmentView.viewLoading(View.GONE);
                         }
                     });
 

@@ -97,7 +97,7 @@ public class KaoqingEntity extends IdEntity {
 
     //日期工作日（星期几）
     @Expose
-    private String workDay;
+    private String week;
 
     //部门
     @Expose
@@ -114,11 +114,11 @@ public class KaoqingEntity extends IdEntity {
     public void setDept(String dept) {
         this.dept = dept;
     }
-    public String getWorkDay() {
-        return workDay;
+    public String getWeek() {
+        return week;
     }
-    public void setWorkDay(String workDay) {
-        this.workDay = workDay;
+    public void setWeek(String week) {
+        this.week = week;
     }
     public String getJob() {
         return job;

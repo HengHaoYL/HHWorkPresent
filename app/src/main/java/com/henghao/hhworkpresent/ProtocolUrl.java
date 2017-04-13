@@ -33,7 +33,7 @@ public class ProtocolUrl {
         //    ROOT_URL = "http://safe.higdata.com/YL_BigData";
         } else {
             // 测试地址
-            ROOT_URL = "http://172.16.0.117:8080";
+            ROOT_URL = "http://172.16.0.193:8080";
         }
     }
 
@@ -93,7 +93,7 @@ public class ProtocolUrl {
     /**
      * 签到提交接口
      */
-    public static final String APP_QIANDAO = "/checking-in/CI/addChecking";
+    public static final String APP_QIANDAO = "/check_workflow/CI/addChecking";
 
     /************************ 签到 end **************************/
 
@@ -111,33 +111,33 @@ public class ProtocolUrl {
     /**
      * 查询考勤界面信息
      */
-    public static final String APP_QUERY_MOUNTH_KAOQING = "/checking-in/CI/findMouthAllByUserId";
+    public static final String APP_QUERY_MOUNTH_KAOQING = "/check_workflow/CI/findAllNumByUserId";
 
     /**
      * 查询当月迟到记录
      */
-    public static final String APP_QUERY_MONTH_CHIDAO = "/checking-in/CI/cidaoCkLists";
+    public static final String APP_QUERY_MONTH_CHIDAO = "/check_workflow/CI/findCdListByUserId";
 
     /**
      * 查询当月早退记录
      */
-    public static final String APP_QUERY_MONTH_ZAOTUI = "/checking-in/CI/zaotuiCkLists";
+    public static final String APP_QUERY_MONTH_ZAOTUI = "/check_workflow/CI/findZtListByUserId";
 
     /**
      * 查询当月缺卡记录
      */
-    public static final String APP_QUERY_MONTH_QUEKA = "/checking-in/CI/forgetCkLists";
+    public static final String APP_QUERY_MONTH_QUEKA = "/check_workflow/CI/findQkListByUserId";
 
     /**
      * 查询当月旷工记录
      */
-    public static final String APP_QUERY_MONTH_KUANGGONG = "/checking-in/CI/kuanggongLists";
+    public static final String APP_QUERY_MONTH_KUANGGONG = "/check_workflow/CI/findKgListByUserId";
 
 
     /**
      * 查询某天考勤记录
      */
-    public static final String APP_QUERY_DAY_OF_KAOQING = "/checking-in/CI/findToAppByUserId";
+    public static final String APP_QUERY_DAY_OF_KAOQING = "/check_workflow/CI/findByUserId";
 
 
     /**

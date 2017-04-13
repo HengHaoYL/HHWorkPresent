@@ -53,7 +53,7 @@ public class ChidaoListAdapter extends ArrayAdapter<KaoqingEntity> {
             mHodlerView = (ChidaoListAdapter.HodlerView) convertView.getTag();
         }
         mHodlerView.tv_chidao_datetime.setText(getItem(position).getCurrentDate());
-        mHodlerView.tv_chidao_week.setText(getItem(position).getWorkDay());
+        mHodlerView.tv_chidao_week.setText(getItem(position).getWeek());
         mHodlerView.tv_chidao_daka_time.setText(getItem(position).getClockInTime());
         return convertView;
     }

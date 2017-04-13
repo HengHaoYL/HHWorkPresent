@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.benefit.buy.library.http.query.callback.AjaxStatus;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.entity.BaseEntity;
 import com.henghao.hhworkpresent.protocol.QianDaoProtocol;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -97,10 +97,11 @@ public class QiandaoShangbanSubmitActivity extends ActivityFragmentSupport {
     private void viewClick(View v) {
         switch (v.getId()) {
             case R.id.btn_submit_qiandaosubmit:
+                Log.d("wangqingbin","userid=="+getLoginUid());
                 // 提交
                 QianDaoProtocol mQianDaoProtocol = new QianDaoProtocol(this);
                 mQianDaoProtocol.addResponseListener(this);
-                mQianDaoProtocol.qiandao(getLoginUid(), longitude+"", latitude+"", address,"1");
+                mQianDaoProtocol.qiandao(getLoginUid(), longitude+"", latitude+"");
                 mActivityFragmentView.viewLoading(View.VISIBLE);
                 break;
         }
@@ -124,13 +125,13 @@ public class QiandaoShangbanSubmitActivity extends ActivityFragmentSupport {
     @Override
     public void OnMessageResponse(String url, Object jo, AjaxStatus status) throws JSONException {
         super.OnMessageResponse(url, jo, status);
-        if (jo instanceof BaseEntity) {
-            BaseEntity base = (BaseEntity) jo;
-            msg(base.getMsg());
+//        if (jo instanceof BaseEntity) {
+//            BaseEntity base = (BaseEntity) jo;
+//            msg(base.getMsg());
             setResult(RESULT_OK);
             finish();
             return;
-        }
+ //       }
 
     }
 

@@ -208,7 +208,7 @@
             <RelativeLayout
                 android:layout_width="180dp"
                 android:layout_height="wrap_content">
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/kaoqing_image3"
                     android:layout_width="20dp"
                     android:layout_height="30dp"
@@ -229,6 +229,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
+                    android:layout_centerVertical="true"
+                    android:textColor="#2C1D07"
+                    android:text="0次"/>-->
+                <ImageView
+                    android:id="@+id/kaoqing_image7"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/item_tiao_yellow"/>
+                <TextView
+                    android:id="@+id/kaoqing_text7"
+                    android:layout_toRightOf="@id/kaoqing_image7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#2C1D07"
+                    android:text="旷工"/>
+                <TextView
+                    android:id="@+id/tv_kuanggongDays"
+                    android:layout_toRightOf="@id/kaoqing_text7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="58dp"
                     android:layout_centerVertical="true"
                     android:textColor="#2C1D07"
                     android:text="0次"/>
@@ -326,70 +350,6 @@
                     android:text="0次"/>
             </RelativeLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="180dp"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/kaoqing_image7"
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="5dp"
-                    android:src="@drawable/item_tiao_yellow"/>
-                <TextView
-                    android:id="@+id/kaoqing_text7"
-                    android:layout_toRightOf="@id/kaoqing_image7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="#2C1D07"
-                    android:text="旷工"/>
-                <TextView
-                    android:id="@+id/tv_kuanggongDays"
-                    android:layout_toRightOf="@id/kaoqing_text7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="58dp"
-                    android:layout_centerVertical="true"
-                    android:textColor="#2C1D07"
-                    android:text="0天"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_marginLeft="8dp"
-                android:layout_width="180dp"
-                android:visibility="gone"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/kaoqing_image8"
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/item_tiao_yellow"/>
-                <TextView
-                    android:id="@+id/kaoqing_text8"
-                    android:layout_toRightOf="@id/kaoqing_image8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_centerVertical="true"
-                    android:textColor="#2C1D07"
-                    android:text="休息"/>
-                <TextView
-                    android:layout_toRightOf="@id/kaoqing_text8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="58dp"
-                    android:layout_centerVertical="true"
-                    android:textColor="#2C1D07"
-                    android:text="0天"/>
-            </RelativeLayout>
-        </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
