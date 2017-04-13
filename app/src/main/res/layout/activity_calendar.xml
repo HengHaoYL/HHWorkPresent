@@ -18,7 +18,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:src="@drawable/testhead"
+                android:src="@drawable/icon_logo"
                 app:border_width="2dp"
                 app:border_color="@color/text_color_green" />
 

@@ -171,27 +171,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
-        <!-- 考勤迟到详情界面 -->
+        <!-- 考勤详情界面 -->
         <activity
-            android:name=".activity.KaoqingChidaoDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
-        <!-- 考勤早退详情界面 -->
-        <activity
-            android:name=".activity.KaoqingZaotuiDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
-        <!-- 考勤缺卡详情界面 -->
-        <activity
-            android:name=".activity.KaoqingQuekaDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
-        <!-- 考勤旷工详情界面 -->
-        <activity
-            android:name=".activity.KaoqingKuanggongDetailActivity"
+            android:name=".activity.KaoqingDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 

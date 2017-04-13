@@ -419,7 +419,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid", getLoginUid());
+        requestBodyBuilder.add("userId", getLoginUid());
         String date = tvCurrentDate.getText().toString().trim();
         requestBodyBuilder.add("date", transferDateTime(date));
         RequestBody requestBody = requestBodyBuilder.build();
@@ -472,7 +472,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                             public void run() {
                                 tv_shangbanState.setText("缺卡");
                                 tv_shangbanTime.setText("无");
-                                btn_shangbanBuka.setVisibility(View.VISIBLE);
+                        //        btn_shangbanBuka.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
@@ -484,7 +484,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                             public void run() {
                                 tv_xiabanState.setText("缺卡");
                                 tv_xiabanTime.setText("无");
-                                btn_xiabanBuka.setVisibility(View.VISIBLE);
+                        //        btn_xiabanBuka.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });

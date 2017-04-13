@@ -92,11 +92,11 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                         try {
                             //启动网易邮箱
                             intent =packageManager.getLaunchIntentForPackage("com.netease.mail");
+                            mActivityFragmentSupport.startActivity(intent);
                         } catch (Exception e) {
                             //如果系统找不到此应用，就提示下面的信息
-                            mActivityFragmentSupport.msg("你的系统没有这个应用，请安装！");
+                            mActivityFragmentSupport.msg("你的系统没有网易邮箱，请安装！");
                         }
-                        mActivityFragmentSupport.startActivity(intent);
                         break;
                     case 3:
                         //通知公告

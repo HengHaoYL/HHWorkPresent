@@ -399,7 +399,7 @@ public class DakaFragment extends FragmentSupport {
                 int type = equalsDate(datepickerTV.getText().toString());
                 //大于当前日期：1，等于当前日期：0，小于当前日期：-1
                 if(type==0){
-                    Date date = new Date();
+                    /*Date date = new Date();
                     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                     String currentTime = format.format(date);
                     //如果没超过12.00 表示上午
@@ -419,8 +419,8 @@ public class DakaFragment extends FragmentSupport {
                         Date date1 = new Date();
                         String currentTime1 = format.format(date1);
                         xiaban_qiandao_date.setText(currentTime1);
-                    }
-
+                    }*/
+                    httpRequestKaoqingofCurrentDay();
                 } else if(type==1){
 
                 } else if(type==-1){
@@ -479,8 +479,6 @@ public class DakaFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        Log.d("wangqingbin","date=="+datepickerTV.getText().toString());
-        Log.d("wangqingbin","getLoginUid()=="+getLoginUid());
         requestBodyBuilder.add("userId", getLoginUid());
         requestBodyBuilder.add("date", datepickerTV.getText().toString());
         RequestBody requestBody = requestBodyBuilder.build();
@@ -681,7 +679,7 @@ public class DakaFragment extends FragmentSupport {
                             public void run() {
                                 xiaban_shangbanstate.setText("缺卡");
                                 xiaban_shangbantime.setText("无");
-                                xiaban_shangbanbuka.setVisibility(View.VISIBLE);
+                         //       xiaban_shangbanbuka.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
@@ -765,7 +763,7 @@ public class DakaFragment extends FragmentSupport {
                             public void run() {
                                 pastdate_shangbanstate.setText("缺卡");
                                 pastdate_shangbantime.setText("无");
-                                pastdate_shangbanbuka.setVisibility(View.VISIBLE);
+                     //           pastdate_shangbanbuka.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
@@ -777,7 +775,7 @@ public class DakaFragment extends FragmentSupport {
                             public void run() {
                                 pastdate_xiabanstate.setText("缺卡");
                                 pastdate_xiabantime.setText("无");
-                                pastdate_xiabanbuka.setVisibility(View.VISIBLE);
+                      //          pastdate_xiabanbuka.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });

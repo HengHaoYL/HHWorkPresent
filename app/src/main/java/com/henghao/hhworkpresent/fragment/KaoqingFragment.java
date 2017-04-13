@@ -23,10 +23,7 @@ import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.CalendarActivity;
-import com.henghao.hhworkpresent.activity.KaoqingChidaoDetailActivity;
-import com.henghao.hhworkpresent.activity.KaoqingKuanggongDetailActivity;
-import com.henghao.hhworkpresent.activity.KaoqingQuekaDetailActivity;
-import com.henghao.hhworkpresent.activity.KaoqingZaotuiDetailActivity;
+import com.henghao.hhworkpresent.activity.KaoqingDetailActivity;
 import com.henghao.hhworkpresent.adapter.ChidaoListAdapter;
 import com.henghao.hhworkpresent.adapter.KuanggongListAdapter;
 import com.henghao.hhworkpresent.adapter.QuekaListAdapter;
@@ -705,7 +702,7 @@ public class KaoqingFragment extends FragmentSupport {
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);
                 intent.putExtra("currentWeek",currentWeek);
-                intent.setClass(getContext(), KaoqingChidaoDetailActivity.class);
+                intent.setClass(getContext(), KaoqingDetailActivity.class);
                 startActivity(intent);
             }
         });
@@ -718,7 +715,7 @@ public class KaoqingFragment extends FragmentSupport {
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);
                 intent.putExtra("currentWeek",currentWeek);
-                intent.setClass(getContext(), KaoqingZaotuiDetailActivity.class);
+                intent.setClass(getContext(), KaoqingDetailActivity.class);
                 startActivity(intent);
             }
         });
@@ -731,7 +728,7 @@ public class KaoqingFragment extends FragmentSupport {
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);
                 intent.putExtra("currentWeek",currentWeek);
-                intent.setClass(getContext(), KaoqingQuekaDetailActivity.class);
+                intent.setClass(getContext(), KaoqingDetailActivity.class);
                 startActivity(intent);
             }
         });
@@ -744,7 +741,7 @@ public class KaoqingFragment extends FragmentSupport {
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);
                 intent.putExtra("currentWeek",currentWeek);
-                intent.setClass(getContext(), KaoqingKuanggongDetailActivity.class);
+                intent.setClass(getContext(), KaoqingDetailActivity.class);
                 startActivity(intent);
             }
         });
