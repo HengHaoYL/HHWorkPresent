@@ -76,6 +76,9 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);//关闭WebView中缓存
+        webSettings.setDomStorageEnabled(true);  // 开启 DOM storage API 功能
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setAllowFileAccess(true);  // 可以读取文件缓存(manifest生效)
         progressWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
