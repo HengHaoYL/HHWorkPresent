@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.benefit.buy.library.http.query.callback.AjaxStatus;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.entity.BaseEntity;
 import com.henghao.hhworkpresent.protocol.QianDaoProtocol;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -124,13 +125,13 @@ public class QiandaoXiabanSubmitActivity extends ActivityFragmentSupport {
     @Override
     public void OnMessageResponse(String url, Object jo, AjaxStatus status) throws JSONException {
         super.OnMessageResponse(url, jo, status);
-/*        if (jo instanceof BaseEntity) {
+        if (jo instanceof BaseEntity) {
             BaseEntity base = (BaseEntity) jo;
-            msg(base.getMsg());*/
+            msg(base.getMsg());
             setResult(RESULT_OK);
             finish();
             return;
- //       }
+        }
 
     }
 }

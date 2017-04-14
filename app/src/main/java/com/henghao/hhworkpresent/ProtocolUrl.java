@@ -180,27 +180,27 @@ public class ProtocolUrl {
     /**
      * 查询未读公告接口
      */
-    public static final String APP_QUERY_UNREAD_GONGGAO = "/safetySuperviseApp/notice/findUnRead";
+    public static final String APP_QUERY_UNREAD_GONGGAO = "/statisticsInfo/notice/findUnRead";
 
     /**
      * 查询已读公告接口
      */
-    public static final String APP_QUERY_READ_GONGGAO = "/safetySuperviseApp/notice/findReadAlready";
+    public static final String APP_QUERY_READ_GONGGAO = "/statisticsInfo/notice/findReadAlready";
 
     /**
      * 将一条未读公告变为已读接口
      */
-    public static final String APP_ADD_READ_GONGGAO = "/safetySuperviseApp/notice/MarkAsRead";
+    public static final String APP_ADD_READ_GONGGAO = "/statisticsInfo/notice/MarkAsRead";
 
     /**
      * 将全部未读公告变为已读接口
      */
-    public static final String APP_ADD_ALL_READ_GONGGAO = "/safetySuperviseApp/notice/ReadAll";
+    public static final String APP_ADD_ALL_READ_GONGGAO = "/statisticsInfo/notice/ReadAll";
 
     /**
      * 删除公告
      */
-    public static final String APP_DELETE_GONGGAO = "/safetySuperviseApp/notice/deleteNotice";
+    public static final String APP_DELETE_GONGGAO = "/statisticsInfo/notice/deleteNotice";
 
     /************************ 公告 end **************************/
 
@@ -209,7 +209,7 @@ public class ProtocolUrl {
     /**
      * 获取所有人员用户id
      */
-    public static final String APP_GET_ALL_UERID = "/statisticsInfo/statistics/getIds";
+    public static final String APP_GET_ALL_UERID = "/statisticsInfo/user/getIds";
 
     /**
      * 下载用户头像Uri

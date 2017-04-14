@@ -20,6 +20,7 @@ import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.activity.AboutOurActivity;
 import com.henghao.hhworkpresent.activity.LoginActivity;
 import com.henghao.hhworkpresent.activity.MySelfZiliaoActivity;
 import com.henghao.hhworkpresent.activity.MyTongxunluActivity;
@@ -74,6 +75,9 @@ public class MyFragment extends FragmentSupport {
 
     @ViewInject(R.id.fragment_my_tongxunlu)
     private TextView tv_tongxunlu;
+
+    @ViewInject(R.id.fragment_my_aboutus)
+    private TextView tv_about_us;
 
     @ViewInject(R.id.tv_exitlogin)
     private TextView tv_exitlogin;
@@ -363,7 +367,7 @@ public class MyFragment extends FragmentSupport {
     }
 
 
-    @OnClick({R.id.fragment_my_circleImageview,R.id.fragment_my_selfziliao,R.id.fragment_my_tongxunlu,R.id.tv_exitlogin,R.id.fragment_my_login_username})
+    @OnClick({R.id.fragment_my_circleImageview,R.id.fragment_my_selfziliao,R.id.fragment_my_tongxunlu,R.id.fragment_my_aboutus,R.id.tv_exitlogin,R.id.fragment_my_login_username})
     private void viewOnClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
@@ -383,6 +387,11 @@ public class MyFragment extends FragmentSupport {
 
             case R.id.fragment_my_tongxunlu:        //通讯录
                 intent.setClass(mActivity,MyTongxunluActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.fragment_my_aboutus:   //关于我们
+                intent.setClass(mActivity,AboutOurActivity.class);
                 startActivity(intent);
                 break;
 

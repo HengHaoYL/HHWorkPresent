@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
-import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.GonggaoEntity;
 import com.henghao.hhworkpresent.protocol.GonggaoProtocol;
@@ -61,7 +60,7 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
         if (convertView == null) {
             mHodlerView = new NotificatUnReadGonggaoAdapter.HodlerView();
             convertView = this.inflater.inflate(R.layout.listview_notification_item, null);
-            mHodlerView.imageView = (ImageView) convertView.findViewById(R.id.msg_imageview);
+    //        mHodlerView.imageView = (ImageView) convertView.findViewById(R.id.msg_imageview);
             mHodlerView.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
             mHodlerView.tv_titile = (TextView) convertView.findViewById(R.id.tv_content);
             mHodlerView.imageDelete = (ImageView) convertView.findViewById(R.id.msg_delete);
@@ -71,7 +70,7 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
         }
 
         // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
-        options = new DisplayImageOptions.Builder()
+  /*      options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.icon_logo) // 设置图片下载期间显示的图片
                 .showImageForEmptyUri(R.drawable.ic_launcher) // 设置图片Uri为空或是错误的时候显示的图片
                 .showImageOnFail(R.drawable.ic_launcher) // 设置图片加载或解码过程中发生错误显示的图片
@@ -80,12 +79,12 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
         //        .displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
                 .build(); // 构建完成
 
-        imageLoader = ImageLoader.getInstance();
+        imageLoader = ImageLoader.getInstance();*/
 
         //      imageLoader.init(ImageLoaderConfiguration.createDefault(mActivityFragmentSupport));
 
-        String imageUri = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_GONGGAO_IMAGE + getItem(position).getGonggao_imageUrl();
-        imageLoader.displayImage(imageUri, mHodlerView.imageView, options);
+   //     String imageUri = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_GONGGAO_IMAGE + getItem(position).getGonggao_imageUrl();
+  //      imageLoader.displayImage(imageUri, mHodlerView.imageView, options);
         mHodlerView.tv_titile.setText(getItem(position).getGonggao_titile());
         mHodlerView.tv_time.setText(getItem(position).getGonggao_sendDate());
 
@@ -143,7 +142,7 @@ public class NotificatUnReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
 
     private class HodlerView {
 
-        ImageView imageView;
+   //     ImageView imageView;
 
         TextView tv_time;
 

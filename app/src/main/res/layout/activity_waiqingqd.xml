@@ -24,7 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="2016年11月29日"
             android:textColor="#a9b7b7"
             android:textSize="12sp" />
 
@@ -48,7 +47,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="贵州恒昊软件科技有限公司"
+            android:text="贵阳市安全生产监督管理局"
             android:textColor="#a9b7b7"
             android:textSize="12sp" />
     </LinearLayout>

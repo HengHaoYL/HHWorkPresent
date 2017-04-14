@@ -63,7 +63,7 @@ public class GonggaoProtocol extends BaseModel {
      * 将一条未读变为已读
      * @param gid
      */
-    public void addReadGonggao(Integer gid,String uid){
+    public void addReadGonggao(String gid,String uid){
         try {
             String url = ProtocolUrl.APP_ADD_READ_GONGGAO;
             Map<String, Object> params = new HashMap<String, Object>();
@@ -96,7 +96,7 @@ public class GonggaoProtocol extends BaseModel {
      * 删除公告接口
      * @param gid
      */
-    public void deleteGonggao(Integer gid,String uid){
+    public void deleteGonggao(String gid,String uid){
         try {
             String url = ProtocolUrl.APP_DELETE_GONGGAO;
             Map<String, Object> params = new HashMap<String, Object>();

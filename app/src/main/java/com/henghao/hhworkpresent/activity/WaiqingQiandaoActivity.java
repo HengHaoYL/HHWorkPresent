@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -147,18 +148,15 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.viewLoading(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
-        setContentView(this.mActivityFragmentView);
-
+        /**
+         * 设置签到时间（年月日）
+         */
         Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-        String currentTime = format.format(date);
-        //如果没超过12.00 表示上午
-        if(equalsString12(currentTime)){
-            tv_qiandao.setText("上班打卡");
-        }else {
-            tv_qiandao.setText("下班打卡");
-        }
-
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        String time = dateFormat.format(date);
+        this.tv_time_qiandao.setText(time);
+        httpRequestKaoqingofCurrentDay();
+        setContentView(this.mActivityFragmentView);
         initWidget();
         initData();
     }
@@ -191,6 +189,102 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
 
     }
 
+    /**
+     * 进行时间转换
+     */
+    public String transferDateTime(String date){
+        String newDate = date.replace("年","-");
+        newDate = newDate.replace("月","-");
+        newDate = newDate.replace("日","");
+        return newDate;
+    }
+
+    /**
+     * 查询当天签到信息
+     */
+    private void httpRequestKaoqingofCurrentDay() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
+        requestBodyBuilder.add("userId", getLoginUid());
+        requestBodyBuilder.add("date", transferDateTime(tv_time_qiandao.getText().toString()));
+        RequestBody requestBody = requestBodyBuilder.build();
+        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
+        Request request = builder.url(request_url).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {mActivityFragmentView.viewLoading(View.GONE);
+                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                Log.d("wangqingbin","result_str=="+result_str);
+                try {
+                    final JSONObject jsonObject = new JSONObject(result_str);
+                    int status = jsonObject.getInt("status");
+                    final String msg = jsonObject.getString("msg");
+                    if (status == 1) {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mActivityFragmentView.viewLoading(View.GONE);
+                                msg(msg);
+                            }
+                        });
+                    }
+                    final JSONObject dataObject = jsonObject.getJSONObject("data");
+                    final String morningCount = dataObject.optString("morningCount");
+                    final String afterCount = dataObject.optString("afterCount");
+                    Log.d("wangqingbin","morningCount=="+morningCount);
+                    Log.d("wangqingbin","afterCount=="+afterCount);
+
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mActivityFragmentView.viewLoading(View.GONE);
+                            //代表上午还没有签到
+                            if("0".equals(morningCount)){
+                                Date date = new Date();
+                                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                                String currentTime = format.format(date);
+                                //如果没超过12.00 表示上午
+                                if(equalsString12(currentTime)){
+                                    tv_qiandao.setText("上班打卡");
+                                }else {
+                                    tv_qiandao.setText("下班打卡");
+                                }
+
+                            }else {
+                                tv_qiandao.setText("下班打卡");
+                            }
+
+                            //代表下午还没有签到
+                            if("0".equals(afterCount)){
+                                tv_qiandao.setText("下班打卡");
+                            }else{
+                                qiandao_layout.setVisibility(View.GONE);
+                                tv_state_qiandao.setText("你下班已打卡成功!");
+                                tv_state_qiandao.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     @Override
     public void initData() {
         super.initData();
@@ -203,17 +297,11 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         this.locationClient.start(); // 开始定位
 
         /**
-         * 设置签到时间（年月日）
-         */
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-        String time = dateFormat.format(date);
-        this.tv_time_qiandao.setText(time);
-        /**
          * 设置签到具体时间（时、分）
          */
-        dateFormat = new SimpleDateFormat("HH:mm");
-        time = dateFormat.format(date);
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String time = dateFormat.format(date);
         this.tv_hourminute_qiandao.setText(time);
 
     }

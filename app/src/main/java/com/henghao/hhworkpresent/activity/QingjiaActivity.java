@@ -1,5 +1,7 @@
 package com.henghao.hhworkpresent.activity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.webkit.WebViewClient;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.ProgressWebView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -24,7 +27,7 @@ public class QingjiaActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.carapply_webview)
     private ProgressWebView progressWebView;
 
-    private String requestUrl = "https://www.baidu.com/";
+    private String requestUrl = "http://172.16.0.57:8080/hz7/horizon/basics/getBasics.wf?loginName=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +48,24 @@ public class QingjiaActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("请假申请");
-        mLeftTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void initData() {
         super.initData();
         init();
+    }
+
+    public String getUsername(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String username = null;
+        Cursor cursor = db.query("user",new String[]{"username"},null,null,null,null,null);
+        // 将光标移动到下一行，从而判断该结果集是否还有下一条数据，如果有则返回true，没有则返回false
+        while (cursor.moveToNext()){
+            username = cursor.getString((cursor.getColumnIndex("username")));
+        }
+        return username;
     }
 
     public void init() {
@@ -82,6 +95,6 @@ public class QingjiaActivity extends ActivityFragmentSupport {
                 return true;
             }
         });
-        progressWebView.loadUrl(requestUrl);
+        progressWebView.loadUrl(requestUrl+getUsername());
     }
 }

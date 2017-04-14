@@ -1,36 +1,21 @@
 package com.henghao.hhworkpresent.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.Toast;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
-import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.views.DatabaseHelper;
+import com.henghao.hhworkpresent.views.ProgressWebView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
-
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  *
@@ -40,7 +25,81 @@ import java.util.ArrayList;
 
 public class SendGonggaoActivity extends ActivityFragmentSupport {
 
-    private TabHost tabHost;
+    @ViewInject(R.id.carapply_webview)
+    private ProgressWebView progressWebView;
+
+    private String requestUrl = "http://172.16.0.57:8080/hz7/horizon/basics/getBasics.wf?loginName=";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.mActivityFragmentView.viewMain(R.layout.activity_carapply);
+        this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
+        this.mActivityFragmentView.viewEmptyGone();
+        this.mActivityFragmentView.viewLoading(View.GONE);
+        this.mActivityFragmentView.clipToPadding(true);
+        ViewUtils.inject(this, this.mActivityFragmentView);
+        setContentView(this.mActivityFragmentView);
+        initWidget();
+        initData();
+    }
+
+    @Override
+    public void initWidget() {
+        super.initWidget();
+        initWithBar();
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+        init();
+    }
+
+    public String getUsername(){
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String username = null;
+        Cursor cursor = db.query("user",new String[]{"username"},null,null,null,null,null);
+        // 将光标移动到下一行，从而判断该结果集是否还有下一条数据，如果有则返回true，没有则返回false
+        while (cursor.moveToNext()){
+            username = cursor.getString((cursor.getColumnIndex("username")));
+        }
+        return username;
+    }
+
+    public void init() {
+        WebSettings webSettings = progressWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);//关闭WebView中缓存
+        progressWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                System.out.println("Page开始  " + url + "   " + favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                System.out.println("Page结束  " + url);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //return super.shouldOverrideUrlLoading(view, url);
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        progressWebView.loadUrl(requestUrl+getUsername());
+    }
+
+   /* private TabHost tabHost;
 
     @ViewInject(R.id.gonggao_et_title)
     private EditText etTitle;
@@ -136,9 +195,9 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
         }
     }
 
-    /**
+    *//**
      * 删除此界面
-     */
+     *//*
     public void deleteJiemian(){
         if(etTitle.getText().toString().equals("")
                 && etAuthor.getText().toString().equals("")
@@ -149,9 +208,9 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
         }
     }
 
-    /**
+    *//**
      * 创建对话框
-     */
+     *//*
     public void createDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
        //设置对话框图标，可以使用自己的图片，Android本身也提供了一些图标供我们使用
@@ -233,15 +292,15 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
     }
 
 
-    /**
+    *//**
      * EditText中可以接收的图片(要转化为SpannableString)
      *
      * @param pic
      * @param uri
      * @return SpannableString
-     */
+     *//*
     private SpannableString getBitmapMime(Bitmap pic, Uri uri) {
-       /* int imgWidth = pic.getWidth();
+       *//* int imgWidth = pic.getWidth();
         int imgHeight = pic.getHeight();
         // 只对大尺寸图片进行下面的压缩，小尺寸图片使用原图
         if (imgWidth >= mInsertedImgWidth) {
@@ -249,7 +308,7 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
             Matrix mx = new Matrix();
             mx.setScale(scale, scale);
             pic = Bitmap.createBitmap(pic, 0, 0, imgWidth, imgHeight, mx, true);
-        }*/
+        }*//*
         String smile = uri.getPath();
         SpannableString ss = new SpannableString(smile);
         ImageSpan span = new ImageSpan(this, pic);
@@ -284,5 +343,5 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
             e.printStackTrace();
         }
         return bitmap;
-    }
+    }*/
 }

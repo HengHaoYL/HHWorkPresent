@@ -14,7 +14,10 @@ public class GonggaoEntity extends IdEntity {
      * 公告id
      */
     @Expose
-    private Integer gid;
+    private String gid;
+
+    @Expose
+    private String uid;
 
     @Expose
     private String gonggao_title;
@@ -38,12 +41,20 @@ public class GonggaoEntity extends IdEntity {
     private String gonggao_sendDate;
 
 
-    public Integer getGid() {
+    public String getGid() {
         return gid;
     }
 
-    public void setGid(Integer gid) {
+    public void setGid(String gid) {
         this.gid = gid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getGonggao_titile() {

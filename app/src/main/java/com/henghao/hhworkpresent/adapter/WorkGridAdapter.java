@@ -90,12 +90,13 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                         //邮箱
                         PackageManager packageManager = mActivityFragmentSupport.getPackageManager();
                         try {
-                            //启动网易邮箱
-                            intent =packageManager.getLaunchIntentForPackage("com.netease.mail");
+                            //启动网易邮箱    com.netease.mail
+                            //com.microsoft.office.outlook  outlook邮箱  pm list package
+                            intent =packageManager.getLaunchIntentForPackage("com.microsoft.office.outlook");
                             mActivityFragmentSupport.startActivity(intent);
                         } catch (Exception e) {
                             //如果系统找不到此应用，就提示下面的信息
-                            mActivityFragmentSupport.msg("你的系统没有网易邮箱，请安装！");
+                            mActivityFragmentSupport.msg("你的系统没有Outlook电子邮箱，请安装！");
                         }
                         break;
                     case 3:

@@ -40,6 +40,14 @@ public class QingjiaChuchaiFragment extends FragmentSupport {
 
     public void initWidget(){
         initWithBar();
+        mLeftImageView.setImageResource(R.drawable.item_point_left);
+        mLeftImageView.setVisibility(View.VISIBLE);
+        mLeftImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.finish();
+            }
+        });
     }
 
     public void initData(){
