@@ -79,8 +79,8 @@ public class DakaFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
-        //注册定位监听
-        LocationUtils.Location(this.mActivity);
+        //注册定位监听  必须用全局 context  不能用 this.mActivity
+        LocationUtils.Location(getActivity().getApplication().getApplicationContext());
         initWidget();
         initData();
         return this.mActivityFragmentView;
@@ -290,7 +290,7 @@ public class DakaFragment extends FragmentSupport {
     @Override
     public void onResume() {
         super.onResume();
-        LocationUtils.Location(this.mActivity);
+        LocationUtils.Location(getActivity().getApplication().getApplicationContext());
         shangbanDakaAdrress = LocationUtils.getAddress();
         if(("").equals(shangbanDakaAdrress)||("null").equals(shangbanDakaAdrress)){
             shangban_qiandao_location.setText("当前没有定位信息!");
@@ -304,6 +304,12 @@ public class DakaFragment extends FragmentSupport {
         }else{
             xiaban_qiandao_location.setText(xiabanDakaAdrress);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocationUtils.onDestory();
     }
 
     public void onClickShangbanDaka(){

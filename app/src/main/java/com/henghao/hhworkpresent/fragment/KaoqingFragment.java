@@ -762,6 +762,12 @@ public class KaoqingFragment extends FragmentSupport {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity.unregisterReceiver(myBroadcastReceiver);
+    }
+
     class MyBroadcastReceiver extends BroadcastReceiver {
 
         @Override

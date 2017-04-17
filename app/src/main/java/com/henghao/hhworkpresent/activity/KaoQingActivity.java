@@ -106,7 +106,7 @@ public class KaoQingActivity extends ActivityFragmentSupport {
         HCMenuEntity mMenuApp = new HCMenuEntity(2, "考勤",
                 R.drawable.selector_kaoqing, KaoqingFragment.class.getName(), -1);// 考勤
         this.menuLists.add(mMenuApp);
-        HCMenuEntity mMenuQingjia = new HCMenuEntity(2, "请假",
+        HCMenuEntity mMenuQingjia = new HCMenuEntity(3, "请假",
                 R.drawable.selector_qingjia, QingjiaChuchaiFragment.class.getName(), -1);// 请假、出差、补卡申请
         this.menuLists.add(mMenuQingjia);
 

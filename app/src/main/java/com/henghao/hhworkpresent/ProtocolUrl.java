@@ -33,7 +33,7 @@ public class ProtocolUrl {
         //    ROOT_URL = "http://safe.higdata.com/YL_BigData";
         } else {
             // 测试地址
-            ROOT_URL = "http://172.16.0.193:8080";
+            ROOT_URL = "http://172.16.0.199:8080";
         }
     }
 
@@ -85,6 +85,14 @@ public class ProtocolUrl {
     public static final String UPLOAD_ERROR_SERVER = "appError";
 
 
+    /************************* 消息 start **************************/
+
+    /**
+     * 查询消息列表（我要办理的消息列表）
+     */
+    public static final String APP_REQUEST_MSG_LIST = "/statisticsInfo/user/myMessages";
+
+    /************************ 消息 end **************************/
 
 
 
@@ -214,18 +222,18 @@ public class ProtocolUrl {
     /**
      * 下载用户头像Uri
      */
-    public static final String APP_LODAING_HEAD_IMAGE_URI = "/safetySuperviseApp/uploadImage/";
+    public static final String APP_LODAING_HEAD_IMAGE_URI = "/statisticsInfo/uploadImage/";
 
 
     /**
      * 下载用户头像接口
      */
-    public static final String APP_LODAING_HEAD_IMAGE = "/safetySuperviseApp/user/showUserImage";
+    public static final String APP_LODAING_HEAD_IMAGE = "/statisticsInfo/user/showUserImage";
 
     /**
      * 上传用户头像接口
      */
-    public static final String APP_REQUEST_HEAD_IMAGE = "/safetySuperviseApp/user/imageUpLoad";
+    public static final String APP_REQUEST_HEAD_IMAGE = "/statisticsInfo/user/imageUpLoad";
 
     /**
      * 个人详细资料查询

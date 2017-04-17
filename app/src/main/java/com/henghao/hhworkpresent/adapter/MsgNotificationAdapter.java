@@ -10,15 +10,17 @@ import android.widget.TextView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.entity.MsgEntity;
 import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
 
 /**
+ * 首页消息适配器
  * Created by bryanrady on 2017/3/2.
  */
 
-public class MsgNotificationAdapter extends ArrayAdapter<String> {
+public class MsgNotificationAdapter extends ArrayAdapter<MsgEntity> {
 
     private final LayoutInflater inflater;
 
@@ -26,7 +28,7 @@ public class MsgNotificationAdapter extends ArrayAdapter<String> {
 
     private final ActivityFragmentSupport mActivityFragmentSupport;
 
-    public MsgNotificationAdapter (ActivityFragmentSupport activityFragment, List<String> mList){
+    public MsgNotificationAdapter (ActivityFragmentSupport activityFragment, List<MsgEntity> mList){
         super(activityFragment, R.layout.item_msgnotification, mList);
         this.mActivityFragmentSupport = activityFragment;
         this.inflater = LayoutInflater.from(activityFragment);
@@ -44,13 +46,16 @@ public class MsgNotificationAdapter extends ArrayAdapter<String> {
             mHodlerView = new HodlerView();
             convertView = this.inflater.inflate(R.layout.item_msgnotification, null);
             mHodlerView.imageView = (ImageView) convertView.findViewById(R.id.msg_imageview);
-            mHodlerView.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
-            mHodlerView.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
-            mHodlerView.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
+            mHodlerView.tv_title = (TextView) convertView.findViewById(R.id.msg_tv_title);
+            mHodlerView.tv_time = (TextView) convertView.findViewById(R.id.msg_tv_time);
+            mHodlerView.tv_name = (TextView) convertView.findViewById(R.id.msg_tv_name);
             convertView.setTag(mHodlerView);
         } else {
             mHodlerView = (HodlerView) convertView.getTag();
         }
+        mHodlerView.tv_title.setText(getItem(position).getTitle());
+        mHodlerView.tv_time.setText(getItem(position).getSendtime());
+        mHodlerView.tv_name.setText(getItem(position).getSendusername());
         return convertView;
     }
 
@@ -62,6 +67,6 @@ public class MsgNotificationAdapter extends ArrayAdapter<String> {
 
         TextView tv_time;
 
-        TextView tv_content;
+        TextView tv_name;
     }
 }

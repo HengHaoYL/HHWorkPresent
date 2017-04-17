@@ -45,9 +45,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.henghao.hhworkpresent.ProtocolUrl.APP_LODAING_HEAD_IMAGE_URI;
 
@@ -122,6 +124,7 @@ public class MyFragment extends FragmentSupport {
         requestBodyBuilder.add("uid",getLoginUid());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;
+        Log.d("wangqingbin","request_url111=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -140,6 +143,7 @@ public class MyFragment extends FragmentSupport {
             @Override
             public void onResponse(Response response) throws IOException {
                 String result_str = response.body().string();
+                Log.d("wangqingbin","result_str=="+result_str);
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
                     int status = jsonObject.getInt("status");
@@ -178,7 +182,7 @@ public class MyFragment extends FragmentSupport {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
+            }
             }
         });
     }
@@ -310,17 +314,32 @@ public class MyFragment extends FragmentSupport {
      * 头像上传
      */
     public void httpRequestHeadImage(){
-        String headImageUrl = mSelectPath.get(0);
         OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.setConnectTimeout(300, TimeUnit.SECONDS);
+        okHttpClient.setWriteTimeout(300,TimeUnit.SECONDS);
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("uid", getLoginUid());//用户ID
         for (File file : mFileList) {
-            multipartBuilder.addFormDataPart("headImage", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
+            for(String filePath : mSelectPath) {
+                Bitmap bm = BitmapFactory.decodeFile(filePath);
+                File outputFile=new File(filePath);
+                try {
+                    if (!outputFile.exists()) {
+                        outputFile.getParentFile().mkdirs();
+                    }else{
+                        outputFile.delete();
+                    }
+                    FileOutputStream out = new FileOutputStream(outputFile);
+                    bm.compress(Bitmap.CompressFormat.JPEG, 50, out);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                multipartBuilder.addFormDataPart("headImage", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), outputFile));
+            }
         }
         RequestBody requestBody = multipartBuilder.build();
-        Log.d("wangqingbin","requesturl=="+ProtocolUrl.ROOT_URL + "/" + ProtocolUrl.APP_REQUEST_HEAD_IMAGE);
         Request request = builder.post(requestBody).url(ProtocolUrl.ROOT_URL + "/" + ProtocolUrl.APP_REQUEST_HEAD_IMAGE).build();
         mActivityFragmentView.viewLoading(View.VISIBLE);
         Call call = okHttpClient.newCall(request);
@@ -340,6 +359,7 @@ public class MyFragment extends FragmentSupport {
             @Override
             public void onResponse(Response response) throws IOException {
                 String content = response.body().string();
+                Log.d("wangqingbin","content=="+content);
                 try {
                     JSONObject jsonObject = new JSONObject(content);
                     final String msg = jsonObject.getString("msg");

@@ -9,7 +9,7 @@
     <!-- phone -->
     <dimen name="folder_cover_size">72dp</dimen>
     <dimen name="space_size">2dp</dimen>
-    <dimen name="image_size">120dp</dimen>
+    <dimen name="image_size">100dp</dimen>
     <!-- drop_down_list -->
     <dimen name="drop_down_list_header_padding_top">12dp</dimen>
     <dimen name="drop_down_list_header_padding_bottom">15dp</dimen>

@@ -574,12 +574,12 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         });
     }
 
-    /*  @Override
+    @Override
     public void onResume() {
         this.locationClient.start(); // 开始定位
         mMapView.onResume();
         super.onResume();
-    }*/
+    }
 
     // 三个状态实现地图生命周期管理
     @Override

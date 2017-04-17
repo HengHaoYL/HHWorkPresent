@@ -9,6 +9,8 @@ import com.baidu.location.LocationClientOption;
 
 public class LocationUtils {
 
+	private static LocationClient client;
+
 	private static String city;
 
 	private static String address;
@@ -26,7 +28,7 @@ public class LocationUtils {
 	 * 定位
 	 */
 	public static void Location(Context mContext) {
-		LocationClient client = new LocationClient(mContext);
+		client = new LocationClient(mContext);
 		// 设置定位的一些参数
 		LocationClientOption option = new LocationClientOption();
 		option.setIsNeedAddress(true);
@@ -71,6 +73,10 @@ public class LocationUtils {
 
 	public static String getAddress() {
 		return address;
+	}
+
+	public static void onDestory(){
+		client.stop();
 	}
 
 }
