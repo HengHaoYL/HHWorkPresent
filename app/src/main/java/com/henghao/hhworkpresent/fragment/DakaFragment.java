@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +77,7 @@ public class DakaFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         //注册定位监听  必须用全局 context  不能用 this.mActivity
         LocationUtils.Location(getActivity().getApplication().getApplicationContext());
@@ -103,6 +103,15 @@ public class DakaFragment extends FragmentSupport {
             @Override
             public void onClick(View v) {
                 toMainActivity();
+            }
+        });
+
+        initLoadingError();
+        this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                httpLoadingHeadImage();
+                httpRequestKaoqingofCurrentDay();
             }
         });
     }
@@ -142,7 +151,7 @@ public class DakaFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -157,6 +166,7 @@ public class DakaFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
+                                mActivityFragmentView.viewLoadingError(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                                 mActivity.msg("下载错误");
                             }
@@ -497,8 +507,9 @@ public class DakaFragment extends FragmentSupport {
             public void onFailure(Request request, IOException e) {
                 mHandler.post(new Runnable() {
                     @Override
-                    public void run() {mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -515,6 +526,7 @@ public class DakaFragment extends FragmentSupport {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
+                                mActivityFragmentView.viewLoadingError(View.VISIBLE);
                                 mActivity.msg(msg);
                             }
                         });
@@ -522,8 +534,6 @@ public class DakaFragment extends FragmentSupport {
                     final JSONObject dataObject = jsonObject.getJSONObject("data");
                     final String morningCount = dataObject.optString("morningCount");
                     final String afterCount = dataObject.optString("afterCount");
-                    Log.d("wangqingbin","morningCount=="+morningCount);
-                    Log.d("wangqingbin","afterCount=="+afterCount);
 
                     //代表上午还没有签到
                     if("0".equals(morningCount)){

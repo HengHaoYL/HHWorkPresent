@@ -11,7 +11,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.benefit.buy.library.views.xlistview.XListView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
@@ -82,6 +81,7 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         showname_layout.setVisibility(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         setContentView(this.mActivityFragmentView);
         initWidget();
         initData();
@@ -93,6 +93,15 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftTextView.setText("通讯录");
         mLeftTextView.setVisibility(View.VISIBLE);
+
+        initLoadingError();
+        tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivityFragmentView.viewLoadingError(View.GONE);
+                httpRequestMyTongxunlu();
+            }
+        });
     }
 
     @Override
@@ -230,7 +239,7 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivityFragmentView.viewLoadingError(View.GONE);
                     }
                 });
             }
@@ -265,6 +274,9 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
                         work_DESC = dataObject.getString("work_DESC");
                         dept_NAME = dataObject.getString("dept_NAME");
 
+                        if("null".equals(position)||"".equals(position)){
+                            position = "";
+                        }
                         contactSortModel.setName(name);
                         contactSortModel.setEmp_NUM(emp_NUM);
                         contactSortModel.setBirth_DATE(birth_DATE);

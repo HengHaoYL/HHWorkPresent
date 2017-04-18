@@ -4,11 +4,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.benefit.buy.library.views.xlistview.XListView;
 import com.henghao.hhworkpresent.FragmentSupport;
@@ -56,6 +54,7 @@ public class MsgFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         initWidget();
         initData();
@@ -64,6 +63,15 @@ public class MsgFragment extends FragmentSupport {
 
     public void initWidget(){
         initwithContent();
+        //显示错误页面，点击重试
+        initLoadingError();
+        this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivityFragmentView.viewLoadingError(View.GONE);
+                httpRequestMsgList();
+            }
+        });
     }
 
     private void initwithContent() {
@@ -115,7 +123,7 @@ public class MsgFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }

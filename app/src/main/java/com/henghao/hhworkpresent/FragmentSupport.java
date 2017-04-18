@@ -28,7 +28,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import org.json.JSONException;
 
 
-
 /**
  * fragment 父类〈一句话功能简述〉 〈功能详细描述〉
  * @author qinyulun
@@ -70,6 +69,8 @@ public class FragmentSupport extends Fragment implements BusinessResponse {
 	/** 导航栏右边图标 **/
 	protected ImageView mRightImageView;
 
+	protected TextView tv_viewLoadingError;
+
 	public int fragmentId;
 
 	@Override
@@ -110,6 +111,15 @@ public class FragmentSupport extends Fragment implements BusinessResponse {
 		this.mCenterLinearLayout = (LinearLayout) this.mActivityFragmentView.findViewById(R.id.bar_center);
 		this.mRightLinearLayout = (LinearLayout) this.mActivityFragmentView.findViewById(R.id.bar_right);
 		return this.mActivityFragmentView;
+	}
+
+	/**
+	 * 网络加载错误提示文本
+	 * @return
+     */
+	public TextView initLoadingError(){
+		this.tv_viewLoadingError = (TextView) this.mActivityFragmentView.findViewById(R.id.textViewMessage);
+		return tv_viewLoadingError;
 	}
 
 	/**

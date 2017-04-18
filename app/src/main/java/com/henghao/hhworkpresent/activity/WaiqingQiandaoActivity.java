@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -146,6 +145,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         /**
@@ -172,6 +172,15 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
 
         imageTextButton.setItemTextResource("选择");
         imageTextButton.setItemImageResource(R.drawable.item_choose);
+
+        initLoadingError();
+        tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivityFragmentView.viewLoadingError(View.GONE);
+                httpRequestKaoqingofCurrentDay();
+            }
+        });
 
         mMapView = (MapView) findViewById(R.id.bmapview);
         mBaiduMap = mMapView.getMap();
@@ -218,8 +227,9 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
             public void onFailure(Request request, IOException e) {
                 mHandler.post(new Runnable() {
                     @Override
-                    public void run() {mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -227,7 +237,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
             @Override
             public void onResponse(Response response) throws IOException {
                 String result_str = response.body().string();
-                Log.d("wangqingbin","result_str=="+result_str);
                 try {
                     final JSONObject jsonObject = new JSONObject(result_str);
                     int status = jsonObject.getInt("status");
@@ -244,8 +253,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                     final JSONObject dataObject = jsonObject.getJSONObject("data");
                     final String morningCount = dataObject.optString("morningCount");
                     final String afterCount = dataObject.optString("afterCount");
-                    Log.d("wangqingbin","morningCount=="+morningCount);
-                    Log.d("wangqingbin","afterCount=="+afterCount);
 
                     mHandler.post(new Runnable() {
                         @Override

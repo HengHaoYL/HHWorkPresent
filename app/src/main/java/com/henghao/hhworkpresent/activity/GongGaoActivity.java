@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -226,17 +225,14 @@ public class GongGaoActivity extends ActivityFragmentSupport {
     @Override
     public void OnMessageResponse(String url, Object jo, AjaxStatus status) throws JSONException {
         super.OnMessageResponse(url, jo, status);
-        Log.d("wangqingbin","jo=="+jo);
         if (url.endsWith(ProtocolUrl.APP_QUERY_UNREAD_GONGGAO)) {
             if (jo instanceof BaseEntity) {
           //      BaseEntity mData = (BaseEntity) jo;
                 return;
             }
             List<GonggaoEntity> homedata = (List<GonggaoEntity>) jo;
-            Log.d("wangqingbin","homedate=="+homedata);
             unReadData.clear();
             unReadData.addAll(homedata);
-            Log.d("wangqingbin","unReadData=="+unReadData);
             mUnReadAdaper.notifyDataSetChanged();
         } else if(url.endsWith(ProtocolUrl.APP_QUERY_READ_GONGGAO)){
             if (jo instanceof BaseEntity) {

@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
@@ -124,6 +123,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         setContentView(this.mActivityFragmentView);
@@ -207,6 +207,16 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
             }
         });
 
+        initLoadingError();
+        tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivityFragmentView.viewLoadingError(View.GONE);
+                httpLoadingHeadImage();
+                httpRequestKaoqingofDate();
+            }
+        });
+
     }
 
     @Override
@@ -251,7 +261,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -267,6 +277,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
+                                mActivityFragmentView.viewLoadingError(View.VISIBLE);
                                 msg("下载错误");
                             }
                         });
@@ -434,7 +445,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }

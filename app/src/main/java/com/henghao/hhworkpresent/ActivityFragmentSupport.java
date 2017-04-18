@@ -108,6 +108,8 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
     /** 导航栏右边提示图标 **/
     protected ImageView mRightImageViewTips;
 
+    protected TextView tv_viewLoadingError;
+
     @SuppressLint("InflateParams")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +134,15 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
         // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
         // setTranslucentStatus(true);
         // }
+    }
+
+    /**
+     * 网络加载错误提示文本
+     * @return
+     */
+    public TextView initLoadingError(){
+        this.tv_viewLoadingError = (TextView) this.mActivityFragmentView.findViewById(R.id.textViewMessage);
+        return tv_viewLoadingError;
     }
 
     /**

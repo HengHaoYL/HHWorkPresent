@@ -58,6 +58,8 @@ public class ActivityFragmentView extends LinearLayout {
 
 	private View viewLoading;
 
+	private View viewLoadingError;
+
 	public ActivityFragmentView(Context context) {
 		this(context, null);
 	}
@@ -127,6 +129,11 @@ public class ActivityFragmentView extends LinearLayout {
 		this.viewLoading = inflate(context, R.layout.common_view_stub_loading, null);
 		mFrameLayout.addView(this.viewLoading, 2);
 		this.viewLoading.setVisibility(View.GONE);
+
+		this.viewLoadingError = inflate(context, R.layout.common_view_errorpage,null);
+		mFrameLayout.addView(this.viewLoadingError, 3);
+		this.viewLoadingError.setVisibility(View.GONE);
+
 	}
 
 	public void setMainBackgroundColor(int color) {
@@ -173,6 +180,10 @@ public class ActivityFragmentView extends LinearLayout {
 
 	public void viewLoading(int visibility) {
 		this.viewLoading.setVisibility(visibility);
+	}
+
+	public void viewLoadingError(int visibility){
+		this.viewLoadingError.setVisibility(visibility);
 	}
 
 	public View getViewMain() {

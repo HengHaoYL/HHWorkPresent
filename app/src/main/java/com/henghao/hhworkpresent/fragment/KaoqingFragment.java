@@ -143,6 +143,7 @@ public class KaoqingFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         initWidget();
         initData();
@@ -165,6 +166,15 @@ public class KaoqingFragment extends FragmentSupport {
             @Override
             public void onClick(View v) {
                 mActivity.finish();
+            }
+        });
+
+        initLoadingError();
+        this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                httpLoadingHeadImage();
+                initRequest();
             }
         });
 
@@ -191,7 +201,7 @@ public class KaoqingFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -207,6 +217,7 @@ public class KaoqingFragment extends FragmentSupport {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
+                                mActivityFragmentView.viewLoadingError(View.VISIBLE);
                                 mActivity.msg("下载错误");
                             }
                         });

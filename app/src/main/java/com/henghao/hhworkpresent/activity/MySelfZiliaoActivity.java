@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
@@ -85,6 +84,7 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         setContentView(this.mActivityFragmentView);
@@ -98,6 +98,15 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
         initWithBar();
         initWithCenterBar();
         mCenterTextView.setText("详细资料");
+
+        initLoadingError();
+        tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivityFragmentView.viewLoadingError(View.GONE);
+                httpRequestMySelfZiliao();
+            }
+        });
     }
 
     @Override
@@ -141,7 +150,7 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -179,6 +188,9 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
                                 sex = "男";
                             }else if("1".equals(sex)){
                                 sex = "女";
+                            }
+                            if("null".equals(position)||"".equals(position)){
+                                position = "";
                             }
                             tv_name.setText(name);
                             tv_sex.setText(sex);

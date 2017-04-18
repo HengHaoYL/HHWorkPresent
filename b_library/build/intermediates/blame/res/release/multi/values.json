@@ -1896,7 +1896,14 @@
                     "endOffset": 9657
                 },
                 "from": {
-                    "file": "D:\\workspace\\ParkLand\\HHWorkPresent\\b_library\\src\\main\\res\\values\\colors.xml"
+                    "file": "D:\\workspace\\ParkLand\\HHWorkPresent\\b_library\\src\\main\\res\\values\\colors.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 527,
+                        "endColumn": 47,
+                        "endOffset": 570
+                    }
                 }
             },
             {
@@ -2988,14 +2995,7 @@
                     "endOffset": 37600
                 },
                 "from": {
-                    "file": "D:\\workspace\\ParkLand\\HHWorkPresent\\b_library\\src\\main\\res\\values\\dimens.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 4,
-                        "startOffset": 471,
-                        "endColumn": 42,
-                        "endOffset": 509
-                    }
+                    "file": "D:\\workspace\\ParkLand\\HHWorkPresent\\b_library\\src\\main\\res\\values\\dimens.xml"
                 }
             },
             {

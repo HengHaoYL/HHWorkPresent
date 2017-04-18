@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
 import com.benefit.buy.library.utils.tools.ToolsKit;
@@ -102,6 +101,7 @@ public class MyFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         initWidget();
         initData();
@@ -110,6 +110,15 @@ public class MyFragment extends FragmentSupport {
 
     public void initWidget(){
         initwithContent();
+        //显示错误页面，点击重试
+        initLoadingError();
+        this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivityFragmentView.viewLoadingError(View.GONE);
+                httpLoadingHeadImage();
+            }
+        });
     }
 
     public void initData(){
@@ -124,7 +133,6 @@ public class MyFragment extends FragmentSupport {
         requestBodyBuilder.add("uid",getLoginUid());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;
-        Log.d("wangqingbin","request_url111=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -135,7 +143,7 @@ public class MyFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -143,7 +151,6 @@ public class MyFragment extends FragmentSupport {
             @Override
             public void onResponse(Response response) throws IOException {
                 String result_str = response.body().string();
-                Log.d("wangqingbin","result_str=="+result_str);
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
                     int status = jsonObject.getInt("status");
