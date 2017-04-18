@@ -461,15 +461,15 @@
                     android:text="迟到记录"/>
             </LinearLayout>
 
-                <com.benefit.buy.library.views.xlistview.XListView
-                    android:id="@+id/listview_kaoqing_chidao"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:cacheColorHint="@color/transparent"
-                    android:divider="@color/transparent"
-                    android:fadingEdge="none"
-                    android:listSelector="@drawable/list_selector_transition"
-                    android:splitMotionEvents="false" />
+            <com.benefit.buy.library.views.xlistview.XListView
+                android:id="@+id/listview_kaoqing_chidao"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="@color/transparent"
+                android:divider="@color/transparent"
+                android:fadingEdge="none"
+                android:listSelector="@drawable/list_selector_transition"
+                android:splitMotionEvents="false" />
         </LinearLayout>
 
 
