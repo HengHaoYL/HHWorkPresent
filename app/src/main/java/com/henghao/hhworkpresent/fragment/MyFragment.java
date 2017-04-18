@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
@@ -83,6 +84,9 @@ public class MyFragment extends FragmentSupport {
     @ViewInject(R.id.tv_exitlogin)
     private TextView tv_exitlogin;
 
+    @ViewInject(R.id.my_layout)
+    private RelativeLayout my_layout;
+
     private ArrayList<String> mSelectPath;
 
     private static final int REQUEST_IMAGE = 0x00;
@@ -143,6 +147,7 @@ public class MyFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
+                        my_layout.setVisibility(View.GONE);
                         mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
@@ -168,6 +173,8 @@ public class MyFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
+                                my_layout.setVisibility(View.VISIBLE);
+
                                 // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
                                 options = new DisplayImageOptions.Builder()
                                         .showImageOnLoading(R.drawable.icon_logo) // 设置图片下载期间显示的图片

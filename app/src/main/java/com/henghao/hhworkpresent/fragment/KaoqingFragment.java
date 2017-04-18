@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -127,6 +128,9 @@ public class KaoqingFragment extends FragmentSupport {
     @ViewInject(R.id.tv_lateTimes)
     private TextView tv_lateTimes;
 
+    @ViewInject(R.id.kaoqing_layout)
+    private ScrollView kaoqing_layout;
+
     private MyBroadcastReceiver myBroadcastReceiver;
 
     private ChidaoListAdapter mChidaoAdapter;
@@ -173,6 +177,7 @@ public class KaoqingFragment extends FragmentSupport {
         this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mActivityFragmentView.viewLoadingError(View.GONE);
                 httpLoadingHeadImage();
                 initRequest();
             }
@@ -201,6 +206,7 @@ public class KaoqingFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
+                        kaoqing_layout.setVisibility(View.GONE);
                         mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
@@ -227,6 +233,8 @@ public class KaoqingFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
+                                kaoqing_layout.setVisibility(View.VISIBLE);
+
                                 // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
                                 options = new DisplayImageOptions.Builder()
                                         .showImageOnLoading(R.drawable.icon_logo) // 设置图片下载期间显示的图片

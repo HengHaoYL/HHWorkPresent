@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,6 +53,9 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.showname_layout)
     private RelativeLayout showname_layout;
 
+    @ViewInject(R.id.tongxunlu_layout)
+    private LinearLayout tongxunlu_layout;
+
     private XListView sortListView;
     private SideBar sideBar;
     private TextView dialog, mTvTitle;
@@ -78,10 +82,10 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         showname_layout.setVisibility(View.GONE);
-        this.mActivityFragmentView.viewLoadingError(View.GONE);
         setContentView(this.mActivityFragmentView);
         initWidget();
         initData();
@@ -239,7 +243,8 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.GONE);
+                        tongxunlu_layout.setVisibility(View.GONE);
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -303,6 +308,7 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
+                            tongxunlu_layout.setVisibility(View.VISIBLE);
                             Collections.sort(indexString);
                             sideBar.setIndexText(indexString);
                             Collections.sort(SourceDateList, new PinyinComparator());

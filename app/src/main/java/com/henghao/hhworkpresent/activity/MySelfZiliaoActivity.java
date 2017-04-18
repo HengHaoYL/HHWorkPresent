@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
@@ -62,6 +63,9 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.tongxunlu_tv_work_DESC)
     private TextView tv_work_DESC;
+
+    @ViewInject(R.id.my_ziliao_layout)
+    private ScrollView my_ziliao_layout;
 
     private String name;
     private String emp_NUM;
@@ -150,6 +154,7 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
+                        my_ziliao_layout.setVisibility(View.GONE);
                         mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
@@ -165,6 +170,7 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
+                                my_ziliao_layout.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });

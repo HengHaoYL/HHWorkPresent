@@ -72,6 +72,9 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
     // 定位相关声明
     public LocationClient locationClient = null;
 
+    @ViewInject(R.id.waiqing_layout)
+    private RelativeLayout waiqing_layout;
+
     /**
      * 签到的时间（年月日）
      */
@@ -229,6 +232,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
+                        waiqing_layout.setVisibility(View.GONE);
                         mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
@@ -258,6 +262,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                         @Override
                         public void run() {
                             mActivityFragmentView.viewLoading(View.GONE);
+                            waiqing_layout.setVisibility(View.VISIBLE);
                             //代表上午还没有签到
                             if("0".equals(morningCount)){
                                 Date date = new Date();
@@ -536,7 +541,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
               //          mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+              //          Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

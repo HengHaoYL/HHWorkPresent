@@ -105,6 +105,9 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
     @ViewInject(R.id.daka_qiandao_layout)
     private LinearLayout daka_qiandao_layout;
 
+    @ViewInject(R.id.calendar_layout)
+    private LinearLayout calendar_layout;
+
     private int mCurrentIndex = 498;
     private MyCalendarView[] mShowViews;
     private CalendarViewAdapter<MyCalendarView> adapter;
@@ -261,6 +264,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
+                        calendar_layout.setVisibility(View.GONE);
                         mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
@@ -287,6 +291,8 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
+                                calendar_layout.setVisibility(View.VISIBLE);
+
                                 // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
                                 options = new DisplayImageOptions.Builder()
                                         .showImageOnLoading(R.drawable.icon_logo) // 设置图片下载期间显示的图片
@@ -445,6 +451,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
+                        calendar_layout.setVisibility(View.GONE);
                         mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });

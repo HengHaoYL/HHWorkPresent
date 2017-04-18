@@ -70,6 +70,9 @@ public class DakaFragment extends FragmentSupport {
     @ViewInject(R.id.daka_name)
     private TextView tv_loginName;
 
+    @ViewInject(R.id.daka_layout)
+    private RelativeLayout daka_layout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -110,6 +113,7 @@ public class DakaFragment extends FragmentSupport {
         this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mActivityFragmentView.viewLoadingError(View.GONE);
                 httpLoadingHeadImage();
                 httpRequestKaoqingofCurrentDay();
             }
@@ -151,6 +155,7 @@ public class DakaFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
+                        daka_layout.setVisibility(View.GONE);
                         mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
@@ -167,6 +172,7 @@ public class DakaFragment extends FragmentSupport {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoadingError(View.VISIBLE);
+                                daka_layout.setVisibility(View.GONE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                                 mActivity.msg("下载错误");
                             }
@@ -177,6 +183,8 @@ public class DakaFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
+                                daka_layout.setVisibility(View.VISIBLE);
+
                                 // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
                                 options = new DisplayImageOptions.Builder()
                                         .showImageOnLoading(R.drawable.icon_logo) // 设置图片下载期间显示的图片
@@ -509,7 +517,6 @@ public class DakaFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -526,7 +533,6 @@ public class DakaFragment extends FragmentSupport {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
-                                mActivityFragmentView.viewLoadingError(View.VISIBLE);
                                 mActivity.msg(msg);
                             }
                         });
