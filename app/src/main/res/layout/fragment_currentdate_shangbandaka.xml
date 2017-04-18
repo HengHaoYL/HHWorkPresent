@@ -160,9 +160,9 @@
     <RelativeLayout
         android:id="@+id/fragment_xiaban_daka_layout"
         android:layout_below="@id/daka_linear2"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:padding="10dp"
         android:orientation="vertical" >
 
@@ -225,11 +225,10 @@
                 android:src="@drawable/item_xiaban"/>
 
             <TextView
-                android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="下班时间18:00"/>
+                android:text="下班时间   18:00"/>
         </LinearLayout>
 
         <RelativeLayout
