@@ -317,14 +317,13 @@ public class KaoqingFragment extends FragmentSupport {
             return;
         }
         int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
+        for (int i = 0; i < (listAdapter.getCount()-1); i++) {
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        //这个200是后面自己加上的  先实现 功能
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) - 200;
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
 
