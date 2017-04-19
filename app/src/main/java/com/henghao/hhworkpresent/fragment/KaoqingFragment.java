@@ -283,6 +283,9 @@ public class KaoqingFragment extends FragmentSupport {
         mQuekaAdapter = new QuekaListAdapter(mActivity, mQuekaData);
         mKuanggongAdapter = new KuanggongListAdapter(mActivity,mKuanggongData);
         setListViewHeightBasedOnChildren(chidaoListview);
+        setListViewHeightBasedOnChildren(zaotuiListview);
+        setListViewHeightBasedOnChildren(quekaListview);
+        setListViewHeightBasedOnChildren(kuanggongListview);
         chidaoListview.setAdapter(mChidaoAdapter);
         zaotuiListview.setAdapter(mZaotuiAdapter);
         quekaListview.setAdapter(mQuekaAdapter);
@@ -304,6 +307,10 @@ public class KaoqingFragment extends FragmentSupport {
         httpRequestKuanggong();
     }
 
+    /**
+     * 根据Item数设定ListView高度
+     * @param listView
+     */
     public void setListViewHeightBasedOnChildren(XListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
@@ -316,7 +323,8 @@ public class KaoqingFragment extends FragmentSupport {
             totalHeight += listItem.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        //这个200是后面自己加上的  先实现 功能
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) - 200;
         listView.setLayoutParams(params);
     }
 
@@ -546,6 +554,7 @@ public class KaoqingFragment extends FragmentSupport {
                         @Override
                         public void run() {
                             mZaotuiAdapter.notifyDataSetChanged();
+                            setListViewHeightBasedOnChildren(zaotuiListview);
                             zaotuiListview.setAdapter(mZaotuiAdapter);
                             mActivityFragmentView.viewLoading(View.GONE);
                         }
@@ -618,6 +627,7 @@ public class KaoqingFragment extends FragmentSupport {
                         @Override
                         public void run() {
                             mQuekaAdapter.notifyDataSetChanged();
+                            setListViewHeightBasedOnChildren(quekaListview);
                             quekaListview.setAdapter(mQuekaAdapter);
                             mActivityFragmentView.viewLoading(View.GONE);
                         }
@@ -682,6 +692,7 @@ public class KaoqingFragment extends FragmentSupport {
                         @Override
                         public void run() {
                             mKuanggongAdapter.notifyDataSetChanged();
+                            setListViewHeightBasedOnChildren(kuanggongListview);
                             kuanggongListview.setAdapter(mKuanggongAdapter);
                             mActivityFragmentView.viewLoading(View.GONE);
                         }

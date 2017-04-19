@@ -445,7 +445,7 @@
             android:id="@+id/kaoqing_linear5"
             android:layout_below="@id/kaoqing_linear4"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -460,16 +460,16 @@
                     android:textSize="12dp"
                     android:text="迟到记录"/>
             </LinearLayout>
-
+0
             <com.benefit.buy.library.views.xlistview.XListView
                 android:id="@+id/listview_kaoqing_chidao"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:cacheColorHint="@color/transparent"
                 android:divider="@color/transparent"
                 android:fadingEdge="none"
-                android:listSelector="@drawable/list_selector_transition"
-                android:splitMotionEvents="false" />
+                android:listSelector="@drawable/list_selector_transition">
+            </com.benefit.buy.library.views.xlistview.XListView>
         </LinearLayout>
 
 
@@ -496,7 +496,7 @@
                 <com.benefit.buy.library.views.xlistview.XListView
                     android:id="@+id/listview_kaoqing_zaotui"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:cacheColorHint="@color/transparent"
                     android:divider="@color/transparent"
                     android:fadingEdge="none"
@@ -528,7 +528,7 @@
                 <com.benefit.buy.library.views.xlistview.XListView
                     android:id="@+id/listview_kaoqing_queka"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:cacheColorHint="@color/transparent"
                     android:divider="@color/transparent"
                     android:fadingEdge="none"
@@ -560,7 +560,7 @@
                 <com.benefit.buy.library.views.xlistview.XListView
                     android:id="@+id/listview_kaoqing_kuanggong"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:cacheColorHint="@color/transparent"
                     android:divider="@color/transparent"
                     android:fadingEdge="none"
