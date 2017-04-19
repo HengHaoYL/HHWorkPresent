@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +72,12 @@ public class DakaFragment extends FragmentSupport {
 
     @ViewInject(R.id.daka_layout)
     private RelativeLayout daka_layout;
+
+    /**
+     * 没有日程显示的布局
+     */
+    @ViewInject(R.id.fragment_null_daka_layout)
+    private RelativeLayout null_daka_layout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -405,6 +410,9 @@ public class DakaFragment extends FragmentSupport {
         }
     }
 
+    /**
+     * 日期选择控件 点击
+     */
     public void onClickDatePicker(){
         final DateChooseDialog.Builder builder = new DateChooseDialog.Builder(this.mActivity);
         builder.setTitle("选择日期");
@@ -421,15 +429,19 @@ public class DakaFragment extends FragmentSupport {
             public void onDateSetting(String textDate) {
                 datepickerTV.setText(textDate);
                 int type = equalsDate(datepickerTV.getText().toString());
-                //大于当前日期：1，等于当前日期：0，小于当前日期：-1
+                //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
                 if(type==0){
                     httpRequestKaoqingofCurrentDay();
                 } else if(type==1){
-
+                    pastdate_layout.setVisibility(View.GONE);
+                    shangban_layout.setVisibility(View.GONE);
+                    xiaban_layout.setVisibility(View.GONE);
+                    null_daka_layout.setVisibility(View.VISIBLE);
                 } else if(type==-1){
                     pastdate_layout.setVisibility(View.VISIBLE);
                     shangban_layout.setVisibility(View.GONE);
                     xiaban_layout.setVisibility(View.GONE);
+                    null_daka_layout.setVisibility(View.GONE);
                     httpRequestKaoqingofPastDate();
                 }
             }
@@ -508,29 +520,40 @@ public class DakaFragment extends FragmentSupport {
                     String data = jsonObject.getString("data");
                     if (("null").equals(data)) {
                         Date date = new Date();
-                        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                        final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                         String currentTime = format.format(date);
                         //如果没超过12.00 表示上午
                         if (equalsString12(currentTime)) {
-                            pastdate_layout.setVisibility(View.GONE);
-                            shangban_layout.setVisibility(View.VISIBLE);
-                            xiaban_layout.setVisibility(View.GONE);
-                            Date date1 = new Date();
-                            String currentTime1 = format.format(date1);
-                            shangban_qiandao_date.setText(currentTime1);
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    pastdate_layout.setVisibility(View.GONE);
+                                    shangban_layout.setVisibility(View.VISIBLE);
+                                    xiaban_layout.setVisibility(View.GONE);
+                                    Date date1 = new Date();
+                                    String currentTime1 = format.format(date1);
+                                    shangban_qiandao_date.setText(currentTime1);
+                                }
+                            });
                         } else {
-                            //下午
-                            pastdate_layout.setVisibility(View.GONE);
-                            shangban_layout.setVisibility(View.GONE);
-                            xiaban_layout.setVisibility(View.VISIBLE);
-                            httpRequestKaoqingofCurrentDateShangwu();
-                            Date date1 = new Date();
-                            String currentTime1 = format.format(date1);
-                            xiaban_qiandao_date.setText(currentTime1);
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //下午
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    pastdate_layout.setVisibility(View.GONE);
+                                    shangban_layout.setVisibility(View.GONE);
+                                    xiaban_layout.setVisibility(View.VISIBLE);
+                                    httpRequestKaoqingofCurrentDateShangwu();
+                                    Date date1 = new Date();
+                                    String currentTime1 = format.format(date1);
+                                    xiaban_qiandao_date.setText(currentTime1);
+                                }
+                            });
                         }
                     } else {
                         JSONObject dataObject = jsonObject.getJSONObject("data");
-                        Log.d("wangqingbin", "dataObject==" + dataObject);
                         String morningCount = dataObject.optString("morningCount");
                         String afterCount = dataObject.optString("afterCount");
 
@@ -539,6 +562,7 @@ public class DakaFragment extends FragmentSupport {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
                                     pastdate_layout.setVisibility(View.GONE);
                                     shangban_layout.setVisibility(View.VISIBLE);
                                     xiaban_layout.setVisibility(View.GONE);
@@ -552,6 +576,7 @@ public class DakaFragment extends FragmentSupport {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
                                     //如果不是0 则显示下午签到布局
                                     pastdate_layout.setVisibility(View.GONE);
                                     shangban_layout.setVisibility(View.GONE);
@@ -570,6 +595,7 @@ public class DakaFragment extends FragmentSupport {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
                                     pastdate_layout.setVisibility(View.GONE);
                                     shangban_layout.setVisibility(View.GONE);
                                     xiaban_layout.setVisibility(View.VISIBLE);
@@ -584,6 +610,7 @@ public class DakaFragment extends FragmentSupport {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
                                     pastdate_layout.setVisibility(View.VISIBLE);
                                     shangban_layout.setVisibility(View.GONE);
                                     xiaban_layout.setVisibility(View.GONE);
@@ -599,8 +626,6 @@ public class DakaFragment extends FragmentSupport {
             }
         });
     }
-
-
 
     private Handler mHandler = new Handler(){};
 
@@ -752,74 +777,90 @@ public class DakaFragment extends FragmentSupport {
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
-                    int status = jsonObject.getInt("status");
-                    if (status == 0) {
+                    //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
+                    String data = jsonObject.getString("data");
+                    if (("null").equals(data)) {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
+                                pastdate_layout.setVisibility(View.GONE);
+                                shangban_layout.setVisibility(View.GONE);
+                                xiaban_layout.setVisibility(View.GONE);
+                                null_daka_layout.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
-                    }
-                    final JSONObject dataObject = jsonObject.getJSONObject("data");
-                    final String clockInTime = dataObject.optString("clockInTime");
-                    final String clockOutTime = dataObject.optString("clockOutTime");
-                    //这时的clockInTime是一个null字符串 ，不是null
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            pastdate_shangbantime.setText(clockInTime);
-                            pastdate_xiabantime.setText(clockOutTime);
-                        }
-                    });
-
-                    //缺卡情况
-                    if(("null").equals(clockInTime)){
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                pastdate_shangbanstate.setText("缺卡");
-                                pastdate_shangbantime.setText("无");
-                     //           pastdate_shangbanbuka.setVisibility(View.VISIBLE);
-                                mActivityFragmentView.viewLoading(View.GONE);
-                            }
-                        });
-                    }
-
-                    if(("null").equals(clockOutTime)){
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                pastdate_xiabanstate.setText("缺卡");
-                                pastdate_xiabantime.setText("无");
-                      //          pastdate_xiabanbuka.setVisibility(View.VISIBLE);
-                                mActivityFragmentView.viewLoading(View.GONE);
-                            }
-                        });
-                    }
-
-                    //上班迟到情况
-                    if(!("null").equals(clockInTime)){
-                        if(equalsStringShangban(clockInTime)){
+                    }else{
+                        int status = jsonObject.getInt("status");
+                        if (status == 0) {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pastdate_shangbanstate.setText("迟到");
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    null_daka_layout.setVisibility(View.GONE);
                                 }
                             });
-
                         }
-                    }
+                        final JSONObject dataObject = jsonObject.getJSONObject("data");
+                        final String clockInTime = dataObject.optString("clockInTime");
+                        final String clockOutTime = dataObject.optString("clockOutTime");
+                        //这时的clockInTime是一个null字符串 ，不是null
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                pastdate_shangbantime.setText(clockInTime);
+                                pastdate_xiabantime.setText(clockOutTime);
+                            }
+                        });
 
-                    //下班早退情况
-                    if(!("null").equals(clockOutTime)){
-                        if(equalsStringXiaban(clockOutTime)){
+                        //缺卡情况
+                        if(("null").equals(clockInTime)){
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pastdate_xiabanstate.setText("早退");
+                                    pastdate_shangbanstate.setText("缺卡");
+                                    pastdate_shangbantime.setText("无");
+                                    //           pastdate_shangbanbuka.setVisibility(View.VISIBLE);
+                                    mActivityFragmentView.viewLoading(View.GONE);
                                 }
                             });
+                        }
+
+                        if(("null").equals(clockOutTime)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pastdate_xiabanstate.setText("缺卡");
+                                    pastdate_xiabantime.setText("无");
+                                    //          pastdate_xiabanbuka.setVisibility(View.VISIBLE);
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                }
+                            });
+                        }
+
+                        //上班迟到情况
+                        if(!("null").equals(clockInTime)){
+                            if(equalsStringShangban(clockInTime)){
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        pastdate_shangbanstate.setText("迟到");
+                                    }
+                                });
+
+                            }
+                        }
+
+                        //下班早退情况
+                        if(!("null").equals(clockOutTime)){
+                            if(equalsStringXiaban(clockOutTime)){
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        pastdate_xiabanstate.setText("早退");
+                                    }
+                                });
+                            }
                         }
                     }
 

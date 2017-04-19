@@ -243,52 +243,85 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                 String result_str = response.body().string();
                 try {
                     final JSONObject jsonObject = new JSONObject(result_str);
-                    int status = jsonObject.getInt("status");
-                    final String msg = jsonObject.getString("msg");
-                    if (status == 1) {
+                    //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
+                    String data = jsonObject.getString("data");
+                    if (("null").equals(data)) {
+                        Date date = new Date();
+                        final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                        String currentTime = format.format(date);
+                        //如果没超过12.00 表示上午
+                        if (equalsString12(currentTime)) {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    tv_qiandao.setText("上班打卡");
+                                    Date date1 = new Date();
+                                    String currentTime1 = format.format(date1);
+                                    tv_hourminute_qiandao.setText(currentTime1);
+                                }
+                            });
+                        } else {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //下午
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    tv_qiandao.setText("下班打卡");
+                                    Date date1 = new Date();
+                                    String currentTime1 = format.format(date1);
+                                    tv_hourminute_qiandao.setText(currentTime1);
+                                }
+                            });
+                        }
+                    } else {
+                        int status = jsonObject.getInt("status");
+                        final String msg = jsonObject.getString("msg");
+                        if (status == 1) {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    msg(msg);
+                                }
+                            });
+                        }
+                        final JSONObject dataObject = jsonObject.getJSONObject("data");
+                        final String morningCount = dataObject.optString("morningCount");
+                        final String afterCount = dataObject.optString("afterCount");
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
-                                msg(msg);
-                            }
-                        });
-                    }
-                    final JSONObject dataObject = jsonObject.getJSONObject("data");
-                    final String morningCount = dataObject.optString("morningCount");
-                    final String afterCount = dataObject.optString("afterCount");
+                                waiqing_layout.setVisibility(View.VISIBLE);
+                                //代表上午还没有签到
+                                if("0".equals(morningCount)){
+                                    Date date = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                                    String currentTime = format.format(date);
+                                    //如果没超过12.00 表示上午
+                                    if(equalsString12(currentTime)){
+                                        tv_qiandao.setText("上班打卡");
+                                    }else {
+                                        tv_qiandao.setText("下班打卡");
+                                    }
 
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mActivityFragmentView.viewLoading(View.GONE);
-                            waiqing_layout.setVisibility(View.VISIBLE);
-                            //代表上午还没有签到
-                            if("0".equals(morningCount)){
-                                Date date = new Date();
-                                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                                String currentTime = format.format(date);
-                                //如果没超过12.00 表示上午
-                                if(equalsString12(currentTime)){
-                                    tv_qiandao.setText("上班打卡");
                                 }else {
+                                    tv_state_qiandao.setText("你上班已打卡成功!");
                                     tv_qiandao.setText("下班打卡");
                                 }
 
-                            }else {
-                                tv_qiandao.setText("下班打卡");
+                                //代表下午还没有签到
+                                if("0".equals(afterCount)){
+                                    tv_qiandao.setText("下班打卡");
+                                }else{
+                                    qiandao_layout.setVisibility(View.GONE);
+                                    tv_state_qiandao.setText("你下班已打卡成功!");
+                                    tv_state_qiandao.setVisibility(View.VISIBLE);
+                                }
                             }
-
-                            //代表下午还没有签到
-                            if("0".equals(afterCount)){
-                                tv_qiandao.setText("下班打卡");
-                            }else{
-                                qiandao_layout.setVisibility(View.GONE);
-                                tv_state_qiandao.setText("你下班已打卡成功!");
-                                tv_state_qiandao.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
+                        });
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -497,12 +530,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        httpRequestKaoqingofPastDate();
-    }
-
     private Handler mHandler = new Handler(){};
 
     /**
@@ -518,72 +545,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
             uid = cursor.getString((cursor.getColumnIndex("uid")));
         }
         return uid;
-    }
-
-    private void httpRequestKaoqingofPastDate() {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request.Builder builder = new Request.Builder();
-        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String request_date = dateFormat.format(date);
-        requestBodyBuilder.add("uid", getLoginUid());
-        requestBodyBuilder.add("date", request_date);
-        RequestBody requestBody = requestBodyBuilder.build();
-        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
-        Request request = builder.url(request_url).post(requestBody).build();
-        Call call = okHttpClient.newCall(request);
-    //    mActivityFragmentView.viewLoading(View.VISIBLE);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-              //          mActivityFragmentView.viewLoading(View.GONE);
-              //          Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                String result_str = response.body().string();
-                try {
-                    JSONObject jsonObject = new JSONObject(result_str);
-                    int status = jsonObject.getInt("status");
-                    if (status == 0) {
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                      //          mActivityFragmentView.viewLoading(View.GONE);
-                            }
-                        });
-                    }
-                    final JSONObject dataObject = jsonObject.getJSONObject("data");
-                    //早上打卡的次数
-                    morningCount = Integer.parseInt(dataObject.getString("morningCount"));
-                    afterCount = Integer.parseInt(dataObject.getString("afterCount"));
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(morningCount>0){
-                                tv_qiandao.setText("下班打卡");
-                                tv_state_qiandao.setVisibility(View.GONE);
-                            }
-                            if(afterCount>0){
-                                tv_state_qiandao.setVisibility(View.GONE);
-                                qiandao_layout.setVisibility(View.GONE);
-                            }
-                //            mActivityFragmentView.viewLoading(View.GONE);
-                        }
-                    });
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     @Override

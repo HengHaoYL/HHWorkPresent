@@ -180,7 +180,6 @@ public class KaoqingFragment extends FragmentSupport {
             public void onClick(View v) {
                 mActivityFragmentView.viewLoadingError(View.GONE);
                 httpLoadingHeadImage();
-                initRequest();
             }
         });
 
