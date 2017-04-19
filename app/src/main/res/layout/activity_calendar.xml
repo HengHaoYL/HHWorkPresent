@@ -156,11 +156,13 @@
         android:layout_height="1dip"
         android:background="@color/line"/>
     <LinearLayout
+        android:id="@+id/calendar_kaoqing_layout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <LinearLayout
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -177,7 +179,7 @@
         <TextView
             android:id="@+id/kaoqing_calendar_shangbantime"
             android:layout_toRightOf="@id/kaoqing_calendar_shangbantime1"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
@@ -220,7 +222,7 @@
             <TextView
                 android:id="@+id/kaoqing_calendar_xiabantime"
                 android:layout_toRightOf="@id/kaoqing_calendar_xiabantime1"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
@@ -247,5 +249,26 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/calendar_null_layout"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+        <ImageView
+            android:id="@+id/xiuxi"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_xiuxi"/>
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/xiuxi"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂时没有安排"/>
+    </RelativeLayout>
+
+
 
     </LinearLayout>

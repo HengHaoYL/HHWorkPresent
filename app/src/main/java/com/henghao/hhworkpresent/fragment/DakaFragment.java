@@ -48,6 +48,7 @@ import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 import static com.henghao.hhworkpresent.ProtocolUrl.APP_LODAING_HEAD_IMAGE_URI;
+import static com.henghao.hhworkpresent.R.id.daka_xiaban_shangbanstate;
 
 /**
  * Created by bryanrady on 2017/3/10.
@@ -245,7 +246,7 @@ public class DakaFragment extends FragmentSupport {
     private TextView xiaban_shangbantime;
 
     //下班布局的上班状态
-    @ViewInject(R.id.daka_xiaban_shangbanstate)
+    @ViewInject(daka_xiaban_shangbanstate)
     private TextView xiaban_shangbanstate;
 
     //下班布局的上班补卡申请
@@ -431,6 +432,7 @@ public class DakaFragment extends FragmentSupport {
                 int type = equalsDate(datepickerTV.getText().toString());
                 //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
                 if(type==0){
+                    null_daka_layout.setVisibility(View.GONE);
                     httpRequestKaoqingofCurrentDay();
                 } else if(type==1){
                     pastdate_layout.setVisibility(View.GONE);
@@ -549,6 +551,7 @@ public class DakaFragment extends FragmentSupport {
                                     Date date1 = new Date();
                                     String currentTime1 = format.format(date1);
                                     xiaban_qiandao_date.setText(currentTime1);
+                                    xiaban_shangbanstate.setText("缺卡");
                                 }
                             });
                         }

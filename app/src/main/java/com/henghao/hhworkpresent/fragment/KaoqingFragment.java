@@ -26,6 +26,7 @@ import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.CalendarActivity;
 import com.henghao.hhworkpresent.activity.KaoqingDetailActivity;
+import com.henghao.hhworkpresent.activity.KaoqingKGDetailActivity;
 import com.henghao.hhworkpresent.adapter.ChidaoListAdapter;
 import com.henghao.hhworkpresent.adapter.KuanggongListAdapter;
 import com.henghao.hhworkpresent.adapter.QuekaListAdapter;
@@ -789,7 +790,7 @@ public class KaoqingFragment extends FragmentSupport {
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);
                 intent.putExtra("currentWeek",currentWeek);
-                intent.setClass(getContext(), KaoqingDetailActivity.class);
+                intent.setClass(getContext(), KaoqingKGDetailActivity.class);
                 startActivity(intent);
             }
         });

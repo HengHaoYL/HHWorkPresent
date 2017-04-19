@@ -184,6 +184,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 考勤旷工详情界面 -->
+        <activity
+            android:name=".activity.KaoqingKGDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 外勤签到界面 -->
         <activity
             android:name=".activity.WaiqingQiandaoActivity"
@@ -229,6 +235,12 @@
         <!-- 行政审批界面 -->
         <activity
             android:name=".activity.XingZhenSPActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 首页消息详细界面 -->
+        <activity
+            android:name=".activity.MsgDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 

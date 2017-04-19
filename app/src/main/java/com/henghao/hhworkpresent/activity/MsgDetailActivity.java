@@ -19,14 +19,15 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
- * 补签申请界面（补卡申请）
- * Created by bryanrady on 2017/4/5.
+ * Created by bryanrady on 2017/4/19.
  */
 
-public class BuqianActivity extends ActivityFragmentSupport {
+public class MsgDetailActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.carapply_webview)
     private ProgressWebView progressWebView;
+
+    private String requestUrl = "http://172.16.0.57:8080/hz7/horizon/basics/getBasics.wf?loginName=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

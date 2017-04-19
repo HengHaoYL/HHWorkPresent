@@ -432,6 +432,13 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         return giveName;
     }
 
+    @ViewInject(R.id.calendar_kaoqing_layout)
+    private LinearLayout carlendar_kaoing_layout;
+
+    @ViewInject(R.id.calendar_null_layout)
+    private RelativeLayout calendar_null_layout;
+
+
     private void httpRequestKaoqingofDate() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
@@ -462,77 +469,92 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
-                    int status = jsonObject.getInt("status");
-                    if (status == 0) {
+                    //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
+                    String data = jsonObject.getString("data");
+                    if (("null").equals(data)) {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
+                                carlendar_kaoing_layout.setVisibility(View.GONE);
+                                calendar_null_layout.setVisibility(View.VISIBLE);
                             }
                         });
-                    }
-                    final JSONObject dataObject = jsonObject.getJSONObject("data");
-                    final String clockInTime = dataObject.optString("clockInTime");
-                    final String clockOutTime = dataObject.optString("clockOutTime");
-                    //这时的clockInTime是一个null字符串 ，不是null
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            tv_shangbanTime.setText(clockInTime);
-                            tv_xiabanTime.setText(clockOutTime);
-                        }
-                    });
 
-                    //缺卡情况
-                    if(("null").equals(clockInTime)){
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                tv_shangbanState.setText("缺卡");
-                                tv_shangbanTime.setText("无");
-                        //        btn_shangbanBuka.setVisibility(View.VISIBLE);
-                                mActivityFragmentView.viewLoading(View.GONE);
-                            }
-                        });
-                    }
-
-                    if(("null").equals(clockOutTime)){
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                tv_xiabanState.setText("缺卡");
-                                tv_xiabanTime.setText("无");
-                        //        btn_xiabanBuka.setVisibility(View.VISIBLE);
-                                mActivityFragmentView.viewLoading(View.GONE);
-                            }
-                        });
-                    }
-
-                    //上班迟到情况
-                    if(!("null").equals(clockInTime)){
-                        if(equalsStringShangban(clockInTime)){
+                    }else{
+                        int status = jsonObject.getInt("status");
+                        if (status == 0) {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    tv_shangbanState.setText("迟到");
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    carlendar_kaoing_layout.setVisibility(View.VISIBLE);
+                                    calendar_null_layout.setVisibility(View.GONE);
                                 }
                             });
-
                         }
-                    }
+                        final JSONObject dataObject = jsonObject.getJSONObject("data");
+                        final String clockInTime = dataObject.optString("clockInTime");
+                        final String clockOutTime = dataObject.optString("clockOutTime");
+                        //这时的clockInTime是一个null字符串 ，不是null
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_shangbanTime.setText(clockInTime);
+                                tv_xiabanTime.setText(clockOutTime);
+                            }
+                        });
 
-                    //下班早退情况
-                    if(!("null").equals(clockOutTime)){
-                        if(equalsStringXiaban(clockOutTime)){
+                        //缺卡情况
+                        if(("null").equals(clockInTime)){
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    tv_xiabanState.setText("早退");
+                                    tv_shangbanState.setText("缺卡");
+                                    tv_shangbanTime.setText("无");
+                                    //        btn_shangbanBuka.setVisibility(View.VISIBLE);
+                                    mActivityFragmentView.viewLoading(View.GONE);
                                 }
                             });
                         }
-                    }
 
+                        if(("null").equals(clockOutTime)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tv_xiabanState.setText("缺卡");
+                                    tv_xiabanTime.setText("无");
+                                    //        btn_xiabanBuka.setVisibility(View.VISIBLE);
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                }
+                            });
+                        }
+
+                        //上班迟到情况
+                        if(!("null").equals(clockInTime)){
+                            if(equalsStringShangban(clockInTime)){
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        tv_shangbanState.setText("迟到");
+                                    }
+                                });
+
+                            }
+                        }
+
+                        //下班早退情况
+                        if(!("null").equals(clockOutTime)){
+                            if(equalsStringXiaban(clockOutTime)){
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        tv_xiabanState.setText("早退");
+                                    }
+                                });
+                            }
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

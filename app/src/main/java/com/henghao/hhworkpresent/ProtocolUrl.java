@@ -25,34 +25,17 @@ public class ProtocolUrl {
      */
     public static String ROOT_URL = "";
 
-    public static boolean isURL = true;
+   public static boolean isURL = true;
 
     static {
         if (!isURL) {
             // 生产地址
-        //    ROOT_URL = "http://safe.higdata.com/YL_BigData";
+       //     ROOT_URL = "222.85.156.33:8082";
         } else {
             // 测试地址
-            ROOT_URL = "http://172.16.0.199:8080";
+            ROOT_URL = "http://222.85.156.33:8082";
         }
     }
-
-    // TODO 用户相关
-    /************************
-     * 用户相关
-     **************************/
-    public static final String USER = "user/";
-
-    /**
-     * 用户登录172.16.13.101:8080/YL_BigData/login?username=?&password=?
-     */
-    public static String APP_LOGIN = "login";
-
-    public static String APP_GET_NFCBYID = "login";
-    /**
-     * 用户注册
-     */
-    public static String APP_REG = "register";
 
     /************************ 用户相关 end **************************/
 
@@ -83,6 +66,16 @@ public class ProtocolUrl {
      * 上传错误日志到服务器
      */
     public static final String UPLOAD_ERROR_SERVER = "appError";
+
+
+    /************************* 工作流 start **************************/
+
+    /**
+     * 工作流接口  添加参数 免登陆
+     */
+    public static final String APP_WORKFLOW_NOLOGIN = "/hz7/horizon/basics/getBasics.wf?loginName=";
+
+    /************************* 工作流 end **************************/
 
 
     /************************* 消息 start **************************/

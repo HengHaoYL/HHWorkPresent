@@ -1,5 +1,6 @@
 package com.henghao.hhworkpresent.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -7,11 +8,13 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.benefit.buy.library.views.xlistview.XListView;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.activity.MsgDetailActivity;
 import com.henghao.hhworkpresent.adapter.MsgNotificationAdapter;
 import com.henghao.hhworkpresent.entity.MsgEntity;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
@@ -70,6 +73,15 @@ public class MsgFragment extends FragmentSupport {
             public void onClick(View v) {
                 mActivityFragmentView.viewLoadingError(View.GONE);
                 httpRequestMsgList();
+            }
+        });
+
+        mXlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.setClass(getContext(), MsgDetailActivity.class);
+                startActivity(intent);
             }
         });
     }

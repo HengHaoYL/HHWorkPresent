@@ -38,12 +38,10 @@ import java.io.IOException;
 import static com.henghao.hhworkpresent.ProtocolUrl.APP_LODAING_HEAD_IMAGE_URI;
 
 /**
- * Created by bryanrady on 2017/3/17.
- *
- * 考勤详情界面
+ * Created by bryanrady on 2017/4/19.
  */
 
-public class KaoqingDetailActivity extends ActivityFragmentSupport {
+public class KaoqingKGDetailActivity extends ActivityFragmentSupport {
 
     private ImageLoader imageLoader;
 
@@ -239,6 +237,7 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
         requestBodyBuilder.add("date",tv_currentDate.getText().toString());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
+        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -268,71 +267,18 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
                             }
                         });
                     }
-                    final JSONObject dataObject = jsonObject.getJSONObject("data");
-                    final String clockInTime = dataObject.optString("clockInTime");
-                    final String clockOutTime = dataObject.optString("clockOutTime");
-
-                    Log.d("wangqingbin","clockInTime=="+clockInTime);
-                    Log.d("wangqingbin","clockOutTime=="+clockOutTime);
-                    //这时的clockInTime是一个null字符串 ，不是null
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            tv_shangbanTime.setText(clockInTime);
-                            tv_xiabanTime.setText(clockOutTime);
-                        }
-                    });
-
-                    //缺卡情况
-                    if(("null").equals(clockInTime)){
+                    String data = jsonObject.getString("data");
+                    if("null".equals(data)){
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                tv_shangbanState.setText("缺卡");
                                 tv_shangbanTime.setText("无");
-                         //       btn_shangbanBuka.setVisibility(View.VISIBLE);
-                                mActivityFragmentView.viewLoading(View.GONE);
-                            }
-                        });
-                    }
-
-                    if(("null").equals(clockOutTime)){
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
+                                tv_shangbanState.setText("缺卡");
                                 tv_xiabanState.setText("缺卡");
                                 tv_xiabanTime.setText("无");
-                         //       btn_xiabanBuka.setVisibility(View.VISIBLE);
-                                mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
                     }
-
-                    //上班迟到情况
-                    if(!("null").equals(clockInTime)){
-                        if(equalsStringShangban(clockInTime)){
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    tv_shangbanState.setText("迟到");
-                                }
-                            });
-
-                        }
-                    }
-
-                    //下班早退情况
-                    if(!("null").equals(clockOutTime)){
-                        if(equalsStringXiaban(clockOutTime)){
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    tv_xiabanState.setText("早退");
-                                }
-                            });
-                        }
-                    }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.ProgressWebView;
@@ -98,6 +99,6 @@ public class XingZhenSPActivity extends ActivityFragmentSupport {
                 return true;
             }
         });
-        progressWebView.loadUrl(requestUrl+getUsername());
+        progressWebView.loadUrl(ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_WORKFLOW_NOLOGIN + getUsername());
     }
 }
