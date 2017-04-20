@@ -115,6 +115,9 @@ public class RealTimeService extends Service {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
+        if(latitude == null|| longitude ==null){
+            return;
+        }
         requestBodyBuilder.add("uid", getLoginUid());
         requestBodyBuilder.add("latitude", latitude);
         requestBodyBuilder.add("longitude", longitude);

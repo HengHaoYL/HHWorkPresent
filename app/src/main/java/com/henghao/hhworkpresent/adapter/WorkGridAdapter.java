@@ -104,6 +104,11 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                         intent.setClass(mActivityFragmentSupport, GongGaoActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
                         break;
+                    /*case 4:
+                        //行政执法
+                        intent.setClass(mActivityFragmentSupport, GongGaoActivity.class);
+                        mActivityFragmentSupport.startActivity(intent);
+                        break;*/
                 }
             }
         });
