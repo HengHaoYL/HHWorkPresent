@@ -91,6 +91,7 @@ public class QiandaoShangbanSubmitActivity extends ActivityFragmentSupport {
         longitude = intent.getDoubleExtra("longitude",0);
         tv_time_qiandaosubmit.setText(time);
         tv_address_qiandaosubmit.setText(address);
+        tv_company_qiandaosubmit.setText("贵阳市安全生产监督管理局");
 
     }
 

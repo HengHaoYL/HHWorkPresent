@@ -91,6 +91,7 @@ public class QiandaoXiabanSubmitActivity extends ActivityFragmentSupport {
         tv_time_qiandaosubmit.setText(time);
         tv_address_qiandaosubmit.setText(address);
         tv_company_qiandaosubmit.setText(company);
+        tv_company_qiandaosubmit.setText("贵阳市安全生产监督管理局");
 
     }
 
