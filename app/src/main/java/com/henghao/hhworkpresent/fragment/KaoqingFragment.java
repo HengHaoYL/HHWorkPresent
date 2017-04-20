@@ -187,7 +187,6 @@ public class KaoqingFragment extends FragmentSupport {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月");
         tv_datepicker.setText(format.format(date));
-
     }
 
     public void httpLoadingHeadImage(){

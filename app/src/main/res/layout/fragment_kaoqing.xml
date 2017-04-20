@@ -13,7 +13,7 @@
         android:background="#ecf0f1"
         android:orientation="vertical">
 
-    <LinearLayout
+        <LinearLayout
         android:id="@+id/kaoqing_linear1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             android:textSize="15dp" />
     </LinearLayout>
 
-    <LinearLayout
+        <LinearLayout
         android:id="@+id/kaoqing_linear2"
         android:layout_below="@id/kaoqing_linear1"
         android:layout_marginTop="5dp"
@@ -126,7 +126,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+        <LinearLayout
         android:id="@+id/kaoqing_linear3"
         android:layout_below="@id/kaoqing_linear2"
         android:layout_marginTop="20dp"
@@ -353,7 +353,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+        <LinearLayout
         android:id="@+id/kaoqing_linear4"
         android:layout_below="@id/kaoqing_linear3"
         android:layout_width="match_parent"
@@ -472,7 +472,6 @@
             </com.benefit.buy.library.views.xlistview.XListView>
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/kaoqing_linear6"
             android:layout_below="@id/kaoqing_linear5"
@@ -504,7 +503,6 @@
                     android:splitMotionEvents="false" />
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/kaoqing_linear7"
             android:layout_below="@id/kaoqing_linear6"
@@ -535,7 +533,6 @@
                     android:listSelector="@drawable/list_selector_transition"
                     android:splitMotionEvents="false" />
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/kaoqing_linear8"

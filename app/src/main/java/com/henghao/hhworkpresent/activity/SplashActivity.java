@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.service.RealTimeService;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -167,6 +168,13 @@ public class SplashActivity extends ActivityFragmentSupport {
 					}else{
 						_intent.setClass(SplashActivity.this, MainActivity.class);
 						SplashActivity.this.startActivity(_intent);
+
+						/**
+						 * 开启实时定位服务
+						 */
+						_intent = new Intent(SplashActivity.this, RealTimeService.class);
+						startService(_intent);
+
 						finishDelayed();
 					}
 					break;

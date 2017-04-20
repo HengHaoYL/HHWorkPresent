@@ -33,7 +33,8 @@ public class ProtocolUrl {
        //     ROOT_URL = "222.85.156.33:8082";
         } else {
             // 测试地址
-            ROOT_URL = "http://222.85.156.33:8082";
+        //    ROOT_URL = "http://222.85.156.33:8082";
+         ROOT_URL = "http://172.16.0.199:8080";
         }
     }
 
@@ -67,6 +68,11 @@ public class ProtocolUrl {
      */
     public static final String UPLOAD_ERROR_SERVER = "appError";
 
+
+    /**
+     * 实时上传经纬度接口
+     */
+    public static final String APP_REALTIME_UPLOAD_LATLON = "/statisticsInfo/user/ LongAndLat";
 
     /************************* 工作流 start **************************/
 
@@ -213,13 +219,13 @@ public class ProtocolUrl {
     public static final String APP_GET_ALL_UERID = "/statisticsInfo/user/getIds";
 
     /**
-     * 下载用户头像Uri
+     * 下载用户头像Uri  图片下载路径url
      */
-    public static final String APP_LODAING_HEAD_IMAGE_URI = "/statisticsInfo/uploadImage/";
+    public static final String APP_LODAING_HEAD_IMAGE_URI = "/uploadImage/";
 
 
     /**
-     * 下载用户头像接口
+     * 下载用户头像图片名字接口
      */
     public static final String APP_LODAING_HEAD_IMAGE = "/statisticsInfo/user/showUserImage";
 

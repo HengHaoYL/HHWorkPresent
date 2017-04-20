@@ -17,6 +17,7 @@ import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.UserInfoEntity;
+import com.henghao.hhworkpresent.service.RealTimeService;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -153,6 +154,12 @@ public class LoginActivity extends ActivityFragmentSupport {
                         Intent intent = new Intent();
                         intent.setClass(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
+
+                        /**
+                         * 开启实时定位服务
+                         */
+                        intent = new Intent(LoginActivity.this, RealTimeService.class);
+                        startService(intent);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

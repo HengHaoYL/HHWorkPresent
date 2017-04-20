@@ -89,6 +89,15 @@
             </intent-filter>
         </service>
 
+        <!-- 实时上传经纬度service -->
+        <service
+            android:name=".service.RealTimeService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.henghao.hhworkpresent.service.RealTimeService" ></action>
+            </intent-filter>
+        </service>
+
         <!-- 启动页 -->
         <activity
             android:name=".activity.SplashActivity"
