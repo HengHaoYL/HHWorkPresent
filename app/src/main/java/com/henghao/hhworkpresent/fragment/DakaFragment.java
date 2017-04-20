@@ -707,40 +707,53 @@ public class DakaFragment extends FragmentSupport {
                             }
                         });
                     }
-                    final JSONObject dataObject = jsonObject.getJSONObject("data");
-                    final String clockInTime = dataObject.optString("clockInTime");
-                    //这时的clockInTime是一个null字符串 ，不是null
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            xiaban_shangbantime.setText(clockInTime);
-                        }
-                    });
-
-                    //缺卡情况
-                    if(("null").equals(clockInTime)||clockInTime==null){
+                    String data = jsonObject.getString("data");
+                    if (("null").equals(data)) {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 xiaban_shangbanstate.setText("缺卡");
                                 xiaban_shangbantime.setText("无");
-                         //       xiaban_shangbanbuka.setVisibility(View.VISIBLE);
+                                //       xiaban_shangbanbuka.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
-                    }
+                    }else{
+                        final JSONObject dataObject = jsonObject.getJSONObject("data");
+                        final String clockInTime = dataObject.optString("clockInTime");
+                        //这时的clockInTime是一个null字符串 ，不是null
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                xiaban_shangbantime.setText(clockInTime);
+                            }
+                        });
 
-                    //上班迟到情况
-                    if(!("null").equals(clockInTime)){
-                        if(equalsStringShangban(clockInTime)){
+                        //缺卡情况
+                        if(("null").equals(clockInTime)||clockInTime==null){
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    xiaban_shangbanstate.setText("迟到");
-                                    xiaban_shangbanbuka.setVisibility(View.GONE);
+                                    xiaban_shangbanstate.setText("缺卡");
+                                    xiaban_shangbantime.setText("无");
+                                    //       xiaban_shangbanbuka.setVisibility(View.VISIBLE);
+                                    mActivityFragmentView.viewLoading(View.GONE);
                                 }
                             });
+                        }
 
+                        //上班迟到情况
+                        if(!("null").equals(clockInTime)){
+                            if(equalsStringShangban(clockInTime)){
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        xiaban_shangbanstate.setText("迟到");
+                                        xiaban_shangbanbuka.setVisibility(View.GONE);
+                                    }
+                                });
+
+                            }
                         }
                     }
 
