@@ -863,6 +863,4 @@ public class KaoqingFragment extends FragmentSupport {
 
     }
 
-
-
 }

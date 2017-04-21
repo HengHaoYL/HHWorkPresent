@@ -90,7 +90,6 @@ public class LoginActivity extends ActivityFragmentSupport {
                 //登录
                 if (checkData()) {
                     httpRequestLogin();
-                    mActivityFragmentView.viewLoading(View.VISIBLE);
                 }
                 break;
         }
@@ -151,15 +150,22 @@ public class LoginActivity extends ActivityFragmentSupport {
                         contentValues.put("giveName",giveName);
                         db.insert("user", null, contentValues);
 
-                        Intent intent = new Intent();
-                        intent.setClass(LoginActivity.this,MainActivity.class);
-                        startActivity(intent);
+                        Intent intent1= new Intent();
+                        intent1.setClass(LoginActivity.this,MainActivity.class);
+                        startActivity(intent1);
 
                         /**
                          * 开启实时定位服务
                          */
-                        intent = new Intent(LoginActivity.this, RealTimeService.class);
+                        Intent intent = new Intent(LoginActivity.this, RealTimeService.class);
                         startService(intent);
+
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mActivityFragmentView.viewLoading(View.GONE);
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

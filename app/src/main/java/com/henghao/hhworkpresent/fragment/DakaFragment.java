@@ -359,7 +359,7 @@ public class DakaFragment extends FragmentSupport {
         String currentTime = format.format(date);
         //如果没超过12.00 表示上午
         if(equalsString12(currentTime)){
-            Toast.makeText(this.mActivity,"时间还没到下午，不能打下班卡!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.mActivity, "时间还没到下午，不能打下班卡!", Toast.LENGTH_SHORT).show();
             return;
         }else {
             //下午

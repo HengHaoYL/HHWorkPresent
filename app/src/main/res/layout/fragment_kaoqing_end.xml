@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    android:background="#ecf0f1"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/kaoqing_linear5"
+        android:layout_below="@id/kaoqing_linear4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#D5D5D5"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="迟到记录"/>
+        </LinearLayout>
+
+        <com.benefit.buy.library.views.xlistview.XListView
+            android:id="@+id/listview_kaoqing_chidao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@color/transparent"
+            android:fadingEdge="none"
+            android:listSelector="@drawable/list_selector_transition">
+        </com.benefit.buy.library.views.xlistview.XListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/kaoqing_linear6"
+        android:layout_below="@id/kaoqing_linear5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#D5D5D5"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="早退记录"/>
+        </LinearLayout>
+
+        <com.benefit.buy.library.views.xlistview.XListView
+            android:id="@+id/listview_kaoqing_zaotui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@color/transparent"
+            android:fadingEdge="none"
+            android:listSelector="@drawable/list_selector_transition"
+            android:splitMotionEvents="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/kaoqing_linear7"
+        android:layout_below="@id/kaoqing_linear6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#D5D5D5"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="缺卡记录"/>
+        </LinearLayout>
+
+        <com.benefit.buy.library.views.xlistview.XListView
+            android:id="@+id/listview_kaoqing_queka"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@color/transparent"
+            android:fadingEdge="none"
+            android:listSelector="@drawable/list_selector_transition"
+            android:splitMotionEvents="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/kaoqing_linear8"
+        android:layout_below="@id/kaoqing_linear7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#D5D5D5"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="旷工记录"/>
+        </LinearLayout>
+
+        <com.benefit.buy.library.views.xlistview.XListView
+            android:id="@+id/listview_kaoqing_kuanggong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@color/transparent"
+            android:fadingEdge="none"
+            android:listSelector="@drawable/list_selector_transition"
+            android:splitMotionEvents="false" />
+    </LinearLayout>
+
+</RelativeLayout>

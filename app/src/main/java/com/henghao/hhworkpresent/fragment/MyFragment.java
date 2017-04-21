@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
 import com.benefit.buy.library.utils.tools.ToolsKit;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
@@ -439,6 +440,10 @@ public class MyFragment extends FragmentSupport {
                 }
                 //删除用户信息
                 db.delete("user","id=?",new String[]{uid});
+
+                intent.setAction(Constant.STOP_REALTIMESERVICE);
+                this.mActivity.sendBroadcast(intent);
+
                 intent.setClass(mActivity,LoginActivity.class);
                 startActivity(intent);
                 mActivity.finish();

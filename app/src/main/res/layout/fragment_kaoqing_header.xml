@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ecf0f1">
+    <LinearLayout
+        android:id="@+id/kaoqing_linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <com.henghao.hhworkpresent.views.CircleImageView
+            android:id="@+id/kaoqing_headimage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_logo"
+            app:border_width="2dp"
+            app:border_color="@color/text_color_green" />
+
+        <TextView
+            android:id="@+id/kaoqing_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:textSize="18dp"
+            android:textColor="#2C1D07"
+            android:text="张  剑"/>
+
+        <TextView
+            android:id="@+id/tv_datepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#2C1D07"
+            android:layout_marginLeft="100dp"
+            android:background="@drawable/outside_stroke"
+            android:drawablePadding="@dimen/padding_normal"
+            android:drawableRight="@drawable/item_point_down"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingLeft="@dimen/padding_big"
+            android:paddingRight="@dimen/padding_big"
+            android:paddingTop="@dimen/padding_small"
+            android:clickable="true"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/kaoqing_linear2"
+        android:layout_below="@id/kaoqing_linear1"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="120dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/item_yunzhang"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#2C1D07"
+                android:text="本月平均工时:"/>
+            <TextView
+                android:id="@+id/kaoqing_avg_time"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#2C1D07"
+                android:layout_gravity="center"
+                android:text="0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:visibility="gone"
+                android:textColor="#2C1D07"
+                android:text="快去打卡提升工时"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/kaoqing_lookyueli"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textSize="12dp"
+                android:text="查看打卡月历"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#1296db"
+                android:visibility="gone"
+                android:layout_marginLeft="50dp"
+                android:text="统计说明"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

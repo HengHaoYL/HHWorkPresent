@@ -22,6 +22,12 @@ import android.os.Environment;
  */
 public class Constant {
 
+
+	/**
+	 * 停止服务
+	 */
+	public final static String STOP_REALTIMESERVICE = "stop realtimeService";
+
 	/**
 	 * 本地数据的配置
 	 */

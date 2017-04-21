@@ -1,7 +1,10 @@
 package com.henghao.hhworkpresent.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
@@ -11,6 +14,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.squareup.okhttp.Call;
@@ -39,12 +43,15 @@ public class RealTimeService extends Service {
     private String latitude;
     private String longitude;
 
+    private MyReceiver myReceiver;
+
     @Override
     public void onCreate() {
         super.onCreate();
         dbHelper = new DatabaseHelper(RealTimeService.this,"user_login.db");
-        db = dbHelper.getWritableDatabase();
+        db = dbHelper.getReadableDatabase();
         uploadLatLonThread = new UploadLatLonThread();
+        myReceiver = new MyReceiver();
         initData();
     }
 
@@ -57,6 +64,10 @@ public class RealTimeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (!uploadLatLonThread.isRunning) {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(Constant.STOP_REALTIMESERVICE);
+            registerReceiver(myReceiver,filter);
+
             uploadLatLonThread.isRunning = true;
             uploadLatLonThread.start();
             this.locationClient.start(); // 开始定位
@@ -153,10 +164,23 @@ public class RealTimeService extends Service {
         }
     };
 
+
+    class MyReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if((Constant.STOP_REALTIMESERVICE).equals(action)){
+                stopService(intent);
+            }
+        }
+    }
+
     @Override
     public void onDestroy() {
         uploadLatLonThread.isRunning = false;
         this.locationClient.stop();
+        unregisterReceiver(myReceiver);
         super.onDestroy();
     }
 

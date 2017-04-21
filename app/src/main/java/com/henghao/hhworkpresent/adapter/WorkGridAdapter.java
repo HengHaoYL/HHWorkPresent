@@ -96,7 +96,7 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                             mActivityFragmentSupport.startActivity(intent);
                         } catch (Exception e) {
                             //如果系统找不到此应用，就提示下面的信息
-                            mActivityFragmentSupport.msg("你的系统没有Outlook电子邮箱，请安装！");
+                            mActivityFragmentSupport.msg("你的手机里没有Outlook电子邮箱，请安装！");
                         }
                         break;
                     case 3:
@@ -104,11 +104,19 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                         intent.setClass(mActivityFragmentSupport, GongGaoActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
                         break;
-                    /*case 4:
+                    case 4:
                         //行政执法
-                        intent.setClass(mActivityFragmentSupport, GongGaoActivity.class);
-                        mActivityFragmentSupport.startActivity(intent);
-                        break;*/
+                         packageManager = mActivityFragmentSupport.getPackageManager();
+                        try {
+                            //启动网易邮箱    com.netease.mail
+                            //com.microsoft.office.outlook  outlook邮箱  pm list package
+                            intent = packageManager.getLaunchIntentForPackage("com.example.safetysupervision");
+                            mActivityFragmentSupport.startActivity(intent);
+                        } catch (Exception e) {
+                            //如果系统找不到此应用，就提示下面的信息
+                            mActivityFragmentSupport.msg("你的手机里没有安监执法应用，请安装！");
+                        }
+                        break;
                 }
             }
         });
