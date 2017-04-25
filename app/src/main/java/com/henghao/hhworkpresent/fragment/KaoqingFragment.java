@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -196,6 +197,7 @@ public class KaoqingFragment extends FragmentSupport {
         requestBodyBuilder.add("uid",getLoginUid());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;
+        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -401,19 +403,18 @@ public class KaoqingFragment extends FragmentSupport {
                         });
                     }
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-
-                    final String normalPunchTimes = jsonObject1.optString("qddays");
+                    final String attendanceDays = jsonObject1.optString("qddays");
+                    final String normalPunchTimes = jsonObject1.optString("normalCkdays");
                     final String leaveEarlyDay  = jsonObject1.optString("ztdays");
                     final String missingCardTimes = jsonObject1.optString("qkdays");
                     final String lateTimes = jsonObject1.optString("cddays");
                     final String kuanggongDays = jsonObject1.optString("kgdays");
                     final String businessTravelDays = jsonObject1.optString("ccdays");
                     final String leaveDays = jsonObject1.optString("qjdays");
-                    final String bqdays = jsonObject1.optString("bqdays");
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            tv_attendanceDays.setText(Integer.parseInt(bqdays)+Integer.parseInt(normalPunchTimes)+"天");
+                            tv_attendanceDays.setText(attendanceDays+"天");
                             tv_normalPunchTimes.setText(normalPunchTimes+"天");
                   //          tv_waiqingPunchTimes.setText(waiqingPunchTimes+"次");
                             tv_leaveEarlyDay.setText(leaveEarlyDay+"次");
