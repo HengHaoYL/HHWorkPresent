@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -374,7 +373,6 @@ public class MyFragment extends FragmentSupport {
             @Override
             public void onResponse(Response response) throws IOException {
                 String content = response.body().string();
-                Log.d("wangqingbin","content=="+content);
                 try {
                     JSONObject jsonObject = new JSONObject(content);
                     final String msg = jsonObject.getString("msg");
@@ -442,7 +440,7 @@ public class MyFragment extends FragmentSupport {
                 db.delete("user","id=?",new String[]{uid});
 
                 intent.setAction(Constant.STOP_REALTIMESERVICE);
-                this.mActivity.sendBroadcast(intent);
+                mActivity.sendBroadcast(intent);
 
                 intent.setClass(mActivity,LoginActivity.class);
                 startActivity(intent);

@@ -86,7 +86,7 @@
                 android:layout_width="@dimen/fitment_smallmark"
                 android:layout_height="@dimen/fitment_smallmark"
                 android:layout_centerVertical="true"
-                android:src="@drawable/icon_ajj_logo" />
+                android:src="@drawable/icon_gyajj_logo" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -101,9 +101,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="安监管理系统"
+                    android:text="贵阳市安监数据铁笼"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/gj_f"
+                    android:textSize="@dimen/gj_g"
                     android:typeface="monospace" />
 
                 <TextView
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
-            android:text="Copyright © 2016-2017 HH.All rights reserved"
+            android:text="Copyright © 2017-2018 HH.All rights reserved"
             android:textSize="10sp" />
     </RelativeLayout>
 

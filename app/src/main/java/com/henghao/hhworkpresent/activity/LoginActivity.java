@@ -2,11 +2,14 @@ package com.henghao.hhworkpresent.activity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +22,7 @@ import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.UserInfoEntity;
 import com.henghao.hhworkpresent.service.RealTimeService;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
+import com.henghao.hhworkpresent.views.RemenberDatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -51,6 +55,11 @@ public class LoginActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_login)
     private TextView tv_logo;
 
+    @ViewInject(R.id.remenber_password)
+    private CheckBox checkbox_remenber_password;
+
+    private RemenberDatabaseHelper remDBHelper;
+
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
     private Handler mHandler = new Handler(){};
@@ -74,12 +83,34 @@ public class LoginActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("登录");
+        mLeftImageView.setVisibility(View.GONE);
+        initWithCenterBar();
+        mCenterTextView.setText("登录");
+        mCenterTextView.setVisibility(View.VISIBLE);
+
+        checkbox_remenber_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(!isChecked){
+                    login_user.setText("");
+                    login_pass.setText("");
+                }
+            }
+        });
     }
 
     @Override
     public void initData() {
         super.initData();
+        String isRemenbered = isRemenbered();
+        if("0".equals(isRemenbered)){  //说明选中了
+            checkbox_remenber_password.setChecked(true);
+            login_user.setText(getRemUsername());
+            login_pass.setText(getRemPassword());
+        }else{
+            login_user.setText(getRemUsername());
+            login_pass.setText("");
+        }
     }
 
     @OnClick({R.id.tv_login})
@@ -150,9 +181,23 @@ public class LoginActivity extends ActivityFragmentSupport {
                         contentValues.put("giveName",giveName);
                         db.insert("user", null, contentValues);
 
+                        remDBHelper = new RemenberDatabaseHelper(LoginActivity.this,"user_login_remenber.db");
+                        db = remDBHelper.getWritableDatabase();
+                        contentValues = new ContentValues();
+                        contentValues.put("uid",uid);
+                        contentValues.put("username",login_user.getText().toString().trim());
+                        contentValues.put("password",login_pass.getText().toString().trim());
+                        String isChecked = null;
+                        if(checkbox_remenber_password.isChecked()) {
+                            isChecked = "0";
+                        }
+                        contentValues.put("isChecked",isChecked);
+                        db.insert("user_remenber", null, contentValues);
+
                         Intent intent1= new Intent();
                         intent1.setClass(LoginActivity.this,MainActivity.class);
                         startActivity(intent1);
+                        finish();
 
                         /**
                          * 开启实时定位服务
@@ -174,6 +219,53 @@ public class LoginActivity extends ActivityFragmentSupport {
         });
     }
 
+
+    /**
+     * 查看记住密码选项选中状态
+     * @return
+     */
+    public String isRemenbered(){
+        remDBHelper = new RemenberDatabaseHelper(this,"user_login_remenber.db");
+        db = remDBHelper.getReadableDatabase();
+        Cursor cursor = db.query("user_remenber",new String[]{"isChecked"},null,null,null,null,null);
+        String isChecked = null;
+        while (cursor.moveToNext()){
+            isChecked = cursor.getString((cursor.getColumnIndex("isChecked")));
+        }
+        return isChecked;
+    }
+
+    /**
+     * 查看记住密码
+     * @return
+     */
+    public String getRemPassword(){
+        remDBHelper = new RemenberDatabaseHelper(this,"user_login_remenber.db");
+        db = remDBHelper.getWritableDatabase();
+        Cursor cursor = db.query("user_remenber",new String[]{"password"},null,null,null,null,null);
+        String password = null;
+        while (cursor.moveToNext()){
+            password = cursor.getString((cursor.getColumnIndex("password")));
+        }
+        return password;
+    }
+
+    /**
+     * 查看记住的用户名
+     * @return
+     */
+    public String getRemUsername(){
+        remDBHelper = new RemenberDatabaseHelper(this,"user_login_remenber.db");
+        db = remDBHelper.getWritableDatabase();
+        Cursor cursor = db.query("user_remenber",new String[]{"username"},null,null,null,null,null);
+        String username = null;
+        while (cursor.moveToNext()){
+            username = cursor.getString((cursor.getColumnIndex("username")));
+        }
+        return username;
+    }
+
+
     private boolean checkData() {
         if (ToolsKit.isEmpty(login_user.getText().toString().trim())) {
             this.msg("用户名不能为空");
@@ -185,4 +277,5 @@ public class LoginActivity extends ActivityFragmentSupport {
         }
         return true;
     }
+
 }

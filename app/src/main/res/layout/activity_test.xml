@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_big"
+            android:text="车牌号"
+            android:textSize="@dimen/gj_f" />
+
+        <EditText
+            android:id="@+id/chepaihao"
+            style="@style/Shop.Widget.EditText"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/view_height"
+            android:gravity="bottom"
+            android:hint="请输入车牌号"
+            android:inputType="text"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/padding_normal"
+            android:paddingLeft="@dimen/padding_normal"
+            android:singleLine="true"
+            android:textColorHint="@color/hint_color" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/start_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/btn_bluecircleframe"
+        android:gravity="center"
+        android:paddingBottom="@dimen/padding_big"
+        android:paddingLeft="@dimen/padding_vertical_a"
+        android:paddingRight="@dimen/padding_vertical_a"
+        android:paddingTop="@dimen/padding_big"
+        android:text="开启服务"
+        android:textColor="@color/white"
+        android:textSize="@dimen/gj_d" />
+
+</LinearLayout>

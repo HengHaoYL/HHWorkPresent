@@ -152,4 +152,9 @@ public class FMApplication extends Application {
             System.exit(1);
         }
     }
+
+    @Override
+    public void onTerminate() {
+        Log.d("Application","应用关闭");
+    }
 }

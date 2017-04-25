@@ -29,15 +29,15 @@
             android:padding="@dimen/padding_normal"
             android:text="@string/login_toservice"
             android:textColor="@color/blue"
-            android:textSize="@dimen/gj_c" />
+            android:textSize="@dimen/gj_g" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/padding_big"
-            android:src="@drawable/icon_login" />
+            android:src="@drawable/icon_gyajj_logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,6 +91,19 @@
                 android:paddingLeft="@dimen/padding_normal"
                 android:singleLine="true"
                 android:textColorHint="@color/hint_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/remenber_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:text="记住密码"/>
         </LinearLayout>
 
     </LinearLayout>

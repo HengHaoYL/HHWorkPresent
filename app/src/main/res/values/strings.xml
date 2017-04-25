@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">安监管理系统</string>
+    <string name="app_name">安监数据铁笼</string>
 
     <string name="back">返回</string>
     <string name="home_exit">再按一次退出^_^</string>
@@ -55,7 +55,7 @@
     <string name="register_sender_code">重发验证码</string>
     <string name="register_surplus_code">还有</string>
     <string name="register_surplus_code_end">秒</string>
-    <string name="login_toservice">登录享受更贴心的定制服务</string>
+    <string name="login_toservice">贵阳市安监“数据铁笼”</string>
     <!-- 更新 -->
     <string name="about_version">当前版本：</string>
     <string name="about_update">检查更新</string>

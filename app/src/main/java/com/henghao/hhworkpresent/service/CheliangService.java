@@ -1,12 +1,7 @@
 package com.henghao.hhworkpresent.service;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
@@ -14,9 +9,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.ProtocolUrl;
-import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -25,38 +18,27 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
- * 用来实时上传经纬度的服务 45秒上传一次
- * Created by bryanrady on 2017/4/20.
+ * Created by bryanrady on 2017/4/24.
+ *
+ * 测试车辆经纬度上传
  */
 
-public class RealTimeService extends Service {
-
-    private DatabaseHelper dbHelper;
-    private SQLiteDatabase db;
+public class CheliangService extends Service {
 
     private UploadLatLonThread uploadLatLonThread;
     // 定位相关声明
     public LocationClient locationClient = null;
     private String latitude;
     private String longitude;
-
-    private MyReceiver myReceiver;
+    private String chepaihao;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        dbHelper = new DatabaseHelper(RealTimeService.this,"user_login.db");
-        db = dbHelper.getReadableDatabase();
         uploadLatLonThread = new UploadLatLonThread();
-        myReceiver = new MyReceiver();
         initData();
     }
 
@@ -68,11 +50,8 @@ public class RealTimeService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        chepaihao = intent.getStringExtra("chepaihao");
         if (!uploadLatLonThread.isRunning) {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(Constant.STOP_REALTIMESERVICE);
-            registerReceiver(myReceiver,filter);
-
             uploadLatLonThread.isRunning = true;
             uploadLatLonThread.start();
             this.locationClient.start(); // 开始定位
@@ -115,9 +94,8 @@ public class RealTimeService extends Service {
         public void run() {
             while (isRunning) {
                 try{
-                    httpRequest();
                     httpUploadLatLon();
-                    Thread.sleep(45000);
+                    Thread.sleep(10000);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -125,48 +103,10 @@ public class RealTimeService extends Service {
         }
     }
 
-    /**
-     * 查询出勤率
-     */
-    private void httpRequest(){
-        Date date1 = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-        String date = format.format(date1);
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request.Builder builder = new Request.Builder();
-        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("userId", getLoginUid());
-        requestBodyBuilder.add("date", date);
-        RequestBody requestBody = requestBodyBuilder.build();
-        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_MOUNTH_KAOQING;
-        Request request = builder.url(request_url).post(requestBody).build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-            }
 
-            @Override
-            public void onResponse(Response response) throws IOException {
-                String result_str = response.body().string();
-                try {
-                    JSONObject jsonObject = new JSONObject(result_str);
-                    int status = jsonObject.getInt("status");
-                    if (status == 0) {
-                    }
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                    chuqinglv = jsonObject1.optString("chuqingli");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private String chuqinglv = null;
 
     /**
-     * 调用接口上传经纬度/出勤率
+     * 调用接口上传经纬度
      */
     public void httpUploadLatLon(){
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -175,12 +115,11 @@ public class RealTimeService extends Service {
         if(latitude == null|| longitude ==null){
             return;
         }
-        requestBodyBuilder.add("uid", getLoginUid());
-        requestBodyBuilder.add("latitude", latitude);
-        requestBodyBuilder.add("longitude", longitude);
-        requestBodyBuilder.add("attendance", chuqinglv);
+        requestBodyBuilder.add("car_num", chepaihao);
+        requestBodyBuilder.add("car_latitude", latitude);
+        requestBodyBuilder.add("car_longitude", longitude);
         RequestBody requestBody = requestBodyBuilder.build();
-        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_REALTIME_UPLOAD_LATLON;
+        String request_url = ProtocolUrl.ROOT_URL + "/"+ "/statisticsInfo/carTest/carItude";
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -211,41 +150,11 @@ public class RealTimeService extends Service {
         }
     };
 
-
-    class MyReceiver extends BroadcastReceiver{
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if((Constant.STOP_REALTIMESERVICE).equals(action)){
-                Intent mIntent = new Intent(context,RealTimeService.class);
-                stopService(mIntent);
-
-            }
-        }
-    }
-
     @Override
     public void onDestroy() {
         uploadLatLonThread.isRunning = false;
         this.locationClient.stop();
-        unregisterReceiver(myReceiver);
         super.onDestroy();
-    }
-
-    /**
-     * 从本地数据库读取登录用户Id 用来作为数据请求id
-     * @return
-     */
-    public String getLoginUid(){
-        DatabaseHelper dbHelper = new DatabaseHelper(RealTimeService.this,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
-        String uid = null;
-        while (cursor.moveToNext()){
-            uid = cursor.getString((cursor.getColumnIndex("uid")));
-        }
-        return uid;
     }
 
 }

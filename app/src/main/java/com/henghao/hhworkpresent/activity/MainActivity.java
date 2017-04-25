@@ -69,6 +69,7 @@ public class MainActivity extends ActivityFragmentSupport {
         try {
             // 动态加载tab
             // 动态设置tab item
+
             for (int i = 0; i < this.menuLists.size(); i++) {
                 HCMenuEntity menu = this.menuLists.get(i);
                 if (menu.getStatus() == -1) {
@@ -80,9 +81,9 @@ public class MainActivity extends ActivityFragmentSupport {
                 }
             }
         }
-        catch (Exception e1) {
+        catch (Exception e) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            e.printStackTrace();
         }
         // Intent intent = getIntent();
         // page = intent.getIntExtra("page", 0);

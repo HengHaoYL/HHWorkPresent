@@ -14,6 +14,7 @@ import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
+import com.henghao.hhworkpresent.activity.TestActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
 import com.lidroid.xutils.BitmapUtils;
@@ -96,7 +97,8 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                             mActivityFragmentSupport.startActivity(intent);
                         } catch (Exception e) {
                             //如果系统找不到此应用，就提示下面的信息
-                            mActivityFragmentSupport.msg("你的手机里没有Outlook电子邮箱，请安装！");
+                            mActivityFragmentSupport.msg("你的手机里没有Outlook电子邮箱，" +
+                                    "请安装！");
                         }
                         break;
                     case 3:
@@ -116,6 +118,11 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                             //如果系统找不到此应用，就提示下面的信息
                             mActivityFragmentSupport.msg("你的手机里没有安监执法应用，请安装！");
                         }
+                        break;
+                    case 5:
+                        //考勤
+                        intent.setClass(mActivityFragmentSupport, TestActivity.class);
+                        mActivityFragmentSupport.startActivity(intent);
                         break;
                 }
             }
