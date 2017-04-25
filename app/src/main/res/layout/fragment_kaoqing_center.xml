@@ -262,7 +262,7 @@
                 android:layout_marginLeft="58dp"
                 android:textColor="#2C1D07"
                 android:layout_gravity="center"
-                android:text="0天0小时"/>
+                android:text="0天"/>
         </LinearLayout>
 
         <LinearLayout
@@ -288,7 +288,7 @@
                 android:layout_marginLeft="58dp"
                 android:layout_gravity="center"
                 android:textColor="#2C1D07"
-                android:text="0天0小时"/>
+                android:text="0天"/>
         </LinearLayout>
 
         <LinearLayout
@@ -314,7 +314,7 @@
                 android:layout_marginLeft="58dp"
                 android:textColor="#2C1D07"
                 android:layout_gravity="center"
-                android:text="0天0小时"/>
+                android:text="0天"/>
         </LinearLayout>
     </LinearLayout>
 

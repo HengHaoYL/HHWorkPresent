@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.benefit.buy.library.views.xlistview.XListView;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
@@ -92,16 +92,16 @@ public class KaoqingFragment extends FragmentSupport {
     private Handler mHandler = new Handler(){};
 
     @ViewInject(R.id.listview_kaoqing_chidao)
-    private XListView chidaoListview;
+    private ListView chidaoListview;
 
     @ViewInject(R.id.listview_kaoqing_zaotui)
-    private XListView zaotuiListview;
+    private ListView zaotuiListview;
 
     @ViewInject(R.id.listview_kaoqing_queka)
-    private XListView quekaListview;
+    private ListView quekaListview;
 
     @ViewInject(R.id.listview_kaoqing_kuanggong)
-    private XListView kuanggongListview;
+    private ListView kuanggongListview;
 
     @ViewInject(R.id.tv_attendanceDays)
     private TextView tv_attendanceDays;
@@ -310,19 +310,19 @@ public class KaoqingFragment extends FragmentSupport {
      * 根据Item数设定ListView高度
      * @param listView
      */
-    public void setListViewHeightBasedOnChildren(XListView listView) {
+    public void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
             return;
         }
         int totalHeight = 0;
-        for (int i = 0; i < (listAdapter.getCount()-1); i++) {
+        for (int i = 0; i < listAdapter.getCount(); i++) {
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        params.height = totalHeight + (listView.getDividerHeight() * listAdapter.getCount());
         listView.setLayoutParams(params);
     }
 
@@ -744,8 +744,8 @@ public class KaoqingFragment extends FragmentSupport {
         chidaoListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String currentDate = mChidaoAdapter.getItem(position-1).getCurrentDate();
-                String currentWeek = mChidaoAdapter.getItem(position-1).getWeek();
+                String currentDate = mChidaoAdapter.getItem(position).getCurrentDate();
+                String currentWeek = mChidaoAdapter.getItem(position).getWeek();
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);
                 intent.putExtra("currentWeek",currentWeek);
@@ -757,8 +757,8 @@ public class KaoqingFragment extends FragmentSupport {
         zaotuiListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String currentDate = mZaotuiAdapter.getItem(position-1).getCurrentDate();
-                String currentWeek = mZaotuiAdapter.getItem(position-1).getWeek();
+                String currentDate = mZaotuiAdapter.getItem(position).getCurrentDate();
+                String currentWeek = mZaotuiAdapter.getItem(position).getWeek();
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);
                 intent.putExtra("currentWeek",currentWeek);
@@ -770,8 +770,8 @@ public class KaoqingFragment extends FragmentSupport {
         quekaListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String currentDate = mQuekaAdapter.getItem(position-1).getCurrentDate();
-                String currentWeek = mQuekaAdapter.getItem(position-1).getWeek();
+                String currentDate = mQuekaAdapter.getItem(position).getCurrentDate();
+                String currentWeek = mQuekaAdapter.getItem(position).getWeek();
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);
                 intent.putExtra("currentWeek",currentWeek);
@@ -783,8 +783,8 @@ public class KaoqingFragment extends FragmentSupport {
         kuanggongListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String currentDate = mKuanggongAdapter.getItem(position-1).getCurrentDate();
-                String currentWeek = mKuanggongAdapter.getItem(position-1).getWeek();
+                String currentDate = mKuanggongAdapter.getItem(position).getCurrentDate();
+                String currentWeek = mKuanggongAdapter.getItem(position).getWeek();
                 Intent intent = new Intent();
                 intent.putExtra("currentDate",currentDate);
                 intent.putExtra("currentWeek",currentWeek);
