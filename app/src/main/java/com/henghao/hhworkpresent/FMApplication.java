@@ -153,8 +153,4 @@ public class FMApplication extends Application {
         }
     }
 
-    @Override
-    public void onTerminate() {
-        Log.d("Application","应用关闭");
-    }
 }

@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <com.benefit.buy.library.views.xlistview.XListView
+    <ListView
         android:id="@+id/fragment_msg_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,5 +12,16 @@
         android:fadingEdge="none"
         android:listSelector="@drawable/list_selector_transition"
         android:splitMotionEvents="false" />
+
+
+    <!--<com.benefit.buy.library.views.xlistview.XListView
+        android:id="@+id/fragment_msg_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/transparent"
+        android:fadingEdge="none"
+        android:listSelector="@drawable/list_selector_transition"
+        android:splitMotionEvents="false" />-->
 
 </RelativeLayout>

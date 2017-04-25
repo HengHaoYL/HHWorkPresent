@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
-import com.benefit.buy.library.views.xlistview.XListView;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
@@ -30,6 +30,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -44,7 +45,7 @@ import java.util.List;
 public class MsgFragment extends FragmentSupport {
 
     @ViewInject(R.id.fragment_msg_listview)
-    private XListView mXlistView;
+    private ListView mXlistView;
 
     private List<MsgEntity> mList;
 
@@ -97,8 +98,8 @@ public class MsgFragment extends FragmentSupport {
         mAdapter = new MsgNotificationAdapter(this.mActivity, mList);
         mXlistView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-
         httpRequestMsgList();
+
     }
 
     /**
@@ -165,15 +166,12 @@ public class MsgFragment extends FragmentSupport {
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("wangqingbin","mAdapter=="+mAdapter);
                             mAdapter.notifyDataSetChanged();
-                            Log.d("wangqingbin","mXlistView=="+mXlistView);
                             Log.d("wangqingbin","显示界面");
                             mActivityFragmentView.viewLoading(View.GONE);
                         }
                     });
-                    response.body().close();
-                } catch (Exception e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
