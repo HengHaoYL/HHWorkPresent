@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -87,16 +86,6 @@ public class LoginActivity extends ActivityFragmentSupport {
         initWithCenterBar();
         mCenterTextView.setText("登录");
         mCenterTextView.setVisibility(View.VISIBLE);
-
-        checkbox_remenber_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(!isChecked){
-                    login_user.setText("");
-                    login_pass.setText("");
-                }
-            }
-        });
     }
 
     @Override
