@@ -168,4 +168,10 @@ public class AppFragment extends FragmentSupport {
         });
         progressWebView.loadUrl(ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_WORKFLOW_NOLOGIN + getUsername());
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
+    }
 }

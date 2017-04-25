@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +41,6 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.utils.CoordinateConverter;
-import com.benefit.buy.library.views.xlistview.XListView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.lidroid.xutils.ViewUtils;
@@ -57,7 +58,7 @@ import java.util.List;
 public class LocationTrimActivity extends ActivityFragmentSupport implements OnGetPoiSearchResultListener {
 
     @ViewInject(R.id.placeweitiao_lisview)
-    private XListView mListView;
+    private ListView mListView;
 
     // 百度地图控件
     @ViewInject(R.id.location_mapView)
@@ -137,6 +138,23 @@ public class LocationTrimActivity extends ActivityFragmentSupport implements OnG
         mMapView.showScaleControl(false);
     }
 
+    /**
+     * 监听系统返回键
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {//点击的是返回键  
+            if (event.getAction() == KeyEvent.ACTION_UP && event.getRepeatCount() == 0) {//按键的抬起事件  
+                Intent intent = new Intent();
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
     public void onSure(){
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,10 +187,10 @@ public class LocationTrimActivity extends ActivityFragmentSupport implements OnG
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 mRightTextView.setVisibility(View.VISIBLE);
-                adapter.setCheckposition(position-1);
+                adapter.setCheckposition(position);
                 adapter.notifyDataSetChanged();
                 if(poiInfoList.size() > position){
-                    poiInfo = (PoiInfo) adapter.getItem(position-1);
+                    poiInfo = (PoiInfo) adapter.getItem(position);
                     MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(poiInfo.location);
                     mBaiduMap.animateMapStatus(u);
                     mCurrentMarker.setPosition(poiInfo.location);

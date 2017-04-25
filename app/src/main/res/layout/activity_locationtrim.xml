@@ -10,7 +10,7 @@
         android:layout_height="260dp"
         android:clickable="true"/>
 
-    <com.benefit.buy.library.views.xlistview.XListView
+    <ListView
         android:id="@+id/placeweitiao_lisview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

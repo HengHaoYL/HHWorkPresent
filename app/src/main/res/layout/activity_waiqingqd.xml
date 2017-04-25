@@ -69,7 +69,7 @@
 
         <TextView
             android:id="@+id/tv_place_name"
-            android:layout_width="260dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="14sp" />
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:text="地点微调"
             android:textColor="#1A6BE6"
-            android:textSize="12sp" />
+            android:textSize="16dp" />
     </LinearLayout>
 
     <LinearLayout

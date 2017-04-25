@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -517,6 +518,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         }  else if (requestCode == REQUEST_PLACE_CHANGE){
             if ((resultCode == Activity.RESULT_OK) || (resultCode == Activity.RESULT_CANCELED)) {
                 Bundle bundle = data.getExtras();
+                Log.d("wangqingbin","bundle=="+bundle);
                 if (bundle != null) {
                     latitude = bundle.getDouble("latitude");
                     longitude = bundle.getDouble("longitude");
