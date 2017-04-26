@@ -116,6 +116,12 @@ public class MsgFragment extends FragmentSupport {
         return uid;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        httpRequestMsgList();
+    }
+
     private Handler mHandler = new Handler(){};
 
     private void httpRequestMsgList() {
@@ -146,6 +152,16 @@ public class MsgFragment extends FragmentSupport {
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    if(("null").equals(jsonArray)||jsonArray==null){
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mActivityFragmentView.viewLoading(View.GONE);
+                                mActivityFragmentView.viewMainGone();
+                            }
+                        });
+                        return;
+                    }
                     mList.clear();
                     for(int i=0;i<jsonArray.length();i++){
                         MsgEntity msgEntity = new MsgEntity();
