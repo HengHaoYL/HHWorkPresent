@@ -615,7 +615,7 @@ public class KaoqingFragment extends FragmentSupport {
                         if(("null").equals(clockInTime)){
                             clockInTime = "09:00";
                         }else{
-                            clockInTime = "18:00";
+                            clockInTime = "17:00";
                         }
                         kaoqingEntity.setClockInTime(clockInTime);
                         kaoqingEntity.setCurrentDate(currentDate);

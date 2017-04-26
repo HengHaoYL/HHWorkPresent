@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
-            android:text="班次：A 09:00-18:00  考勤组：考勤"/>
+            android:text="班次：A 09:00-17:00  考勤组：考勤"/>
     </LinearLayout>
 
     <View

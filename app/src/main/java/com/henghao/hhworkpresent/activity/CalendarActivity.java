@@ -600,7 +600,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
      */
     public boolean equalsStringXiaban(String clockOutTime){
         //定义一个标准时间
-        int[] arr = {18,0,0};
+        int[] arr = {17,0,0};
         String[] strings = clockOutTime.split(":");
         int[] temp = new int[strings.length];
         //将字符数据转为int数组
