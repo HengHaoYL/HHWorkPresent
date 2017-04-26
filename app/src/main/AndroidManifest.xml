@@ -24,7 +24,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
+`
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
         android:name="android.hardware.nfc"
@@ -61,10 +61,6 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
-    <!-- 检查网络问题 -->
-    <service android:name=".service.ReConnectService" />
-    <!-- 推送 -->
-    <service android:name=".service.PushParseJsonService" />
 
     <application
         android:name=".FMApplication"

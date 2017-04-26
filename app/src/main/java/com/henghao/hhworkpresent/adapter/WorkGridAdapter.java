@@ -14,7 +14,6 @@ import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
-import com.henghao.hhworkpresent.activity.TestActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
 import com.lidroid.xutils.BitmapUtils;
@@ -119,11 +118,11 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                             mActivityFragmentSupport.msg("你的手机里没有安监执法应用，请安装！");
                         }
                         break;
-                    case 5:
+                   /* case 5:
                         //考勤
                         intent.setClass(mActivityFragmentSupport, TestActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
-                        break;
+                        break;*/
                 }
             }
         });

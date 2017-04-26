@@ -70,16 +70,16 @@ public class WorkFragment extends FragmentSupport {
         mEntity5.setImageId(R.drawable.icon_xingzhenzhifa);
         mEntity5.setName("行政执法");
         mList.add(mEntity5);
-        //第六个
+        /*//第六个
         AppGridEntity mEntity6 = new AppGridEntity();
         mEntity6.setImageId(R.drawable.item_add);
         mEntity6.setName("测试车辆位置");
-        mList.add(mEntity6);
+        mList.add(mEntity6);*/
         //第七个
-        AppGridEntity mEntity7 = new AppGridEntity();
-        mEntity7.setImageId(R.drawable.item_add);
-        mEntity7.setName("添加");
-        mList.add(mEntity7);
+        AppGridEntity mEntity6 = new AppGridEntity();
+        mEntity6.setImageId(R.drawable.item_add);
+        mEntity6.setName("添加");
+        mList.add(mEntity6);
         WorkGridAdapter adapter = new WorkGridAdapter(this.mActivity,mList);
         gridview.setAdapter(adapter);
         adapter.notifyDataSetChanged();

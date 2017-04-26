@@ -23,6 +23,7 @@ import com.henghao.hhworkpresent.fragment.AppFragment;
 import com.henghao.hhworkpresent.fragment.MsgFragment;
 import com.henghao.hhworkpresent.fragment.MyFragment;
 import com.henghao.hhworkpresent.fragment.WorkFragment;
+import com.henghao.hhworkpresent.utils.CheckVersionTask;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -63,6 +64,13 @@ public class MainActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
+
+        /**
+         * 开启检测版本任务
+         */
+        CheckVersionTask checkVersionTask = new CheckVersionTask(this);
+        checkVersionTask.start();
+
         setContentView(this.mActivityFragmentView);
         com.lidroid.xutils.ViewUtils.inject(this);
         menuList();
