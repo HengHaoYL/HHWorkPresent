@@ -179,6 +179,8 @@ public class LoginActivity extends ActivityFragmentSupport {
                         String isChecked = null;
                         if(checkbox_remenber_password.isChecked()) {
                             isChecked = "0";
+                        }else{
+                            isChecked = "1";
                         }
                         contentValues.put("isChecked",isChecked);
                         db.insert("user_remenber", null, contentValues);

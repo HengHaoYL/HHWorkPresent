@@ -93,9 +93,6 @@ public class MyFragment extends FragmentSupport {
 
     private ArrayList<String> mImageList = new ArrayList<>();
 
-    private DatabaseHelper dbHelper;
-    private SQLiteDatabase db;
-
     private ArrayList<File> mFileList = new ArrayList<>();//被选中的用户头像文件
 
     @Override
@@ -255,35 +252,6 @@ public class MyFragment extends FragmentSupport {
         }
     }
 
-    /**
-     * 从本地数据库读取登录用户名
-     * @return
-     */
-    public String getLoginUsername(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"username"},null,null,null,null,null);
-        String username = null;
-        while (cursor.moveToNext()){
-            username = cursor.getString((cursor.getColumnIndex("username")));
-        }
-        return username;
-    }
-
-    /**
-     * 从本地数据库读取登录密码
-     * @return
-     */
-    public String getLoginPassword(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"password"},null,null,null,null,null);
-        String password = null;
-        while (cursor.moveToNext()){
-            password = cursor.getString((cursor.getColumnIndex("password")));
-        }
-        return password;
-    }
 
     /**
      * 从本地数据库读取登录用户Id 用来作为数据请求id
@@ -429,16 +397,10 @@ public class MyFragment extends FragmentSupport {
                 break;
 
             case R.id.tv_exitlogin:        //退出登录
-                dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-                db = dbHelper.getReadableDatabase();
-                Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
-                String uid = null;
-                while (cursor.moveToNext()){
-                   uid = cursor.getString((cursor.getColumnIndex("uid")));
-                }
-                //删除用户信息
-                db.delete("user","id=?",new String[]{uid});
+                //删除数据库
+                mActivity.deleteDatabase("user_login.db");
 
+                //发送停止服务的广播
                 intent.setAction(Constant.STOP_REALTIMESERVICE);
                 mActivity.sendBroadcast(intent);
 

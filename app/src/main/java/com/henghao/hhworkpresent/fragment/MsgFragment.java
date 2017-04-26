@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,7 +143,6 @@ public class MsgFragment extends FragmentSupport {
             @Override
             public void onResponse(Response response) throws IOException {
                 String result_str = response.body().string();
-                Log.d("wangqingbin","result_str=="+result_str);
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -160,14 +158,10 @@ public class MsgFragment extends FragmentSupport {
                         msgEntity.setTitle(title);
                         mList.add(msgEntity);
                     }
-                    Log.d("wangqingbin","mList=="+mList);
-                    Log.d("wangqingbin","mHandler=="+mHandler);
-                    Log.d("wangqingbin","Activity=="+mActivity.getLocalClassName());
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mAdapter.notifyDataSetChanged();
-                            Log.d("wangqingbin","显示界面");
                             mActivityFragmentView.viewLoading(View.GONE);
                         }
                     });

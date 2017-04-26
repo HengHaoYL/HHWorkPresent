@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int VERSION = 13;
+    private static final int VERSION = 14;
 
     public DatabaseHelper(Context context, String name) {
         this(context,name,null,VERSION);
