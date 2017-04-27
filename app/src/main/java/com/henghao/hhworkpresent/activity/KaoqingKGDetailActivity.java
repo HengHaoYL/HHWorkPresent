@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -237,7 +236,6 @@ public class KaoqingKGDetailActivity extends ActivityFragmentSupport {
         requestBodyBuilder.add("date",tv_currentDate.getText().toString());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
-        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -267,18 +265,15 @@ public class KaoqingKGDetailActivity extends ActivityFragmentSupport {
                             }
                         });
                     }
-                    String data = jsonObject.getString("data");
-                    if("null".equals(data)){
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                tv_shangbanTime.setText("无");
-                                tv_shangbanState.setText("缺卡");
-                                tv_xiabanState.setText("缺卡");
-                                tv_xiabanTime.setText("无");
-                            }
-                        });
-                    }
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_shangbanTime.setText("无");
+                            tv_shangbanState.setText("缺卡");
+                            tv_xiabanState.setText("缺卡");
+                            tv_xiabanTime.setText("无");
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

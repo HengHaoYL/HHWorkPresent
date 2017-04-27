@@ -445,6 +445,13 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         requestBodyBuilder.add("userId", getLoginUid());
         String date = tvCurrentDate.getText().toString().trim();
+        int type = equalsDate(transferDateTime(date));
+        //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
+        if(type==1||type==0){
+            carlendar_kaoing_layout.setVisibility(View.GONE);
+            calendar_null_layout.setVisibility(View.VISIBLE);
+            return;
+        }
         requestBodyBuilder.add("date", transferDateTime(date));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
@@ -496,6 +503,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                         final JSONObject dataObject = jsonObject.getJSONObject("data");
                         final String clockInTime = dataObject.optString("clockInTime");
                         final String clockOutTime = dataObject.optString("clockOutTime");
+                        final String checkType = dataObject.optString("checkType");
                         //这时的clockInTime是一个null字符串 ，不是null
                         mHandler.post(new Runnable() {
                             @Override
@@ -504,6 +512,74 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                                 tv_xiabanTime.setText(clockOutTime);
                             }
                         });
+
+                        if("请假".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tv_shangbanState.setText("请假");
+                                    tv_shangbanTime.setText("无");
+                                    tv_xiabanState.setText("请假");
+                                    tv_xiabanTime.setText("无");
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                }
+                            });
+                            return;
+                        }
+
+                        if("出差".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tv_shangbanState.setText("出差");
+                                    tv_shangbanTime.setText("无");
+                                    tv_xiabanState.setText("出差");
+                                    tv_xiabanTime.setText("无");
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                }
+                            });
+                            return;
+                        }
+
+                        if("补签".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tv_shangbanState.setText("补签");
+                                    tv_shangbanTime.setText("09:00:00");
+                                    tv_xiabanState.setText("补签");
+                                    tv_xiabanTime.setText("17:00:00");
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                }
+                            });
+                            return;
+                        }
+
+                        if("周末".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    carlendar_kaoing_layout.setVisibility(View.GONE);
+                                    calendar_null_layout.setVisibility(View.VISIBLE);
+                                }
+                            });
+                            return;
+                        }
+
+                        if("旷工".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tv_shangbanState.setText("缺卡");
+                                    tv_shangbanTime.setText("无");
+                                    tv_xiabanState.setText("缺卡");
+                                    tv_xiabanTime.setText("无");
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                }
+                            });
+                            return;
+                        }
 
                         //缺卡情况
                         if(("null").equals(clockInTime)){
@@ -622,6 +698,55 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         newDate = newDate.replace("月","-");
         newDate = newDate.replace("日","");
         return newDate;
+    }
+
+
+    //日期比较测试       返回值：大于当前日期：1，等于当前日期：0，小于当前日期：-1
+    public static int equalsDate(String date){
+        //定义一个系统当前日期
+        Date date1 = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String currentTime = format.format(date1);
+        //传进来的日期数组
+        int[] dataArr = StringToIntArr(date);
+        //当前日期数组
+        int[] current = StringToIntArr(currentTime);
+        //进行比较
+        if (dataArr[0]>current[0]) {
+            System.out.println("大于当前日期");
+            return 1;
+        }
+        if (dataArr[0]==current[0]) {
+            //年份相等，判断月份
+            if (dataArr[1]>current[1]) {
+                System.out.println("大于当前日期");
+                return 1;
+            }else if(dataArr[1]==current[1]){
+                //月份相等，判断天
+                if (dataArr[2]>current[2]) {
+                    System.out.println("大于当前日期");
+                    return 1;
+                }else if(dataArr[2]==current[2]){
+                    System.out.println("等于当前日期");
+                    return 0;
+                }
+                System.out.println("小于当前日期");
+                return -1;
+            }
+        }
+        //年份小于
+        System.out.println("小于当前日期");
+        return -1;
+    }
+
+    //传入String类型日期，返回int 数组
+    public static int[] StringToIntArr(String date){
+        String[] strings = date.split("-");
+        int[] arr = new int[strings.length];
+        for (int i = 0; i < strings.length; i++) {
+            arr[i] = Integer.parseInt(strings[i]);
+        }
+        return arr;
     }
 
 }

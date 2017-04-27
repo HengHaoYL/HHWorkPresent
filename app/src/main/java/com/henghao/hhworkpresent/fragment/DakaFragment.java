@@ -559,57 +559,10 @@ public class DakaFragment extends FragmentSupport {
                         JSONObject dataObject = jsonObject.getJSONObject("data");
                         String morningCount = dataObject.optString("morningCount");
                         String afterCount = dataObject.optString("afterCount");
+                        String checkType = dataObject.optString("checkType");
 
-                        //代表上午还没有签到
-                        if ("0".equals(morningCount)) {
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.GONE);
-                                    shangban_layout.setVisibility(View.VISIBLE);
-                                    xiaban_layout.setVisibility(View.GONE);
-                                    Date date = new Date();
-                                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                                    String currentTime1 = format.format(date);
-                                    shangban_qiandao_date.setText(currentTime1);
-                                }
-                            });
-                        } else {
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mActivityFragmentView.viewLoading(View.GONE);
-                                    //如果不是0 则显示下午签到布局
-                                    pastdate_layout.setVisibility(View.GONE);
-                                    shangban_layout.setVisibility(View.GONE);
-                                    xiaban_layout.setVisibility(View.VISIBLE);
-                                    httpRequestKaoqingofCurrentDateShangwu();
-                                    Date date1 = new Date();
-                                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                                    String currentTime1 = format.format(date1);
-                                    xiaban_qiandao_date.setText(currentTime1);
-                                }
-                            });
-                        }
-
-                        //代表下午还没有签到
-                        if ("0".equals(afterCount)) {
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.GONE);
-                                    shangban_layout.setVisibility(View.GONE);
-                                    xiaban_layout.setVisibility(View.VISIBLE);
-                                    httpRequestKaoqingofCurrentDateShangwu();
-                                    Date date1 = new Date();
-                                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                                    String currentTime1 = format.format(date1);
-                                    xiaban_qiandao_date.setText(currentTime1);
-                                }
-                            });
-                        } else {
+                        //如果checkType 是这几个值i 直接显示下午布局
+                        if("请假".equals(checkType)){
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -617,9 +570,105 @@ public class DakaFragment extends FragmentSupport {
                                     pastdate_layout.setVisibility(View.VISIBLE);
                                     shangban_layout.setVisibility(View.GONE);
                                     xiaban_layout.setVisibility(View.GONE);
-                                    httpRequestKaoqingofPastDate();
+                                    pastdate_shangbantime.setText("无");
+                                    pastdate_shangbanstate.setText("请假");
+                                    pastdate_xiabantime.setText("无");
+                                    pastdate_xiabanstate.setText("请假");
                                 }
                             });
+                            return;
+                        }else if("补签".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    pastdate_layout.setVisibility(View.VISIBLE);
+                                    shangban_layout.setVisibility(View.GONE);
+                                    xiaban_layout.setVisibility(View.GONE);
+                                    pastdate_shangbanstate.setText("补签");
+                                    pastdate_shangbantime.setText("09:00:00");
+                                    pastdate_xiabanstate.setText("补签");
+                                    pastdate_xiabantime.setText("17:00:00");
+                                }
+                            });
+                            return;
+                        }else if("出差".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    pastdate_layout.setVisibility(View.VISIBLE);
+                                    shangban_layout.setVisibility(View.GONE);
+                                    xiaban_layout.setVisibility(View.GONE);
+                                    pastdate_shangbantime.setText("无");
+                                    pastdate_shangbanstate.setText("出差");
+                                    pastdate_xiabantime.setText("无");
+                                    pastdate_xiabanstate.setText("出差");
+                                }
+                            });
+                            return;
+                        }else{
+                            //代表上午还没有签到
+                            if ("0".equals(morningCount)) {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mActivityFragmentView.viewLoading(View.GONE);
+                                        pastdate_layout.setVisibility(View.GONE);
+                                        shangban_layout.setVisibility(View.VISIBLE);
+                                        xiaban_layout.setVisibility(View.GONE);
+                                        Date date = new Date();
+                                        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                                        String currentTime1 = format.format(date);
+                                        shangban_qiandao_date.setText(currentTime1);
+                                    }
+                                });
+                            } else {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mActivityFragmentView.viewLoading(View.GONE);
+                                        //如果不是0 则显示下午签到布局
+                                        pastdate_layout.setVisibility(View.GONE);
+                                        shangban_layout.setVisibility(View.GONE);
+                                        xiaban_layout.setVisibility(View.VISIBLE);
+                                        httpRequestKaoqingofCurrentDateShangwu();
+                                        Date date1 = new Date();
+                                        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                                        String currentTime1 = format.format(date1);
+                                        xiaban_qiandao_date.setText(currentTime1);
+                                    }
+                                });
+                            }
+
+                            //代表下午还没有签到
+                            if ("0".equals(afterCount)) {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mActivityFragmentView.viewLoading(View.GONE);
+                                        pastdate_layout.setVisibility(View.GONE);
+                                        shangban_layout.setVisibility(View.GONE);
+                                        xiaban_layout.setVisibility(View.VISIBLE);
+                                        httpRequestKaoqingofCurrentDateShangwu();
+                                        Date date1 = new Date();
+                                        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                                        String currentTime1 = format.format(date1);
+                                        xiaban_qiandao_date.setText(currentTime1);
+                                    }
+                                });
+                            } else {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mActivityFragmentView.viewLoading(View.GONE);
+                                        pastdate_layout.setVisibility(View.VISIBLE);
+                                        shangban_layout.setVisibility(View.GONE);
+                                        xiaban_layout.setVisibility(View.GONE);
+                                        httpRequestKaoqingofPastDate();
+                                    }
+                                });
+                            }
                         }
                     }
 
@@ -828,6 +877,56 @@ public class DakaFragment extends FragmentSupport {
                                 pastdate_xiabantime.setText(clockOutTime);
                             }
                         });
+
+                        String checkType = dataObject.optString("checkType");
+
+                        //如果checkType 是这几个值i 直接显示下午布局
+                        if("请假".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    pastdate_layout.setVisibility(View.VISIBLE);
+                                    shangban_layout.setVisibility(View.GONE);
+                                    xiaban_layout.setVisibility(View.GONE);
+                                    pastdate_shangbantime.setText("无");
+                                    pastdate_shangbanstate.setText("请假");
+                                    pastdate_xiabantime.setText("无");
+                                    pastdate_xiabanstate.setText("请假");
+                                }
+                            });
+                            return;
+                        }else if("补签".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    pastdate_layout.setVisibility(View.VISIBLE);
+                                    shangban_layout.setVisibility(View.GONE);
+                                    xiaban_layout.setVisibility(View.GONE);
+                                    pastdate_shangbanstate.setText("补签");
+                                    pastdate_shangbantime.setText("09:00:00");
+                                    pastdate_xiabanstate.setText("补签");
+                                    pastdate_xiabantime.setText("17:00:00");
+                                }
+                            });
+                            return;
+                        }else if("出差".equals(checkType)) {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    pastdate_layout.setVisibility(View.VISIBLE);
+                                    shangban_layout.setVisibility(View.GONE);
+                                    xiaban_layout.setVisibility(View.GONE);
+                                    pastdate_shangbantime.setText("无");
+                                    pastdate_shangbanstate.setText("出差");
+                                    pastdate_xiabantime.setText("无");
+                                    pastdate_xiabanstate.setText("出差");
+                                }
+                            });
+                            return;
+                        }
 
                         //缺卡情况
                         if(("null").equals(clockInTime)){
