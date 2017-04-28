@@ -34,6 +34,7 @@ public class ProtocolUrl {
         } else {
             // 测试地址
             ROOT_URL = "http://222.85.156.33:8082";
+       //  ROOT_URL = "http://172.16.0.76:8080";
         }
     }
 

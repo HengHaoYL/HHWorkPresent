@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -557,6 +558,7 @@ public class DakaFragment extends FragmentSupport {
                         }
                     } else {
                         JSONObject dataObject = jsonObject.getJSONObject("data");
+                        Log.d("wangqingbin","dataObject=="+dataObject);
                         String morningCount = dataObject.optString("morningCount");
                         String afterCount = dataObject.optString("afterCount");
                         String checkType = dataObject.optString("checkType");
@@ -623,6 +625,7 @@ public class DakaFragment extends FragmentSupport {
                                         shangban_qiandao_date.setText(currentTime1);
                                     }
                                 });
+                                return;
                             } else {
                                 mHandler.post(new Runnable() {
                                     @Override
@@ -637,6 +640,7 @@ public class DakaFragment extends FragmentSupport {
                                         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                                         String currentTime1 = format.format(date1);
                                         xiaban_qiandao_date.setText(currentTime1);
+                                        return;
                                     }
                                 });
                             }
