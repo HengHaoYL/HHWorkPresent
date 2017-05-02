@@ -11,7 +11,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.ProgressWebView;
@@ -49,6 +48,14 @@ public class WaichuActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
+        mLeftTextView.setText("出差");
+        mLeftTextView.setVisibility(View.VISIBLE);
+        mLeftTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -99,6 +106,6 @@ public class WaichuActivity extends ActivityFragmentSupport {
                 return true;
             }
         });
-        progressWebView.loadUrl(ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_WORKFLOW_NOLOGIN + getUsername());
+        progressWebView.loadUrl("http://222.85.156.33:8082/hz7/horizon/workflow/support/open.wf?loginName="+getUsername()+"&flowId=ccsq");
     }
 }

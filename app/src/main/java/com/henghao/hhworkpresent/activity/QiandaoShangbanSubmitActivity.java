@@ -90,7 +90,11 @@ public class QiandaoShangbanSubmitActivity extends ActivityFragmentSupport {
         latitude = intent.getDoubleExtra("latitude",0);
         longitude = intent.getDoubleExtra("longitude",0);
         tv_time_qiandaosubmit.setText(time);
-        tv_address_qiandaosubmit.setText(address);
+        if("null".equals(address)||address==null){
+            tv_address_qiandaosubmit.setText("暂时没有定位信息");
+        } else {
+            tv_address_qiandaosubmit.setText(address);
+        }
         tv_company_qiandaosubmit.setText("贵阳市安全生产监督管理局");
 
     }
