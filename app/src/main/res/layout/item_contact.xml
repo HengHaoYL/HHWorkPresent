@@ -4,22 +4,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_catagory"
         android:layout_width="match_parent"
         android:layout_height="38dp"
-        android:background="#F0F0F0">
-        <TextView
-            android:id="@+id/tv_catagory"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:text="A"
-            android:layout_marginRight="24dp"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-    </LinearLayout>
+        android:layout_marginTop="4dp"
+        android:background="#F0F0F0"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:text="A"
+        android:layout_marginRight="24dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tv_city_name"
