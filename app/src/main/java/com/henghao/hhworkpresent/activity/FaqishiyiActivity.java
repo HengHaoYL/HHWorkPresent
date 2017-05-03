@@ -1,130 +1,69 @@
-package com.henghao.hhworkpresent.fragment;
+package com.henghao.hhworkpresent.activity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.henghao.hhworkpresent.FragmentSupport;
+import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.ProgressWebView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
-
 /**
- * Created by bryanrady on 2017/2/28.
+ * 发起事宜
+ * Created by bryanrady on 2017/5/3.
  */
 
-public class AppFragment extends FragmentSupport {
-
-    /*@ViewInject(R.id.tv_cheliangSP)
-    private TextView cheliangSP;
-
-    @ViewInject(tv_xingzhengSP)
-    private TextView xingzhengSP;
-
-    @ViewInject(tv_xingzhengZF)
-    private TextView xingzhengZF;
-
-    @ViewInject(tv_bangongRW)
-    private TextView bangongRW;
-
-    @ViewInject(R.id.view_pager)
-    private AutoScrollViewPager viewPager;
-
-
-    @ViewInject(R.id.indicator)
-    private CirclePageIndicator indicator;
-
-    private Intent intent;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        this.mActivityFragmentView.viewMain(R.layout.fragment_app);
-        this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
-        this.mActivityFragmentView.viewEmptyGone();
-        this.mActivityFragmentView.viewLoading(View.GONE);
-        ViewUtils.inject(this, this.mActivityFragmentView);
-        initWidget();
-        initData();
-        return this.mActivityFragmentView;
-    }
-
-    public void initWidget(){
-        initwithContent();
-    }
-
-    public void initData(){
-        CommonAutoViewpager.viewPageAdapter(this.mActivity, viewPager, indicator);
-    }
-
-    private void initwithContent() {
-        initWithCenterBar();
-        this.mCenterTextView.setVisibility(View.VISIBLE);
-        this.mCenterTextView.setText("应用");
-    }
-
-    @OnClick({R.id.tv_cheliangSP,tv_xingzhengSP,tv_bangongRW,tv_xingzhengZF})
-    private void viewOnClick(View v){
-        Intent intent = new Intent();
-        switch (v.getId()){
-            case R.id.tv_cheliangSP:
-                intent.setClass(getActivity(), CheliangSPActivity.class);
-                startActivity(intent);
-                break;
-            case tv_xingzhengSP:
-                intent.setClass(getActivity(), XingZhenSPActivity.class);
-                startActivity(intent);
-                break;
-            case tv_xingzhengZF:
-                intent.setClass(getActivity(), XingZhenZFActivity.class);
-                startActivity(intent);
-                break;
-            case tv_bangongRW:
-                intent.setClass(getActivity(), BangGongRWActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }*/
+public class FaqishiyiActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.carapply_webview)
     private ProgressWebView progressWebView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.mActivityFragmentView.viewMain(R.layout.activity_carapply);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
+        setContentView(this.mActivityFragmentView);
         initWidget();
         initData();
-        return this.mActivityFragmentView;
     }
 
-    public void initWidget(){
-        initWithCenterBar();
-        this.mCenterTextView.setVisibility(View.VISIBLE);
-        this.mCenterTextView.setText("应用");
+    @Override
+    public void initWidget() {
+        super.initWidget();
+        initWithBar();
+        mLeftTextView.setText("发起事宜");
+        mLeftTextView.setVisibility(View.VISIBLE);
+        mLeftTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
-    public void initData(){
+    @Override
+    public void initData() {
+        super.initData();
         init();
     }
 
     public String getUsername(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
+        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String username = null;
         Cursor cursor = db.query("user",new String[]{"username"},null,null,null,null,null);
@@ -166,7 +105,6 @@ public class AppFragment extends FragmentSupport {
             }
         });
         progressWebView.loadUrl("http://222.85.156.33:8082/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
-                "loginName="+getUsername()+"&viewid=HZ2881f95b46dde8015b47b392b006ad");
+                "loginName="+getUsername()+"&viewid=HZ2881f84fafe789014fb016ac360067");
     }
-
 }

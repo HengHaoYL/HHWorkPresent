@@ -158,6 +158,54 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 个人待办界面 -->
+        <activity
+            android:name=".activity.GerendaibanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 发起事宜界面 -->
+        <activity
+            android:name=".activity.FaqishiyiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 可阅事宜界面 -->
+        <activity
+            android:name=".activity.KeyueshiyiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 已办事宜界面 -->
+        <activity
+            android:name=".activity.YibanshiyiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 待办认领界面 -->
+        <activity
+            android:name=".activity.DaibanrenlingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 待阅事宜界面 -->
+        <activity
+            android:name=".activity.DaiyueshiyiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 撤办文件界面 -->
+        <activity
+            android:name=".activity.ChebanwenjianActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 已阅事宜界面 -->
+        <activity
+            android:name=".activity.YiyueshiyiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 办公任务界面 -->
         <activity
             android:name=".activity.BangGongRWActivity"

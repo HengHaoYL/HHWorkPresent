@@ -3,38 +3,30 @@ package com.henghao.hhworkpresent.fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 
+import com.allenliu.badgeview.BadgeFactory;
+import com.allenliu.badgeview.BadgeView;
 import com.henghao.hhworkpresent.FragmentSupport;
-import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.MsgDetailActivity;
-import com.henghao.hhworkpresent.adapter.MsgNotificationAdapter;
-import com.henghao.hhworkpresent.entity.MsgEntity;
+import com.henghao.hhworkpresent.activity.ChebanwenjianActivity;
+import com.henghao.hhworkpresent.activity.DaibanrenlingActivity;
+import com.henghao.hhworkpresent.activity.DaiyueshiyiActivity;
+import com.henghao.hhworkpresent.activity.FaqishiyiActivity;
+import com.henghao.hhworkpresent.activity.GerendaibanActivity;
+import com.henghao.hhworkpresent.activity.KeyueshiyiActivity;
+import com.henghao.hhworkpresent.activity.YibanshiyiActivity;
+import com.henghao.hhworkpresent.activity.YiyueshiyiActivity;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 
 /**
  * 消息首页
@@ -43,12 +35,29 @@ import java.util.List;
 
 public class MsgFragment extends FragmentSupport {
 
-    @ViewInject(R.id.fragment_msg_listview)
-    private ListView mXlistView;
+    @ViewInject(R.id.gerendaiban)
+    private LinearLayout geredaiban;
 
-    private List<MsgEntity> mList;
+    @ViewInject(R.id.faqishiyi)
+    private LinearLayout faqishiyi;
 
-    private MsgNotificationAdapter mAdapter;
+    @ViewInject(R.id.keyueshiyi)
+    private LinearLayout keyueshiyi;
+
+    @ViewInject(R.id.yibanshiyi)
+    private LinearLayout yibanshiyi;
+
+    @ViewInject(R.id.daibanrenling)
+    private LinearLayout daibanrenling;
+
+    @ViewInject(R.id.daiyueshiyi)
+    private LinearLayout daiyueshiyi;
+
+    @ViewInject(R.id.chebanwenjian)
+    private LinearLayout chebanwenjian;
+
+    @ViewInject(R.id.yiyueshiyi)
+    private LinearLayout yiyueshiyi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,18 +81,10 @@ public class MsgFragment extends FragmentSupport {
             @Override
             public void onClick(View v) {
                 mActivityFragmentView.viewLoadingError(View.GONE);
-                httpRequestMsgList();
+
             }
         });
 
-        mXlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent();
-                intent.setClass(getContext(), MsgDetailActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void initwithContent() {
@@ -93,12 +94,140 @@ public class MsgFragment extends FragmentSupport {
     }
 
     public void initData(){
-        mList = new ArrayList<>();
-        mAdapter = new MsgNotificationAdapter(this.mActivity, mList);
-        mXlistView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-        httpRequestMsgList();
+        drawCriclePoint();
+    }
 
+    /**
+     * 绘制消息数圆点
+     */
+    public void drawCriclePoint(){
+        BadgeFactory.create(this.mActivity)
+                .setTextColor(Color.WHITE)
+                .setWidthAndHeight(25,25)
+                .setBadgeBackground(Color.RED)
+                .setTextSize(10)
+                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                .setBadgeCount(20)
+                .setShape(BadgeView.SHAPE_CIRCLE)
+                .bind(geredaiban);
+
+        BadgeFactory.create(this.mActivity)
+                .setTextColor(Color.WHITE)
+                .setWidthAndHeight(25,25)
+                .setBadgeBackground(Color.RED)
+                .setTextSize(10)
+                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                .setBadgeCount(20)
+                .setShape(BadgeView.SHAPE_CIRCLE)
+                .bind(faqishiyi);
+
+        BadgeFactory.create(this.mActivity)
+                .setTextColor(Color.WHITE)
+                .setWidthAndHeight(25,25)
+                .setBadgeBackground(Color.RED)
+                .setTextSize(10)
+                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                .setBadgeCount(20)
+                .setShape(BadgeView.SHAPE_CIRCLE)
+                .bind(keyueshiyi);
+
+        BadgeFactory.create(this.mActivity)
+                .setTextColor(Color.WHITE)
+                .setWidthAndHeight(25,25)
+                .setBadgeBackground(Color.RED)
+                .setTextSize(10)
+                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                .setBadgeCount(20)
+                .setShape(BadgeView.SHAPE_CIRCLE)
+                .bind(yibanshiyi);
+
+        BadgeFactory.create(this.mActivity)
+                .setTextColor(Color.WHITE)
+                .setWidthAndHeight(25,25)
+                .setBadgeBackground(Color.RED)
+                .setTextSize(10)
+                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                .setBadgeCount(20)
+                .setShape(BadgeView.SHAPE_CIRCLE)
+                .bind(daibanrenling);
+
+        BadgeFactory.create(this.mActivity)
+                .setTextColor(Color.WHITE)
+                .setWidthAndHeight(25,25)
+                .setBadgeBackground(Color.RED)
+                .setTextSize(10)
+                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                .setBadgeCount(20)
+                .setShape(BadgeView.SHAPE_CIRCLE)
+                .bind(daiyueshiyi);
+
+        BadgeFactory.create(this.mActivity)
+                .setTextColor(Color.WHITE)
+                .setWidthAndHeight(25,25)
+                .setBadgeBackground(Color.RED)
+                .setTextSize(10)
+                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                .setBadgeCount(20)
+                .setShape(BadgeView.SHAPE_CIRCLE)
+                .bind(chebanwenjian);
+
+        BadgeFactory.create(this.mActivity)
+                .setTextColor(Color.WHITE)
+                .setWidthAndHeight(25,25)
+                .setBadgeBackground(Color.RED)
+                .setTextSize(10)
+                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                .setBadgeCount(20)
+                .setShape(BadgeView.SHAPE_CIRCLE)
+                .bind(yiyueshiyi);
+    }
+
+    @OnClick({R.id.gerendaiban,R.id.faqishiyi,R.id.keyueshiyi,R.id.yibanshiyi,
+              R.id.daibanrenling,R.id.daiyueshiyi,R.id.chebanwenjian,R.id.yiyueshiyi})
+    private void viewOnClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()){
+            case R.id.gerendaiban:
+                intent.setClass(mActivity, GerendaibanActivity.class);
+                mActivity.startActivity(intent);
+                break;
+
+            case R.id.faqishiyi:
+                intent.setClass(mActivity, FaqishiyiActivity.class);
+                mActivity.startActivity(intent);
+                break;
+
+            case R.id.keyueshiyi:
+                intent.setClass(mActivity, KeyueshiyiActivity.class);
+                mActivity.startActivity(intent);
+                break;
+
+            case R.id.yibanshiyi:
+                intent.setClass(mActivity, YibanshiyiActivity.class);
+                mActivity.startActivity(intent);
+                break;
+
+            case R.id.daibanrenling:
+                intent.setClass(mActivity, DaibanrenlingActivity.class);
+                mActivity.startActivity(intent);
+                break;
+
+            case R.id.daiyueshiyi:
+                intent.setClass(mActivity, DaiyueshiyiActivity.class);
+                mActivity.startActivity(intent);
+                break;
+
+            case R.id.chebanwenjian:
+                intent.setClass(mActivity, ChebanwenjianActivity.class);
+                mActivity.startActivity(intent);
+                break;
+
+            case R.id.yiyueshiyi:
+                intent.setClass(mActivity, YiyueshiyiActivity.class);
+                mActivity.startActivity(intent);
+                break;
+
+        }
     }
 
     /**
@@ -116,13 +245,7 @@ public class MsgFragment extends FragmentSupport {
         return uid;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        httpRequestMsgList();
-    }
-
-    private Handler mHandler = new Handler(){};
+    /*private Handler mHandler = new Handler(){};
 
     private void httpRequestMsgList() {
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -186,5 +309,5 @@ public class MsgFragment extends FragmentSupport {
                 }
             }
         });
-    }
+    }*/
 }
