@@ -104,7 +104,7 @@ public class ChebanwenjianActivity extends ActivityFragmentSupport {
                 return true;
             }
         });
-        progressWebView.loadUrl("http://222.85.156.33:8082/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
+        progressWebView.loadUrl("http://172.16.0.114:8080/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
                 "loginName="+getUsername()+"&viewid=HZ2881f84ff430b6014ff44d1e9e022d");
     }
 }

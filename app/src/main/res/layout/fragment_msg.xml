@@ -21,7 +21,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/icon_logo"/>
+            android:src="@drawable/icon_gerendaiban"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/icon_logo"/>
+            android:src="@drawable/icon_faqishiyi"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -76,14 +76,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:layout_marginTop="10dp"
-                android:text="发起事宜"/>
+                android:text="已发事宜"/>
             <TextView
                 android:layout_toRightOf="@id/image1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:text="显示用户的发起事宜列表"/>
+                android:text="显示用户的已发事宜列表"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -105,7 +105,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/icon_logo"/>
+            android:src="@drawable/icon_keyueshiyi"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/icon_logo"/>
+            android:src="@drawable/icon_yibanshiyi"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -192,7 +192,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/icon_logo"/>
+            android:src="@drawable/icon_daibanrenling"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -234,7 +234,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/icon_logo"/>
+            android:src="@drawable/icon_daiyueshiyi"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -276,7 +276,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/icon_logo"/>
+            android:src="@drawable/icon_chebanwenjian"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -317,7 +317,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/icon_logo"/>
+            android:src="@drawable/icon_yiyueshiyi"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -18,7 +18,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
- * 发起事宜
+ * 已发事宜
  * Created by bryanrady on 2017/5/3.
  */
 
@@ -46,7 +46,7 @@ public class FaqishiyiActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("发起事宜");
+        mLeftTextView.setText("已发事宜");
         mLeftTextView.setVisibility(View.VISIBLE);
         mLeftTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +104,7 @@ public class FaqishiyiActivity extends ActivityFragmentSupport {
                 return true;
             }
         });
-        progressWebView.loadUrl("http://222.85.156.33:8082/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
+        progressWebView.loadUrl("http://172.16.0.114:8080/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
                 "loginName="+getUsername()+"&viewid=HZ2881f84fafe789014fb016ac360067");
     }
 }
