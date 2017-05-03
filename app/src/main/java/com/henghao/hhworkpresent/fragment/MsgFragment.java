@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import com.allenliu.badgeview.BadgeFactory;
 import com.allenliu.badgeview.BadgeView;
 import com.henghao.hhworkpresent.FragmentSupport;
@@ -59,6 +58,15 @@ public class MsgFragment extends FragmentSupport {
     @ViewInject(R.id.yiyueshiyi)
     private LinearLayout yiyueshiyi;
 
+    private int gerendaiban_count = 10;
+    private int faqishiyi_count;
+    private int keyueshiyi_count;
+    private int yibanshiyi_count;
+    private int daibanrenling_count = 5;
+    private int daiyueshiyi_count;
+    private int chebanwenjian_count;
+    private int yiyueshiyi_count;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -101,85 +109,102 @@ public class MsgFragment extends FragmentSupport {
      * 绘制消息数圆点
      */
     public void drawCriclePoint(){
-        BadgeFactory.create(this.mActivity)
-                .setTextColor(Color.WHITE)
-                .setWidthAndHeight(25,25)
-                .setBadgeBackground(Color.RED)
-                .setTextSize(10)
-                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                .setBadgeCount(20)
-                .setShape(BadgeView.SHAPE_CIRCLE)
-                .bind(geredaiban);
+        if(gerendaiban_count>0){
+            BadgeFactory.create(this.mActivity)
+                    .setTextColor(Color.WHITE)
+                    .setWidthAndHeight(25,25)
+                    .setBadgeBackground(Color.RED)
+                    .setTextSize(10)
+                    .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                    .setBadgeCount(gerendaiban_count)
+                    .setShape(BadgeView.SHAPE_CIRCLE)
+                    .bind(geredaiban);
+        }
 
-        BadgeFactory.create(this.mActivity)
-                .setTextColor(Color.WHITE)
-                .setWidthAndHeight(25,25)
-                .setBadgeBackground(Color.RED)
-                .setTextSize(10)
-                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                .setBadgeCount(20)
-                .setShape(BadgeView.SHAPE_CIRCLE)
-                .bind(faqishiyi);
+        if(faqishiyi_count>0){
+            BadgeFactory.create(this.mActivity)
+                    .setTextColor(Color.WHITE)
+                    .setWidthAndHeight(25,25)
+                    .setBadgeBackground(Color.RED)
+                    .setTextSize(10)
+                    .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                    .setBadgeCount(faqishiyi_count)
+                    .setShape(BadgeView.SHAPE_CIRCLE)
+                    .bind(faqishiyi);
+        }
 
-        BadgeFactory.create(this.mActivity)
-                .setTextColor(Color.WHITE)
-                .setWidthAndHeight(25,25)
-                .setBadgeBackground(Color.RED)
-                .setTextSize(10)
-                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                .setBadgeCount(20)
-                .setShape(BadgeView.SHAPE_CIRCLE)
-                .bind(keyueshiyi);
+        if(keyueshiyi_count>0){
+            BadgeFactory.create(this.mActivity)
+                    .setTextColor(Color.WHITE)
+                    .setWidthAndHeight(25,25)
+                    .setBadgeBackground(Color.RED)
+                    .setTextSize(10)
+                    .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                    .setBadgeCount(keyueshiyi_count)
+                    .setShape(BadgeView.SHAPE_CIRCLE)
+                    .bind(keyueshiyi);
+        }
 
-        BadgeFactory.create(this.mActivity)
-                .setTextColor(Color.WHITE)
-                .setWidthAndHeight(25,25)
-                .setBadgeBackground(Color.RED)
-                .setTextSize(10)
-                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                .setBadgeCount(20)
-                .setShape(BadgeView.SHAPE_CIRCLE)
-                .bind(yibanshiyi);
+        if(yibanshiyi_count>0){
+            BadgeFactory.create(this.mActivity)
+                    .setTextColor(Color.WHITE)
+                    .setWidthAndHeight(25,25)
+                    .setBadgeBackground(Color.RED)
+                    .setTextSize(10)
+                    .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                    .setBadgeCount(yibanshiyi_count)
+                    .setShape(BadgeView.SHAPE_CIRCLE)
+                    .bind(yibanshiyi);
+        }
 
-        BadgeFactory.create(this.mActivity)
-                .setTextColor(Color.WHITE)
-                .setWidthAndHeight(25,25)
-                .setBadgeBackground(Color.RED)
-                .setTextSize(10)
-                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                .setBadgeCount(20)
-                .setShape(BadgeView.SHAPE_CIRCLE)
-                .bind(daibanrenling);
+        if(daibanrenling_count>0){
+            BadgeFactory.create(this.mActivity)
+                    .setTextColor(Color.WHITE)
+                    .setWidthAndHeight(25,25)
+                    .setBadgeBackground(Color.RED)
+                    .setTextSize(10)
+                    .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                    .setBadgeCount(daibanrenling_count)
+                    .setShape(BadgeView.SHAPE_CIRCLE)
+                    .bind(daibanrenling);
+        }
 
-        BadgeFactory.create(this.mActivity)
-                .setTextColor(Color.WHITE)
-                .setWidthAndHeight(25,25)
-                .setBadgeBackground(Color.RED)
-                .setTextSize(10)
-                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                .setBadgeCount(20)
-                .setShape(BadgeView.SHAPE_CIRCLE)
-                .bind(daiyueshiyi);
+        if(daiyueshiyi_count>0){
+            BadgeFactory.create(this.mActivity)
+                    .setTextColor(Color.WHITE)
+                    .setWidthAndHeight(25,25)
+                    .setBadgeBackground(Color.RED)
+                    .setTextSize(10)
+                    .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                    .setBadgeCount(daiyueshiyi_count)
+                    .setShape(BadgeView.SHAPE_CIRCLE)
+                    .bind(daiyueshiyi);
+        }
 
-        BadgeFactory.create(this.mActivity)
-                .setTextColor(Color.WHITE)
-                .setWidthAndHeight(25,25)
-                .setBadgeBackground(Color.RED)
-                .setTextSize(10)
-                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                .setBadgeCount(20)
-                .setShape(BadgeView.SHAPE_CIRCLE)
-                .bind(chebanwenjian);
+        if(chebanwenjian_count>0){
+            BadgeFactory.create(this.mActivity)
+                    .setTextColor(Color.WHITE)
+                    .setWidthAndHeight(25,25)
+                    .setBadgeBackground(Color.RED)
+                    .setTextSize(10)
+                    .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                    .setBadgeCount(chebanwenjian_count)
+                    .setShape(BadgeView.SHAPE_CIRCLE)
+                    .bind(chebanwenjian);
+        }
 
-        BadgeFactory.create(this.mActivity)
-                .setTextColor(Color.WHITE)
-                .setWidthAndHeight(25,25)
-                .setBadgeBackground(Color.RED)
-                .setTextSize(10)
-                .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                .setBadgeCount(20)
-                .setShape(BadgeView.SHAPE_CIRCLE)
-                .bind(yiyueshiyi);
+        if(yiyueshiyi_count>0){
+            BadgeFactory.create(this.mActivity)
+                    .setTextColor(Color.WHITE)
+                    .setWidthAndHeight(25,25)
+                    .setBadgeBackground(Color.RED)
+                    .setTextSize(10)
+                    .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                    .setBadgeCount(yiyueshiyi_count)
+                    .setShape(BadgeView.SHAPE_CIRCLE)
+                    .bind(yiyueshiyi);
+        }
+
     }
 
     @OnClick({R.id.gerendaiban,R.id.faqishiyi,R.id.keyueshiyi,R.id.yibanshiyi,

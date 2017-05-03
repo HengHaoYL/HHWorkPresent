@@ -13,6 +13,7 @@
         android:id="@+id/gerendaiban"
         android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:paddingTop="5dp"
         android:layout_height="64dp">
         <ImageView
@@ -40,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:text="朋友的生日要到了，送个祝福阿爸水电费地方"/>
+                android:text="显示用户的个人待办列表"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -54,6 +55,7 @@
         android:id="@+id/faqishiyi"
         android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:paddingTop="5dp"
         android:layout_height="64dp">
         <ImageView
@@ -81,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:text="朋友的生日要到了，送个祝福阿爸水电费地方"/>
+                android:text="显示用户的发起事宜列表"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -96,6 +98,7 @@
         android:layout_width="match_parent"
         android:paddingTop="5dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_height="64dp">
         <ImageView
             android:id="@+id/image3"
@@ -125,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:text="朋友的生日要到了，送个祝福阿爸水电费地方"/>
+                android:text="显示用户的可阅事宜列表"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -139,6 +142,7 @@
         android:id="@+id/yibanshiyi"
         android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:paddingTop="5dp"
         android:layout_height="64dp">
         <ImageView
@@ -166,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:text="朋友的生日要到了，送个祝福阿爸水电费地方"/>
+                android:text="显示用户的已办事宜列表"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -180,6 +184,7 @@
         android:id="@+id/daibanrenling"
         android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:paddingTop="5dp"
         android:layout_height="64dp">
         <ImageView
@@ -207,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:text="朋友的生日要到了，送个祝福阿爸水电费地方"/>
+                android:text="显示用户的待办认领列表"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -221,6 +226,7 @@
         android:id="@+id/daiyueshiyi"
         android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:paddingTop="5dp"
         android:layout_height="64dp">
         <ImageView
@@ -248,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:text="朋友的生日要到了，送个祝福阿爸水电费地方"/>
+                android:text="显示用户的待阅事宜列表"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -262,6 +268,7 @@
         android:id="@+id/chebanwenjian"
         android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:paddingTop="5dp"
         android:layout_height="64dp">
         <ImageView
@@ -289,7 +296,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:text="朋友的生日要到了，送个祝福阿爸水电费地方"/>
+                android:text="显示用户的撤办文件列表"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -303,6 +310,7 @@
         android:id="@+id/yiyueshiyi"
         android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:paddingTop="5dp"
         android:layout_height="64dp">
         <ImageView
@@ -327,7 +335,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:text="朋友的生日要到了，送个祝福阿爸水电费地方"/>
+                android:text="显示用户的已阅事宜列表"/>
         </LinearLayout>
 
     </LinearLayout>

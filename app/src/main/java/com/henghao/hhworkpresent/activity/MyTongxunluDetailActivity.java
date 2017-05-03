@@ -102,6 +102,34 @@ public class MyTongxunluDetailActivity extends ActivityFragmentSupport {
             sex = "女";
         }
 
+        if("null".equals(position)||position==null){
+            position = "";
+        }
+        if("null".equals(name)||name==null){
+            name="";
+        }
+        if("null".equals(emp_NUM)||emp_NUM==null){
+            emp_NUM="";
+        }
+        if("null".equals(birth_DATE)||birth_DATE==null){
+            birth_DATE="";
+        }
+        if("null".equals(telephone)||telephone==null){
+            telephone="";
+        }
+        if("null".equals(address)||address==null){
+            address="";
+        }
+        if("null".equals(cellphone)||cellphone==null){
+            cellphone="";
+        }
+        if("null".equals(work_DESC)||work_DESC==null){
+            work_DESC="";
+        }
+        if("null".equals(dept_NAME)||dept_NAME==null){
+            dept_NAME="";
+        }
+
         tv_name.setText(name);
         tv_sex.setText(sex);
         tv_birth_Date.setText(birth_DATE);
