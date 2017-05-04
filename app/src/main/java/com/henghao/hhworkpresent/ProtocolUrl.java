@@ -33,8 +33,8 @@ public class ProtocolUrl {
        //     ROOT_URL = "222.85.156.33:8082";
         } else {
             // 测试地址
-            ROOT_URL = "http://222.85.156.33:8082";
-       //  ROOT_URL = "http://172.16.0.76:8080";
+        //    ROOT_URL = "http://222.85.156.33:8082";
+         ROOT_URL = "http://172.16.0.199:8080";
         }
     }
 
@@ -89,7 +89,7 @@ public class ProtocolUrl {
     /**
      * 查询消息列表（我要办理的消息列表）
      */
-    public static final String APP_REQUEST_MSG_LIST = "/statisticsInfo/user/myMessages";
+    public static final String APP_REQUEST_MSG_LIST_COUNTS = "/statisticsInfo/user/myMessages";
 
     /************************ 消息 end **************************/
 

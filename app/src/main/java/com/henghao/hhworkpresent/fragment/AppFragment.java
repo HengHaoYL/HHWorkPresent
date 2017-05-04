@@ -113,6 +113,12 @@ public class AppFragment extends FragmentSupport {
         return this.mActivityFragmentView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
+    }
+
     public void initWidget(){
         initWithCenterBar();
         this.mCenterTextView.setVisibility(View.VISIBLE);
