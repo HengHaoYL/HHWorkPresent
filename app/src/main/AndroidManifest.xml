@@ -212,6 +212,52 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <activity
+            android:name=".activity.CheliangyudingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.AnquanfuwuActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.ShejishenchaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.ChushenActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.FushenActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.BanfaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.ZhidingjiahuaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.RenwupaifaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.SanzhongyidaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+
         <!-- 办公任务界面 -->
         <activity
             android:name=".activity.BangGongRWActivity"

@@ -9,115 +9,169 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/common_viewpages"/>
-
         <LinearLayout
-            android:id="@+id/app_linear2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:orientation="vertical">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:text="效能提升系统"
+                android:textSize="18dp"/>
             <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/cheliangyuding"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/bangongrenwu"/>
+                android:layout_height="1dip"
+                android:background="@color/line"/>
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_bangongRW"
-                    android:layout_width="240dp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_greencircleframe"
-                    android:paddingBottom="@dimen/padding_normal"
-                    android:paddingLeft="@dimen/padding_big"
-                    android:paddingRight="@dimen/padding_big"
-                    android:paddingTop="@dimen/padding_normal"
-                    android:text="办公任务"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/gj_d" />
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:text="行政审批"
+                android:textSize="18dp"/>
+            <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/anquanfuwu"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"/>
+
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/shejishencha"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"/>
+
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/chushen"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"/>
+
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/fushen"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/xingzhenshenpi"/>
-
-                <TextView
-                    android:id="@+id/tv_xingzhengSP"
-                    android:layout_width="240dp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_greencircleframe"
-                    android:paddingBottom="@dimen/padding_normal"
-                    android:paddingLeft="@dimen/padding_big"
-                    android:paddingRight="@dimen/padding_big"
-                    android:paddingTop="@dimen/padding_normal"
-                    android:text="行政审批"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/gj_d" />
+                android:layout_height="wrap_content">
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/banfa"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="1dip"
+                android:background="@color/line"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:text="安监局"
+                android:textSize="18dp"/>
             <LinearLayout
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/xingzhenzhifa"/>
+                android:layout_height="wrap_content">
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/zhidingjihua"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/tv_xingzhengZF"
-                    android:layout_width="240dp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_greencircleframe"
-                    android:paddingBottom="@dimen/padding_normal"
-                    android:paddingLeft="@dimen/padding_big"
-                    android:paddingRight="@dimen/padding_big"
-                    android:paddingTop="@dimen/padding_normal"
-                    android:text="行政执法"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/gj_d" />
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/fabugonggao"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"/>
+
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/renwupaifa"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="1dip"
+                android:background="@color/line"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:text="三重一大事项"
+                android:textSize="18dp"/>
             <LinearLayout
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/cheliangshengpi"/>
+                android:layout_height="wrap_content">
+                <com.henghao.hhworkpresent.views.MyImageTextButton
+                    android:id="@+id/sanzhongyida"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/tv_cheliangSP"
-                    android:layout_width="240dp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_greencircleframe"
-                    android:paddingBottom="@dimen/padding_normal"
-                    android:paddingLeft="@dimen/padding_big"
-                    android:paddingRight="@dimen/padding_big"
-                    android:paddingTop="@dimen/padding_normal"
-                    android:text="车辆管理"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/gj_d" />
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="1dip"
+                android:background="@color/line"/>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

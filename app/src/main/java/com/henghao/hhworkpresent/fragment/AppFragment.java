@@ -1,22 +1,27 @@
 package com.henghao.hhworkpresent.fragment;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.views.DatabaseHelper;
-import com.henghao.hhworkpresent.views.ProgressWebView;
+import com.henghao.hhworkpresent.activity.AnquanfuwuActivity;
+import com.henghao.hhworkpresent.activity.BanfaActivity;
+import com.henghao.hhworkpresent.activity.CheliangyudingActivity;
+import com.henghao.hhworkpresent.activity.ChushenActivity;
+import com.henghao.hhworkpresent.activity.FushenActivity;
+import com.henghao.hhworkpresent.activity.RenwupaifaActivity;
+import com.henghao.hhworkpresent.activity.SanzhongyidaActivity;
+import com.henghao.hhworkpresent.activity.SendGonggaoActivity;
+import com.henghao.hhworkpresent.activity.ShejishenchaActivity;
+import com.henghao.hhworkpresent.activity.ZhidingjiahuaActivity;
+import com.henghao.hhworkpresent.views.MyImageTextButton;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 
 
 /**
@@ -25,24 +30,36 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 public class AppFragment extends FragmentSupport {
 
-    /*@ViewInject(R.id.tv_cheliangSP)
-    private TextView cheliangSP;
+    @ViewInject(R.id.cheliangyuding)
+    private MyImageTextButton cheliangyuding;
 
-    @ViewInject(tv_xingzhengSP)
-    private TextView xingzhengSP;
+    @ViewInject(R.id.anquanfuwu)
+    private MyImageTextButton anquanfuwu;
 
-    @ViewInject(tv_xingzhengZF)
-    private TextView xingzhengZF;
+    @ViewInject(R.id.shejishencha)
+    private MyImageTextButton shejishencha;
 
-    @ViewInject(tv_bangongRW)
-    private TextView bangongRW;
+    @ViewInject(R.id.chushen)
+    private MyImageTextButton chushen;
 
-    @ViewInject(R.id.view_pager)
-    private AutoScrollViewPager viewPager;
+    @ViewInject(R.id.fushen)
+    private MyImageTextButton fushen;
 
+    @ViewInject(R.id.banfa)
+    private MyImageTextButton banfa;
 
-    @ViewInject(R.id.indicator)
-    private CirclePageIndicator indicator;
+    @ViewInject(R.id.zhidingjihua)
+    private MyImageTextButton zhidingjihua;
+
+    @ViewInject(R.id.fabugonggao)
+    private MyImageTextButton fabugonggao;
+
+    @ViewInject(R.id.renwupaifa)
+    private MyImageTextButton renwupaifa;
+
+    @ViewInject(R.id.sanzhongyida)
+    private MyImageTextButton sanzhongyida;
+
 
     private Intent intent;
 
@@ -64,7 +81,36 @@ public class AppFragment extends FragmentSupport {
     }
 
     public void initData(){
-        CommonAutoViewpager.viewPageAdapter(this.mActivity, viewPager, indicator);
+        cheliangyuding.setItemTextResource("车辆预定");
+        cheliangyuding.setItemImageResource(R.drawable.item_cheliangyuding);
+
+        anquanfuwu.setItemTextResource("安全服务");
+        anquanfuwu.setItemImageResource(R.drawable.item_anquanfuwu);
+
+        shejishencha.setItemTextResource("设计审查");
+        shejishencha.setItemImageResource(R.drawable.shejishencha);
+
+        chushen.setItemTextResource("四处初审");
+        chushen.setItemImageResource(R.drawable.chushen);
+
+        fushen.setItemTextResource("四处复审");
+        fushen.setItemImageResource(R.drawable.fushen);
+
+        banfa.setItemTextResource("许可颁发");
+        banfa.setItemImageResource(R.drawable.banfa);
+
+        zhidingjihua.setItemTextResource("年初计划");
+        zhidingjihua.setItemImageResource(R.drawable.zhidingjihua);
+
+        fabugonggao.setItemTextResource("发布公告");
+        fabugonggao.setItemImageResource(R.drawable.fabugonggao);
+
+        renwupaifa.setItemTextResource("任务派发");
+        renwupaifa.setItemImageResource(R.drawable.renwupaifa);
+
+        sanzhongyida.setItemTextResource("三重一大");
+        sanzhongyida.setItemImageResource(R.drawable.sanzhongyida);
+
     }
 
     private void initwithContent() {
@@ -73,106 +119,52 @@ public class AppFragment extends FragmentSupport {
         this.mCenterTextView.setText("应用");
     }
 
-    @OnClick({R.id.tv_cheliangSP,tv_xingzhengSP,tv_bangongRW,tv_xingzhengZF})
+    @OnClick({R.id.cheliangyuding,R.id.anquanfuwu,R.id.shejishencha,R.id.chushen, R.id.fushen,
+            R.id.banfa,R.id.zhidingjihua,R.id.fabugonggao,R.id.renwupaifa,R.id.sanzhongyida})
     private void viewOnClick(View v){
         Intent intent = new Intent();
         switch (v.getId()){
-            case R.id.tv_cheliangSP:
-                intent.setClass(getActivity(), CheliangSPActivity.class);
-                startActivity(intent);
+            case R.id.cheliangyuding:
+                intent.setClass(this.mActivity,CheliangyudingActivity.class);
+                mActivity.startActivity(intent);
                 break;
-            case tv_xingzhengSP:
-                intent.setClass(getActivity(), XingZhenSPActivity.class);
-                startActivity(intent);
+            case R.id.anquanfuwu:
+                intent.setClass(this.mActivity,AnquanfuwuActivity.class);
+                mActivity.startActivity(intent);
                 break;
-            case tv_xingzhengZF:
-                intent.setClass(getActivity(), XingZhenZFActivity.class);
-                startActivity(intent);
+            case R.id.shejishencha:
+                intent.setClass(this.mActivity,ShejishenchaActivity.class);
+                mActivity.startActivity(intent);
                 break;
-            case tv_bangongRW:
-                intent.setClass(getActivity(), BangGongRWActivity.class);
-                startActivity(intent);
+            case R.id.chushen:
+                intent.setClass(this.mActivity,ChushenActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.fushen:
+                intent.setClass(this.mActivity,FushenActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.banfa:
+                intent.setClass(this.mActivity,BanfaActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.zhidingjihua:
+                intent.setClass(this.mActivity,ZhidingjiahuaActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.fabugonggao:
+                intent.setClass(this.mActivity,SendGonggaoActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.renwupaifa:
+                intent.setClass(this.mActivity,RenwupaifaActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.sanzhongyida:
+                intent.setClass(this.mActivity,SanzhongyidaActivity.class);
+                mActivity.startActivity(intent);
                 break;
         }
-    }*/
-
-    @ViewInject(R.id.carapply_webview)
-    private ProgressWebView progressWebView;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        this.mActivityFragmentView.viewMain(R.layout.activity_carapply);
-        this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
-        this.mActivityFragmentView.viewEmptyGone();
-        this.mActivityFragmentView.viewLoading(View.GONE);
-        this.mActivityFragmentView.clipToPadding(true);
-        ViewUtils.inject(this, this.mActivityFragmentView);
-        initWidget();
-        initData();
-        return this.mActivityFragmentView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        init();
-    }
-
-    public void initWidget(){
-        initWithCenterBar();
-        this.mCenterTextView.setVisibility(View.VISIBLE);
-        this.mCenterTextView.setText("应用");
-    }
-
-    public void initData(){
-        init();
-    }
-
-    public String getUsername(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String username = null;
-        Cursor cursor = db.query("user",new String[]{"username"},null,null,null,null,null);
-        // 将光标移动到下一行，从而判断该结果集是否还有下一条数据，如果有则返回true，没有则返回false
-        while (cursor.moveToNext()){
-            username = cursor.getString((cursor.getColumnIndex("username")));
-        }
-        return username;
-    }
-
-    public void init() {
-        WebSettings webSettings = progressWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setDefaultTextEncodingName("utf-8");
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);//关闭WebView中缓存
-        webSettings.setDomStorageEnabled(true);  // 开启 DOM storage API 功能
-        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setAllowFileAccess(true);  // 可以读取文件缓存(manifest生效)
-        progressWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                System.out.println("Page开始  " + url + "   " + favicon);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                System.out.println("Page结束  " + url);
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //return super.shouldOverrideUrlLoading(view, url);
-                view.loadUrl(url);
-                return true;
-            }
-        });
-        progressWebView.loadUrl("http://222.85.156.33:8082/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
-                "loginName="+getUsername()+"&viewid=HZ2881f95b46dde8015b47b392b006ad");
     }
 
 }

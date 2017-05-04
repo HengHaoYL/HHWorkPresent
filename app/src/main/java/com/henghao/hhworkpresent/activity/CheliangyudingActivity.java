@@ -18,11 +18,10 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
- * 已办事宜
- * Created by bryanrady on 2017/5/3.
+ * Created by bryanrady on 2017/5/4.
  */
 
-public class YibanshiyiActivity extends ActivityFragmentSupport {
+public class CheliangyudingActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.carapply_webview)
     private ProgressWebView progressWebView;
@@ -46,7 +45,7 @@ public class YibanshiyiActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("已办事宜");
+        mLeftTextView.setText("车辆预定");
         mLeftTextView.setVisibility(View.VISIBLE);
         mLeftTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +103,6 @@ public class YibanshiyiActivity extends ActivityFragmentSupport {
                 return true;
             }
         });
-        progressWebView.loadUrl("http://222.85.156.33:8082/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
-                "loginName="+getUsername()+"&viewid=HZ2881f84fafe789014fb00f155e004d");
+        progressWebView.loadUrl("http://222.85.156.33:8082/hz7/horizon/workflow/support/open.wf?loginName="+getUsername()+"&flowId=clyd");
     }
 }

@@ -105,7 +105,7 @@ public class DaibanrenlingActivity extends ActivityFragmentSupport {
 
             }
         });
-        progressWebView.loadUrl("http://172.16.0.114:8080/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
+        progressWebView.loadUrl("http://222.85.156.33:8082/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
                 "loginName="+getUsername()+"&viewid=HZ2881f84fafe789014faff19b19003a");
     }
 }
