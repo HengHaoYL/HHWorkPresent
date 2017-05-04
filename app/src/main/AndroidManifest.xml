@@ -146,6 +146,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 关于我们界面 -->
+        <activity
+            android:name=".activity.AboutAppActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 通讯录界面 -->
         <activity
             android:name=".activity.MySelfZiliaoActivity"

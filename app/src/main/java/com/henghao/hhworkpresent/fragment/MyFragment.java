@@ -20,6 +20,7 @@ import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.activity.AboutAppActivity;
 import com.henghao.hhworkpresent.activity.AboutOurActivity;
 import com.henghao.hhworkpresent.activity.LoginActivity;
 import com.henghao.hhworkpresent.activity.MySelfZiliaoActivity;
@@ -80,6 +81,9 @@ public class MyFragment extends FragmentSupport {
 
     @ViewInject(R.id.fragment_my_aboutus)
     private TextView tv_about_us;
+
+    @ViewInject(R.id.fragment_my_aboutapp)
+    private TextView tv_about_app;
 
     @ViewInject(R.id.tv_exitlogin)
     private TextView tv_exitlogin;
@@ -368,7 +372,8 @@ public class MyFragment extends FragmentSupport {
     }
 
 
-    @OnClick({R.id.fragment_my_circleImageview,R.id.fragment_my_selfziliao,R.id.fragment_my_tongxunlu,R.id.fragment_my_aboutus,R.id.tv_exitlogin,R.id.fragment_my_login_username})
+    @OnClick({R.id.fragment_my_circleImageview,R.id.fragment_my_selfziliao,R.id.fragment_my_tongxunlu,
+            R.id.fragment_my_aboutus,R.id.fragment_my_aboutapp,R.id.tv_exitlogin,R.id.fragment_my_login_username})
     private void viewOnClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
@@ -393,6 +398,11 @@ public class MyFragment extends FragmentSupport {
 
             case R.id.fragment_my_aboutus:   //关于我们
                 intent.setClass(mActivity,AboutOurActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.fragment_my_aboutapp:   //关于应用
+                intent.setClass(mActivity,AboutAppActivity.class);
                 startActivity(intent);
                 break;
 

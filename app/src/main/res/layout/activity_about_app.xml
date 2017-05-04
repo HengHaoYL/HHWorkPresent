@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+        <ImageView
+            android:id="@+id/fragment_my_app_imageview"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_gyajj_logo" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/myself_linear2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="16dp"
+                android:padding="@dimen/padding_big"
+                android:drawablePadding="@dimen/padding_big"
+                android:textColor="@color/tab_text_nonr"
+                android:text="设备型号"/>
+
+            <TextView
+                android:id="@+id/tv_device_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/tab_text_nonr"
+                android:padding="@dimen/padding_big"
+                android:text="HW4561615861"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="16dp"
+                android:padding="@dimen/padding_big"
+                android:drawablePadding="@dimen/padding_big"
+                android:textColor="@color/tab_text_nonr"
+                android:text="当前版本"/>
+
+            <TextView
+                android:id="@+id/tv_softversion_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/tab_text_nonr"
+                android:padding="@dimen/padding_big"
+                android:text="V1.0.1"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="16dp"
+                android:padding="@dimen/padding_big"
+                android:drawablePadding="@dimen/padding_big"
+                android:textColor="@color/tab_text_nonr"
+                android:text="系统版本"/>
+
+            <TextView
+                android:id="@+id/tv_system_version_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/tab_text_nonr"
+                android:padding="@dimen/padding_big"
+                android:text="Android"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line"/>
+
+    <TextView
+        android:id="@+id/tv_check_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="16dp"
+        android:padding="@dimen/padding_big"
+        android:gravity="center_vertical"
+        android:drawableRight="@drawable/item_point_right"
+        android:drawablePadding="@dimen/padding_big"
+        android:textColor="@color/tab_text_nonr"
+        android:text="检查更新"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Copyright © 2017-2018 HH.All rights reserved"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+</LinearLayout>

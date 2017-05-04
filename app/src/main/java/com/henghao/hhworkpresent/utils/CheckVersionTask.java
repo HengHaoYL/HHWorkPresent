@@ -243,7 +243,7 @@ public class CheckVersionTask extends Thread {
             pd.setMax(length);
             conn.connect();
             InputStream is = conn.getInputStream();
-            File file = new File(Environment.getExternalStorageDirectory(), "dandian.apk");
+            File file = new File(Environment.getExternalStorageDirectory(), "gyajj.apk");
             FileOutputStream fos = new FileOutputStream(file);
             BufferedInputStream bis = new BufferedInputStream(is);
             byte[] buffer = new byte[1024];

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.allenliu.badgeview.BadgeFactory;
 import com.allenliu.badgeview.BadgeView;
@@ -48,6 +49,9 @@ import java.io.IOException;
  */
 
 public class MsgFragment extends FragmentSupport {
+
+    @ViewInject(R.id.scrollview_layout)
+    private ScrollView scrollview_layout;
 
     @ViewInject(R.id.gerendaiban)
     private LinearLayout geredaiban;
@@ -206,6 +210,7 @@ public class MsgFragment extends FragmentSupport {
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
                         mActivityFragmentView.viewLoadingError(View.VISIBLE);
+                        scrollview_layout.setVisibility(View.GONE);
                     }
                 });
             }
@@ -222,6 +227,7 @@ public class MsgFragment extends FragmentSupport {
                             public void run() {
                                 mActivityFragmentView.viewLoadingError(View.GONE);
                                 mActivityFragmentView.viewLoading(View.GONE);
+                                scrollview_layout.setVisibility(View.VISIBLE);
                             }
                         });
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");

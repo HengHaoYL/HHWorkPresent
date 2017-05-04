@@ -81,25 +81,6 @@
             android:layout_height="1dip"
             android:background="@color/line"/>
 
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawableLeft="@drawable/icon_shiyong"
-            android:textSize="16dp"
-            android:padding="@dimen/padding_big"
-            android:gravity="center_vertical"
-            android:drawableRight="@drawable/item_point_right"
-            android:drawablePadding="@dimen/padding_big"
-            android:textColor="@color/tab_text_nonr"
-            android:text="使用说明"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="@color/line"/>
         <TextView
             android:id="@+id/fragment_my_aboutus"
             android:layout_width="match_parent"
@@ -113,6 +94,25 @@
             android:drawablePadding="@dimen/padding_big"
             android:textColor="@color/tab_text_nonr"
             android:text="关于我们"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line"/>
+
+        <TextView
+            android:id="@+id/fragment_my_aboutapp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/icon_shiyong"
+            android:textSize="16dp"
+            android:padding="@dimen/padding_big"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/item_point_right"
+            android:drawablePadding="@dimen/padding_big"
+            android:textColor="@color/tab_text_nonr"
+            android:text="关于应用"/>
 
         <View
             android:layout_width="match_parent"
