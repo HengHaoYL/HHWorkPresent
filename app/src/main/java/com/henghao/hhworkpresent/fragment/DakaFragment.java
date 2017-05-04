@@ -521,10 +521,11 @@ public class DakaFragment extends FragmentSupport {
                     JSONObject jsonObject = new JSONObject(result_str);
                     //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
                     String data = jsonObject.getString("data");
+                    Log.d("wangqingbin","data=="+data);
+                    Date date = new Date();
+                    final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                    final String currentTime = format.format(date);
                     if (("null").equals(data)) {
-                        Date date = new Date();
-                        final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                        String currentTime = format.format(date);
                         //如果没超过12.00 表示上午
                         if (equalsString12(currentTime)) {
                             mHandler.post(new Runnable() {
@@ -612,20 +613,37 @@ public class DakaFragment extends FragmentSupport {
                         }else{
                             //代表上午还没有签到
                             if ("0".equals(morningCount)) {
-                                mHandler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mActivityFragmentView.viewLoading(View.GONE);
-                                        pastdate_layout.setVisibility(View.GONE);
-                                        shangban_layout.setVisibility(View.VISIBLE);
-                                        xiaban_layout.setVisibility(View.GONE);
-                                        Date date = new Date();
-                                        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                                        String currentTime1 = format.format(date);
-                                        shangban_qiandao_date.setText(currentTime1);
-                                    }
-                                });
-                                return;
+                                //如果没超过12.00 表示上午
+                                if (equalsString12(currentTime)) {
+                                    mHandler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mActivityFragmentView.viewLoading(View.GONE);
+                                            pastdate_layout.setVisibility(View.GONE);
+                                            shangban_layout.setVisibility(View.VISIBLE);
+                                            xiaban_layout.setVisibility(View.GONE);
+                                            Date date1 = new Date();
+                                            String currentTime1 = format.format(date1);
+                                            shangban_qiandao_date.setText(currentTime1);
+                                        }
+                                    });
+                                } else {
+                                    mHandler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //下午
+                                            mActivityFragmentView.viewLoading(View.GONE);
+                                            pastdate_layout.setVisibility(View.GONE);
+                                            shangban_layout.setVisibility(View.GONE);
+                                            xiaban_layout.setVisibility(View.VISIBLE);
+                                            httpRequestKaoqingofCurrentDateShangwu();
+                                            Date date1 = new Date();
+                                            String currentTime1 = format.format(date1);
+                                            xiaban_qiandao_date.setText(currentTime1);
+                                            xiaban_shangbanstate.setText("缺卡");
+                                        }
+                                    });
+                                }
                             } else {
                                 mHandler.post(new Runnable() {
                                     @Override
