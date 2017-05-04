@@ -76,11 +76,11 @@ public class GongGaoActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftTextView.setText("公告");
         mLeftTextView.setVisibility(View.VISIBLE);
-        initWithCenterBar();
-        mCenterTextView.setText("全部已读");
 
         initWithRightBar();
+        mRightTextView.setText("全部已读");
         mRightTextView.setVisibility(View.VISIBLE);
+        /*mRightTextView.setVisibility(View.GONE);
         mRightTextView.setText("发公告");
         mRightLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +89,7 @@ public class GongGaoActivity extends ActivityFragmentSupport {
                 intent.setClass(GongGaoActivity.this, SendGonggaoActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
 
         //得到TabHost对象实例
@@ -163,8 +163,8 @@ public class GongGaoActivity extends ActivityFragmentSupport {
             public void onTabChanged(String tabId) {
                 if (tabId.equals("one")) {
                     queryUnReadGonggao();
-                    mCenterTextView.setVisibility(View.VISIBLE);
-                    mCenterTextView.setOnClickListener(new View.OnClickListener() {
+                    mRightTextView.setVisibility(View.VISIBLE);
+                    mRightTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             addAllReadGonggao();
@@ -172,7 +172,7 @@ public class GongGaoActivity extends ActivityFragmentSupport {
                         }
                     });
                 } else if (tabId.equals("two")) {
-                    mCenterTextView.setVisibility(View.GONE);
+                    mRightTextView.setVisibility(View.GONE);
                     queryReadGonggao();
                 }
             }
