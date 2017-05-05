@@ -559,10 +559,11 @@ public class DakaFragment extends FragmentSupport {
                         }
                     } else {
                         JSONObject dataObject = jsonObject.getJSONObject("data");
-                        Log.d("wangqingbin","dataObject=="+dataObject);
                         String morningCount = dataObject.optString("morningCount");
                         String afterCount = dataObject.optString("afterCount");
                         String checkType = dataObject.optString("checkType");
+                        Log.d("wangqingbin","morningCount=="+morningCount);
+                        Log.d("wangqingbin","afterCount=="+afterCount);
 
                         //如果checkType 是这几个值i 直接显示下午布局
                         if("请假".equals(checkType)){
@@ -613,11 +614,13 @@ public class DakaFragment extends FragmentSupport {
                         }else{
                             //代表上午还没有签到
                             if ("0".equals(morningCount)) {
+                                Log.d("wangqingbin","上午没有打过卡");
                                 //如果没超过12.00 表示上午
                                 if (equalsString12(currentTime)) {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
+                                            Log.d("wangqingbin","上午没有打过卡,而且没超过12.00，显示上班打卡布局");
                                             mActivityFragmentView.viewLoading(View.GONE);
                                             pastdate_layout.setVisibility(View.GONE);
                                             shangban_layout.setVisibility(View.VISIBLE);
@@ -627,10 +630,12 @@ public class DakaFragment extends FragmentSupport {
                                             shangban_qiandao_date.setText(currentTime1);
                                         }
                                     });
+                                    return;
                                 } else {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
+                                            Log.d("wangqingbin","上午没有打过卡,但是超过12.00，显示上班打卡信息，显示下班打卡布局");
                                             //下午
                                             mActivityFragmentView.viewLoading(View.GONE);
                                             pastdate_layout.setVisibility(View.GONE);
@@ -648,6 +653,7 @@ public class DakaFragment extends FragmentSupport {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
+                                        Log.d("wangqingbin","上午打过卡，显示上班打卡信息，显示下班打卡布局");
                                         mActivityFragmentView.viewLoading(View.GONE);
                                         //如果不是0 则显示下午签到布局
                                         pastdate_layout.setVisibility(View.GONE);
@@ -658,7 +664,6 @@ public class DakaFragment extends FragmentSupport {
                                         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                                         String currentTime1 = format.format(date1);
                                         xiaban_qiandao_date.setText(currentTime1);
-                                        return;
                                     }
                                 });
                             }
@@ -668,6 +673,7 @@ public class DakaFragment extends FragmentSupport {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
+                                        Log.d("wangqingbin","下午没有打过卡，显示上班打卡信息，显示下班打卡布局");
                                         mActivityFragmentView.viewLoading(View.GONE);
                                         pastdate_layout.setVisibility(View.GONE);
                                         shangban_layout.setVisibility(View.GONE);
@@ -683,6 +689,7 @@ public class DakaFragment extends FragmentSupport {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
+                                        Log.d("wangqingbin","下午打过卡，显示全天打卡消息");
                                         mActivityFragmentView.viewLoading(View.GONE);
                                         pastdate_layout.setVisibility(View.VISIBLE);
                                         shangban_layout.setVisibility(View.GONE);

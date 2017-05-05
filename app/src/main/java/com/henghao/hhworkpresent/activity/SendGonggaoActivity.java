@@ -1,11 +1,16 @@
 package com.henghao.hhworkpresent.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -28,6 +33,9 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.carapply_webview)
     private ProgressWebView progressWebView;
+
+    private ValueCallback mUploadMessage;
+    public static final int FILECHOOSER_RESULTCODE = 10000;
 
     private String requestUrl = "http://172.16.0.57:8080/hz7/horizon/basics/getBasics.wf?loginName=";
 
@@ -100,6 +108,40 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
                 return true;
             }
         });
+
+        /**
+         * 让webview支持文件上传
+         */
+        progressWebView.setWebChromeClient(new WebChromeClient(){
+            public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+                Log.d("wangqingbin", "openFileChoose(ValueCallback<Uri> uploadMsg)");
+                mUploadMessage = uploadMsg;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                startActivityForResult(Intent.createChooser(i, "File Chooser"), FILECHOOSER_RESULTCODE);
+            }
+
+            public void openFileChooser( ValueCallback uploadMsg, String acceptType ) {
+                Log.d("wangqingbin", "openFileChoose( ValueCallback uploadMsg, String acceptType )");
+                mUploadMessage = uploadMsg;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                startActivityForResult(
+                        Intent.createChooser(i, "File Browser"),
+                        FILECHOOSER_RESULTCODE);
+            }
+            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture){
+                Log.d("wangqingbin", "openFileChoose(ValueCallback<Uri> uploadMsg, String acceptType, String capture)");
+                mUploadMessage = uploadMsg;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                startActivityForResult( Intent.createChooser( i, "File Browser" ), FILECHOOSER_RESULTCODE );
+            }
+        });
+
         progressWebView.loadUrl(ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_WORKFLOW_NOLOGIN + getUsername());
     }
 
