@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.Window;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
@@ -34,10 +37,11 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.carapply_webview)
     private ProgressWebView progressWebView;
 
+    @ViewInject(R.id.webview_layout)
+    private RelativeLayout webview_layout;
+
     private ValueCallback mUploadMessage;
     public static final int FILECHOOSER_RESULTCODE = 10000;
-
-    private String requestUrl = "http://172.16.0.57:8080/hz7/horizon/basics/getBasics.wf?loginName=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,15 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
+        initLoadingError();
+        tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivityFragmentView.viewLoadingError(View.GONE);
+                webview_layout.setVisibility(View.VISIBLE);
+                init();
+            }
+        });
     }
 
     @Override
@@ -99,6 +112,15 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 System.out.println("Page结束  " + url);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                //显示空白页，防止重新加载网页的时候又会显示错误界面再进行加载
+                progressWebView.loadUrl("about:blank");
+                webview_layout.setVisibility(View.GONE);
+                mActivityFragmentView.viewLoadingError(View.VISIBLE);
             }
 
             @Override
