@@ -88,12 +88,12 @@ public class AppFragment extends FragmentSupport {
         anquanfuwu.setItemImageResource(R.drawable.item_anquanfuwu);
 
         shejishencha.setItemTextResource("设计审查");
-        shejishencha.setItemImageResource(R.drawable.shejishencha);
+        shejishencha.setItemImageResource(R.drawable.item_shejishencha);
 
-        chushen.setItemTextResource("四处初审");
+        chushen.setItemTextResource("安全初审");
         chushen.setItemImageResource(R.drawable.chushen);
 
-        fushen.setItemTextResource("四处复审");
+        fushen.setItemTextResource("安全复审");
         fushen.setItemImageResource(R.drawable.fushen);
 
         banfa.setItemTextResource("许可颁发");

@@ -124,6 +124,12 @@ public class MsgFragment extends FragmentSupport {
         httpRequesMsgCounts();
     }
 
+    @Override
+    public void onResume() {
+        httpRequesMsgCounts();
+        super.onResume();
+    }
+
     @OnClick({R.id.gerendaiban,R.id.faqishiyi,R.id.keyueshiyi,R.id.yibanshiyi,
               R.id.daibanrenling,R.id.daiyueshiyi,R.id.chebanwenjian,R.id.yiyueshiyi})
     private void viewOnClick(View v) {
