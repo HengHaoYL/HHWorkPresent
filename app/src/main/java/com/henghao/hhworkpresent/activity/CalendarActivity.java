@@ -105,8 +105,8 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
     @ViewInject(R.id.daka_qiandao_layout)
     private LinearLayout daka_qiandao_layout;
 
-    @ViewInject(R.id.calendar_layout)
-    private LinearLayout calendar_layout;
+    /*@ViewInject(R.id.calendar_layout)
+    private LinearLayout calendar_layout;*/
 
     private int mCurrentIndex = 498;
     private MyCalendarView[] mShowViews;
@@ -126,7 +126,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-        this.mActivityFragmentView.viewLoadingError(View.GONE);
+    //    this.mActivityFragmentView.viewLoadingError(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         setContentView(this.mActivityFragmentView);
@@ -210,7 +210,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
             }
         });
 
-        initLoadingError();
+        /*initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,7 +218,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                 httpLoadingHeadImage();
                 httpRequestKaoqingofDate();
             }
-        });
+        });*/
 
     }
 
@@ -264,8 +264,8 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        calendar_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
+                        /*calendar_layout.setVisibility(View.GONE);
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
                     }
                 });
             }
@@ -291,7 +291,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                calendar_layout.setVisibility(View.VISIBLE);
+                         //       calendar_layout.setVisibility(View.VISIBLE);
 
                                 // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
                                 options = new DisplayImageOptions.Builder()
@@ -465,8 +465,8 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        calendar_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
+                        /*calendar_layout.setVisibility(View.GONE);
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
                     }
                 });
             }

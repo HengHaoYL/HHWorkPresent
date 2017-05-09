@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -131,8 +130,8 @@ public class KaoqingFragment extends FragmentSupport {
     @ViewInject(R.id.tv_lateTimes)
     private TextView tv_lateTimes;
 
-    @ViewInject(R.id.kaoqing_layout)
-    private ScrollView kaoqing_layout;
+    /*@ViewInject(R.id.kaoqing_layout)
+    private ScrollView kaoqing_layout;*/
 
     private MyBroadcastReceiver myBroadcastReceiver;
 
@@ -150,7 +149,7 @@ public class KaoqingFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-        this.mActivityFragmentView.viewLoadingError(View.GONE);
+    //    this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         initWidget();
         initData();
@@ -176,14 +175,14 @@ public class KaoqingFragment extends FragmentSupport {
             }
         });
 
-        initLoadingError();
+        /*initLoadingError();
         this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mActivityFragmentView.viewLoadingError(View.GONE);
                 httpLoadingHeadImage();
             }
-        });
+        });*/
 
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月");
@@ -208,8 +207,8 @@ public class KaoqingFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        kaoqing_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
+                        /*kaoqing_layout.setVisibility(View.GONE);
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
                     }
                 });
             }
@@ -225,7 +224,7 @@ public class KaoqingFragment extends FragmentSupport {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
-                                mActivityFragmentView.viewLoadingError(View.VISIBLE);
+                         //       mActivityFragmentView.viewLoadingError(View.VISIBLE);
                                 mActivity.msg("下载错误");
                             }
                         });
@@ -235,7 +234,7 @@ public class KaoqingFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                kaoqing_layout.setVisibility(View.VISIBLE);
+                         //       kaoqing_layout.setVisibility(View.VISIBLE);
 
                                 // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
                                 options = new DisplayImageOptions.Builder()

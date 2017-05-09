@@ -73,8 +73,8 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
     // 定位相关声明
     public LocationClient locationClient = null;
 
-    @ViewInject(R.id.waiqing_layout)
-    private RelativeLayout waiqing_layout;
+    /*@ViewInject(R.id.waiqing_layout)
+    private RelativeLayout waiqing_layout;*/
 
     /**
      * 签到的时间（年月日）
@@ -149,7 +149,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-        this.mActivityFragmentView.viewLoadingError(View.GONE);
+    //    this.mActivityFragmentView.viewLoadingError(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         /**
@@ -177,14 +177,14 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         imageTextButton.setItemTextResource("选择");
         imageTextButton.setItemImageResource(R.drawable.item_choose);
 
-        initLoadingError();
+        /*initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mActivityFragmentView.viewLoadingError(View.GONE);
                 httpRequestKaoqingofCurrentDay();
             }
-        });
+        });*/
 
         mMapView = (MapView) findViewById(R.id.bmapview);
         mBaiduMap = mMapView.getMap();
@@ -233,8 +233,8 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        waiqing_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
+                        /*waiqing_layout.setVisibility(View.GONE);
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
                     }
                 });
             }
@@ -294,7 +294,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
-                                waiqing_layout.setVisibility(View.VISIBLE);
+                        //        waiqing_layout.setVisibility(View.VISIBLE);
                                 //代表上午还没有签到
                                 if("0".equals(morningCount)){
                                     Date date = new Date();
