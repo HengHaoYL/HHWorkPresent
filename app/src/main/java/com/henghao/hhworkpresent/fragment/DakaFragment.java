@@ -72,8 +72,8 @@ public class DakaFragment extends FragmentSupport {
     @ViewInject(R.id.daka_name)
     private TextView tv_loginName;
 
-    /*@ViewInject(R.id.daka_layout)
-    private RelativeLayout daka_layout;*/
+    @ViewInject(R.id.daka_layout)
+    private RelativeLayout daka_layout;
 
     /**
      * 没有日程显示的布局
@@ -88,7 +88,7 @@ public class DakaFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-    //    this.mActivityFragmentView.viewLoadingError(View.GONE);
+        this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         //注册定位监听  必须用全局 context  不能用 this.mActivity
         LocationUtils.Location(getActivity().getApplication().getApplicationContext());
@@ -117,14 +117,14 @@ public class DakaFragment extends FragmentSupport {
             }
         });
 
-        /*initLoadingError();
+        initLoadingError();
         this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mActivityFragmentView.viewLoadingError(View.GONE);
                 httpLoadingHeadImage();
             }
-        });*/
+        });
     }
 
     public void toMainActivity(){
@@ -162,8 +162,8 @@ public class DakaFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        /*daka_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
+                        daka_layout.setVisibility(View.GONE);
+                        mActivityFragmentView.viewLoadingError(View.VISIBLE);
                     }
                 });
             }
@@ -178,8 +178,8 @@ public class DakaFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                /*mActivityFragmentView.viewLoadingError(View.VISIBLE);
-                                daka_layout.setVisibility(View.GONE);*/
+                                mActivityFragmentView.viewLoadingError(View.VISIBLE);
+                                daka_layout.setVisibility(View.GONE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                                 mActivity.msg("下载错误");
                             }
@@ -190,7 +190,7 @@ public class DakaFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                         //       daka_layout.setVisibility(View.VISIBLE);
+                                daka_layout.setVisibility(View.VISIBLE);
 
                                 // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
                                 options = new DisplayImageOptions.Builder()
