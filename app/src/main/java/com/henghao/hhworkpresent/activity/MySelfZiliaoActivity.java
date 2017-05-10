@@ -87,7 +87,7 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-        this.mActivityFragmentView.viewLoadingError(View.GONE);
+    //    this.mActivityFragmentView.viewLoadingError(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         setContentView(this.mActivityFragmentView);
@@ -99,8 +99,8 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        initWithCenterBar();
-        mCenterTextView.setText("详细资料");
+        mLeftTextView.setText("个人资料");
+
 
         /*initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +232,6 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
                             tv_address.setText(address);
                             tv_work_DESC.setText(work_DESC);
                             tv_dept_Name.setText(dept_NAME);
-                            mActivityFragmentView.viewLoading(View.GONE);
                         }
                     });
                 } catch (JSONException e) {
