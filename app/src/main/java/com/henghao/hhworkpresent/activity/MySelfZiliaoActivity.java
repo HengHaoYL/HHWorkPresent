@@ -100,7 +100,7 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
         super.initWidget();
         initWithBar();
         mLeftTextView.setText("个人资料");
-
+        mLeftTextView.setVisibility(View.VISIBLE);
 
         /*initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
