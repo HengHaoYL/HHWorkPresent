@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,8 +126,8 @@ public class MsgFragment extends FragmentSupport {
 
     @Override
     public void onResume() {
-        httpRequesMsgCounts();
         super.onResume();
+        httpRequesMsgCounts();
     }
 
     @OnClick({R.id.gerendaiban,R.id.faqishiyi,R.id.keyueshiyi,R.id.yibanshiyi,
@@ -238,6 +239,7 @@ public class MsgFragment extends FragmentSupport {
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         gerendaiban_count = Integer.parseInt(jsonObject1.optString("gerendaiban_count"));
                         faqishiyi_count = Integer.parseInt(jsonObject1.optString("faqishiyi_count"));
+                        Log.d("wangqingbin","faqishiyi_count=="+faqishiyi_count);
                         keyueshiyi_count = Integer.parseInt(jsonObject1.optString("keyueshiyi_count"));
                         yibanshiyi_count = Integer.parseInt(jsonObject1.optString("yibanshiyi_count"));
                         daibanrenling_count = Integer.parseInt(jsonObject1.optString("daibanrenling_count"));
@@ -272,6 +274,17 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount("99+")
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(geredaiban);
+                                }
+
+                                if(faqishiyi_count==0){
+                                    BadgeFactory.create(mActivity)
+                                            .setWidthAndHeight(50,50)
+                                            .setBadgeBackground(Color.WHITE)
+                                            .setTextSize(0)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount("")
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(faqishiyi);
                                 }
 
                                 if(faqishiyi_count>0){
@@ -430,4 +443,5 @@ public class MsgFragment extends FragmentSupport {
             }
         });
     }
+
 }

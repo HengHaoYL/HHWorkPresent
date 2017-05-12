@@ -19,7 +19,6 @@ import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.ProgressWebView;
@@ -62,6 +61,8 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
+        mLeftTextView.setText("发布公告");
+        mLeftTextView.setVisibility(View.VISIBLE);
         initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +165,7 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
             }
         });
 
-        progressWebView.loadUrl(ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_WORKFLOW_NOLOGIN + getUsername());
+        progressWebView.loadUrl("http://222.85.156.33:8082/hz7/horizon/workflow/support/open.wf?loginName="+ getUsername()+"&flowId=ggfb");
     }
 
    /* private TabHost tabHost;

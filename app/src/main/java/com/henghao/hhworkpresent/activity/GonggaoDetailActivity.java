@@ -49,7 +49,7 @@ public class GonggaoDetailActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("公告");
+        mLeftTextView.setText("公告详情");
         mLeftTextView.setVisibility(View.VISIBLE);
 
     }
