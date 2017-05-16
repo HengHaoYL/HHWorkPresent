@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Xml;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -20,11 +19,11 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
-import org.xmlpull.v1.XmlPullParser;
-
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import static com.henghao.hhworkpresent.utils.CheckVersionTask.getUpdataInfo;
 
 /**
  * 关于应用
@@ -78,6 +77,7 @@ public class AboutAppActivity extends ActivityFragmentSupport {
         tv_device_info.setText(android.os.Build.MODEL);
         tv_system_version_info.setText("Android  "+ android.os.Build.VERSION.RELEASE);
         tv_softverion_info.setText(getVersion(this));
+
     }
 
     /**
@@ -118,7 +118,12 @@ public class AboutAppActivity extends ActivityFragmentSupport {
                                     }
                                 });
                             }else{
-                                startVersionTask();
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        startVersionTask();
+                                    }
+                                });
                             }
                         }catch (Exception e){
                             e.printStackTrace();
@@ -137,30 +142,4 @@ public class AboutAppActivity extends ActivityFragmentSupport {
         checkVersionTask.start();
     }
 
-
-    /**
-     * 用pull解析器解析服务器返回的xml文件 (xml封装了版本号)
-     * @param is 输入流
-     * @return
-     * @throws Exception
-     */
-    public static UpdateInfo getUpdataInfo(InputStream is) throws Exception {
-        XmlPullParser parser = Xml.newPullParser();
-        parser.setInput(is, "utf-8");//设置解析的数据源
-        int type = parser.getEventType();
-        UpdateInfo info = new UpdateInfo();
-        while (type != XmlPullParser.END_DOCUMENT) {
-            switch (type) {
-                case XmlPullParser.START_TAG:
-                    if ("version".equals(parser.getName())) {
-                        info.setVersion(parser.nextText()); //获取版本号
-                    } else if ("description".equals(parser.getName())) {
-                        info.setDescription(parser.nextText()); //获取该文件的信息
-                    }
-                    break;
-            }
-            type = parser.next();
-        }
-        return info;
-    }
 }
