@@ -310,6 +310,16 @@ public class MsgFragment extends FragmentSupport {
                                             .bind(faqishiyi);
                                 }
 
+                                if(keyueshiyi_count==0){
+                                    BadgeFactory.create(mActivity)
+                                            .setWidthAndHeight(50,50)
+                                            .setBadgeBackground(Color.WHITE)
+                                            .setTextSize(0)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount("")
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(keyueshiyi);
+                                }
                                 if(keyueshiyi_count>0){
                                     BadgeFactory.create(mActivity)
                                             .setTextColor(Color.WHITE)
@@ -333,6 +343,16 @@ public class MsgFragment extends FragmentSupport {
                                             .bind(keyueshiyi);
                                 }
 
+                                if(yibanshiyi_count==0){
+                                    BadgeFactory.create(mActivity)
+                                            .setWidthAndHeight(50,50)
+                                            .setBadgeBackground(Color.WHITE)
+                                            .setTextSize(0)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount("")
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(yibanshiyi);
+                                }
                                 if(yibanshiyi_count>0){
                                     BadgeFactory.create(mActivity)
                                             .setTextColor(Color.WHITE)
@@ -389,6 +409,16 @@ public class MsgFragment extends FragmentSupport {
                                         .setShape(BadgeView.SHAPE_CIRCLE)
                                         .bind(daiyueshiyi);
 
+                                if(chebanwenjian_count==0){
+                                    BadgeFactory.create(mActivity)
+                                            .setWidthAndHeight(50,50)
+                                            .setBadgeBackground(Color.WHITE)
+                                            .setTextSize(0)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount("")
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(chebanwenjian);
+                                }
                                 if(chebanwenjian_count>0){
                                     BadgeFactory.create(mActivity)
                                             .setTextColor(Color.WHITE)
@@ -412,6 +442,16 @@ public class MsgFragment extends FragmentSupport {
                                             .bind(chebanwenjian);
                                 }
 
+                                if(yiyueshiyi_count==0){
+                                    BadgeFactory.create(mActivity)
+                                            .setWidthAndHeight(50,50)
+                                            .setBadgeBackground(Color.WHITE)
+                                            .setTextSize(0)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount("")
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(yiyueshiyi);
+                                }
                                 if(yiyueshiyi_count>0){
                                     BadgeFactory.create(mActivity)
                                             .setTextColor(Color.WHITE)
