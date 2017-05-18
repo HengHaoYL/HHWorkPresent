@@ -253,6 +253,16 @@ public class MsgFragment extends FragmentSupport {
                                  * 绘制消息数圆点
                                  * http://www.see-source.com/androidwidget/detail.html?wid=996
                                  */
+                                if(gerendaiban_count==0){
+                                    BadgeFactory.create(mActivity)
+                                            .setWidthAndHeight(50,50)
+                                            .setBadgeBackground(Color.WHITE)
+                                            .setTextSize(0)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount("")
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(geredaiban);
+                                }
                                 if(gerendaiban_count>0){
                                     BadgeFactory.create(mActivity)
                                             .setTextColor(Color.WHITE)
@@ -376,6 +386,16 @@ public class MsgFragment extends FragmentSupport {
                                             .bind(yibanshiyi);
                                 }
 
+                                if(daibanrenling_count==0){
+                                    BadgeFactory.create(mActivity)
+                                            .setWidthAndHeight(50,50)
+                                            .setBadgeBackground(Color.WHITE)
+                                            .setTextSize(0)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount("")
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(daibanrenling);
+                                }
                                 if(daibanrenling_count>0){
                                     BadgeFactory.create(mActivity)
                                             .setTextColor(Color.WHITE)

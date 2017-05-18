@@ -173,4 +173,17 @@ public class ChebanwenjianActivity extends ActivityFragmentSupport {
         progressWebView.loadUrl("http://222.85.156.33:8082/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
                 "loginName="+getUsername()+"&viewid=HZ2881f84ff430b6014ff44d1e9e022d");
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FILECHOOSER_RESULTCODE) {
+            if (null == mUploadMessage) return;
+            Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
+            if (mUploadMessage != null) {
+                mUploadMessage.onReceiveValue(result);
+                mUploadMessage = null;
+            }
+        }
+    }
 }
