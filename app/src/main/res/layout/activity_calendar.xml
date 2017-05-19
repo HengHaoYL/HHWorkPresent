@@ -159,7 +159,7 @@
         android:id="@+id/calendar_kaoqing_layout"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:orientation="vertical">
 
         <LinearLayout

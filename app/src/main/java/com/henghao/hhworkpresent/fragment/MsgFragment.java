@@ -23,6 +23,7 @@ import com.henghao.hhworkpresent.activity.DaibanrenlingActivity;
 import com.henghao.hhworkpresent.activity.DaiyueshiyiActivity;
 import com.henghao.hhworkpresent.activity.FaqishiyiActivity;
 import com.henghao.hhworkpresent.activity.GerendaibanActivity;
+import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.KeyueshiyiActivity;
 import com.henghao.hhworkpresent.activity.YibanshiyiActivity;
 import com.henghao.hhworkpresent.activity.YiyueshiyiActivity;
@@ -52,6 +53,9 @@ public class MsgFragment extends FragmentSupport {
 
     /*@ViewInject(R.id.scrollview_layout)
     private ScrollView scrollview_layout;*/
+
+    @ViewInject(R.id.tongzhigonggao)
+    private LinearLayout tongzhigonggao;
 
     @ViewInject(R.id.gerendaiban)
     private LinearLayout geredaiban;
@@ -130,11 +134,16 @@ public class MsgFragment extends FragmentSupport {
         httpRequesMsgCounts();
     }
 
-    @OnClick({R.id.gerendaiban,R.id.faqishiyi,R.id.keyueshiyi,R.id.yibanshiyi,
+    @OnClick({R.id.tongzhigonggao,R.id.gerendaiban,R.id.faqishiyi,R.id.keyueshiyi,R.id.yibanshiyi,
               R.id.daibanrenling,R.id.daiyueshiyi,R.id.chebanwenjian,R.id.yiyueshiyi})
     private void viewOnClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
+            case R.id.tongzhigonggao:
+                intent.setClass(mActivity, GongGaoActivity.class);
+                mActivity.startActivity(intent);
+                break;
+
             case R.id.gerendaiban:
                 intent.setClass(mActivity, GerendaibanActivity.class);
                 mActivity.startActivity(intent);

@@ -60,26 +60,26 @@ public class WorkFragment extends FragmentSupport {
         mEntity3.setImageId(R.drawable.item_email);
         mEntity3.setName("邮箱");
         mList.add(mEntity3);
-        //第四个
+       /* //第四个
         AppGridEntity mEntity4 = new AppGridEntity();
         mEntity4.setImageId(R.drawable.item_notification);
         mEntity4.setName("通知公告");
-        mList.add(mEntity4);
+        mList.add(mEntity4);*/
         //第五个
-        AppGridEntity mEntity5 = new AppGridEntity();
-        mEntity5.setImageId(R.drawable.icon_xingzhenzhifa);
-        mEntity5.setName("行政执法");
-        mList.add(mEntity5);
+        AppGridEntity mEntity4 = new AppGridEntity();
+        mEntity4.setImageId(R.drawable.icon_xingzhenzhifa);
+        mEntity4.setName("行政执法");
+        mList.add(mEntity4);
         /*//第六个
         AppGridEntity mEntity6 = new AppGridEntity();
         mEntity6.setImageId(R.drawable.item_add);
         mEntity6.setName("测试车辆位置");
         mList.add(mEntity6);*/
         //第七个
-        AppGridEntity mEntity6 = new AppGridEntity();
-        mEntity6.setImageId(R.drawable.item_add);
-        mEntity6.setName("添加");
-        mList.add(mEntity6);
+        AppGridEntity mEntity5 = new AppGridEntity();
+        mEntity5.setImageId(R.drawable.item_add);
+        mEntity5.setName("添加");
+        mList.add(mEntity5);
         WorkGridAdapter adapter = new WorkGridAdapter(this.mActivity,mList);
         gridview.setAdapter(adapter);
         adapter.notifyDataSetChanged();

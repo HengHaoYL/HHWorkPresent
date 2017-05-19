@@ -84,20 +84,20 @@ public class AppFragment extends FragmentSupport {
         cheliangyuding.setItemTextResource("车辆预定");
         cheliangyuding.setItemImageResource(R.drawable.item_cheliangyuding);
 
-        anquanfuwu.setItemTextResource("安全服务");
+        anquanfuwu.setItemTextResource("非煤矿山");
         anquanfuwu.setItemImageResource(R.drawable.item_anquanfuwu);
 
         shejishencha.setItemTextResource("设计审查");
         shejishencha.setItemImageResource(R.drawable.item_shejishencha);
 
-        chushen.setItemTextResource("安全初审");
+        chushen.setItemTextResource("标准化初次申请");
         chushen.setItemImageResource(R.drawable.chushen);
 
-        fushen.setItemTextResource("安全复审");
+        fushen.setItemTextResource("标准化复审");
         fushen.setItemImageResource(R.drawable.fushen);
 
-        banfa.setItemTextResource("许可颁发");
-        banfa.setItemImageResource(R.drawable.banfa);
+        /*banfa.setItemTextResource("许可颁发");
+        banfa.setItemImageResource(R.drawable.banfa);*/
 
         zhidingjihua.setItemTextResource("年初计划");
         zhidingjihua.setItemImageResource(R.drawable.zhidingjihua);

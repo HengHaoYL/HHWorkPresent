@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
@@ -100,12 +99,12 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                                     "请安装！");
                         }
                         break;
-                    case 3:
+                    /*case 3:
                         //通知公告
                         intent.setClass(mActivityFragmentSupport, GongGaoActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
-                        break;
-                    case 4:
+                        break;*/
+                    case 3:
                         //行政执法
                          packageManager = mActivityFragmentSupport.getPackageManager();
                         try {
