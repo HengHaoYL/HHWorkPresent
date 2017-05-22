@@ -134,7 +134,7 @@
             android:theme="@style/AppTheme">
         </activity>
 
-        <!-- 个人资料界面 -->
+        <!-- 通讯录界面 -->
         <activity
             android:name=".activity.MyTongxunluActivity"
             android:screenOrientation="portrait"
@@ -152,9 +152,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
-        <!-- 通讯录界面 -->
+        <!-- 个人资料界面 -->
         <activity
             android:name=".activity.MySelfZiliaoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 个人资料编辑界面 -->
+        <activity
+            android:name=".activity.EditMySelfZiliaoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 

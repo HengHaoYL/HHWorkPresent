@@ -1,5 +1,6 @@
 package com.henghao.hhworkpresent.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -87,7 +88,7 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-    //    this.mActivityFragmentView.viewLoadingError(View.GONE);
+        //    this.mActivityFragmentView.viewLoadingError(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         setContentView(this.mActivityFragmentView);
@@ -96,11 +97,27 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        httpRequestMySelfZiliao();
+    }
+
+    @Override
     public void initWidget() {
         super.initWidget();
         initWithBar();
         mLeftTextView.setText("个人资料");
         mLeftTextView.setVisibility(View.VISIBLE);
+
+        initWithRightBar();
+        mRightTextView.setText("编辑");
+        mRightTextView.setVisibility(View.VISIBLE);
+        mRightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toNextActivity();
+            }
+        });
 
         /*initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +128,55 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
             }
         });*/
     }
+
+    public void toNextActivity(){
+        if("0".equals(sex)){
+            sex = "男";
+        }else if("1".equals(sex)){
+            sex = "女";
+        }
+        if("null".equals(position)||"".equals(position)){
+            position = "";
+        }
+        if("null".equals(name)||name==null){
+            name="";
+        }
+        if("null".equals(emp_NUM)||emp_NUM==null){
+            emp_NUM="";
+        }
+        if("null".equals(birth_DATE)||birth_DATE==null){
+            birth_DATE="";
+        }
+        if("null".equals(telephone)||telephone==null){
+            telephone="";
+        }
+        if("null".equals(address)||address==null){
+            address="";
+        }
+        if("null".equals(cellphone)||cellphone==null){
+            cellphone="";
+        }
+        if("null".equals(work_DESC)||work_DESC==null){
+            work_DESC="";
+        }
+        if("null".equals(dept_NAME)||dept_NAME==null){
+            dept_NAME="";
+        }
+        Intent intent = new Intent();
+        intent.setClass(MySelfZiliaoActivity.this,EditMySelfZiliaoActivity.class);
+        intent.putExtra("name",name);
+        intent.putExtra("emp_NUM",emp_NUM);
+        intent.putExtra("birth_DATE",birth_DATE);
+        intent.putExtra("telephone",telephone);
+        intent.putExtra("sex",sex);
+        intent.putExtra("position",position);
+        intent.putExtra("address",address);
+        intent.putExtra("cellphone",cellphone);
+        intent.putExtra("work_DESC",work_DESC);
+        intent.putExtra("dept_NAME",dept_NAME);
+        startActivity(intent);
+    }
+
 
     @Override
     public void initData() {

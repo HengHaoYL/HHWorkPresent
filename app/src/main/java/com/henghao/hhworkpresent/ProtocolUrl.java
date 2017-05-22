@@ -34,7 +34,7 @@ public class ProtocolUrl {
         } else {
             // 测试地址
             ROOT_URL = "http://222.85.156.33:8082";
-        // ROOT_URL = "http://172.16.0.199:8080";
+      //   ROOT_URL = "http://172.16.0.125:8080";
         }
     }
 
@@ -238,6 +238,11 @@ public class ProtocolUrl {
      * 个人详细资料查询
      */
     public static final String APP_QUERY_MYSELF_ZILIAO = "/statisticsInfo/user/findByUid";
+
+   /**
+    * 上传个人资料
+    */
+    public static final String APP_UPLOAD_MYSELF_ZILIAO = "/statisticsInfo/user/updatePersonal";
 
     /**
      * 通讯录列表查询

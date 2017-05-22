@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/my_ziliao_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="姓        名"
+                android:textSize="@dimen/gj_f" />
+
+            <TextView
+                android:id="@+id/tongxunlu_et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="性        别"
+                android:textSize="@dimen/gj_f" />
+
+            <TextView
+                android:id="@+id/tongxunlu_et_sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入"
+                android:drawableRight="@drawable/item_point_right"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="出生日期"
+                android:textSize="@dimen/gj_f" />
+
+            <TextView
+                android:id="@+id/tongxunlu_et_birth_DATE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableRight="@drawable/icon_datatime"
+                android:hint="请选择日期"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="员工编号"
+                android:textSize="@dimen/gj_f" />
+
+            <EditText
+                android:id="@+id/tongxunlu_et_emp_NUM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="固定电话"
+                android:textSize="@dimen/gj_f" />
+
+            <EditText
+                android:id="@+id/tongxunlu_et_telephone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="手机号码"
+                android:textSize="@dimen/gj_f" />
+
+            <EditText
+                android:id="@+id/tongxunlu_et_cellphone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="职        位"
+                android:textSize="@dimen/gj_f" />
+
+            <EditText
+                android:id="@+id/tongxunlu_et_position"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="工作地点"
+                android:textSize="@dimen/gj_f" />
+
+            <EditText
+                android:id="@+id/tongxunlu_et_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="部        门"
+                android:textSize="@dimen/gj_f" />
+
+            <TextView
+                android:id="@+id/tongxunlu_et_dept_NAME"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请选择部门"
+                android:drawableRight="@drawable/item_point_right"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_big"
+                android:text="工作职责"
+                android:textSize="@dimen/gj_f" />
+
+            <EditText
+                android:id="@+id/tongxunlu_et_work_DESC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/gj_f" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+    </LinearLayout>
+
+</ScrollView>
+
+
