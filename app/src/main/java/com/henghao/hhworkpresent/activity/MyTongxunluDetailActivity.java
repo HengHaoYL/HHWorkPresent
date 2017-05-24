@@ -88,7 +88,7 @@ public class MyTongxunluDetailActivity extends ActivityFragmentSupport {
         name = intent.getStringExtra("name");
         emp_NUM = intent.getStringExtra("emp_NUM");
         telephone = intent.getStringExtra("telephone");
-        birth_DATE = intent.getStringExtra("birth_DATE");
+        birth_DATE = intent.getStringExtra("birth_Date");
         sex = intent.getStringExtra("sex");
         position = intent.getStringExtra("position");
         address = intent.getStringExtra("address");

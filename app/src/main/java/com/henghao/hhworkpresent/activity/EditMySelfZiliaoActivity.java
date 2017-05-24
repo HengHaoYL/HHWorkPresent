@@ -314,14 +314,7 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        msg("修改成功!");
-                        finish();
-                    }
-                });
-
+                finish();
             }
         });
     }

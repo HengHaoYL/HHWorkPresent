@@ -4,26 +4,34 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.SpatialRelationUtil;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.MainActivity;
 import com.henghao.hhworkpresent.activity.QiandaoShangbanSubmitActivity;
 import com.henghao.hhworkpresent.activity.QiandaoXiabanSubmitActivity;
+import com.henghao.hhworkpresent.adapter.CommonListStringAdapter;
 import com.henghao.hhworkpresent.listener.OnDateChooseDialogListener;
 import com.henghao.hhworkpresent.utils.LocationUtils;
+import com.henghao.hhworkpresent.utils.PopupWindowHelper;
 import com.henghao.hhworkpresent.views.CircleImageView;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.DateChooseDialog;
@@ -45,7 +53,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 import static com.henghao.hhworkpresent.ProtocolUrl.APP_LODAING_HEAD_IMAGE_URI;
@@ -72,6 +83,9 @@ public class DakaFragment extends FragmentSupport {
     @ViewInject(R.id.daka_name)
     private TextView tv_loginName;
 
+    @ViewInject(R.id.daka_position)
+    private TextView tv_daka_position;
+
     @ViewInject(R.id.daka_layout)
     private RelativeLayout daka_layout;
 
@@ -80,6 +94,10 @@ public class DakaFragment extends FragmentSupport {
      */
     @ViewInject(R.id.fragment_null_daka_layout)
     private RelativeLayout null_daka_layout;
+
+    private View popView;
+    private PopupWindowHelper popupWindowHelper;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,6 +109,7 @@ public class DakaFragment extends FragmentSupport {
         this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         //注册定位监听  必须用全局 context  不能用 this.mActivity
+        SDKInitializer.initialize(getActivity().getApplication().getApplicationContext());
         LocationUtils.Location(getActivity().getApplication().getApplicationContext());
         initWidget();
         initData();
@@ -117,6 +136,38 @@ public class DakaFragment extends FragmentSupport {
             }
         });
 
+        initWithRightBar();
+        mRightTextView.setText("打卡位置");
+        mRightTextView.setVisibility(View.VISIBLE);
+        mRightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindowHelper.showFromTop(v);
+            }
+        });
+
+        this.popView = LayoutInflater.from(mActivity).inflate(R.layout.common_android_listview, null);
+        ListView mListView = (ListView) this.popView.findViewById(R.id.mlistview);
+        final List<String> mList = new ArrayList<String>();
+        //判断一个指定的经纬度点是否落在一个多边形区域内
+        //http://wiki.lbsyun.baidu.com/cms/androidsdk/doc/v3_7_0/com/baidu/mapapi/utils/SpatialRelationUtil.html#isPolygonContainsPoint(java.util.List,%20com.baidu.mapapi.model.LatLng)
+        mList.add("贵阳市高新区六盘水路启林创客小镇B栋");
+        mList.add("贵阳市高新区六盘水路41号B506");
+        CommonListStringAdapter mListStringAdapter = new CommonListStringAdapter(this.mActivity, mList);
+        mListView.setAdapter(mListStringAdapter);
+        mListStringAdapter.notifyDataSetChanged();
+        this.popupWindowHelper = new PopupWindowHelper(this.popView);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                String whatSelect = mList.get(arg2);
+                tv_daka_position.setText(whatSelect);
+                popupWindowHelper.dismiss();
+            }
+        });
+
+
         initLoadingError();
         this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +176,40 @@ public class DakaFragment extends FragmentSupport {
                 httpLoadingHeadImage();
             }
         });
+    }
+
+    /**
+     * 根据位置获取经纬度  然后封装为LatLng
+     * @param position
+     * @return
+     */
+    double latitude = 0;
+    double longitude = 0;
+    public LatLng getLatlng(final String position) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<android.location.Address> addressList = null;
+                if (position != null) {
+                    Geocoder gc = new Geocoder(mActivity, Locale.CHINA);
+                    try {
+                        //这是个耗时操作
+                        addressList = gc.getFromLocationName(position, 1);
+                        if (!addressList.isEmpty()) {
+                            android.location.Address address_temp = addressList.get(0);
+                            latitude = address_temp.getLatitude() * 1E6;
+                            Log.d("wangqingbin","latitude=="+latitude);
+                            longitude = address_temp.getLongitude() * 1E6;
+                            Log.d("wangqingbin","longitude=="+longitude);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+        return new LatLng(latitude,longitude);
     }
 
     public void toMainActivity(){
@@ -312,6 +397,8 @@ public class DakaFragment extends FragmentSupport {
     private String shangbanDakaAdrress;
     private String xiabanDakaAdrress;
 
+    private SpatialRelationUtil spatialRelationUtil = new SpatialRelationUtil();
+
     @Override
     public void onResume() {
         super.onResume();
@@ -337,55 +424,122 @@ public class DakaFragment extends FragmentSupport {
         LocationUtils.onDestory();
     }
 
+    LatLng center = null;
+    int radius = 200;
+    LatLng point = null;
     public void onClickShangbanDaka(){
-        Intent intent = new Intent(mActivity, QiandaoShangbanSubmitActivity.class);
-        String time = shangban_qiandao_date.getText().toString();// 签到时间
-        String address = shangban_qiandao_location.getText().toString(); // 签到地址
-        double longitude = LocationUtils.getLng();
-        double latitude = LocationUtils.getLat();
-        if (address.equals("当前没有定位信息!")) {
-            Toast.makeText(mActivity, "当前没有定位，请定位后再签到！", Toast.LENGTH_SHORT).show();
+        if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
+            Toast.makeText(this.mActivity, "请点击右上角选择打卡地点，否则不能打卡!", Toast.LENGTH_SHORT).show();
             return;
         }
-        intent.putExtra("time", time);
-        intent.putExtra("latitude", latitude);
-        intent.putExtra("longitude", longitude);
-        intent.putExtra("address", address);
-        startActivityForResult(intent,SHANGBAN_QIANDAO_REQUEST);
+        center = getLatlng(tv_daka_position.getText().toString());
+        Log.d("wangqingbin","center=="+center);
+        radius = 200;
+        point = getLatlng(shangban_qiandao_location.getText().toString());
+        Log.d("wangqingbin","point=="+point);
+        if(center.latitude == 0.0||center.longitude==0.0){
+            return;
+        }
+        if(point==null){
+            Toast.makeText(mActivity, "当前位置定位失败，请重新定位！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        boolean isContans = spatialRelationUtil.isCircleContainsPoint(center,radius,point);
+        if(!isContans){
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mActivity, "你当前不在可打卡区域，请移动到打卡区域方能打卡!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            });
+
+        }else {
+            Intent intent = new Intent(mActivity, QiandaoShangbanSubmitActivity.class);
+            String time = shangban_qiandao_date.getText().toString();// 签到时间
+            String address = shangban_qiandao_location.getText().toString(); // 签到地址
+            double longitude = LocationUtils.getLng();
+            double latitude = LocationUtils.getLat();
+            if (address.equals("当前没有定位信息!")) {
+                Toast.makeText(mActivity, "当前没有定位，请定位后再签到！", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            intent.putExtra("time", time);
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
+            intent.putExtra("address", address);
+            startActivityForResult(intent,SHANGBAN_QIANDAO_REQUEST);
+        }
     }
 
     public void onClickXiabanDaka(){
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         String currentTime = format.format(date);
-        //如果没超过12.00 表示上午
-        if(equalsString12(currentTime)){
-            Toast.makeText(this.mActivity, "时间还没到下午，不能打下班卡!", Toast.LENGTH_SHORT).show();
+
+        /**
+        * public static boolean isCircleContainsPoint(LatLng center,int radius,LatLng point)
+        *    判断圆形是否包含传入的经纬度点
+        参数:
+        center - 构成圆的中心点
+        radius - 圆的半径
+        point - 待判断点
+        返回:
+        true 包含，false 为不包含
+        */
+        if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
+            Toast.makeText(this.mActivity, "请点击右上角选择打卡地点，否则不能打卡!", Toast.LENGTH_SHORT).show();
             return;
+        }
+        LatLng center = getLatlng(tv_daka_position.getText().toString());
+        int radius = 200;
+        LatLng point = getLatlng(xiaban_qiandao_location.getText().toString());
+        if(point==null){
+            Toast.makeText(mActivity, "当前位置定位失败，请重新定位！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        boolean isContans = spatialRelationUtil.isCircleContainsPoint(center,radius,point);
+        if(!isContans){
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mActivity, "你当前不在可打卡区域，请移动到打卡区域方能打卡!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            });
+
         }else {
-            //下午
-            pastdate_layout.setVisibility(View.GONE);
-            shangban_layout.setVisibility(View.GONE);
-            xiaban_layout.setVisibility(View.VISIBLE);
-            httpRequestKaoqingofCurrentDateShangwu();
-            Date date1 = new Date();
-            String currentTime1 = format.format(date1);
-            xiaban_qiandao_date.setText(currentTime1);
+            //如果没超过12.00 表示上午
+            if(equalsString12(currentTime)){
+                Toast.makeText(this.mActivity, "时间还没到下午，不能打下班卡!", Toast.LENGTH_SHORT).show();
+                return;
+            }else {
+                //下午
+                pastdate_layout.setVisibility(View.GONE);
+                shangban_layout.setVisibility(View.GONE);
+                xiaban_layout.setVisibility(View.VISIBLE);
+                httpRequestKaoqingofCurrentDateShangwu();
+                Date date1 = new Date();
+                String currentTime1 = format.format(date1);
+                xiaban_qiandao_date.setText(currentTime1);
+            }
+            Intent intent = new Intent(mActivity, QiandaoXiabanSubmitActivity.class);
+            String time = xiaban_qiandao_date.getText().toString();// 签到时间
+            String address = xiaban_qiandao_location.getText().toString(); // 签到地址
+            double longitude = LocationUtils.getLng();
+            double latitude = LocationUtils.getLat();
+            if (address.equals("当前没有定位信息!")) {
+                Toast.makeText(mActivity, "当前没有定位，请定位后再签到！", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            intent.putExtra("time", time);
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
+            intent.putExtra("address", address);
+            startActivityForResult(intent,XIABAN_QIANDAO_REQUEST);
         }
-        Intent intent = new Intent(mActivity, QiandaoXiabanSubmitActivity.class);
-        String time = xiaban_qiandao_date.getText().toString();// 签到时间
-        String address = xiaban_qiandao_location.getText().toString(); // 签到地址
-        double longitude = LocationUtils.getLng();
-        double latitude = LocationUtils.getLat();
-        if (address.equals("当前没有定位信息!")) {
-            Toast.makeText(mActivity, "当前没有定位，请定位后再签到！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        intent.putExtra("time", time);
-        intent.putExtra("latitude", latitude);
-        intent.putExtra("longitude", longitude);
-        intent.putExtra("address", address);
-        startActivityForResult(intent,XIABAN_QIANDAO_REQUEST);
+
     }
 
     @Override

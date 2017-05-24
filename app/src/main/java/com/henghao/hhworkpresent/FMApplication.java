@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.benefit.buy.library.utils.tools.ToolsFile;
 import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.exception.CustomExceptionHandler;
@@ -54,6 +55,7 @@ public class FMApplication extends Application {
         initImageLoader(getApplicationContext());
         Log.d("wangqingbin","初始化图片加载器成功");
         LocationUtils.Location(this);
+        SDKInitializer.initialize(this);
         appException();
     }
 

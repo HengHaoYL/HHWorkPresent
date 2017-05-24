@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +17,11 @@ import com.allenliu.badgeview.BadgeView;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.ChebanwenjianActivity;
-import com.henghao.hhworkpresent.activity.DaibanrenlingActivity;
 import com.henghao.hhworkpresent.activity.DaiyueshiyiActivity;
 import com.henghao.hhworkpresent.activity.FaqishiyiActivity;
 import com.henghao.hhworkpresent.activity.GerendaibanActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
-import com.henghao.hhworkpresent.activity.KeyueshiyiActivity;
 import com.henghao.hhworkpresent.activity.YibanshiyiActivity;
-import com.henghao.hhworkpresent.activity.YiyueshiyiActivity;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -63,24 +58,25 @@ public class MsgFragment extends FragmentSupport {
     @ViewInject(R.id.faqishiyi)
     private LinearLayout faqishiyi;
 
-    @ViewInject(R.id.keyueshiyi)
-    private LinearLayout keyueshiyi;
+/*    @ViewInject(R.id.keyueshiyi)
+    private LinearLayout keyueshiyi;*/
 
     @ViewInject(R.id.yibanshiyi)
     private LinearLayout yibanshiyi;
 
-    @ViewInject(R.id.daibanrenling)
-    private LinearLayout daibanrenling;
+    /*@ViewInject(R.id.daibanrenling)
+    private LinearLayout daibanrenling;*/
 
     @ViewInject(R.id.daiyueshiyi)
     private LinearLayout daiyueshiyi;
 
-    @ViewInject(R.id.chebanwenjian)
+    /*@ViewInject(R.id.chebanwenjian)
     private LinearLayout chebanwenjian;
 
     @ViewInject(R.id.yiyueshiyi)
-    private LinearLayout yiyueshiyi;
+    private LinearLayout yiyueshiyi;*/
 
+    private int unread_gonggao_count;
     private int gerendaiban_count;
     private int faqishiyi_count;
     private int keyueshiyi_count;
@@ -134,8 +130,8 @@ public class MsgFragment extends FragmentSupport {
         httpRequesMsgCounts();
     }
 
-    @OnClick({R.id.tongzhigonggao,R.id.gerendaiban,R.id.faqishiyi,R.id.keyueshiyi,R.id.yibanshiyi,
-              R.id.daibanrenling,R.id.daiyueshiyi,R.id.chebanwenjian,R.id.yiyueshiyi})
+    @OnClick({R.id.tongzhigonggao,R.id.gerendaiban,R.id.faqishiyi,/*R.id.keyueshiyi,*/R.id.yibanshiyi,
+              /*R.id.daibanrenling,*/R.id.daiyueshiyi/*,R.id.chebanwenjian,R.id.yiyueshiyi*/})
     private void viewOnClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
@@ -154,27 +150,27 @@ public class MsgFragment extends FragmentSupport {
                 mActivity.startActivity(intent);
                 break;
 
-            case R.id.keyueshiyi:
+            /*case R.id.keyueshiyi:
                 intent.setClass(mActivity, KeyueshiyiActivity.class);
                 mActivity.startActivity(intent);
-                break;
+                break;*/
 
             case R.id.yibanshiyi:
                 intent.setClass(mActivity, YibanshiyiActivity.class);
                 mActivity.startActivity(intent);
                 break;
 
-            case R.id.daibanrenling:
+           /* case R.id.daibanrenling:
                 intent.setClass(mActivity, DaibanrenlingActivity.class);
                 mActivity.startActivity(intent);
-                break;
+                break;*/
 
             case R.id.daiyueshiyi:
                 intent.setClass(mActivity, DaiyueshiyiActivity.class);
                 mActivity.startActivity(intent);
                 break;
 
-            case R.id.chebanwenjian:
+            /*case R.id.chebanwenjian:
                 intent.setClass(mActivity, ChebanwenjianActivity.class);
                 mActivity.startActivity(intent);
                 break;
@@ -182,7 +178,7 @@ public class MsgFragment extends FragmentSupport {
             case R.id.yiyueshiyi:
                 intent.setClass(mActivity, YiyueshiyiActivity.class);
                 mActivity.startActivity(intent);
-                break;
+                break;*/
 
         }
     }
@@ -248,7 +244,6 @@ public class MsgFragment extends FragmentSupport {
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         gerendaiban_count = Integer.parseInt(jsonObject1.optString("gerendaiban_count"));
                         faqishiyi_count = Integer.parseInt(jsonObject1.optString("faqishiyi_count"));
-                        Log.d("wangqingbin","faqishiyi_count=="+faqishiyi_count);
                         keyueshiyi_count = Integer.parseInt(jsonObject1.optString("keyueshiyi_count"));
                         yibanshiyi_count = Integer.parseInt(jsonObject1.optString("yibanshiyi_count"));
                         daibanrenling_count = Integer.parseInt(jsonObject1.optString("daibanrenling_count"));
@@ -329,7 +324,7 @@ public class MsgFragment extends FragmentSupport {
                                             .bind(faqishiyi);
                                 }
 
-                                if(keyueshiyi_count==0){
+/*                                if(keyueshiyi_count==0){
                                     BadgeFactory.create(mActivity)
                                             .setWidthAndHeight(50,50)
                                             .setBadgeBackground(Color.WHITE)
@@ -360,7 +355,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount("99+")
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(keyueshiyi);
-                                }
+                                }*/
 
                                 if(yibanshiyi_count==0){
                                     BadgeFactory.create(mActivity)
@@ -395,7 +390,7 @@ public class MsgFragment extends FragmentSupport {
                                             .bind(yibanshiyi);
                                 }
 
-                                if(daibanrenling_count==0){
+                                /*if(daibanrenling_count==0){
                                     BadgeFactory.create(mActivity)
                                             .setWidthAndHeight(50,50)
                                             .setBadgeBackground(Color.WHITE)
@@ -426,7 +421,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount("99+")
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(daibanrenling);
-                                }
+                                }*/
 
                                 //待阅事宜直接显示小红点点
                                 BadgeFactory.createDot(mActivity)
@@ -438,7 +433,7 @@ public class MsgFragment extends FragmentSupport {
                                         .setShape(BadgeView.SHAPE_CIRCLE)
                                         .bind(daiyueshiyi);
 
-                                if(chebanwenjian_count==0){
+                                /*if(chebanwenjian_count==0){
                                     BadgeFactory.create(mActivity)
                                             .setWidthAndHeight(50,50)
                                             .setBadgeBackground(Color.WHITE)
@@ -469,9 +464,9 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount("99+")
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(chebanwenjian);
-                                }
+                                }*/
 
-                                if(yiyueshiyi_count==0){
+                                /*if(yiyueshiyi_count==0){
                                     BadgeFactory.create(mActivity)
                                             .setWidthAndHeight(50,50)
                                             .setBadgeBackground(Color.WHITE)
@@ -502,7 +497,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount("99+")
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(yiyueshiyi);
-                                }
+                                }*/
                             }
                         });
                     }
