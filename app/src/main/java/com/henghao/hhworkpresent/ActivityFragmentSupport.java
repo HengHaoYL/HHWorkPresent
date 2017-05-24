@@ -496,10 +496,10 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
         return this.mSharedPreferences.getString(Constant.USERSTATE, "0");
     }
 
-    @Override
+/*    @Override
     public String getLoginUid() {
         return this.mSharedPreferences.getString(Constant.USERID, "0");
-    }
+    }*/
 
     @Override
     public String getLoginUserPhone() {

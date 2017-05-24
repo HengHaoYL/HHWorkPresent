@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -16,6 +15,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.ProtocolUrl;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -49,6 +49,7 @@ public class RealTimeService extends Service {
     private String longitude;
 
     private MyReceiver myReceiver;
+    private SqliteDBUtils sqliteDBUtils;
 
     @Override
     public void onCreate() {
@@ -57,6 +58,7 @@ public class RealTimeService extends Service {
         db = dbHelper.getReadableDatabase();
         uploadLatLonThread = new UploadLatLonThread();
         myReceiver = new MyReceiver();
+        sqliteDBUtils = new SqliteDBUtils(this);
         initData();
     }
 
@@ -135,7 +137,7 @@ public class RealTimeService extends Service {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("userId", getLoginUid());
+        requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
         requestBodyBuilder.add("date", date);
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_MOUNTH_KAOQING;
@@ -175,7 +177,7 @@ public class RealTimeService extends Service {
         if(latitude == null|| longitude ==null){
             return;
         }
-        requestBodyBuilder.add("uid", getLoginUid());
+        requestBodyBuilder.add("uid", sqliteDBUtils.getLoginUid());
         requestBodyBuilder.add("latitude", latitude);
         requestBodyBuilder.add("longitude", longitude);
         requestBodyBuilder.add("attendance", chuqinglv);
@@ -231,21 +233,6 @@ public class RealTimeService extends Service {
         this.locationClient.stop();
         unregisterReceiver(myReceiver);
         super.onDestroy();
-    }
-
-    /**
-     * 从本地数据库读取登录用户Id 用来作为数据请求id
-     * @return
-     */
-    public String getLoginUid(){
-        DatabaseHelper dbHelper = new DatabaseHelper(RealTimeService.this,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
-        String uid = null;
-        while (cursor.moveToNext()){
-            uid = cursor.getString((cursor.getColumnIndex("uid")));
-        }
-        return uid;
     }
 
 }

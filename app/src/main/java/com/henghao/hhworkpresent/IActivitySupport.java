@@ -144,7 +144,7 @@ public interface IActivitySupport {
      */
     public void initData();
 
-    String getLoginUid();
+   /* String getLoginUid();*/
 
     String getLoginUserPhone();
 

@@ -2,8 +2,6 @@ package com.henghao.hhworkpresent.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -24,8 +22,8 @@ import com.henghao.hhworkpresent.activity.AboutOurActivity;
 import com.henghao.hhworkpresent.activity.LoginActivity;
 import com.henghao.hhworkpresent.activity.MySelfZiliaoActivity;
 import com.henghao.hhworkpresent.activity.MyTongxunluActivity;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CircleImageView;
-import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -92,6 +90,8 @@ public class MyFragment extends FragmentSupport {
     private RelativeLayout my_layout;
 */
 
+    private SqliteDBUtils sqliteDBUtils;
+
     private ArrayList<String> mSelectPath;
 
     private static final int REQUEST_IMAGE = 0x00;
@@ -128,15 +128,16 @@ public class MyFragment extends FragmentSupport {
     }
 
     public void initData(){
+        sqliteDBUtils = new SqliteDBUtils(mActivity);
         httpLoadingHeadImage();
-        tv_loginUsername.setText("["+getLoginFirstName() + getLoginGiveName()+"]");
+        tv_loginUsername.setText("["+sqliteDBUtils.getLoginFirstName() + sqliteDBUtils.getLoginGiveName()+"]");
     }
 
     public void httpLoadingHeadImage(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid",getLoginUid());
+        requestBodyBuilder.add("uid",sqliteDBUtils.getLoginUid());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;
         Request request = builder.url(request_url).post(requestBody).build();
@@ -257,44 +258,6 @@ public class MyFragment extends FragmentSupport {
         }
     }
 
-
-    /**
-     * 从本地数据库读取登录用户Id 用来作为数据请求id
-     * @return
-     */
-    public String getLoginUid(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
-        String uid = null;
-        while (cursor.moveToNext()){
-            uid = cursor.getString((cursor.getColumnIndex("uid")));
-        }
-        return uid;
-    }
-
-    public String getLoginFirstName(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"firstName"},null,null,null,null,null);
-        String firstName = null;
-        while (cursor.moveToNext()){
-            firstName = cursor.getString((cursor.getColumnIndex("firstName")));
-        }
-        return firstName;
-    }
-
-    public String getLoginGiveName(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"giveName"},null,null,null,null,null);
-        String giveName = null;
-        while (cursor.moveToNext()){
-            giveName = cursor.getString((cursor.getColumnIndex("giveName")));
-        }
-        return giveName;
-    }
-
     private Handler mHandler = new Handler(){};
 
     /**
@@ -307,7 +270,7 @@ public class MyFragment extends FragmentSupport {
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
         multipartBuilder.type(MultipartBuilder.FORM)
-                .addFormDataPart("uid", getLoginUid());//用户ID
+                .addFormDataPart("uid", sqliteDBUtils.getLoginUid());//用户ID
         for (File file : mFileList) {
             for(String filePath : mSelectPath) {
                 Bitmap bm = BitmapFactory.decodeFile(filePath);

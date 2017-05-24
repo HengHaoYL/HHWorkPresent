@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -21,8 +19,8 @@ import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.CalendarViewAdapter;
 import com.henghao.hhworkpresent.utils.CustomDate;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CircleImageView;
-import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.MyCalendarView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -107,6 +105,8 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
 
     /*@ViewInject(R.id.calendar_layout)
     private LinearLayout calendar_layout;*/
+
+    private SqliteDBUtils sqliteDBUtils;
 
     private int mCurrentIndex = 498;
     private MyCalendarView[] mShowViews;
@@ -225,8 +225,10 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
     @Override
     public void initData() {
         super.initData();
+        sqliteDBUtils = new SqliteDBUtils(this);
+
         httpLoadingHeadImage();
-        tv_loginName.setText(getLoginFirstName() + getLoginGiveName());
+        tv_loginName.setText(sqliteDBUtils.getLoginFirstName() + sqliteDBUtils.getLoginGiveName());
 
         SimpleDateFormat f1 = new SimpleDateFormat("yyyy年MM月dd日");
         Date date = new Date();
@@ -251,7 +253,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid",getLoginUid());
+        requestBodyBuilder.add("uid",sqliteDBUtils.getLoginUid());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;
         Request request = builder.url(request_url).post(requestBody).build();
@@ -395,43 +397,6 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
 
     private Handler mHandler = new Handler(){};
 
-    /**
-     * 从本地数据库读取登录用户Id 用来作为数据请求id
-     * @return
-     */
-    public String getLoginUid(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
-        String uid = null;
-        while (cursor.moveToNext()){
-            uid = cursor.getString((cursor.getColumnIndex("uid")));
-        }
-        return uid;
-    }
-
-    public String getLoginFirstName(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"firstName"},null,null,null,null,null);
-        String firstName = null;
-        while (cursor.moveToNext()){
-            firstName = cursor.getString((cursor.getColumnIndex("firstName")));
-        }
-        return firstName;
-    }
-
-    public String getLoginGiveName(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"giveName"},null,null,null,null,null);
-        String giveName = null;
-        while (cursor.moveToNext()){
-            giveName = cursor.getString((cursor.getColumnIndex("giveName")));
-        }
-        return giveName;
-    }
-
     @ViewInject(R.id.calendar_kaoqing_layout)
     private LinearLayout carlendar_kaoing_layout;
 
@@ -443,7 +408,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("userId", getLoginUid());
+        requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
         String date = tvCurrentDate.getText().toString().trim();
         int type = equalsDate(transferDateTime(date));
         //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1

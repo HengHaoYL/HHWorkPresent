@@ -1,8 +1,6 @@
 package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +12,7 @@ import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.BaseEntity;
 import com.henghao.hhworkpresent.protocol.QianDaoProtocol;
-import com.henghao.hhworkpresent.views.DatabaseHelper;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -104,28 +102,15 @@ public class QiandaoXiabanSubmitActivity extends ActivityFragmentSupport {
         switch (v.getId()) {
             case R.id.btn_submit_qiandaosubmit:
                 // 提交
+                SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(this);
                 QianDaoProtocol mQianDaoProtocol = new QianDaoProtocol(this);
                 mQianDaoProtocol.addResponseListener(this);
-                mQianDaoProtocol.qiandao(getLoginUid(), longitude+"", latitude+"");
+                mQianDaoProtocol.qiandao(sqliteDBUtils.getLoginUid(), longitude+"", latitude+"");
                 mActivityFragmentView.viewLoading(View.VISIBLE);
                 break;
         }
     }
 
-    /**
-     * 从本地数据库读取登录用户Id 用来作为数据请求id
-     * @return
-     */
-    public String getLoginUid(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
-        String uid = null;
-        while (cursor.moveToNext()){
-            uid = cursor.getString((cursor.getColumnIndex("uid")));
-        }
-        return uid;
-    }
 
     @Override
     public void OnMessageResponse(String url, Object jo, AjaxStatus status) throws JSONException {

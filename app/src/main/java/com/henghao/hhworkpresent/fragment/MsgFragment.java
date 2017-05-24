@@ -1,8 +1,6 @@
 package com.henghao.hhworkpresent.fragment;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +20,7 @@ import com.henghao.hhworkpresent.activity.FaqishiyiActivity;
 import com.henghao.hhworkpresent.activity.GerendaibanActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.YibanshiyiActivity;
-import com.henghao.hhworkpresent.views.DatabaseHelper;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -86,6 +84,8 @@ public class MsgFragment extends FragmentSupport {
     private int chebanwenjian_count;
     private int yiyueshiyi_count;
 
+    private SqliteDBUtils sqliteDBUtils;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -121,6 +121,7 @@ public class MsgFragment extends FragmentSupport {
     }
 
     public void initData(){
+        sqliteDBUtils = new SqliteDBUtils(mActivity);
         httpRequesMsgCounts();
     }
 
@@ -183,21 +184,6 @@ public class MsgFragment extends FragmentSupport {
         }
     }
 
-    /**
-     * 从本地数据库读取登录用户Id 用来作为数据请求id
-     * @return
-     */
-    public String getLoginUid(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
-        String uid = null;
-        while (cursor.moveToNext()){
-            uid = cursor.getString((cursor.getColumnIndex("uid")));
-        }
-        return uid;
-    }
-
     private Handler mHandler = new Handler(){};
 
     /**
@@ -207,7 +193,7 @@ public class MsgFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid", getLoginUid());
+        requestBodyBuilder.add("uid", sqliteDBUtils.getLoginUid());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_REQUEST_MSG_LIST_COUNTS;
         Request request = builder.url(request_url).post(requestBody).build();

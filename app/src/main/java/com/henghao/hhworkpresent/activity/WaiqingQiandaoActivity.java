@@ -3,8 +3,6 @@ package com.henghao.hhworkpresent.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,7 +34,7 @@ import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.views.DatabaseHelper;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.MyImageTextButton;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -216,12 +214,13 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
      * 查询当天签到信息
      */
     private void httpRequestKaoqingofCurrentDay() {
+        SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(this);
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        Log.d("wangqingbin","userId=="+getLoginUid());
+        Log.d("wangqingbin","userId=="+sqliteDBUtils.getLoginUid());
         Log.d("wangqingbin","date=="+transferDateTime(tv_time_qiandao.getText().toString()));
-        requestBodyBuilder.add("userId", getLoginUid());
+        requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
         requestBodyBuilder.add("date", transferDateTime(tv_time_qiandao.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
@@ -538,21 +537,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
     }
 
     private Handler mHandler = new Handler(){};
-
-    /**
-     * 从本地数据库读取登录用户Id 用来作为数据请求id
-     * @return
-     */
-    public String getLoginUid(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
-        String uid = null;
-        while (cursor.moveToNext()){
-            uid = cursor.getString((cursor.getColumnIndex("uid")));
-        }
-        return uid;
-    }
 
     @Override
     public void onResume() {

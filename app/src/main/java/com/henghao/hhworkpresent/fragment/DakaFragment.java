@@ -2,8 +2,6 @@ package com.henghao.hhworkpresent.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,8 +30,8 @@ import com.henghao.hhworkpresent.adapter.CommonListStringAdapter;
 import com.henghao.hhworkpresent.listener.OnDateChooseDialogListener;
 import com.henghao.hhworkpresent.utils.LocationUtils;
 import com.henghao.hhworkpresent.utils.PopupWindowHelper;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CircleImageView;
-import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.DateChooseDialog;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -97,6 +95,8 @@ public class DakaFragment extends FragmentSupport {
 
     private View popView;
     private PopupWindowHelper popupWindowHelper;
+
+    private SqliteDBUtils sqliteDBUtils;
 
 
     @Override
@@ -198,9 +198,7 @@ public class DakaFragment extends FragmentSupport {
                         if (!addressList.isEmpty()) {
                             android.location.Address address_temp = addressList.get(0);
                             latitude = address_temp.getLatitude() * 1E6;
-                            Log.d("wangqingbin","latitude=="+latitude);
                             longitude = address_temp.getLongitude() * 1E6;
-                            Log.d("wangqingbin","longitude=="+longitude);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -219,8 +217,10 @@ public class DakaFragment extends FragmentSupport {
     }
 
     public void initData(){
+        sqliteDBUtils = new SqliteDBUtils(mActivity);
+
         httpLoadingHeadImage();
-        tv_loginName.setText(getLoginFirstName() + getLoginGiveName());
+        tv_loginName.setText(sqliteDBUtils.getLoginFirstName() + sqliteDBUtils.getLoginGiveName());
 
         SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -234,7 +234,7 @@ public class DakaFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid",getLoginUid());
+        requestBodyBuilder.add("uid",sqliteDBUtils.getLoginUid());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;
         Request request = builder.url(request_url).post(requestBody).build();
@@ -433,10 +433,8 @@ public class DakaFragment extends FragmentSupport {
             return;
         }
         center = getLatlng(tv_daka_position.getText().toString());
-        Log.d("wangqingbin","center=="+center);
         radius = 200;
         point = getLatlng(shangban_qiandao_location.getText().toString());
-        Log.d("wangqingbin","point=="+point);
         if(center.latitude == 0.0||center.longitude==0.0){
             return;
         }
@@ -650,7 +648,7 @@ public class DakaFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("userId", getLoginUid());
+        requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
         requestBodyBuilder.add("date", datepickerTV.getText().toString());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
@@ -864,49 +862,12 @@ public class DakaFragment extends FragmentSupport {
 
     private Handler mHandler = new Handler(){};
 
-    /**
-     * 从本地数据库读取登录用户Id 用来作为数据请求id
-     * @return
-     */
-    public String getLoginUid(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"uid"},null,null,null,null,null);
-        String uid = null;
-        while (cursor.moveToNext()){
-            uid = cursor.getString((cursor.getColumnIndex("uid")));
-        }
-        return uid;
-    }
-
-    public String getLoginFirstName(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"firstName"},null,null,null,null,null);
-        String firstName = null;
-        while (cursor.moveToNext()){
-            firstName = cursor.getString((cursor.getColumnIndex("firstName")));
-        }
-        return firstName;
-    }
-
-    public String getLoginGiveName(){
-        DatabaseHelper dbHelper = new DatabaseHelper(this.mActivity,"user_login.db");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("user",new String[]{"giveName"},null,null,null,null,null);
-        String giveName = null;
-        while (cursor.moveToNext()){
-            giveName = cursor.getString((cursor.getColumnIndex("giveName")));
-        }
-        return giveName;
-    }
-
     private void httpRequestKaoqingofCurrentDateShangwu() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         String date = datepickerTV.getText().toString();
-        requestBodyBuilder.add("userId", getLoginUid());
+        requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
         requestBodyBuilder.add("date", date);
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
@@ -1001,7 +962,7 @@ public class DakaFragment extends FragmentSupport {
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         String date = datepickerTV.getText().toString();
-        requestBodyBuilder.add("userId", getLoginUid());
+        requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
         requestBodyBuilder.add("date", date);
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
