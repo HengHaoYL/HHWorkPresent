@@ -1,8 +1,11 @@
 package com.henghao.hhworkpresent.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -11,10 +14,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
 
-import com.benefit.buy.library.utils.NSLog;
 import com.benefit.buy.library.views.ToastView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.FragmentTabAdapter;
@@ -28,8 +29,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 
 /**
@@ -51,6 +50,8 @@ public class MainActivity extends ActivityFragmentSupport {
     private boolean isExit = false;
 
     private ToastView mToastView;
+
+    private boolean isGpsOpen = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,20 +162,85 @@ public class MainActivity extends ActivityFragmentSupport {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case Constant.SCANNIN_GREQUEST_CODE:
-                if (resultCode == RESULT_OK) {
-                    Bundle bundle = data.getExtras();
-                    // 显示扫描到的内容
-                    String content = bundle.getString("result");
-                    // 显示
-                    Bitmap bitmap = data.getParcelableExtra("bitmap");
-                    NSLog.e(this, "content:" + content);
+    public void onResume() {
+        super.onResume();
+        checkGpsService();
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(!isGpsOpen){
+                    LocationManager locationManager = (LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE);
+                    boolean gpsIsStart = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                    if(!gpsIsStart){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                createDialog();
+                            }
+                        });
+                        isGpsOpen = false;
+                    }else {
+                        isGpsOpen = true;
+                    }
+                    try{
+                        Thread.sleep(10000);
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
                 }
-                break;
+            }
+        });
+        thread.start();
+    }
+
+    /**
+     * 检测系统GPS定位服务是否开启
+     */
+    public void checkGpsService(){
+        LocationManager locationManager = (LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE);
+        boolean gpsIsStart = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(!gpsIsStart){
+            createDialog();
+            isGpsOpen = false;
+        }else {
+            isGpsOpen = true;
         }
+    }
+
+   public void createDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //设置对话框图标，可以使用自己的图片，Android本身也提供了一些图标供我们使用
+        // builder.setIcon(android.R.drawable.ic_dialog_alert);
+        //设置对话框标题
+        builder.setTitle("GPS定位服务");
+        //设置对话框内的文本
+        builder.setMessage("检测到你没有开启GPS定位服务，请你点击去设置去开启定位服务！");
+        //设置确定按钮，并给按钮设置一个点击侦听，注意这个OnClickListener使用的是DialogInterface类里的一个内部接口
+        builder.setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 执行点击确定按钮的业务逻辑
+                Intent intent=new Intent();
+                intent.setAction(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        //设置取消按钮
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 执行点击取消按钮的业务逻辑
+                dialog.dismiss();
+            }
+        });
+        //使用builder创建出对话框对象
+        AlertDialog dialog = builder.create();
+        //显示对话框
+        dialog.show();
     }
 
 }
