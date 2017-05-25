@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
@@ -18,6 +19,7 @@ import com.henghao.hhworkpresent.activity.SanzhongyidaActivity;
 import com.henghao.hhworkpresent.activity.SendGonggaoActivity;
 import com.henghao.hhworkpresent.activity.ShejishenchaActivity;
 import com.henghao.hhworkpresent.activity.ZhidingjiahuaActivity;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.MyImageTextButton;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -123,26 +125,43 @@ public class AppFragment extends FragmentSupport {
             R.id.banfa,R.id.zhidingjihua,R.id.fabugonggao,R.id.renwupaifa,R.id.sanzhongyida})
     private void viewOnClick(View v){
         Intent intent = new Intent();
+        SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(mActivity);
         switch (v.getId()){
             case R.id.cheliangyuding:
                 intent.setClass(this.mActivity,CheliangyudingActivity.class);
                 mActivity.startActivity(intent);
                 break;
             case R.id.anquanfuwu:
-                intent.setClass(this.mActivity,AnquanfuwuActivity.class);
-                mActivity.startActivity(intent);
+                if("李苛".equals(sqliteDBUtils.getUsername())){
+                    intent.setClass(this.mActivity,AnquanfuwuActivity.class);
+                    mActivity.startActivity(intent);
+                }else{
+                    Toast.makeText(mActivity, "你不能发起当前流程，当前流程发起人为李苛!", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.shejishencha:
-                intent.setClass(this.mActivity,ShejishenchaActivity.class);
-                mActivity.startActivity(intent);
+                if("李苛".equals(sqliteDBUtils.getUsername())){
+                    intent.setClass(this.mActivity,ShejishenchaActivity.class);
+                    mActivity.startActivity(intent);
+                }else{
+                    Toast.makeText(mActivity, "你不能发起当前流程，当前流程发起人为李苛!", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.chushen:
-                intent.setClass(this.mActivity,ChushenActivity.class);
-                mActivity.startActivity(intent);
+                if("唐小兵".equals(sqliteDBUtils.getUsername())){
+                    intent.setClass(this.mActivity,ChushenActivity.class);
+                    mActivity.startActivity(intent);
+                }else{
+                    Toast.makeText(mActivity, "你不能发起当前流程，当前流程发起人为唐小兵!", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.fushen:
-                intent.setClass(this.mActivity,FushenActivity.class);
-                mActivity.startActivity(intent);
+                if("唐小兵".equals(sqliteDBUtils.getUsername())){
+                    intent.setClass(this.mActivity,FushenActivity.class);
+                    mActivity.startActivity(intent);
+                }else{
+                    Toast.makeText(mActivity, "你不能发起当前流程，当前流程发起人为唐小兵!", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.banfa:
                 intent.setClass(this.mActivity,BanfaActivity.class);

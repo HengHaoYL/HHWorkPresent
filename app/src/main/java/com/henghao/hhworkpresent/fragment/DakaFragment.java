@@ -197,8 +197,8 @@ public class DakaFragment extends FragmentSupport {
                         addressList = gc.getFromLocationName(position, 1);
                         if (!addressList.isEmpty()) {
                             android.location.Address address_temp = addressList.get(0);
-                            latitude = address_temp.getLatitude() * 1E6;
-                            longitude = address_temp.getLongitude() * 1E6;
+                            latitude = address_temp.getLatitude();
+                            longitude = address_temp.getLongitude();
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -433,8 +433,10 @@ public class DakaFragment extends FragmentSupport {
             return;
         }
         center = getLatlng(tv_daka_position.getText().toString());
-        radius = 200;
-        point = getLatlng(shangban_qiandao_location.getText().toString());
+        radius = 2000;
+        point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
+        Log.d("wangqingbin","center=="+center);
+        Log.d("wangqingbin","point=="+point);
         if(center.latitude == 0.0||center.longitude==0.0){
             return;
         }
@@ -444,15 +446,10 @@ public class DakaFragment extends FragmentSupport {
         }
 
         boolean isContans = spatialRelationUtil.isCircleContainsPoint(center,radius,point);
+        Log.d("wangqingbin","isContans=="+isContans);
         if(!isContans){
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(mActivity, "你当前不在可打卡区域，请移动到打卡区域方能打卡!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            });
-
+            Toast.makeText(mActivity, "你当前不在可打卡区域，请移动到打卡区域方能打卡!", Toast.LENGTH_SHORT).show();
+            return;
         }else {
             Intent intent = new Intent(mActivity, QiandaoShangbanSubmitActivity.class);
             String time = shangban_qiandao_date.getText().toString();// 签到时间
@@ -491,22 +488,16 @@ public class DakaFragment extends FragmentSupport {
             return;
         }
         LatLng center = getLatlng(tv_daka_position.getText().toString());
-        int radius = 200;
-        LatLng point = getLatlng(xiaban_qiandao_location.getText().toString());
+        int radius = 2000;
+        LatLng point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());;
         if(point==null){
             Toast.makeText(mActivity, "当前位置定位失败，请重新定位！", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isContans = spatialRelationUtil.isCircleContainsPoint(center,radius,point);
         if(!isContans){
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(mActivity, "你当前不在可打卡区域，请移动到打卡区域方能打卡!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            });
-
+            Toast.makeText(mActivity, "你当前不在可打卡区域，请移动到打卡区域方能打卡!", Toast.LENGTH_SHORT).show();
+            return;
         }else {
             //如果没超过12.00 表示上午
             if(equalsString12(currentTime)){

@@ -26,7 +26,7 @@ public class Constant {
 	/**
 	 * 停止服务
 	 */
-	public final static String STOP_REALTIMESERVICE = "stop realtimeService";
+	public static final String STOP_REALTIMESERVICE = "stop realtimeService";
 
 	/**
 	 * 本地数据的配置

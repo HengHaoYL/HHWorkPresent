@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.WorkflowUrl;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.ProgressWebView;
 import com.lidroid.xutils.ViewUtils;
@@ -153,7 +154,7 @@ public class RenwupaifaActivity extends ActivityFragmentSupport {
             }
         });
 
-        progressWebView.loadUrl("http://222.85.156.33:8082/hz7/horizon/workflow/support/open.wf?loginName="+sqliteDBUtils.getUsername()+"&flowId=renwupaifa");
+        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.RENWUPAIFA_FLOWID);
     }
 
     @Override

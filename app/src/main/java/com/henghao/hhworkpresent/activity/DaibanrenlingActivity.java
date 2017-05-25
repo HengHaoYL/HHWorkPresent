@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.WorkflowUrl;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.ProgressWebView;
 import com.lidroid.xutils.ViewUtils;
@@ -155,8 +156,7 @@ public class DaibanrenlingActivity extends ActivityFragmentSupport {
             }
         });
 
-        progressWebView.loadUrl("http://222.85.156.33:8082/hz7//resource/skins/bootstrap/view/datatables/view.datatables.jsp?" +
-                "loginName="+sqliteDBUtils.getUsername()+"&viewid=HZ2881f84fafe789014faff19b19003a");
+        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.DAIBANRELING_VIEWID);
     }
 
     @Override
