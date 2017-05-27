@@ -183,8 +183,8 @@ public class DakaFragment extends FragmentSupport {
      * @param position
      * @return
      */
-    double latitude = 0;
-    double longitude = 0;
+    private double latitude ;
+    private double longitude ;
     public LatLng getLatlng(final String position) {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -192,13 +192,18 @@ public class DakaFragment extends FragmentSupport {
                 List<android.location.Address> addressList = null;
                 if (position != null) {
                     Geocoder gc = new Geocoder(mActivity, Locale.CHINA);
+                    Log.d("wangqingbin","gc=="+gc);
                     try {
                         //这是个耗时操作
                         addressList = gc.getFromLocationName(position, 1);
+                        Log.d("wangqingbin","addressList=="+addressList);
                         if (!addressList.isEmpty()) {
                             android.location.Address address_temp = addressList.get(0);
+                            Log.d("wangqingbin","address_temp=="+address_temp);
                             latitude = address_temp.getLatitude();
                             longitude = address_temp.getLongitude();
+                            Log.d("wangqingbin","latitude=="+latitude);
+                            Log.d("wangqingbin","longitude=="+longitude);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -425,7 +430,7 @@ public class DakaFragment extends FragmentSupport {
     }
 
     LatLng center = null;
-    int radius = 200;
+    int radius = 20000;
     LatLng point = null;
     public void onClickShangbanDaka(){
         if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
@@ -433,20 +438,17 @@ public class DakaFragment extends FragmentSupport {
             return;
         }
         center = getLatlng(tv_daka_position.getText().toString());
-        radius = 2000;
+        radius = 200;
         point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
-        Log.d("wangqingbin","center=="+center);
-        Log.d("wangqingbin","point=="+point);
         if(center.latitude == 0.0||center.longitude==0.0){
+            Toast.makeText(mActivity, "暂未获取到准确打卡位置中心点，请再点击一次！", Toast.LENGTH_SHORT).show();
             return;
         }
         if(point==null){
             Toast.makeText(mActivity, "当前位置定位失败，请重新定位！", Toast.LENGTH_SHORT).show();
             return;
         }
-
         boolean isContans = spatialRelationUtil.isCircleContainsPoint(center,radius,point);
-        Log.d("wangqingbin","isContans=="+isContans);
         if(!isContans){
             Toast.makeText(mActivity, "你当前不在可打卡区域，请移动到打卡区域方能打卡!", Toast.LENGTH_SHORT).show();
             return;
@@ -488,8 +490,14 @@ public class DakaFragment extends FragmentSupport {
             return;
         }
         LatLng center = getLatlng(tv_daka_position.getText().toString());
-        int radius = 2000;
-        LatLng point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());;
+        Log.d("wangqingbin","center=="+center);
+        int radius = 20000;
+        LatLng point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
+        Log.d("wangqingbin","point=="+point);
+        if(center.latitude == 0.0||center.longitude==0.0){
+            Toast.makeText(mActivity, "暂未获取到准确打卡位置中心点，请再点击一次！", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(point==null){
             Toast.makeText(mActivity, "当前位置定位失败，请重新定位！", Toast.LENGTH_SHORT).show();
             return;

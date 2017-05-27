@@ -2817,8 +2817,15 @@ containing a value of this type.
         public static int Anim_style2=0x7f0a006d;
         /**  API 11 theme customizations can go here. 
  API 14 theme customizations can go here. 
+
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        
          */
         public static int AppBaseTheme=0x7f0a0002;
+        /**  All customizations that are NOT specific to a particular API-level can go here. 
+         */
         public static int AppTheme=0x7f0a006e;
         public static int Base_TextAppearance_AppCompat=0x7f0a0028;
         public static int Base_TextAppearance_AppCompat_Body1=0x7f0a0029;
@@ -2931,10 +2938,16 @@ containing a value of this type.
         public static int Base_Widget_AppCompat_Toolbar_Button_Navigation=0x7f0a0065;
         public static int BaseDialog=0x7f0a0087;
         public static int DialogWindowTitle=0x7f0a0088;
+        /**  模糊 
+         */
         public static int HeadScale=0x7f0a0089;
         public static int MyAlertDialog=0x7f0a008a;
         public static int MyDialogStyle=0x7f0a008b;
+        /**  模糊 
+         */
         public static int MyDialogStyleBottom=0x7f0a008c;
+        /**  模糊 
+         */
         public static int MyDialogStyleTop=0x7f0a008d;
         public static int Platform_AppCompat=0x7f0a0014;
         public static int Platform_AppCompat_Dialog=0x7f0a0015;

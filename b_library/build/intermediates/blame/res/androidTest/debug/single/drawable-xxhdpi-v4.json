@@ -24,6 +24,10 @@
         "source": "D:\\workspace\\ParkLand\\HHWorkPresent\\b_library\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\asv.png"
     },
     {
+        "merged": "D:\\workspace\\ParkLand\\HHWorkPresent\\b_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\icon_loading.png",
+        "source": "D:\\workspace\\ParkLand\\HHWorkPresent\\b_library\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\icon_loading.png"
+    },
+    {
         "merged": "D:\\workspace\\ParkLand\\HHWorkPresent\\b_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
         "source": "D:\\workspace\\ParkLand\\HHWorkPresent\\b_library\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\ic_launcher.png"
     },
