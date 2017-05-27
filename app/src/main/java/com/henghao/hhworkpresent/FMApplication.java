@@ -53,7 +53,6 @@ public class FMApplication extends Application {
         // 注意该方法要再setContentView方法之前实现
 
         initImageLoader(getApplicationContext());
-        Log.d("wangqingbin","初始化图片加载器成功");
         LocationUtils.Location(this);
         SDKInitializer.initialize(this);
         appException();

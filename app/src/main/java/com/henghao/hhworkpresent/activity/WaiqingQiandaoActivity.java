@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -218,8 +217,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        Log.d("wangqingbin","userId=="+sqliteDBUtils.getLoginUid());
-        Log.d("wangqingbin","date=="+transferDateTime(tv_time_qiandao.getText().toString()));
         requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
         requestBodyBuilder.add("date", transferDateTime(tv_time_qiandao.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
@@ -247,7 +244,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                     final JSONObject jsonObject = new JSONObject(result_str);
                     //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
                     String data = jsonObject.getString("data");
-                    Log.d("wangqingbin","data=="+data);
                     if (("null").equals(data)) {
                         Date date = new Date();
                         final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
@@ -291,9 +287,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                         }
                         final JSONObject dataObject = jsonObject.getJSONObject("data");
                         final String morningCount = dataObject.optString("morningCount");
-                        Log.d("wangqingbin","morningCount=="+morningCount);
                         final String afterCount = dataObject.optString("afterCount");
-                        Log.d("wangqingbin","afterCount=="+afterCount);
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -310,7 +304,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                                     }else {
                                         tv_qiandao.setText("下班打卡");
                                     }
-
+                                    return;
                                 }else {
                                     tv_state_qiandao.setText("你上班已打卡成功!");
                                     tv_qiandao.setText("下班打卡");
@@ -522,7 +516,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         }  else if (requestCode == REQUEST_PLACE_CHANGE){
             if ((resultCode == Activity.RESULT_OK) || (resultCode == Activity.RESULT_CANCELED)) {
                 Bundle bundle = data.getExtras();
-                Log.d("wangqingbin","bundle=="+bundle);
                 if (bundle != null) {
                     latitude = bundle.getDouble("latitude");
                     longitude = bundle.getDouble("longitude");

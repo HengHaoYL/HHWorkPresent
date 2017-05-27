@@ -142,7 +142,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="固定电话"
+                android:text="工作电话"
                 android:textSize="@dimen/gj_f" />
 
             <EditText

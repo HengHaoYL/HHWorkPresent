@@ -664,7 +664,6 @@ public class DakaFragment extends FragmentSupport {
                     JSONObject jsonObject = new JSONObject(result_str);
                     //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
                     String data = jsonObject.getString("data");
-                    Log.d("wangqingbin","data=="+data);
                     Date date = new Date();
                     final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                     final String currentTime = format.format(date);
@@ -705,8 +704,6 @@ public class DakaFragment extends FragmentSupport {
                         String morningCount = dataObject.optString("morningCount");
                         String afterCount = dataObject.optString("afterCount");
                         String checkType = dataObject.optString("checkType");
-                        Log.d("wangqingbin","morningCount=="+morningCount);
-                        Log.d("wangqingbin","afterCount=="+afterCount);
 
                         //如果checkType 是这几个值i 直接显示下午布局
                         if("请假".equals(checkType)){
@@ -757,13 +754,11 @@ public class DakaFragment extends FragmentSupport {
                         }else{
                             //代表上午还没有签到
                             if ("0".equals(morningCount)) {
-                                Log.d("wangqingbin","上午没有打过卡");
                                 //如果没超过12.00 表示上午
                                 if (equalsString12(currentTime)) {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Log.d("wangqingbin","上午没有打过卡,而且没超过12.00，显示上班打卡布局");
                                             mActivityFragmentView.viewLoading(View.GONE);
                                             pastdate_layout.setVisibility(View.GONE);
                                             shangban_layout.setVisibility(View.VISIBLE);
@@ -778,7 +773,6 @@ public class DakaFragment extends FragmentSupport {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Log.d("wangqingbin","上午没有打过卡,但是超过12.00，显示上班打卡信息，显示下班打卡布局");
                                             //下午
                                             mActivityFragmentView.viewLoading(View.GONE);
                                             pastdate_layout.setVisibility(View.GONE);
@@ -796,7 +790,6 @@ public class DakaFragment extends FragmentSupport {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.d("wangqingbin","上午打过卡，显示上班打卡信息，显示下班打卡布局");
                                         mActivityFragmentView.viewLoading(View.GONE);
                                         //如果不是0 则显示下午签到布局
                                         pastdate_layout.setVisibility(View.GONE);
@@ -816,7 +809,6 @@ public class DakaFragment extends FragmentSupport {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.d("wangqingbin","下午没有打过卡，显示上班打卡信息，显示下班打卡布局");
                                         mActivityFragmentView.viewLoading(View.GONE);
                                         pastdate_layout.setVisibility(View.GONE);
                                         shangban_layout.setVisibility(View.GONE);
@@ -832,7 +824,6 @@ public class DakaFragment extends FragmentSupport {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.d("wangqingbin","下午打过卡，显示全天打卡消息");
                                         mActivityFragmentView.viewLoading(View.GONE);
                                         pastdate_layout.setVisibility(View.VISIBLE);
                                         shangban_layout.setVisibility(View.GONE);
