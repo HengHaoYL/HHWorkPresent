@@ -2,6 +2,7 @@ package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -219,6 +220,7 @@ public class GongGaoActivity extends ActivityFragmentSupport {
             List<GonggaoEntity> homedata = (List<GonggaoEntity>) jo;
             unReadData.clear();
             unReadData.addAll(homedata);
+            Log.d("wangqingbin","homedata.size=="+homedata.size());
             mUnReadAdaper.notifyDataSetChanged();
         } else if(url.endsWith(ProtocolUrl.APP_QUERY_READ_GONGGAO)){
             if (jo instanceof BaseEntity) {

@@ -20,6 +20,7 @@ import com.henghao.hhworkpresent.activity.FaqishiyiActivity;
 import com.henghao.hhworkpresent.activity.GerendaibanActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.YibanshiyiActivity;
+import com.henghao.hhworkpresent.utils.NotificationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -32,6 +33,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -85,6 +87,14 @@ public class MsgFragment extends FragmentSupport {
     private int yiyueshiyi_count;
 
     private SqliteDBUtils sqliteDBUtils;
+    private NotificationUtils notificationUtils;
+
+    //通知的唯一标识，在一个应用程序中不同的通知要区别开来
+    public static final int NO_1 = 1001;    //通知公告
+    public static final int NO_2 = 1002;    //需办理
+    public static final int NO_3 = 1003;    //我发起
+    public static final int NO_4 = 1004;    //审批过
+    public static final int NO_5 = 1005;    //需阅知
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -122,12 +132,15 @@ public class MsgFragment extends FragmentSupport {
 
     public void initData(){
         sqliteDBUtils = new SqliteDBUtils(mActivity);
+        notificationUtils = new NotificationUtils(mActivity);
+        queryUnReadGonggao();
         httpRequesMsgCounts();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        queryUnReadGonggao();
         httpRequesMsgCounts();
     }
 
@@ -182,6 +195,67 @@ public class MsgFragment extends FragmentSupport {
                 break;*/
 
         }
+    }
+
+    /**
+     * 查询未读公告数目
+     */
+    public void queryUnReadGonggao(){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
+        requestBodyBuilder.add("uid", sqliteDBUtils.getLoginUid());
+        RequestBody requestBody = requestBodyBuilder.build();
+        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_UNREAD_GONGGAO;
+        Request request = builder.url(request_url).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    int status = jsonObject.getInt("status");
+                    if (status == 0) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                        unread_gonggao_count = jsonArray.length();
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(unread_gonggao_count==0){
+                                    BadgeFactory.create(mActivity)
+                                            .setWidthAndHeight(50,50)
+                                            .setBadgeBackground(Color.WHITE)
+                                            .setTextSize(0)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount("")
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(geredaiban);
+                                }
+                                if(unread_gonggao_count>0){
+                                    BadgeFactory.create(mActivity)
+                                            .setTextColor(Color.WHITE)
+                                            .setWidthAndHeight(20,20)
+                                            .setBadgeBackground(Color.RED)
+                                            .setTextSize(10)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount(unread_gonggao_count)
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(tongzhigonggao);
+                                }
+                            }
+                        });
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private Handler mHandler = new Handler(){};
@@ -263,6 +337,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount(gerendaiban_count)
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(geredaiban);
+               //                     notificationUtils.addNotfication("需办理的工作", "你有新的需要办理的工作，请尽快办理！", NO_2 , new GerendaibanActivity());
                                 }
                                 if(gerendaiban_count>99){
                                     BadgeFactory.create(mActivity)
@@ -297,6 +372,8 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount(faqishiyi_count)
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(faqishiyi);
+
+                //                    notificationUtils.addNotfication("我发起的工作", "你刚刚发起了一个流程，请关注后续！", NO_3 , new FaqishiyiActivity());
                                 }
                                 if(faqishiyi_count>99){
                                     BadgeFactory.create(mActivity)
@@ -363,6 +440,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount(yibanshiyi_count)
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(yibanshiyi);
+                   //                 notificationUtils.addNotfication("审批过的流程", "你又审批了一条流程，请关注后续！", NO_4 , new YibanshiyiActivity());
                                 }
                                 if(yibanshiyi_count>99){
                                     BadgeFactory.create(mActivity)

@@ -430,7 +430,7 @@ public class DakaFragment extends FragmentSupport {
     }
 
     LatLng center = null;
-    int radius = 20000;
+    int radius = 200;
     LatLng point = null;
     public void onClickShangbanDaka(){
         if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
@@ -491,7 +491,7 @@ public class DakaFragment extends FragmentSupport {
         }
         LatLng center = getLatlng(tv_daka_position.getText().toString());
         Log.d("wangqingbin","center=="+center);
-        int radius = 20000;
+        int radius = 200;
         LatLng point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         Log.d("wangqingbin","point=="+point);
         if(center.latitude == 0.0||center.longitude==0.0){

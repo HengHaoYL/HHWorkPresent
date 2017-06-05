@@ -85,6 +85,15 @@
             </intent-filter>
         </service>
 
+        <!-- 下载公告和消息service -->
+        <service
+            android:name=".service.NotificationService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.henghao.hhworkpresent.service.NotificationService" ></action>
+            </intent-filter>
+        </service>
+
         <!-- 实时上传经纬度service -->
         <service
             android:name=".service.RealTimeService"
