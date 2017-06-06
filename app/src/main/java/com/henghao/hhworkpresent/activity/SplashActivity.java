@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.service.KaoqingService;
 import com.henghao.hhworkpresent.service.NotificationService;
 import com.henghao.hhworkpresent.service.RealTimeService;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
@@ -176,6 +177,8 @@ public class SplashActivity extends ActivityFragmentSupport {
 						_intent = new Intent(SplashActivity.this, RealTimeService.class);
 						startService(_intent);
 						_intent = new Intent(SplashActivity.this, NotificationService.class);
+						startService(_intent);
+						_intent = new Intent(SplashActivity.this, KaoqingService.class);
 						startService(_intent);
 						finishDelayed();
 					}

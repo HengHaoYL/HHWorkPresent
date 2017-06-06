@@ -1,9 +1,7 @@
 package com.henghao.hhworkpresent.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -113,11 +111,21 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
         httpLoadingHeadImage();
         tv_userName.setText(sqliteDBUtils.getLoginFirstName() + sqliteDBUtils.getLoginGiveName());
 
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         String currentDate = intent.getStringExtra("currentDate");
         String currentWeek = intent.getStringExtra("currentWeek");
         tv_currentDate.setText(currentDate);
+        tv_currentWeek.setText(currentWeek);*/
+
+        /**
+         * 用这个接收数据是为了发送通知时好解析数据
+         */
+        Bundle bundle = getIntent().getExtras();
+        String currentDate = bundle.getString("currentDate");
+        String currentWeek = bundle.getString("currentWeek");
+        tv_currentDate.setText(currentDate);
         tv_currentWeek.setText(currentWeek);
+
     }
 
     public void httpLoadingHeadImage(){

@@ -234,7 +234,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
                                             .setBadgeCount("")
                                             .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(geredaiban);
+                                            .bind(tongzhigonggao);
                                 }
                                 if(unread_gonggao_count>0){
                                     BadgeFactory.create(mActivity)

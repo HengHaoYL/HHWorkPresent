@@ -19,6 +19,7 @@ import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.UserInfoEntity;
+import com.henghao.hhworkpresent.service.KaoqingService;
 import com.henghao.hhworkpresent.service.NotificationService;
 import com.henghao.hhworkpresent.service.RealTimeService;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
@@ -202,6 +203,12 @@ public class LoginActivity extends ActivityFragmentSupport {
                          */
                         Intent intent2 = new Intent(LoginActivity.this, NotificationService.class);
                         startService(intent2);
+
+                        /**
+                         * 开启服务
+                         */
+                        Intent intent3 = new Intent(LoginActivity.this, KaoqingService.class);
+                        startService(intent3);
 
                         mHandler.post(new Runnable() {
                             @Override

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -195,8 +194,7 @@ public class KaoqingFragment extends FragmentSupport {
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         requestBodyBuilder.add("uid",sqliteDBUtils.getLoginUid());
         RequestBody requestBody = requestBodyBuilder.build();
-        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;
-        Log.d("wangqingbin","request_url=="+request_url);
+        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;;
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -568,6 +566,7 @@ public class KaoqingFragment extends FragmentSupport {
                     }
                     mQuekaData.clear();
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                     for(int i=0;i<jsonArray.length();i++){
                         KaoqingEntity kaoqingEntity = new KaoqingEntity();
                         JSONObject dataObject = jsonArray.getJSONObject(i);
@@ -580,10 +579,13 @@ public class KaoqingFragment extends FragmentSupport {
                         }else{
                             clockInTime = "17:00";
                         }
-                        kaoqingEntity.setClockInTime(clockInTime);
-                        kaoqingEntity.setCurrentDate(currentDate);
-                        kaoqingEntity.setWeek(workDay);
-                        mQuekaData.add(kaoqingEntity);
+                        //如果日期不是当天
+                        if(!date.equals(currentDate)){
+                            kaoqingEntity.setClockInTime(clockInTime);
+                            kaoqingEntity.setCurrentDate(currentDate);
+                            kaoqingEntity.setWeek(workDay);
+                            mQuekaData.add(kaoqingEntity);
+                        }
                     }
                     mHandler.post(new Runnable() {
                         @Override

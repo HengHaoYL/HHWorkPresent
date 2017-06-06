@@ -94,6 +94,15 @@
             </intent-filter>
         </service>
 
+        <!-- 考勤信息消息提醒service -->
+        <service
+            android:name=".service.KaoqingService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.henghao.hhworkpresent.service.KaoqingService" ></action>
+            </intent-filter>
+        </service>
+
         <!-- 实时上传经纬度service -->
         <service
             android:name=".service.RealTimeService"

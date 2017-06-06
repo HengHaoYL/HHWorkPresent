@@ -151,7 +151,7 @@ public class DakaFragment extends FragmentSupport {
         final List<String> mList = new ArrayList<String>();
         //判断一个指定的经纬度点是否落在一个多边形区域内
         //http://wiki.lbsyun.baidu.com/cms/androidsdk/doc/v3_7_0/com/baidu/mapapi/utils/SpatialRelationUtil.html#isPolygonContainsPoint(java.util.List,%20com.baidu.mapapi.model.LatLng)
-        mList.add("贵阳市高新区六盘水路启林创客小镇B栋");
+        mList.add("贵阳市观山湖区金阳行政中心二期综合办公大楼");
         mList.add("贵阳市高新区六盘水路41号B506");
         CommonListStringAdapter mListStringAdapter = new CommonListStringAdapter(this.mActivity, mList);
         mListView.setAdapter(mListStringAdapter);
@@ -438,7 +438,7 @@ public class DakaFragment extends FragmentSupport {
             return;
         }
         center = getLatlng(tv_daka_position.getText().toString());
-        radius = 200;
+        radius = 2000;
         point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(center.latitude == 0.0||center.longitude==0.0){
             Toast.makeText(mActivity, "暂未获取到准确打卡位置中心点，请再点击一次！", Toast.LENGTH_SHORT).show();
@@ -491,7 +491,7 @@ public class DakaFragment extends FragmentSupport {
         }
         LatLng center = getLatlng(tv_daka_position.getText().toString());
         Log.d("wangqingbin","center=="+center);
-        int radius = 200;
+        int radius = 2000;
         LatLng point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         Log.d("wangqingbin","point=="+point);
         if(center.latitude == 0.0||center.longitude==0.0){
