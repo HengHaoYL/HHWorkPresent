@@ -277,6 +277,11 @@
             android:theme="@style/Activity.Theme" />
 
         <activity
+            android:name=".activity.LingdaoQuXiangActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
             android:name=".activity.SanzhongyidaActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />

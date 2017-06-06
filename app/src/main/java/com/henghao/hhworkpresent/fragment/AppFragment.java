@@ -13,6 +13,7 @@ import com.henghao.hhworkpresent.activity.BanfaActivity;
 import com.henghao.hhworkpresent.activity.CheliangyudingActivity;
 import com.henghao.hhworkpresent.activity.ChushenActivity;
 import com.henghao.hhworkpresent.activity.FushenActivity;
+import com.henghao.hhworkpresent.activity.LingdaoQuXiangActivity;
 import com.henghao.hhworkpresent.activity.RenwupaifaActivity;
 import com.henghao.hhworkpresent.activity.SanzhongyidaActivity;
 import com.henghao.hhworkpresent.activity.SendGonggaoActivity;
@@ -57,6 +58,9 @@ public class AppFragment extends FragmentSupport {
 
     @ViewInject(R.id.renwupaifa)
     private MyImageTextButton renwupaifa;
+
+    @ViewInject(R.id.lingdaoquxiang)
+    private MyImageTextButton lingdaoquxiang;
 
     @ViewInject(R.id.sanzhongyida)
     private MyImageTextButton sanzhongyida;
@@ -109,6 +113,9 @@ public class AppFragment extends FragmentSupport {
         renwupaifa.setItemTextResource("任务派发");
         renwupaifa.setItemImageResource(R.drawable.renwupaifa);
 
+        lingdaoquxiang.setItemTextResource("领导去向");
+        lingdaoquxiang.setItemImageResource(R.drawable.lingdaoquxiang);
+
         sanzhongyida.setItemTextResource("三重一大");
         sanzhongyida.setItemImageResource(R.drawable.sanzhongyida);
 
@@ -121,7 +128,7 @@ public class AppFragment extends FragmentSupport {
     }
 
     @OnClick({R.id.cheliangyuding,R.id.anquanfuwu,R.id.shejishencha,R.id.chushen, R.id.fushen,
-            R.id.banfa,R.id.zhidingjihua,R.id.fabugonggao,R.id.renwupaifa,R.id.sanzhongyida})
+            R.id.banfa,R.id.zhidingjihua,R.id.fabugonggao,R.id.renwupaifa,R.id.lingdaoquxiang,R.id.sanzhongyida})
     private void viewOnClick(View v){
         Intent intent = new Intent();
         SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(mActivity);
@@ -176,6 +183,10 @@ public class AppFragment extends FragmentSupport {
                 break;
             case R.id.renwupaifa:
                 intent.setClass(this.mActivity,RenwupaifaActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.lingdaoquxiang:
+                intent.setClass(this.mActivity,LingdaoQuXiangActivity.class);
                 mActivity.startActivity(intent);
                 break;
             case R.id.sanzhongyida:

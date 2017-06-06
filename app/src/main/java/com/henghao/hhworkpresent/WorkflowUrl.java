@@ -126,4 +126,9 @@ public class WorkflowUrl {
      */
     public static final String YIYUESHIYI_VIEWID = "&viewid=HZ2881f84fafe789014fb011aab30053";
 
+    /**
+     * 领导去向  viewId
+     */
+    public static final String LINGDAOQUXIANG_VIEWID = "&viewid=HZ9080b95b6b5431015b6b7cba8c03e3";
+
 }
