@@ -403,13 +403,12 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
     @ViewInject(R.id.calendar_null_layout)
     private RelativeLayout calendar_null_layout;
 
-
     private void httpRequestKaoqingofDate() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
-        String date = tvCurrentDate.getText().toString().trim();
+        final String date = tvCurrentDate.getText().toString().trim();
         int type = equalsDate(transferDateTime(date));
         //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
         if(type==1||type==0){
@@ -417,6 +416,8 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
             calendar_null_layout.setVisibility(View.VISIBLE);
             return;
         }
+
+
         requestBodyBuilder.add("date", transferDateTime(date));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
@@ -520,7 +521,21 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                             return;
                         }
 
+                        //后台已经处理 这里的周末指的是上班的周末
+
                         if("周末".equals(checkType)){
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityFragmentView.viewLoading(View.GONE);
+                                    carlendar_kaoing_layout.setVisibility(View.GONE);
+                                    calendar_null_layout.setVisibility(View.VISIBLE);
+                                }
+                            });
+                            return;
+                        }
+
+                        if("法定假日".equals(checkType)){
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {

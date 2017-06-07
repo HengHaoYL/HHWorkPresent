@@ -33,8 +33,8 @@ public class ProtocolUrl {
        //     ROOT_URL = "222.85.156.33:8082";
         } else {
             // 测试地址
-            ROOT_URL = "http://222.85.156.33:8082";
-      //   ROOT_URL = "http://172.16.0.125:8080";
+      //      ROOT_URL = "http://222.85.156.33:8082";
+         ROOT_URL = "http://172.16.13.118:8080";
         }
     }
 
@@ -148,6 +148,13 @@ public class ProtocolUrl {
 
 
     /**
+     * 查询某天是不是国家法定假日 和周末不上班的日子
+     */
+    public static final String APP_QUERY_DAY_OF_HOLIDAY = "/check_workflow/restday/findRestDay";
+
+
+
+     /**
      * 查询迟到记录单条详细记录
      */
     public static final String APP_QUERY_DAY_OF_CHIDAO = "/checking-in/CI/chidaoToApp";

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +98,32 @@ public class DakaFragment extends FragmentSupport {
 
     private SqliteDBUtils sqliteDBUtils;
 
+    public final static int HOLIDAY_TRUE = 2;
+    public final static int HOLIDAY_FALSE = 1;
+    public final static int HOLIDAY_DIALOG_FALSE = 3;
+    public final static int HOLIDAY_DIALOG_TRUE = 4;
+
+    public Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == HOLIDAY_TRUE){
+                pastdate_layout.setVisibility(View.GONE);
+                shangban_layout.setVisibility(View.GONE);
+                xiaban_layout.setVisibility(View.GONE);
+                null_daka_layout.setVisibility(View.VISIBLE);
+            }else if(msg.what == HOLIDAY_FALSE){
+                httpRequestKaoqingofCurrentDay();
+
+            }else if(msg.what == HOLIDAY_DIALOG_FALSE){
+                pastdate_layout.setVisibility(View.VISIBLE);
+                shangban_layout.setVisibility(View.GONE);
+                xiaban_layout.setVisibility(View.GONE);
+                null_daka_layout.setVisibility(View.GONE);
+                httpRequestKaoqingofPastDate();
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -192,18 +218,13 @@ public class DakaFragment extends FragmentSupport {
                 List<android.location.Address> addressList = null;
                 if (position != null) {
                     Geocoder gc = new Geocoder(mActivity, Locale.CHINA);
-                    Log.d("wangqingbin","gc=="+gc);
                     try {
                         //这是个耗时操作
                         addressList = gc.getFromLocationName(position, 1);
-                        Log.d("wangqingbin","addressList=="+addressList);
                         if (!addressList.isEmpty()) {
                             android.location.Address address_temp = addressList.get(0);
-                            Log.d("wangqingbin","address_temp=="+address_temp);
                             latitude = address_temp.getLatitude();
                             longitude = address_temp.getLongitude();
-                            Log.d("wangqingbin","latitude=="+latitude);
-                            Log.d("wangqingbin","longitude=="+longitude);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -232,7 +253,8 @@ public class DakaFragment extends FragmentSupport {
         textString = f.format(date);
         datepickerTV.setText(textString);
 
-        httpRequestKaoqingofCurrentDay();
+        //初始化数据前，先判断时候是家假日
+        equalsHoliday(textString);
     }
 
     public void httpLoadingHeadImage(){
@@ -490,10 +512,8 @@ public class DakaFragment extends FragmentSupport {
             return;
         }
         LatLng center = getLatlng(tv_daka_position.getText().toString());
-        Log.d("wangqingbin","center=="+center);
         int radius = 2000;
         LatLng point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
-        Log.d("wangqingbin","point=="+point);
         if(center.latitude == 0.0||center.longitude==0.0){
             Toast.makeText(mActivity, "暂未获取到准确打卡位置中心点，请再点击一次！", Toast.LENGTH_SHORT).show();
             return;
@@ -592,11 +612,7 @@ public class DakaFragment extends FragmentSupport {
                     xiaban_layout.setVisibility(View.GONE);
                     null_daka_layout.setVisibility(View.VISIBLE);
                 } else if(type==-1){
-                    pastdate_layout.setVisibility(View.VISIBLE);
-                    shangban_layout.setVisibility(View.GONE);
-                    xiaban_layout.setVisibility(View.GONE);
-                    null_daka_layout.setVisibility(View.GONE);
-                    httpRequestKaoqingofPastDate();
+                    equalsHoliday(datepickerTV.getText().toString());
                 }
             }
         });
@@ -607,6 +623,65 @@ public class DakaFragment extends FragmentSupport {
             }
         });
         builder.create().show();
+    }
+
+    /**
+     * 判断日期date是不是节假日 isHoliday true代表是节假日和周末不上班的日子  false代表不是节假日要上班
+     * date 需要处理
+     */
+
+    private void equalsHoliday(String date){
+        String textdate = date.replace("-","");
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
+        //这个id是日期在数据库里的id 形式20170530
+        requestBodyBuilder.add("id", textdate);
+        RequestBody requestBody = requestBodyBuilder.build();
+        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_HOLIDAY;
+        Request request = builder.url(request_url).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                //result_str=={"id":20170530,"date":"2017-05-30","status":"法定假日"}
+                // {"id":20170528,"date":"2017-05-28","status":"周末"}
+                //如果是空，代表是要上班的日子  result_str.length()==0这个判断才有用
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                    }
+                });
+                if (result_str == null || "null".equals(result_str) || result_str.length() == 0) {
+                    //如果日期是当天
+                    if((datepickerTV.getText().toString()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
+                        Message message = Message.obtain();
+                        message.what = HOLIDAY_FALSE;
+                        handler.sendMessage(message);
+                    }else{
+                        Message message = Message.obtain();
+                        message.what = HOLIDAY_DIALOG_FALSE;
+                        handler.sendMessage(message);
+                    }
+                } else {
+                    Message message = Message.obtain();
+                    message.what = HOLIDAY_TRUE;
+                    handler.sendMessage(message);
+                }
+            }
+        });
     }
 
     /**
