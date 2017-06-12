@@ -108,7 +108,6 @@ public class DakaFragment extends FragmentSupport {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Log.d("wangqingbin","msg=="+msg.what);
             if(msg.what == HOLIDAY_TRUE){
                 pastdate_layout.setVisibility(View.GONE);
                 shangban_layout.setVisibility(View.GONE);
@@ -660,28 +659,35 @@ public class DakaFragment extends FragmentSupport {
                 //result_str=={"id":20170530,"date":"2017-05-30","status":"法定假日"}
                 // {"id":20170528,"date":"2017-05-28","status":"周末"}
                 Log.d("wangqingbin","result_str=="+result_str);
-                //如果是空，代表是要上班的日子  result_str.length()==0这个判断才有用
+                //如果是空，  result_str.length()==0这个判断才有用
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
                     }
                 });
-                if (result_str == null || "null".equals(result_str) || result_str.length() == 0) {
-                    //如果日期是当天
-                    if((datepickerTV.getText().toString()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
-                        Message message = Message.obtain();
-                        message.what = HOLIDAY_FALSE;
-                        handler.sendMessage(message);
+                try{
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    String status = jsonObject.getString("status");
+                    //代表是要上班的日子
+                    if("无节假日信息".equals(status)){
+                        //如果日期是当天
+                        if((datepickerTV.getText().toString()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
+                            Message message = Message.obtain();
+                            message.what = HOLIDAY_FALSE;
+                            handler.sendMessage(message);
+                        }else{
+                            Message message = Message.obtain();
+                            message.what = HOLIDAY_DIALOG_FALSE;
+                            handler.sendMessage(message);
+                        }
                     }else{
                         Message message = Message.obtain();
-                        message.what = HOLIDAY_DIALOG_FALSE;
+                        message.what = HOLIDAY_TRUE;
                         handler.sendMessage(message);
                     }
-                } else {
-                    Message message = Message.obtain();
-                    message.what = HOLIDAY_TRUE;
-                    handler.sendMessage(message);
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
             }
         });
@@ -747,17 +753,22 @@ public class DakaFragment extends FragmentSupport {
             public void onResponse(Response response) throws IOException {
                 String result_str = response.body().string();
                 try {
-                    JSONObject jsonObject = new JSONObject(result_str);
-                    Log.d("wangqingbin","jsonObject=="+jsonObject);
-                    //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
-                    String data = jsonObject.getString("data");
-                    Log.d("wangqingbin","data=="+data);
                     Date date = new Date();
                     final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                     final String currentTime = format.format(date);
-                    if (("null").equals(data)) {
-                        //如果没超过12.00 表示上午
-                        if (equalsString12(currentTime)) {
+
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
+                    String data = jsonObject.getString("data");
+                    JSONObject jsonObject1 = new JSONObject(data);
+                    String checkInfo = jsonObject1.getString("ck");
+                    final String shouldSBTime = jsonObject1.getString("ClockIn");
+                    final String shouldXBTime = jsonObject1.getString("ClockOut");
+                    final String middleTime = jsonObject1.getString("MiddleTime");
+
+                    if (("null").equals(checkInfo)) {
+                        //如果没超过中间时间, 表示上午
+                        if (equalsStringMiddle(currentTime,middleTime)) {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -788,7 +799,7 @@ public class DakaFragment extends FragmentSupport {
                             });
                         }
                     } else {
-                        JSONObject dataObject = jsonObject.getJSONObject("data");
+                        JSONObject dataObject = jsonObject1.getJSONObject("ck");
                         String morningCount = dataObject.optString("morningCount");
                         String afterCount = dataObject.optString("afterCount");
                         String checkType = dataObject.optString("checkType");
@@ -818,9 +829,9 @@ public class DakaFragment extends FragmentSupport {
                                     shangban_layout.setVisibility(View.GONE);
                                     xiaban_layout.setVisibility(View.GONE);
                                     pastdate_shangbanstate.setText("补签");
-                                    pastdate_shangbantime.setText("09:00:00");
+                                    pastdate_shangbantime.setText(shouldSBTime);
                                     pastdate_xiabanstate.setText("补签");
-                                    pastdate_xiabantime.setText("17:00:00");
+                                    pastdate_xiabantime.setText(shouldXBTime);
                                 }
                             });
                             return;
@@ -843,7 +854,7 @@ public class DakaFragment extends FragmentSupport {
                             //代表上午还没有签到
                             if ("0".equals(morningCount)) {
                                 //如果没超过12.00 表示上午
-                                if (equalsString12(currentTime)) {
+                                if (equalsStringMiddle(currentTime,middleTime)) {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -970,8 +981,14 @@ public class DakaFragment extends FragmentSupport {
                             }
                         });
                     }
+                    //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
                     String data = jsonObject.getString("data");
-                    if (("null").equals(data)) {
+                    JSONObject jsonObject1 = new JSONObject(data);
+                    String checkInfo = jsonObject1.getString("ck");
+                    final String shouldSBTime = jsonObject1.getString("ClockIn");
+                    final String shouldXBTime = jsonObject1.getString("ClockOut");
+                    final String middleTime = jsonObject1.getString("MiddleTime");
+                    if (("null").equals(checkInfo)) {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -982,7 +999,7 @@ public class DakaFragment extends FragmentSupport {
                             }
                         });
                     }else{
-                        final JSONObject dataObject = jsonObject.getJSONObject("data");
+                        final JSONObject dataObject = jsonObject1.getJSONObject("ck");
                         final String clockInTime = dataObject.optString("clockInTime");
                         //这时的clockInTime是一个null字符串 ，不是null
                         mHandler.post(new Runnable() {
@@ -1007,7 +1024,7 @@ public class DakaFragment extends FragmentSupport {
 
                         //上班迟到情况
                         if(!("null").equals(clockInTime)){
-                            if(equalsStringShangban(clockInTime)){
+                            if(equalsStringShangban(clockInTime,shouldSBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1056,9 +1073,13 @@ public class DakaFragment extends FragmentSupport {
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
-                    //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
                     String data = jsonObject.getString("data");
-                    if (("null").equals(data)) {
+                    JSONObject jsonObject1 = new JSONObject(data);
+                    String checkInfo = jsonObject1.getString("ck");
+                    final String shouldSBTime = jsonObject1.getString("ClockIn");
+                    final String shouldXBTime = jsonObject1.getString("ClockOut");
+                    final String middleTime = jsonObject1.getString("MiddleTime");
+                    if (("null").equals(checkInfo)) {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -1080,7 +1101,7 @@ public class DakaFragment extends FragmentSupport {
                                 }
                             });
                         }
-                        final JSONObject dataObject = jsonObject.getJSONObject("data");
+                        final JSONObject dataObject = jsonObject1.getJSONObject("ck");
                         final String clockInTime = dataObject.optString("clockInTime");
                         final String clockOutTime = dataObject.optString("clockOutTime");
                         //这时的clockInTime是一个null字符串 ，不是null
@@ -1119,9 +1140,9 @@ public class DakaFragment extends FragmentSupport {
                                     shangban_layout.setVisibility(View.GONE);
                                     xiaban_layout.setVisibility(View.GONE);
                                     pastdate_shangbanstate.setText("补签");
-                                    pastdate_shangbantime.setText("09:00:00");
+                                    pastdate_shangbantime.setText(shouldSBTime);
                                     pastdate_xiabanstate.setText("补签");
-                                    pastdate_xiabantime.setText("17:00:00");
+                                    pastdate_xiabantime.setText(shouldXBTime);
                                 }
                             });
                             return;
@@ -1169,7 +1190,7 @@ public class DakaFragment extends FragmentSupport {
 
                         //上班迟到情况
                         if(!("null").equals(clockInTime)){
-                            if(equalsStringShangban(clockInTime)){
+                            if(equalsStringShangban(clockInTime,shouldSBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1182,7 +1203,7 @@ public class DakaFragment extends FragmentSupport {
 
                         //下班早退情况
                         if(!("null").equals(clockOutTime)){
-                            if(equalsStringXiaban(clockOutTime)){
+                            if(equalsStringXiaban(clockOutTime,shouldXBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1203,28 +1224,33 @@ public class DakaFragment extends FragmentSupport {
     /**
      * 比较上班时间  迟到返回true
      */
-    public boolean equalsStringShangban(String clockInTime){
+    public boolean equalsStringShangban(String clockInTime,String shouldSBTime){
         //定义一个标准时间 09:00
-        int[] arr = {9,0,0};
+        //    int[] arr = {9,0,0};
         String[] strings = clockInTime.split(":");
+        String[] shangTimes = shouldSBTime.split(":");
         int[] temp = new int[strings.length];
+        int[] shangTime = new int[shangTimes.length];
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
+        for (int i = 0; i < shangTime.length; i++) {
+            shangTime[i]=Integer.parseInt(shangTimes[i]);
+        }
         //比较小时
-        if (temp[0]>arr[0]) {
+        if (temp[0]>shangTime[0]) {
             return true;
         }
-        if(temp[0]==arr[0]){
+        if(temp[0]==shangTime[0]){
             //比较分钟
-            if (temp[1]>arr[1]) {
+            if (temp[1]>shangTime[1]) {
                 return true;
             }
             //如果分钟相等	9.0.0 , 9.0.0
-            if (temp[1]==arr[1]) {
+            if (temp[1]==shangTime[1]) {
                 //比较秒的用意，是为了对刚好在时间点打卡（如：9:00:00）的判断
-                if (temp[2]>arr[2]) {
+                if (temp[2]>shangTime[2]) {
                     return true;
                 }
             }
@@ -1236,20 +1262,36 @@ public class DakaFragment extends FragmentSupport {
     /**
      * 比较下班时间  早退返回true
      */
-    public boolean equalsStringXiaban(String clockOutTime){
+    public boolean equalsStringXiaban(String clockOutTime,String shouldXBTime){
         //定义一个标准时间
-        int[] arr = {17,0,0};
+        //    int[] arr = {17,0,0};
         String[] strings = clockOutTime.split(":");
+        String[] xiaTimes = shouldXBTime.split(":");
         int[] temp = new int[strings.length];
+        int[] xiaTime = new int[xiaTimes.length];
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
+        //将字符数据转为int数组
+        for (int i = 0; i < xiaTime.length; i++) {
+            xiaTime[i]=Integer.parseInt(xiaTimes[i]);
+        }
         //只要是在18点之前，都属于早退，在18点之后，都属于正常下班
-        if (temp[0]<arr[0]) {
+        if (temp[0]<xiaTime[0]) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 进行时间转换
+     */
+    public String transferDateTime(String date){
+        String newDate = date.replace("年","-");
+        newDate = newDate.replace("月","-");
+        newDate = newDate.replace("日","");
+        return newDate;
     }
 
     /**
@@ -1266,6 +1308,29 @@ public class DakaFragment extends FragmentSupport {
         }
         //只要是在12点之前，都属于上午，在12点之后，都属于下午
         if (temp[0]<arr[0]) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 比较是否超过了中间时间  超过返回false
+     */
+    public boolean equalsStringMiddle(String currentdate,String middleTime){
+        //定义一个标准时间
+        String[] strings = currentdate.split(":");
+        String[] middleArr = middleTime.split(":");
+        int[] temp = new int[strings.length];
+        int[] middle = new int[middleArr.length];
+        //将字符数据转为int数组
+        for (int i = 0; i < strings.length; i++) {
+            temp[i]=Integer.parseInt(strings[i]);
+        }
+        for (int i = 0; i < middle.length; i++) {
+            middle[i]=Integer.parseInt(middleArr[i]);
+        }
+        //只要是在12点之前，都属于上午，在12点之后，都属于下午
+        if (temp[0]<middle[0]) {
             return true;
         }
         return false;

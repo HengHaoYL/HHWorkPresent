@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
@@ -44,6 +45,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.henghao.hhworkpresent.ProtocolUrl.APP_LODAING_HEAD_IMAGE_URI;
+import static com.henghao.hhworkpresent.fragment.DakaFragment.HOLIDAY_DIALOG_FALSE;
+import static com.henghao.hhworkpresent.fragment.DakaFragment.HOLIDAY_FALSE;
+import static com.henghao.hhworkpresent.fragment.DakaFragment.HOLIDAY_TRUE;
 
 /**
  * Created by bryanrady on 2017/3/10.
@@ -170,7 +174,8 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
     @Override
     public void onResume() {
         super.onResume();
-        httpRequestKaoqingofDate();
+        //初始化数据前，先判断时候是家假日
+        equalsHoliday(transferDateTime(tvCurrentDate.getText().toString().trim()));
     }
 
     class MyBroadcastReceiver extends BroadcastReceiver {
@@ -183,7 +188,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                 String weekDay = intent.getStringExtra("weekDay");
                 tvCurrentDate.setText(time);
                 tvCurrentWeek.setText("星期"+weekDay);
-                httpRequestKaoqingofDate();
+                equalsHoliday(transferDateTime(tvCurrentDate.getText().toString().trim()));
             }
         }
     }
@@ -247,7 +252,95 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         }
         adapter = new CalendarViewAdapter<>(views);
         setViewPager();
+
+        //初始化数据前，先判断时候是家假日
+        equalsHoliday(transferDateTime(tvCurrentDate.getText().toString().trim()));
     }
+
+    public Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == HOLIDAY_TRUE){
+                mActivityFragmentView.viewLoading(View.GONE);
+                carlendar_kaoing_layout.setVisibility(View.GONE);
+                calendar_null_layout.setVisibility(View.VISIBLE);
+            }else if(msg.what == HOLIDAY_FALSE){
+                httpRequestKaoqingofDate();
+
+            }else if(msg.what == HOLIDAY_DIALOG_FALSE){
+                httpRequestKaoqingofDate();
+            }
+        }
+    };
+
+    /**
+     * 判断日期date是不是节假日 isHoliday true代表是节假日和周末不上班的日子  false代表不是节假日要上班
+     * date 需要处理
+     */
+
+    private void equalsHoliday(String date){
+        String textdate = date.replace("-","");
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
+        //这个id是日期在数据库里的id 形式20170530
+        requestBodyBuilder.add("id", textdate);
+        RequestBody requestBody = requestBodyBuilder.build();
+        String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_HOLIDAY;
+        Request request = builder.url(request_url).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                //result_str=={"id":20170530,"date":"2017-05-30","status":"法定假日"}
+                // {"id":20170528,"date":"2017-05-28","status":"周末"}
+                //如果是空，  result_str.length()==0这个判断才有用
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                    }
+                });
+                try{
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    String status = jsonObject.getString("status");
+                    //代表是要上班的日子
+                    if("无节假日信息".equals(status)){
+                        //如果日期是当天
+                        if((transferDateTime(tvCurrentDate.getText().toString())).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
+                            Message message = Message.obtain();
+                            message.what = HOLIDAY_FALSE;
+                            handler.sendMessage(message);
+                        }else{
+                            Message message = Message.obtain();
+                            message.what = HOLIDAY_DIALOG_FALSE;
+                            handler.sendMessage(message);
+                        }
+                    }else{
+                        Message message = Message.obtain();
+                        message.what = HOLIDAY_TRUE;
+                        handler.sendMessage(message);
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
 
     public void httpLoadingHeadImage(){
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -421,7 +514,8 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         requestBodyBuilder.add("date", transferDateTime(date));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
-        Request request = builder.url(request_url).post(requestBody).build();
+        Request request = builder.url(request_url).post(requestBody).
+                build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
         call.enqueue(new Callback() {
@@ -444,7 +538,12 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                     JSONObject jsonObject = new JSONObject(result_str);
                     //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
                     String data = jsonObject.getString("data");
-                    if (("null").equals(data)) {
+                    JSONObject jsonObject1 = new JSONObject(data);
+                    String checkInfo = jsonObject1.getString("ck");
+                    final String shouldSBTime = jsonObject1.getString("ClockIn");
+                    final String shouldXBTime = jsonObject1.getString("ClockOut");
+                    final String middleTime = jsonObject1.getString("MiddleTime");
+                    if (("null").equals(checkInfo)) {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -466,7 +565,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                                 }
                             });
                         }
-                        final JSONObject dataObject = jsonObject.getJSONObject("data");
+                        final JSONObject dataObject = jsonObject1.getJSONObject("ck");
                         final String clockInTime = dataObject.optString("clockInTime");
                         final String clockOutTime = dataObject.optString("clockOutTime");
                         final String checkType = dataObject.optString("checkType");
@@ -512,9 +611,9 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                                 @Override
                                 public void run() {
                                     tv_shangbanState.setText("补签");
-                                    tv_shangbanTime.setText("09:00:00");
+                                    tv_shangbanTime.setText(shouldSBTime);
                                     tv_xiabanState.setText("补签");
-                                    tv_xiabanTime.setText("17:00:00");
+                                    tv_xiabanTime.setText(shouldXBTime);
                                     mActivityFragmentView.viewLoading(View.GONE);
                                 }
                             });
@@ -588,7 +687,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
 
                         //上班迟到情况
                         if(!("null").equals(clockInTime)){
-                            if(equalsStringShangban(clockInTime)){
+                            if(equalsStringShangban(clockInTime,shouldSBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -601,7 +700,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
 
                         //下班早退情况
                         if(!("null").equals(clockOutTime)){
-                            if(equalsStringXiaban(clockOutTime)){
+                            if(equalsStringXiaban(clockOutTime,shouldXBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -621,28 +720,33 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
     /**
      * 比较上班时间  迟到返回true
      */
-    public boolean equalsStringShangban(String clockInTime){
+    public boolean equalsStringShangban(String clockInTime,String shouldSBTime){
         //定义一个标准时间 09:00
-        int[] arr = {9,0,0};
+    //    int[] arr = {9,0,0};
         String[] strings = clockInTime.split(":");
+        String[] shangTimes = shouldSBTime.split(":");
         int[] temp = new int[strings.length];
+        int[] shangTime = new int[shangTimes.length];
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
+        for (int i = 0; i < shangTime.length; i++) {
+            shangTime[i]=Integer.parseInt(shangTimes[i]);
+        }
         //比较小时
-        if (temp[0]>arr[0]) {
+        if (temp[0]>shangTime[0]) {
             return true;
         }
-        if(temp[0]==arr[0]){
+        if(temp[0]==shangTime[0]){
             //比较分钟
-            if (temp[1]>arr[1]) {
+            if (temp[1]>shangTime[1]) {
                 return true;
             }
             //如果分钟相等	9.0.0 , 9.0.0
-            if (temp[1]==arr[1]) {
+            if (temp[1]==shangTime[1]) {
                 //比较秒的用意，是为了对刚好在时间点打卡（如：9:00:00）的判断
-                if (temp[2]>arr[2]) {
+                if (temp[2]>shangTime[2]) {
                     return true;
                 }
             }
@@ -654,17 +758,23 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
     /**
      * 比较下班时间  早退返回true
      */
-    public boolean equalsStringXiaban(String clockOutTime){
+    public boolean equalsStringXiaban(String clockOutTime,String shouldXBTime){
         //定义一个标准时间
-        int[] arr = {17,0,0};
+    //    int[] arr = {17,0,0};
         String[] strings = clockOutTime.split(":");
+        String[] xiaTimes = shouldXBTime.split(":");
         int[] temp = new int[strings.length];
+        int[] xiaTime = new int[xiaTimes.length];
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
+        //将字符数据转为int数组
+        for (int i = 0; i < xiaTime.length; i++) {
+            xiaTime[i]=Integer.parseInt(xiaTimes[i]);
+        }
         //只要是在18点之前，都属于早退，在18点之后，都属于正常下班
-        if (temp[0]<arr[0]) {
+        if (temp[0]<xiaTime[0]) {
             return true;
         }
         return false;

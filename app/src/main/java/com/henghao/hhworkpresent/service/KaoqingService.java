@@ -115,7 +115,9 @@ public class KaoqingService extends Service {
                     final JSONObject jsonObject = new JSONObject(result_str);
                     //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
                     String data = jsonObject.getString("data");
-                    if (("null").equals(data)) {
+                    JSONObject jsonObject1 = new JSONObject(data);
+                    String checkInfo = jsonObject1.getString("ck");
+                    if (("null").equals(checkInfo)) {
                         Date date = new Date();
                         final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                         String currentTime = format.format(date);
@@ -126,7 +128,7 @@ public class KaoqingService extends Service {
                     } else {
                         int status = jsonObject.getInt("status");
                         if(status==0){
-                            final JSONObject dataObject = jsonObject.getJSONObject("data");
+                            final JSONObject dataObject = jsonObject1.getJSONObject("ck");
                             final String morningCount = dataObject.optString("morningCount");
                             final String afterCount = dataObject.optString("afterCount");
                             Date date = new Date();

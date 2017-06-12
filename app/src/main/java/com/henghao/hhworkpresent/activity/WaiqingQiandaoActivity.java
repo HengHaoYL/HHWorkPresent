@@ -242,14 +242,20 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                 String result_str = response.body().string();
                 try {
                     final JSONObject jsonObject = new JSONObject(result_str);
-                    //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
+
                     String data = jsonObject.getString("data");
-                    if (("null").equals(data)) {
+                    JSONObject jsonObject1 = new JSONObject(data);
+                    String checkInfo = jsonObject1.getString("ck");
+                    final String shouldSBTime = jsonObject1.getString("ClockIn");
+                    final String shouldXBTime = jsonObject1.getString("ClockOut");
+                    final String middleTime = jsonObject1.getString("MiddleTime");
+
+                    if (("null").equals(checkInfo)) {
                         Date date = new Date();
                         final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                         String currentTime = format.format(date);
                         //如果没超过12.00 表示上午
-                        if (equalsString12(currentTime)) {
+                        if (equalsStringMiddle(currentTime,middleTime)) {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -285,7 +291,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                                 }
                             });
                         }
-                        final JSONObject dataObject = jsonObject.getJSONObject("data");
+                        final JSONObject dataObject = jsonObject1.getJSONObject("ck");
                         final String morningCount = dataObject.optString("morningCount");
                         final String afterCount = dataObject.optString("afterCount");
                         mHandler.post(new Runnable() {
@@ -299,7 +305,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                                     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                                     String currentTime = format.format(date);
                                     //如果没超过12.00 表示上午
-                                    if(equalsString12(currentTime)){
+                                    if(equalsStringMiddle(currentTime,middleTime)){
                                         tv_qiandao.setText("上班打卡");
                                     }else {
                                         tv_qiandao.setText("下班打卡");
@@ -573,5 +579,27 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         return false;
     }
 
+    /**
+     * 比较是否超过了中间时间  超过返回false
+     */
+    public boolean equalsStringMiddle(String currentdate,String middleTime){
+        //定义一个标准时间
+        String[] strings = currentdate.split(":");
+        String[] middleArr = middleTime.split(":");
+        int[] temp = new int[strings.length];
+        int[] middle = new int[middleArr.length];
+        //将字符数据转为int数组
+        for (int i = 0; i < strings.length; i++) {
+            temp[i]=Integer.parseInt(strings[i]);
+        }
+        for (int i = 0; i < middle.length; i++) {
+            middle[i]=Integer.parseInt(middleArr[i]);
+        }
+        //只要是在12点之前，都属于上午，在12点之后，都属于下午
+        if (temp[0]<middle[0]) {
+            return true;
+        }
+        return false;
+    }
 
 }
