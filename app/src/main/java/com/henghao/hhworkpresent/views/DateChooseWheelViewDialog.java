@@ -246,7 +246,7 @@ public class DateChooseWheelViewDialog extends Dialog implements View.OnClickLis
         int nowYear = nowCalendar.get(Calendar.YEAR);
         arry_year.clear();
         for (int i = 0; i <= 99; i++) {
-            int year = nowYear -30 + i;
+            int year = nowYear -100 + i;
             arry_year.add(year + "年");
             if (nowYear == year) {
                 nowYearId = arry_year.size() - 1;

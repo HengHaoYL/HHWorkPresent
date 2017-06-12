@@ -86,7 +86,7 @@ public class AppFragment extends FragmentSupport {
     }
 
     public void initData(){
-        cheliangyuding.setItemTextResource("车辆预定");
+        cheliangyuding.setItemTextResource("派车申请");
         cheliangyuding.setItemImageResource(R.drawable.item_cheliangyuding);
 
         anquanfuwu.setItemTextResource("安全服务(非煤矿山)");

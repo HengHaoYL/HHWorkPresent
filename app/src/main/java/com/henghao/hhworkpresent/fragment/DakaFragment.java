@@ -6,6 +6,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,6 +108,7 @@ public class DakaFragment extends FragmentSupport {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            Log.d("wangqingbin","msg=="+msg.what);
             if(msg.what == HOLIDAY_TRUE){
                 pastdate_layout.setVisibility(View.GONE);
                 shangban_layout.setVisibility(View.GONE);
@@ -178,7 +180,7 @@ public class DakaFragment extends FragmentSupport {
         //判断一个指定的经纬度点是否落在一个多边形区域内
         //http://wiki.lbsyun.baidu.com/cms/androidsdk/doc/v3_7_0/com/baidu/mapapi/utils/SpatialRelationUtil.html#isPolygonContainsPoint(java.util.List,%20com.baidu.mapapi.model.LatLng)
         mList.add("贵阳市观山湖区金阳行政中心二期综合办公大楼");
-        mList.add("贵阳市高新区六盘水路41号B506");
+        mList.add("贵州省贵阳市乌当区林城东路7");
         CommonListStringAdapter mListStringAdapter = new CommonListStringAdapter(this.mActivity, mList);
         mListView.setAdapter(mListStringAdapter);
         mListStringAdapter.notifyDataSetChanged();
@@ -657,6 +659,7 @@ public class DakaFragment extends FragmentSupport {
                 String result_str = response.body().string();
                 //result_str=={"id":20170530,"date":"2017-05-30","status":"法定假日"}
                 // {"id":20170528,"date":"2017-05-28","status":"周末"}
+                Log.d("wangqingbin","result_str=="+result_str);
                 //如果是空，代表是要上班的日子  result_str.length()==0这个判断才有用
                 mHandler.post(new Runnable() {
                     @Override
@@ -745,8 +748,10 @@ public class DakaFragment extends FragmentSupport {
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
+                    Log.d("wangqingbin","jsonObject=="+jsonObject);
                     //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
                     String data = jsonObject.getString("data");
+                    Log.d("wangqingbin","data=="+data);
                     Date date = new Date();
                     final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                     final String currentTime = format.format(date);

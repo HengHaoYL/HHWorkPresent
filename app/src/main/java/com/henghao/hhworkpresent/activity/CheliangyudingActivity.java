@@ -58,7 +58,7 @@ public class CheliangyudingActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("车辆预定");
+        mLeftTextView.setText("派车申请");
         mLeftTextView.setVisibility(View.VISIBLE);
         mLeftTextView.setOnClickListener(new View.OnClickListener() {
             @Override
