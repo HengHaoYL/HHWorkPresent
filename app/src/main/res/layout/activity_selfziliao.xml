@@ -189,7 +189,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="职        位"
+                android:text="职        务"
                 android:textSize="@dimen/gj_f" />
 
 

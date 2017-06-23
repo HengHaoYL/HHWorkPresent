@@ -149,7 +149,7 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
             }
         });
 
-        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_URL+ sqliteDBUtils.getUsername()+ WorkflowUrl.SENDGONGGAO_FLOWID);
+        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL+ sqliteDBUtils.getUsername()+ WorkflowUrl.SENDGONGGAO_FLOWID);
     }
 
    /* private TabHost tabHost;

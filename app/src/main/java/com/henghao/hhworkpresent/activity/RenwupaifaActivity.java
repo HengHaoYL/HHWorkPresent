@@ -154,7 +154,7 @@ public class RenwupaifaActivity extends ActivityFragmentSupport {
             }
         });
 
-        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.RENWUPAIFA_FLOWID);
+        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.RENWUPAIFA_FLOWID);
     }
 
     @Override

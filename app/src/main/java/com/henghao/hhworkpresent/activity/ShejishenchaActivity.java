@@ -154,7 +154,7 @@ public class ShejishenchaActivity extends ActivityFragmentSupport {
             }
         });
 
-        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_URL+sqliteDBUtils.getUsername()+ WorkflowUrl.SHEJISHENCHA_FLOWID);
+        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+ WorkflowUrl.SHEJISHENCHA_FLOWID);
     }
 
     @Override

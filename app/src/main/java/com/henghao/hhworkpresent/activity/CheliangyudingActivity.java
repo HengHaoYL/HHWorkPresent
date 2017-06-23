@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.webkit.ValueCallback;
@@ -152,7 +153,8 @@ public class CheliangyudingActivity extends ActivityFragmentSupport {
             }
         });
 
-        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.CHELIANG_FLOWID);
+        Log.d("wangqingbin","url=="+WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.CHELIANG_FLOWID);
+        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.CHELIANG_FLOWID);
     }
 
     @Override

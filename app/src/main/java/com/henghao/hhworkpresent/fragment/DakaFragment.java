@@ -165,7 +165,7 @@ public class DakaFragment extends FragmentSupport {
 
         initWithRightBar();
         mRightTextView.setText("打卡位置");
-        mRightTextView.setVisibility(View.VISIBLE);
+        mRightTextView.setVisibility(View.GONE);
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,7 +179,7 @@ public class DakaFragment extends FragmentSupport {
         //判断一个指定的经纬度点是否落在一个多边形区域内
         //http://wiki.lbsyun.baidu.com/cms/androidsdk/doc/v3_7_0/com/baidu/mapapi/utils/SpatialRelationUtil.html#isPolygonContainsPoint(java.util.List,%20com.baidu.mapapi.model.LatLng)
         mList.add("贵阳市观山湖区金阳行政中心二期综合办公大楼");
-        mList.add("贵州省贵阳市乌当区林城东路7");
+        mList.add("贵州省贵阳市乌当区林城东路7号");
         CommonListStringAdapter mListStringAdapter = new CommonListStringAdapter(this.mActivity, mList);
         mListView.setAdapter(mListStringAdapter);
         mListStringAdapter.notifyDataSetChanged();
@@ -452,27 +452,37 @@ public class DakaFragment extends FragmentSupport {
         LocationUtils.onDestory();
     }
 
-    LatLng center = null;
-    int radius = 200;
-    LatLng point = null;
     public void onClickShangbanDaka(){
-        if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
+        /*if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
             Toast.makeText(this.mActivity, "请点击右上角选择打卡地点，否则不能打卡!", Toast.LENGTH_SHORT).show();
             return;
-        }
-        center = getLatlng(tv_daka_position.getText().toString());
-        radius = 2000;
-        point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
-        if(center.latitude == 0.0||center.longitude==0.0){
-            Toast.makeText(mActivity, "暂未获取到准确打卡位置中心点，请再点击一次！", Toast.LENGTH_SHORT).show();
+        }*/
+        String daka_position1 = "贵阳市观山湖区金阳行政中心二期综合办公大楼";
+        String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
+        LatLng center1 = getLatlng(daka_position1);
+        int radius = 500;
+        LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
+        if(center1.latitude == 0.0||center1.longitude==0.0){
             return;
         }
-        if(point==null){
-            Toast.makeText(mActivity, "当前位置定位失败，请重新定位！", Toast.LENGTH_SHORT).show();
+        if(point1==null){
+            Toast.makeText(mActivity, "暂时没有定位信息！", Toast.LENGTH_SHORT).show();
             return;
         }
-        boolean isContans = spatialRelationUtil.isCircleContainsPoint(center,radius,point);
-        if(!isContans){
+        boolean isContans1 = spatialRelationUtil.isCircleContainsPoint(center1,radius,point1);
+
+        LatLng center2 = getLatlng(daka_position2);
+        LatLng point2 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
+        if(center2.latitude == 0.0||center2.longitude==0.0){
+            return;
+        }
+        if(point2==null){
+            Toast.makeText(mActivity, "暂时没有定位信息！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        boolean isContans2 = spatialRelationUtil.isCircleContainsPoint(center2,radius,point2);
+
+        if(!isContans1 && !isContans2){
             Toast.makeText(mActivity, "你当前不在可打卡区域，请移动到打卡区域方能打卡!", Toast.LENGTH_SHORT).show();
             return;
         }else {
@@ -508,23 +518,36 @@ public class DakaFragment extends FragmentSupport {
         返回:
         true 包含，false 为不包含
         */
-        if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
+        /*if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
             Toast.makeText(this.mActivity, "请点击右上角选择打卡地点，否则不能打卡!", Toast.LENGTH_SHORT).show();
+           return;
+        }*/
+        String daka_position1 = "贵阳市观山湖区金阳行政中心二期综合办公大楼";
+        String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
+        LatLng center1 = getLatlng(daka_position1);
+        int radius = 500;
+        LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
+        if(center1.latitude == 0.0||center1.longitude==0.0){
             return;
         }
-        LatLng center = getLatlng(tv_daka_position.getText().toString());
-        int radius = 2000;
-        LatLng point = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
-        if(center.latitude == 0.0||center.longitude==0.0){
-            Toast.makeText(mActivity, "暂未获取到准确打卡位置中心点，请再点击一次！", Toast.LENGTH_SHORT).show();
+        if(point1==null){
+            Toast.makeText(mActivity, "暂时没有定位信息！", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(point==null){
-            Toast.makeText(mActivity, "当前位置定位失败，请重新定位！", Toast.LENGTH_SHORT).show();
+        boolean isContans1 = spatialRelationUtil.isCircleContainsPoint(center1,radius,point1);
+
+        LatLng center2 = getLatlng(daka_position2);
+        LatLng point2 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
+        if(center2.latitude == 0.0||center2.longitude==0.0){
             return;
         }
-        boolean isContans = spatialRelationUtil.isCircleContainsPoint(center,radius,point);
-        if(!isContans){
+        if(point2==null){
+            Toast.makeText(mActivity, "暂时没有定位信息！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        boolean isContans2 = spatialRelationUtil.isCircleContainsPoint(center2,radius,point2);
+
+        if(!isContans1&&!isContans2){
             Toast.makeText(mActivity, "你当前不在可打卡区域，请移动到打卡区域方能打卡!", Toast.LENGTH_SHORT).show();
             return;
         }else {
@@ -1225,19 +1248,20 @@ public class DakaFragment extends FragmentSupport {
      * 比较上班时间  迟到返回true
      */
     public boolean equalsStringShangban(String clockInTime,String shouldSBTime){
-        //定义一个标准时间 09:00
+        //定义一个标准时间 08:00
         //    int[] arr = {9,0,0};
         String[] strings = clockInTime.split(":");
-        String[] shangTimes = shouldSBTime.split(":");
+    //    String[] shangTimes = shouldSBTime.split(":");
         int[] temp = new int[strings.length];
-        int[] shangTime = new int[shangTimes.length];
+   //     int[] shangTime = new int[shangTimes.length];
+        int[] shangTime ={8,50,0};
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
-        for (int i = 0; i < shangTime.length; i++) {
+        /*for (int i = 0; i < shangTime.length; i++) {
             shangTime[i]=Integer.parseInt(shangTimes[i]);
-        }
+        }*/
         //比较小时
         if (temp[0]>shangTime[0]) {
             return true;
@@ -1266,17 +1290,18 @@ public class DakaFragment extends FragmentSupport {
         //定义一个标准时间
         //    int[] arr = {17,0,0};
         String[] strings = clockOutTime.split(":");
-        String[] xiaTimes = shouldXBTime.split(":");
+    //    String[] xiaTimes = shouldXBTime.split(":");
         int[] temp = new int[strings.length];
-        int[] xiaTime = new int[xiaTimes.length];
+    //    int[] xiaTime = new int[xiaTimes.length];
+        int[] xiaTime = {16,50,0};
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
-        //将字符数据转为int数组
+        /*//将字符数据转为int数组
         for (int i = 0; i < xiaTime.length; i++) {
             xiaTime[i]=Integer.parseInt(xiaTimes[i]);
-        }
+        }*/
         //只要是在18点之前，都属于早退，在18点之后，都属于正常下班
         if (temp[0]<xiaTime[0]) {
             return true;

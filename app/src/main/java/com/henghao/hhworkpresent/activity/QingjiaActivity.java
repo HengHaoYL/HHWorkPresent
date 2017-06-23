@@ -155,7 +155,7 @@ public class QingjiaActivity extends ActivityFragmentSupport {
             }
         });
 
-        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_URL + sqliteDBUtils.getUsername() + WorkflowUrl.QINGJIA_FLOWID);
+        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername() + WorkflowUrl.QINGJIA_FLOWID);
     }
 
     @Override

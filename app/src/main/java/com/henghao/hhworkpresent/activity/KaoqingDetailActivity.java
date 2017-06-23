@@ -321,19 +321,20 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
      * 比较上班时间  迟到返回true
      */
     public boolean equalsStringShangban(String clockInTime,String shouldSBTime){
-        //定义一个标准时间 09:00
+        //定义一个标准时间 08:00
         //    int[] arr = {9,0,0};
         String[] strings = clockInTime.split(":");
-        String[] shangTimes = shouldSBTime.split(":");
+        //    String[] shangTimes = shouldSBTime.split(":");
         int[] temp = new int[strings.length];
-        int[] shangTime = new int[shangTimes.length];
+        //     int[] shangTime = new int[shangTimes.length];
+        int[] shangTime ={8,50,0};
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
-        for (int i = 0; i < shangTime.length; i++) {
+        /*for (int i = 0; i < shangTime.length; i++) {
             shangTime[i]=Integer.parseInt(shangTimes[i]);
-        }
+        }*/
         //比较小时
         if (temp[0]>shangTime[0]) {
             return true;
@@ -362,17 +363,18 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
         //定义一个标准时间
         //    int[] arr = {17,0,0};
         String[] strings = clockOutTime.split(":");
-        String[] xiaTimes = shouldXBTime.split(":");
+        //    String[] xiaTimes = shouldXBTime.split(":");
         int[] temp = new int[strings.length];
-        int[] xiaTime = new int[xiaTimes.length];
+        //    int[] xiaTime = new int[xiaTimes.length];
+        int[] xiaTime = {16,50,0};
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
-        //将字符数据转为int数组
+        /*//将字符数据转为int数组
         for (int i = 0; i < xiaTime.length; i++) {
             xiaTime[i]=Integer.parseInt(xiaTimes[i]);
-        }
+        }*/
         //只要是在18点之前，都属于早退，在18点之后，都属于正常下班
         if (temp[0]<xiaTime[0]) {
             return true;

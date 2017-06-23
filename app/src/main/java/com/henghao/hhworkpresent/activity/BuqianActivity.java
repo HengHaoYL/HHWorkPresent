@@ -155,7 +155,7 @@ public class BuqianActivity extends ActivityFragmentSupport {
             }
         });
 
-        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_URL + sqliteDBUtils.getUsername()+ WorkflowUrl.BUQIAN_FLOWID);
+        progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+ WorkflowUrl.BUQIAN_FLOWID);
     }
 
     @Override
