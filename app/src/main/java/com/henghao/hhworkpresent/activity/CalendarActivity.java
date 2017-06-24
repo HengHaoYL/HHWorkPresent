@@ -727,7 +727,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         //    String[] shangTimes = shouldSBTime.split(":");
         int[] temp = new int[strings.length];
         //     int[] shangTime = new int[shangTimes.length];
-        int[] shangTime ={8,50,0};
+        int[] shangTime ={9,10,0};
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);

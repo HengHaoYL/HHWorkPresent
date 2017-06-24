@@ -629,7 +629,8 @@ public class DakaFragment extends FragmentSupport {
                 //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
                 if(type==0){
                     null_daka_layout.setVisibility(View.GONE);
-                    httpRequestKaoqingofCurrentDay();
+                    equalsHoliday(datepickerTV.getText().toString());
+          //          httpRequestKaoqingofCurrentDay();
                 } else if(type==1){
                     pastdate_layout.setVisibility(View.GONE);
                     shangban_layout.setVisibility(View.GONE);
@@ -1254,7 +1255,7 @@ public class DakaFragment extends FragmentSupport {
     //    String[] shangTimes = shouldSBTime.split(":");
         int[] temp = new int[strings.length];
    //     int[] shangTime = new int[shangTimes.length];
-        int[] shangTime ={8,50,0};
+        int[] shangTime ={9,10,0};
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);

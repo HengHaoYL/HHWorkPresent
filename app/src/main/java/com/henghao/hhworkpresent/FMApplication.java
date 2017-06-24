@@ -6,10 +6,14 @@ package com.henghao.hhworkpresent;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.benefit.buy.library.utils.tools.ToolsFile;
 import com.benefit.buy.library.utils.tools.ToolsKit;
+import com.henghao.hhworkpresent.exception.CustomExceptionHandler;
+import com.henghao.hhworkpresent.service.ReConnectService;
 import com.henghao.hhworkpresent.utils.LocationUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -51,6 +55,7 @@ public class FMApplication extends Application {
         initImageLoader(getApplicationContext());
         LocationUtils.Location(this);
         SDKInitializer.initialize(this);
+        appException();
     }
 
     public static void initImageLoader(Context context) {
@@ -75,6 +80,29 @@ public class FMApplication extends Application {
         ImageLoader.getInstance().init(config);
     }
 
+
+    /**
+     * 异常处理类
+     * @see [类、类#方法、类#成员]
+     * @since [产品/模块版本]
+     */
+    private void appException() {
+        boolean sdcardExist = ToolsFile.isSdcardExist();
+        if (!sdcardExist) {
+            return;
+        }
+        String path = Constant.LOG_DIR_PATH;
+        ToolsFile.createDirFile(path);
+        // catch (Exception e) {
+        // //这里不能再向上抛异常，如果想要将log信息保存起来，则抛出runtime异常，
+        // 让自定义的handler来捕获，统一将文件保存起来上传
+        // throw new RuntimeException(e);
+        // }
+        CustomExceptionHandler mCustomExceptionHandler = CustomExceptionHandler.getInstance();
+        mCustomExceptionHandler.init(getApplicationContext(), path);
+    }
+
+
     /**
      * 添加Activity到容器中
      * @param activity
@@ -98,6 +126,18 @@ public class FMApplication extends Application {
             this.activityList.remove(activity);
         }
     }
+
+    public void stopService() {
+        Intent reConnectService = new Intent(this, ReConnectService.class);
+        stopService(reConnectService);
+    }
+
+    public void startService() {
+        // 自动恢复连接服务
+        Intent reConnectService = new Intent(this, ReConnectService.class);
+        startService(reConnectService);
+    }
+
 
     /**
      * 遍历所有Activity并finish
