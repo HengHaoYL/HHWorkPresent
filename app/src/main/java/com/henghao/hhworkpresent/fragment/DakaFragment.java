@@ -82,8 +82,8 @@ public class DakaFragment extends FragmentSupport {
     @ViewInject(R.id.daka_name)
     private TextView tv_loginName;
 
-    @ViewInject(R.id.daka_position)
-    private TextView tv_daka_position;
+    /*@ViewInject(R.id.daka_position)
+    private EditText et_daka_position;*/
 
     @ViewInject(R.id.daka_layout)
     private RelativeLayout daka_layout;
@@ -189,7 +189,7 @@ public class DakaFragment extends FragmentSupport {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 String whatSelect = mList.get(arg2);
-                tv_daka_position.setText(whatSelect);
+         //       tv_daka_position.setText(whatSelect);
                 popupWindowHelper.dismiss();
             }
         });
@@ -206,8 +206,9 @@ public class DakaFragment extends FragmentSupport {
     }
 
     /**
+     * 这个方法先暂时不用，第一次调用会出现getLatlng()的到的值为Null，实际是耗时问题
      * 根据位置获取经纬度  然后封装为LatLng
-     * @param position
+     * @param position，
      * @return
      */
     private double latitude ;
@@ -453,31 +454,25 @@ public class DakaFragment extends FragmentSupport {
     }
 
     public void onClickShangbanDaka(){
-        /*if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
-            Toast.makeText(this.mActivity, "请点击右上角选择打卡地点，否则不能打卡!", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
+        //latitude: 26.645925356356, longitude: 106.63126641633
         String daka_position1 = "贵阳市观山湖区金阳行政中心二期综合办公大楼";
+        //latitude: 26.647500621412, longitude: 106.6299998053
         String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
-        LatLng center1 = getLatlng(daka_position1);
-        int radius = 500;
+   //     LatLng center1 = getLatlng(daka_position1);
+        LatLng center1 = new LatLng(26.645925356356,106.63126641633);
+        int radius = 2000;
         LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
-        if(center1.latitude == 0.0||center1.longitude==0.0){
-            return;
-        }
         if(point1==null){
-            Toast.makeText(mActivity, "暂时没有定位信息！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isContans1 = spatialRelationUtil.isCircleContainsPoint(center1,radius,point1);
 
-        LatLng center2 = getLatlng(daka_position2);
+    //    LatLng center2 = getLatlng(daka_position2);
+        LatLng center2 = new LatLng(26.647500621412,106.6299998053);
         LatLng point2 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
-        if(center2.latitude == 0.0||center2.longitude==0.0){
-            return;
-        }
         if(point2==null){
-            Toast.makeText(mActivity, "暂时没有定位信息！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isContans2 = spatialRelationUtil.isCircleContainsPoint(center2,radius,point2);
@@ -492,7 +487,7 @@ public class DakaFragment extends FragmentSupport {
             double longitude = LocationUtils.getLng();
             double latitude = LocationUtils.getLat();
             if (address.equals("当前没有定位信息!")) {
-                Toast.makeText(mActivity, "当前没有定位，请定位后再签到！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "当前没有定位，请重新进入界面进行定位！", Toast.LENGTH_SHORT).show();
                 return;
             }
             intent.putExtra("time", time);
@@ -518,31 +513,25 @@ public class DakaFragment extends FragmentSupport {
         返回:
         true 包含，false 为不包含
         */
-        /*if("暂时没有选择地点!".equals(tv_daka_position.getText().toString())){
-            Toast.makeText(this.mActivity, "请点击右上角选择打卡地点，否则不能打卡!", Toast.LENGTH_SHORT).show();
-           return;
-        }*/
+        //latitude: 26.645925356356, longitude: 106.63126641633
         String daka_position1 = "贵阳市观山湖区金阳行政中心二期综合办公大楼";
+        //latitude: 26.647500621412, longitude: 106.6299998053
         String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
-        LatLng center1 = getLatlng(daka_position1);
-        int radius = 500;
+ //       LatLng center1 = getLatlng(daka_position1);
+        LatLng center1 = new LatLng(26.645925356356,106.63126641633);
+        int radius = 2000;
         LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
-        if(center1.latitude == 0.0||center1.longitude==0.0){
-            return;
-        }
         if(point1==null){
-            Toast.makeText(mActivity, "暂时没有定位信息！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isContans1 = spatialRelationUtil.isCircleContainsPoint(center1,radius,point1);
 
-        LatLng center2 = getLatlng(daka_position2);
+ //       LatLng center2 = getLatlng(daka_position2);
+        LatLng center2 = new LatLng(26.647500621412,106.6299998053);
         LatLng point2 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
-        if(center2.latitude == 0.0||center2.longitude==0.0){
-            return;
-        }
         if(point2==null){
-            Toast.makeText(mActivity, "暂时没有定位信息！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isContans2 = spatialRelationUtil.isCircleContainsPoint(center2,radius,point2);
@@ -571,7 +560,7 @@ public class DakaFragment extends FragmentSupport {
             double longitude = LocationUtils.getLng();
             double latitude = LocationUtils.getLat();
             if (address.equals("当前没有定位信息!")) {
-                Toast.makeText(mActivity, "当前没有定位，请定位后再签到！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "当前没有定位，请重新进入界面进行定位！", Toast.LENGTH_SHORT).show();
                 return;
             }
             intent.putExtra("time", time);

@@ -119,7 +119,7 @@ public class RealTimeService extends Service {
                 try{
                     httpRequest();
                     httpUploadLatLon();
-                    Thread.sleep(45000);
+                    Thread.sleep(600000);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
