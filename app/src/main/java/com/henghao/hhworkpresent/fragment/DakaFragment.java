@@ -460,7 +460,7 @@ public class DakaFragment extends FragmentSupport {
         String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
    //     LatLng center1 = getLatlng(daka_position1);
         LatLng center1 = new LatLng(26.645925356356,106.63126641633);
-        int radius = 500000;  //500米
+        int radius = 500000;  //500米范围
         LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(point1==null){
             Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
