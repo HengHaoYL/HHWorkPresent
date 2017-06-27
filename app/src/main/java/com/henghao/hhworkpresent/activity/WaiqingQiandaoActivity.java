@@ -1,9 +1,7 @@
 package com.henghao.hhworkpresent.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -13,10 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -29,10 +24,10 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
-import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.utils.LocationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.MyImageTextButton;
 import com.lidroid.xutils.ViewUtils;
@@ -134,6 +129,9 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
     private BaiduMap mBaiduMap;
 
     private Marker mCurrentMarker;
+    private double latitude;
+    private double longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +139,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         // 在使用SDK各组件之前初始化context信息，传入ApplicationContext
         // 注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
+        LocationUtils.Location(getApplicationContext());
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.mActivityFragmentView.viewMain(R.layout.activity_waiqingqd);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
@@ -338,117 +337,12 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
-        /**
-         * 定位
-         */
-        this.locationClient = new LocationClient(getApplicationContext()); // 实例化LocationClient类
-        this.locationClient.registerLocationListener(this.myListener); // 注册监听函数
-        this.setLocationOption(); // 设置定位参数
-        this.locationClient.start(); // 开始定位
 
-        /**
-         * 设置签到具体时间（时、分）
-         */
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String time = dateFormat.format(date);
         this.tv_hourminute_qiandao.setText(time);
 
-    }
-
-    private double latitude;
-    private double longitude;
-
-    public BDLocationListener myListener = new BDLocationListener() {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // mapview 销毁后不在处理新接收的位置
-            if (location == null) {
-                return;
-            }
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-            String addrStr = location.getAddrStr();
-
-            LatLng ll = new LatLng(latitude,longitude);
-            // 构造定位数据
-            MyLocationData locData = new MyLocationData.Builder()
-                    //      .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(latitude)
-                    .longitude(longitude).build();
-            mBaiduMap.setMyLocationData(locData);
-
-            //画标志
-            CoordinateConverter converter = new CoordinateConverter();
-            converter.coord(ll);
-            converter.from(CoordinateConverter.CoordType.COMMON);
-            LatLng convertLatLng = converter.convert();
-
-            OverlayOptions ooA = new MarkerOptions().position(ll).icon(BitmapDescriptorFactory.fromResource(R.drawable.item_position));
-            mCurrentMarker = (Marker) mBaiduMap.addOverlay(ooA);
-            mBaiduMap.addOverlay(ooA);
-
-            MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
-            mBaiduMap.animateMapStatus(u);
-
-            //画当前定位标志
-            MapStatusUpdate uc = MapStatusUpdateFactory.newLatLng(ll);
-            mBaiduMap.animateMapStatus(uc);
-
-
-            /**
-             * 如果GPS未打开且无网络
-             */
-            if (!checkNetworkState()) {
-                tv_place_qiandao.setText("没有定位信息！");
-                addrStr = null;
-            }
-            if (ToolsKit.isEmpty(addrStr)) {
-                tv_place_qiandao.setText("没有定位信息！");
-                img_qiandao.setImageResource(R.drawable.icon_grayciecle);
-                img_qiandao.setClickable(false);
-                return;
-            }
-            tv_place_qiandao.setText(addrStr);
-            img_qiandao.setClickable(true);
-            img_qiandao.setImageResource(R.drawable.icon_orangecircle);
-        }
-
-        @Override
-        public void onConnectHotSpotMessage(String s, int i) {
-
-        }
-    };
-
-
-    /**
-     * 检测网络是否连接
-     * @return
-     */
-    private boolean checkNetworkState() {
-        boolean flag = false;
-        // 得到网络连接信息
-        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        // 去进行判断网络是否连接
-        if (manager.getActiveNetworkInfo() != null) {
-            flag = manager.getActiveNetworkInfo().isAvailable();
-        }
-        return flag;
-    }
-
-    /**
-     * 设置定位参数
-     */
-    private void setLocationOption() {
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true); // 打开GPS
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);// 设置定位模式
-        option.setCoorType("bd09ll"); // 返回的定位结果是百度经纬度,默认值gcj02
-        option.setScanSpan(5000); // 设置发起定位请求的间隔时间为5000ms
-        option.setIsNeedAddress(true); // 返回的定位结果包含地址信息
-        option.setNeedDeviceDirect(true); // 返回的定位结果包含手机机头的方向
-        this.locationClient.setLocOption(option);
     }
 
     @OnClick({
@@ -539,24 +433,61 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
 
     @Override
     public void onResume() {
-        this.locationClient.start(); // 开始定位
-        mMapView.onResume();
         super.onResume();
+        LocationUtils.Location(getApplicationContext());
+        latitude = LocationUtils.getLat();
+        longitude = LocationUtils.getLng();
+        String addrStr = LocationUtils.getAddress();
+
+        LatLng ll = new LatLng(latitude,longitude);
+        // 构造定位数据
+        MyLocationData locData = new MyLocationData.Builder()
+                //      .accuracy(location.getRadius())
+                // 此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(100).latitude(latitude)
+                .longitude(longitude).build();
+        mBaiduMap.setMyLocationData(locData);
+
+        //画标志
+        CoordinateConverter converter = new CoordinateConverter();
+        converter.coord(ll);
+        converter.from(CoordinateConverter.CoordType.COMMON);
+        LatLng convertLatLng = converter.convert();
+
+        OverlayOptions ooA = new MarkerOptions().position(ll).icon(BitmapDescriptorFactory.fromResource(R.drawable.item_position));
+        mCurrentMarker = (Marker) mBaiduMap.addOverlay(ooA);
+        mBaiduMap.addOverlay(ooA);
+
+        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
+        mBaiduMap.animateMapStatus(u);
+
+        //画当前定位标志
+        MapStatusUpdate uc = MapStatusUpdateFactory.newLatLng(ll);
+        mBaiduMap.animateMapStatus(uc);
+
+        if(("").equals(addrStr)||("null").equals(addrStr)||addrStr==null){
+            tv_place_qiandao.setText("没有定位信息！");
+            img_qiandao.setImageResource(R.drawable.icon_grayciecle);
+            img_qiandao.setClickable(false);
+            Toast.makeText(this, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
+            return;
+        }else{
+            tv_place_qiandao.setText(addrStr);
+            img_qiandao.setClickable(true);
+            img_qiandao.setImageResource(R.drawable.icon_orangecircle);
+        }
     }
 
     // 三个状态实现地图生命周期管理
     @Override
     protected void onDestroy() {
         // 退出时销毁定位
-        this.locationClient.stop();
-        mMapView.onDestroy();
+        LocationUtils.onDestory();
         super.onDestroy();
     }
 
     @Override
     public void onPause() {
-        this.locationClient.stop();
-        mMapView.onPause();
         super.onPause();
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.webkit.ValueCallback;
@@ -56,15 +57,9 @@ public class SanzhongyidaActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
-        initWithBar();
-        mLeftTextView.setText("三重一大事项");
-        mLeftTextView.setVisibility(View.VISIBLE);
-        mLeftTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        initWithCenterBar();
+        mCenterTextView.setText("三重一大");
+        mCenterTextView.setVisibility(View.VISIBLE);
 
         initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
@@ -168,5 +163,13 @@ public class SanzhongyidaActivity extends ActivityFragmentSupport {
                 mUploadMessage = null;
             }
         }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && progressWebView.canGoBack()) {
+            progressWebView.goBack();// 返回前一个页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

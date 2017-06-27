@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.webkit.ValueCallback;
@@ -58,9 +59,9 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
-        initWithBar();
-        mLeftTextView.setText("发布公告");
-        mLeftTextView.setVisibility(View.VISIBLE);
+        initWithCenterBar();
+        mCenterTextView.setText("发布公告");
+        mCenterTextView.setVisibility(View.VISIBLE);
         initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +151,14 @@ public class SendGonggaoActivity extends ActivityFragmentSupport {
         });
 
         progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL+ sqliteDBUtils.getUsername()+ WorkflowUrl.SENDGONGGAO_FLOWID);
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && progressWebView.canGoBack()) {
+            progressWebView.goBack();// 返回前一个页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
    /* private TabHost tabHost;

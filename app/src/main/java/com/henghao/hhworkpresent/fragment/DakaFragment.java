@@ -59,6 +59,8 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 import static com.henghao.hhworkpresent.ProtocolUrl.APP_LODAING_HEAD_IMAGE_URI;
+import static com.henghao.hhworkpresent.R.id.daka_shangban_qiandao_image;
+import static com.henghao.hhworkpresent.R.id.daka_xiaban_qiandao_image;
 import static com.henghao.hhworkpresent.R.id.daka_xiaban_shangbanstate;
 
 /**
@@ -403,18 +405,26 @@ public class DakaFragment extends FragmentSupport {
 
     /************************************/
 
-    @OnClick({R.id.tv_datepicker,R.id.daka_shangban_qiandao_image,R.id.daka_xiaban_qiandao_image})
+    @OnClick({R.id.tv_datepicker, daka_shangban_qiandao_image, daka_xiaban_qiandao_image})
     private void viewOnClick(View v) {
         switch (v.getId()) {
             case R.id.tv_datepicker:
                 onClickDatePicker();
                 break;
 
-            case R.id.daka_shangban_qiandao_image:
+            case daka_shangban_qiandao_image:
+                if(("").equals(shangbanDakaAdrress)||("null").equals(shangbanDakaAdrress)||shangbanDakaAdrress==null){
+                    Toast.makeText(mActivity, "获取不到你当前的位置，请重新进入页面！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 onClickShangbanDaka();
                 break;
 
-            case R.id.daka_xiaban_qiandao_image:
+            case daka_xiaban_qiandao_image:
+                if(("").equals(xiabanDakaAdrress)||("null").equals(xiabanDakaAdrress)||xiabanDakaAdrress==null){
+                    Toast.makeText(mActivity, "获取不到你当前的位置，请重新进入页面！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 onClickXiabanDaka();
                 break;
         }
@@ -428,19 +438,23 @@ public class DakaFragment extends FragmentSupport {
 
     private SpatialRelationUtil spatialRelationUtil = new SpatialRelationUtil();
 
+
+
     @Override
     public void onResume() {
         super.onResume();
         LocationUtils.Location(getActivity().getApplication().getApplicationContext());
         shangbanDakaAdrress = LocationUtils.getAddress();
-        if(("").equals(shangbanDakaAdrress)||("null").equals(shangbanDakaAdrress)){
+        if(("").equals(shangbanDakaAdrress)||("null").equals(shangbanDakaAdrress)||shangbanDakaAdrress==null){
+            shangban_qiandao_image.setImageResource(R.drawable.icon_grayciecle);
             shangban_qiandao_location.setText("当前没有定位信息!");
         }else{
             shangban_qiandao_location.setText(shangbanDakaAdrress);
         }
 
         xiabanDakaAdrress = LocationUtils.getAddress();
-        if(("").equals(xiabanDakaAdrress)||("null").equals(xiabanDakaAdrress)){
+        if(("").equals(xiabanDakaAdrress)||("null").equals(xiabanDakaAdrress)||xiabanDakaAdrress==null){
+            xiaban_qiandao_image.setImageResource(R.drawable.icon_grayciecle);
             xiaban_qiandao_location.setText("当前没有定位信息!");
         }else{
             xiaban_qiandao_location.setText(xiabanDakaAdrress);
@@ -460,7 +474,7 @@ public class DakaFragment extends FragmentSupport {
         String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
    //     LatLng center1 = getLatlng(daka_position1);
         LatLng center1 = new LatLng(26.645925356356,106.63126641633);
-        int radius = 500000;  //500米范围
+        int radius = 1000000;  //1000米范围
         LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(point1==null){
             Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
@@ -519,9 +533,7 @@ public class DakaFragment extends FragmentSupport {
         String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
  //       LatLng center1 = getLatlng(daka_position1);
         LatLng center1 = new LatLng(26.645925356356,106.63126641633);
-        int radius = 500000;  //500米
-        Log.d("wangqingbin","LocationUtils.getLat()=="+LocationUtils.getLat());
-        Log.d("wangqingbin","LocationUtils.getLng()=="+LocationUtils.getLng());
+        int radius = 1000000;  //1000米
         LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(point1==null){
             Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();

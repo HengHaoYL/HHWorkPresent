@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -28,7 +31,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  * Created by bryanrady on 2017/5/3.
  */
 
-public class GerendaibanActivity extends ActivityFragmentSupport {
+public class GerendaibanActivity extends ActivityFragmentSupport{
 
     @ViewInject(R.id.carapply_webview)
     private ProgressWebView progressWebView;
@@ -57,15 +60,9 @@ public class GerendaibanActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
-        initWithBar();
-        mLeftTextView.setText("个人待办");
-        mLeftTextView.setVisibility(View.VISIBLE);
-        mLeftTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        initWithCenterBar();
+        mCenterTextView.setText("个人待办");
+        mCenterTextView.setVisibility(View.VISIBLE);
 
         initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +78,7 @@ public class GerendaibanActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
+        progressWebView.setDownloadListener(new MyWebViewDownLoadListener());
         init();
     }
 
@@ -169,4 +167,24 @@ public class GerendaibanActivity extends ActivityFragmentSupport {
             }
         }
     }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && progressWebView.canGoBack()) {
+            progressWebView.goBack();// 返回前一个页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private class MyWebViewDownLoadListener implements DownloadListener {
+
+        @Override
+        public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+            Log.d("wangqingbin","url=="+url);
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+    }
+
 }

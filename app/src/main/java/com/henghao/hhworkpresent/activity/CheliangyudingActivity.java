@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.webkit.ValueCallback;
@@ -28,7 +28,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  * Created by bryanrady on 2017/5/4.
  */
 
-public class CheliangyudingActivity extends ActivityFragmentSupport {
+public class CheliangyudingActivity extends ActivityFragmentSupport{
 
     @ViewInject(R.id.carapply_webview)
     private ProgressWebView progressWebView;
@@ -58,15 +58,9 @@ public class CheliangyudingActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
-        initWithBar();
-        mLeftTextView.setText("派车申请");
-        mLeftTextView.setVisibility(View.VISIBLE);
-        mLeftTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        initWithCenterBar();
+        mCenterTextView.setText("派车申请");
+        mCenterTextView.setVisibility(View.VISIBLE);
 
         initLoadingError();
         tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +113,7 @@ public class CheliangyudingActivity extends ActivityFragmentSupport {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //return super.shouldOverrideUrlLoading(view, url);
                 view.loadUrl(url);
-                return true;
+                return false;
             }
         });
 
@@ -152,8 +146,6 @@ public class CheliangyudingActivity extends ActivityFragmentSupport {
                 startActivityForResult( Intent.createChooser( i, "File Browser" ), FILECHOOSER_RESULTCODE );
             }
         });
-
-        Log.d("wangqingbin","url=="+WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.CHELIANG_FLOWID);
         progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.CHELIANG_FLOWID);
     }
 
@@ -168,5 +160,13 @@ public class CheliangyudingActivity extends ActivityFragmentSupport {
                 mUploadMessage = null;
             }
         }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && progressWebView.canGoBack()) {
+            progressWebView.goBack();// 返回前一个页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
