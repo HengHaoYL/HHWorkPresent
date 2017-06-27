@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -17,6 +18,7 @@ import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.WorkflowUrl;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
@@ -76,6 +78,7 @@ public class SanzhongyidaActivity extends ActivityFragmentSupport {
     public void initData() {
         super.initData();
         init();
+        progressWebView.setDownloadListener(new MyWebViewDownLoadListener());
     }
 
     public void init() {
@@ -171,5 +174,16 @@ public class SanzhongyidaActivity extends ActivityFragmentSupport {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private class MyWebViewDownLoadListener implements DownloadListener {
+        @Override
+        public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+            String fileUrl = url.substring(url.lastIndexOf("=")+1);
+            fileUrl = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_DOWNLOAD_FILE + fileUrl;
+            Uri uri = Uri.parse(fileUrl);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
     }
 }

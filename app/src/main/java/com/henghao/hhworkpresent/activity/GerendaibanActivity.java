@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +18,7 @@ import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.WorkflowUrl;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
@@ -78,8 +78,8 @@ public class GerendaibanActivity extends ActivityFragmentSupport{
     @Override
     public void initData() {
         super.initData();
-        progressWebView.setDownloadListener(new MyWebViewDownLoadListener());
         init();
+        progressWebView.setDownloadListener(new MyWebViewDownLoadListener());
     }
 
     public void init() {
@@ -177,11 +177,11 @@ public class GerendaibanActivity extends ActivityFragmentSupport{
     }
 
     private class MyWebViewDownLoadListener implements DownloadListener {
-
         @Override
         public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-            Log.d("wangqingbin","url=="+url);
-            Uri uri = Uri.parse(url);
+            String fileUrl = url.substring(url.lastIndexOf("=")+1);
+            fileUrl = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_DOWNLOAD_FILE + fileUrl;
+            Uri uri = Uri.parse(fileUrl);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         }

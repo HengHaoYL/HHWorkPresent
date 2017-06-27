@@ -257,4 +257,9 @@ public class ProtocolUrl {
     public static final String APP_QUERY_TONGXUNLU = "/statisticsInfo/user/findAllUser";
 
     /************************ 个人资料界面 end **************************/
+
+   /**
+    * webview下载文件链接  后面拼接上文件ID
+    */
+   public static final String APP_DOWNLOAD_FILE = "/istration/appload/files?id=";
 }
