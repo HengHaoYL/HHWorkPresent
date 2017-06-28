@@ -131,6 +131,8 @@ public class DakaFragment extends FragmentSupport {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        SDKInitializer.initialize(getActivity().getApplication().getApplicationContext());
+        LocationUtils.Location(getActivity().getApplication().getApplicationContext());
         this.mActivityFragmentView.viewMain(R.layout.fragment_currentdate_shangbandaka);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
@@ -138,8 +140,6 @@ public class DakaFragment extends FragmentSupport {
         this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         //注册定位监听  必须用全局 context  不能用 this.mActivity
-        SDKInitializer.initialize(getActivity().getApplication().getApplicationContext());
-        LocationUtils.Location(getActivity().getApplication().getApplicationContext());
         initWidget();
         initData();
         return this.mActivityFragmentView;
@@ -474,7 +474,7 @@ public class DakaFragment extends FragmentSupport {
         String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
    //     LatLng center1 = getLatlng(daka_position1);
         LatLng center1 = new LatLng(26.645925356356,106.63126641633);
-        int radius = 1000000;  //1000米范围
+        int radius = 5;  //500米范围
         LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(point1==null){
             Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
@@ -533,7 +533,7 @@ public class DakaFragment extends FragmentSupport {
         String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
  //       LatLng center1 = getLatlng(daka_position1);
         LatLng center1 = new LatLng(26.645925356356,106.63126641633);
-        int radius = 1000000;  //1000米
+        int radius = 5;  //500米
         LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(point1==null){
             Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();

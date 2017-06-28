@@ -16,21 +16,6 @@
     <!-- 程序退出操作权限 -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
-    <!-- 扫描二维码所需权限 -->
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature android:name="android.hardware.camera" />
-
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-`
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-feature
-        android:name="android.hardware.nfc"
-        android:required="true" />
-
-
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- 百度地图 -->
     <!-- 这个权限用于进行网络定位 -->
@@ -49,7 +34,6 @@
     <!-- 打电话权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-    <!-- 百度API所需权限 -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
@@ -64,8 +48,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <application
         android:name=".FMApplication"
         android:allowBackup="true"
@@ -76,7 +58,7 @@
         tools:replace="android:icon, android:theme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="QmHuTkcoxCpZ5EMHszqqu714eInH99qV" />
+            android:value="fpNESfd6m9b4S0BieY5HFHPTkvxk8WF5"/>
 
         <!-- 百度地图所需的service -->
         <service
