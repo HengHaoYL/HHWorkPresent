@@ -474,10 +474,10 @@ public class DakaFragment extends FragmentSupport {
         String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
    //     LatLng center1 = getLatlng(daka_position1);
         LatLng center1 = new LatLng(26.645925356356,106.63126641633);
-        int radius = 5;  //500米范围
+        int radius = 2000;  //500米范围
         LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(point1==null){
-            Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isContans1 = spatialRelationUtil.isCircleContainsPoint(center1,radius,point1);
@@ -486,7 +486,7 @@ public class DakaFragment extends FragmentSupport {
         LatLng center2 = new LatLng(26.647500621412,106.6299998053);
         LatLng point2 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(point2==null){
-            Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
+      //      Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isContans2 = spatialRelationUtil.isCircleContainsPoint(center2,radius,point2);
@@ -533,10 +533,10 @@ public class DakaFragment extends FragmentSupport {
         String daka_position2 = "贵州省贵阳市乌当区林城东路7号";
  //       LatLng center1 = getLatlng(daka_position1);
         LatLng center1 = new LatLng(26.645925356356,106.63126641633);
-        int radius = 5;  //500米
+        int radius = 2000;  //500米
         LatLng point1 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(point1==null){
-            Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isContans1 = spatialRelationUtil.isCircleContainsPoint(center1,radius,point1);
@@ -545,7 +545,7 @@ public class DakaFragment extends FragmentSupport {
         LatLng center2 = new LatLng(26.647500621412,106.6299998053);
         LatLng point2 = new LatLng(LocationUtils.getLat(),LocationUtils.getLng());
         if(point2==null){
-            Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(mActivity, "没有准确获取到你当前的位置信息，请再次点击！", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isContans2 = spatialRelationUtil.isCircleContainsPoint(center2,radius,point2);
