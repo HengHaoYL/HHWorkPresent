@@ -191,8 +191,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
-            android:textColor="#D78A18"
-            android:text="缺卡"/>
+            android:textColor="#D78A18" />
 
         <Button
             android:id="@+id/kaoqing_calendar_shangbanBuka"
@@ -234,8 +233,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
-                android:textColor="#D78A18"
-                android:text="缺卡"/>
+                android:textColor="#D78A18" />
 
             <Button
                 android:id="@+id/kaoqing_calendar_xiabanBuka"

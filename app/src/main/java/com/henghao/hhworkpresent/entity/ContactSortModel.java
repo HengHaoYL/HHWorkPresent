@@ -63,6 +63,18 @@ public class ContactSortModel {
     @Expose
     private String emp_NUM;
 
+    //用户id
+    @Expose
+    private String uid;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public String getId() {
         return id;
     }

@@ -50,11 +50,10 @@ import static com.henghao.hhworkpresent.fragment.DakaFragment.HOLIDAY_FALSE;
 import static com.henghao.hhworkpresent.fragment.DakaFragment.HOLIDAY_TRUE;
 
 /**
- * Created by bryanrady on 2017/3/10.
- * 打卡月历界面
+ * Created by bryanrady on 2017/7/21.
  */
 
-public class CalendarActivity extends ActivityFragmentSupport implements MyCalendarView.OnCellClickListener {
+public class RenyuanCalendarActivity extends ActivityFragmentSupport implements MyCalendarView.OnCellClickListener {
 
     public static final String CALENDAR_TIME = "com.henghao.calendar.time";
 
@@ -76,6 +75,9 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
 
     @ViewInject(R.id.vp_calendar)
     private ViewPager mViewPager;
+
+    public String uid;
+    public String name;
 
     @ViewInject(R.id.kaoqing_calendar_dakatimes)
     private TextView tv_dakaTimes;
@@ -117,7 +119,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
     private CalendarViewAdapter<MyCalendarView> adapter;
     private SildeDirection mDirection = SildeDirection.NO_SILDE;
     enum SildeDirection {
-         RIGHT, LEFT, NO_SILDE;
+        RIGHT, LEFT, NO_SILDE;
     }
 
     private MyBroadcastReceiver myBroadcastReceiver;
@@ -130,7 +132,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-    //    this.mActivityFragmentView.viewLoadingError(View.GONE);
+        //    this.mActivityFragmentView.viewLoadingError(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
         ViewUtils.inject(this, this.mActivityFragmentView);
         setContentView(this.mActivityFragmentView);
@@ -205,7 +207,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                 finish();
             }
         });
-        initWithRightBar();
+        /*initWithRightBar();
         mRightTextView.setText("月汇总");
         mRightTextView.setVisibility(View.VISIBLE);
         mRightTextView.setOnClickListener(new View.OnClickListener() {
@@ -213,27 +215,19 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
             public void onClick(View v) {
                 finish();
             }
-        });
-
-        /*initLoadingError();
-        tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivityFragmentView.viewLoadingError(View.GONE);
-                httpLoadingHeadImage();
-                httpRequestKaoqingofDate();
-            }
         });*/
-
     }
 
     @Override
     public void initData() {
         super.initData();
+        Intent intent = getIntent();
+        uid = intent.getStringExtra("uid");
+        name = intent.getStringExtra("name");
         sqliteDBUtils = new SqliteDBUtils(this);
 
         httpLoadingHeadImage();
-        tv_loginName.setText(sqliteDBUtils.getLoginFirstName() + sqliteDBUtils.getLoginGiveName());
+        tv_loginName.setText(name);
 
         SimpleDateFormat f1 = new SimpleDateFormat("yyyy年MM月dd日");
         Date date = new Date();
@@ -346,7 +340,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("uid",sqliteDBUtils.getLoginUid());
+        requestBodyBuilder.add("uid",uid);
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_LODAING_HEAD_IMAGE;
         Request request = builder.url(request_url).post(requestBody).build();
@@ -386,7 +380,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                         //       calendar_layout.setVisibility(View.VISIBLE);
+                                //       calendar_layout.setVisibility(View.VISIBLE);
 
                                 // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
                                 options = new DisplayImageOptions.Builder()
@@ -500,7 +494,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
+        requestBodyBuilder.add("userId", uid);
         final String date = tvCurrentDate.getText().toString().trim();
         int type = equalsDate(transferDateTime(date));
         //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
@@ -840,5 +834,4 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
         }
         return arr;
     }
-
 }

@@ -33,8 +33,8 @@ public class ProtocolUrl {
        //     ROOT_URL = "222.85.156.33:8082";
         } else {
             // 测试地址
-      //   ROOT_URL = "http://222.85.156.33:8082";
-         ROOT_URL = "http://172.16.0.15";
+         ROOT_URL = "http://222.85.156.33:8082";
+      //  ROOT_URL = "http://172.16.0.194:8080";
         }
     }
 

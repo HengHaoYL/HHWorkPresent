@@ -167,6 +167,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 人员考勤界面 -->
+        <activity
+            android:name=".activity.RenyuanKaoqingInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 人员考勤界面 -->
+        <activity
+            android:name=".activity.RenyuanCalendarActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 通讯录界面 -->
         <activity
             android:name=".activity.MyTongxunluActivity"

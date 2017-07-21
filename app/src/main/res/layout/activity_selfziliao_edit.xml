@@ -268,8 +268,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="请选择部门"
-                android:drawableRight="@drawable/item_point_right"
                 android:padding="@dimen/padding_big"
                 android:textColor="@color/text_color_c"
                 android:textColorHint="@color/line"

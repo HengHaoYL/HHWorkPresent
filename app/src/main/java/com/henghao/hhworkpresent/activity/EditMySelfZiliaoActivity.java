@@ -173,9 +173,10 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
     @OnClick({R.id.tongxunlu_et_sex,R.id.tongxunlu_et_birth_DATE,R.id.tongxunlu_et_dept_NAME})
     private void viewOnClick(View v) {
         switch (v.getId()) {
-            case R.id.tongxunlu_et_sex:
+            //让部门不可编辑
+            /*case R.id.tongxunlu_et_sex:
                 popupWindowHelper1.showFromBottom(v);
-                break;
+                break;*/
             case R.id.tongxunlu_et_dept_NAME:
                 popupWindowHelper.showFromBottom(v);
                 break;
