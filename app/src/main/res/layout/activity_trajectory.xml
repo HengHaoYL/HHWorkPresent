@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日轨迹"/>
+
+        <TextView
+            android:id="@+id/tv_trajectory_datepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#2C1D07"
+            android:layout_marginLeft="100dp"
+            android:background="@drawable/outside_stroke"
+            android:drawablePadding="@dimen/padding_normal"
+            android:drawableRight="@drawable/item_point_down"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingLeft="@dimen/padding_big"
+            android:paddingRight="@dimen/padding_big"
+            android:paddingTop="@dimen/padding_small"
+            android:clickable="true"
+            android:text="2017-07-18"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/work_trajectory_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/shangban_layout"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上班打卡："/>
+            <TextView
+                android:id="@+id/tv_shangbanDaka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08:54"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line" />
+
+        <ListView
+            android:id="@+id/work_trajectory_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@color/transparent"
+            android:fadingEdge="none"
+            android:listSelector="@drawable/list_selector_transition">
+        </ListView>
+
+        <LinearLayout
+            android:id="@+id/xiaban_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下班打卡："/>
+            <TextView
+                android:id="@+id/tv_xiabanDaka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17:54"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/null_trajectory_layout"
+        android:layout_marginTop="25dp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/xiuxi"
+            android:layout_marginTop="130dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_xiuxi"/>
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/xiuxi"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无轨迹"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

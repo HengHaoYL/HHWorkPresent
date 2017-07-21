@@ -33,8 +33,8 @@ public class ProtocolUrl {
        //     ROOT_URL = "222.85.156.33:8082";
         } else {
             // 测试地址
-         ROOT_URL = "http://222.85.156.33:8082";
-     //    ROOT_URL = "http://172.16.13.118:8080";
+      //   ROOT_URL = "http://222.85.156.33:8082";
+         ROOT_URL = "http://172.16.0.15";
         }
     }
 
@@ -230,11 +230,26 @@ public class ProtocolUrl {
      */
     public static final String APP_LODAING_HEAD_IMAGE_URI = "/uploadImage/";
 
+   /**
+    * 下载用户头像图片名字接口
+    */
+    public static final String APP_LODAING_HEAD_IMAGE = "/statisticsInfo/user/showUserImage";
 
     /**
-     * 下载用户头像图片名字接口
+     * 上传工作轨迹接口
      */
-    public static final String APP_LODAING_HEAD_IMAGE = "/statisticsInfo/user/showUserImage";
+    public static final String APP_UPLOAD_WORK_TRAJECTORY = "/deletenum/event/addEventInformationAndImage";
+
+
+   /**
+    *下载工作轨迹接口
+    */
+    public static final String APP_DOWNLOAD_WORK_TRAJECTORY = "/deletenum/improvement/eventInformationAndImg";
+
+   /**
+    *下载工作轨迹事件对应图片的接口
+    */
+    public static final String APP_DOWNLOAD_WORK_TRAJECTORY_IMAGE = "/deletenum/tousu/";
 
     /**
      * 上传用户头像接口

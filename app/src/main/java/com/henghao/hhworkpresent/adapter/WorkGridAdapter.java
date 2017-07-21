@@ -13,7 +13,9 @@ import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
+import com.henghao.hhworkpresent.activity.RenyuanKaoqingActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
+import com.henghao.hhworkpresent.activity.WorkTrajectoryActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -99,11 +101,6 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                                     "请安装！");
                         }
                         break;
-                    /*case 3:
-                        //通知公告
-                        intent.setClass(mActivityFragmentSupport, GongGaoActivity.class);
-                        mActivityFragmentSupport.startActivity(intent);
-                        break;*/
                     case 3:
                         //行政执法
                          packageManager = mActivityFragmentSupport.getPackageManager();
@@ -117,11 +114,16 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                             mActivityFragmentSupport.msg("你的手机里没有安监执法应用，请安装！");
                         }
                         break;
-                   /* case 5:
-                        //考勤
-                        intent.setClass(mActivityFragmentSupport, TestActivity.class);
+                    case 4:
+                        //工作轨迹
+                        intent.setClass(mActivityFragmentSupport,WorkTrajectoryActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
-                        break;*/
+                        break;
+                    case 5:
+                        //人员考勤
+                        intent.setClass(mActivityFragmentSupport,RenyuanKaoqingActivity.class);
+                        mActivityFragmentSupport.startActivity(intent);
+                        break;
                 }
             }
         });

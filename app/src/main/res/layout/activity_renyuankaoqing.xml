@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_root"
+    android:background="#ecf0f1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/tab_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:visibility="gone"></LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/tab_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/tabs_root"
+        android:layout_below="@+id/tab_top"
+        android:background="#00000000" />
+
+    <LinearLayout
+        android:id="@+id/tabs_root"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#e3e3e3" />
+
+        <RadioGroup
+            android:id="@+id/kaoqing_radioGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="#ecf0f1"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small">
+
+            <!-- 打卡 -->
+            <RadioButton
+                android:id="@+id/renyuankaoqing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:button="@null"
+                android:checked="true"
+                android:drawablePadding="@dimen/padding_small"
+                android:drawableTop="@drawable/selector_qiandao"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="人员考勤"
+                android:textColor="@drawable/tab_selector"
+                android:textSize="18dp" />
+
+            <RadioButton
+                android:id="@+id/renyuankaoqing_tongji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:button="@null"
+                android:drawablePadding="@dimen/padding_small"
+                android:drawableTop="@drawable/selector_kaoqing"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="统计"
+                android:textColor="@drawable/tab_selector"
+                android:textSize="18dp" />
+
+        </RadioGroup>
+    </LinearLayout>
+
+</RelativeLayout>

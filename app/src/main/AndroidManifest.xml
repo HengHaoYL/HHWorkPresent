@@ -149,6 +149,24 @@
             android:theme="@style/AppTheme">
         </activity>
 
+        <!-- 工作轨迹界面 -->
+        <activity
+            android:name=".activity.WorkTrajectoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 添加轨迹界面 -->
+        <activity
+            android:name=".activity.AddTrajectoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 人员考勤界面 -->
+        <activity
+            android:name=".activity.RenyuanKaoqingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 通讯录界面 -->
         <activity
             android:name=".activity.MyTongxunluActivity"

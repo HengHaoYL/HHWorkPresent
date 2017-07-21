@@ -113,7 +113,6 @@ public class SanzhongyidaActivity extends ActivityFragmentSupport {
                 webview_layout.setVisibility(View.GONE);
                 mActivityFragmentView.viewLoadingError(View.VISIBLE);
             }
-
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //return super.shouldOverrideUrlLoading(view, url);

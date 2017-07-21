@@ -6,7 +6,6 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -685,7 +684,6 @@ public class DakaFragment extends FragmentSupport {
                 String result_str = response.body().string();
                 //result_str=={"id":20170530,"date":"2017-05-30","status":"法定假日"}
                 // {"id":20170528,"date":"2017-05-28","status":"周末"}
-                Log.d("wangqingbin","result_str=="+result_str);
                 //如果是空，  result_str.length()==0这个判断才有用
                 mHandler.post(new Runnable() {
                     @Override
@@ -1258,7 +1256,7 @@ public class DakaFragment extends FragmentSupport {
     //    String[] shangTimes = shouldSBTime.split(":");
         int[] temp = new int[strings.length];
    //     int[] shangTime = new int[shangTimes.length];
-        int[] shangTime ={9,10,0};
+        int[] shangTime ={9,0,0};
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
@@ -1297,7 +1295,7 @@ public class DakaFragment extends FragmentSupport {
     //    String[] xiaTimes = shouldXBTime.split(":");
         int[] temp = new int[strings.length];
     //    int[] xiaTime = new int[xiaTimes.length];
-        int[] xiaTime = {16,50,0};
+        int[] xiaTime = {17,0,0};
         //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
