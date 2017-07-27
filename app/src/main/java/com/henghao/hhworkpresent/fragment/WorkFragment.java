@@ -10,6 +10,7 @@ import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.WorkGridAdapter;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -25,6 +26,8 @@ public class WorkFragment extends FragmentSupport {
 
     @ViewInject(R.id.gridview)
     private GridView gridview;
+
+    private SqliteDBUtils sqliteDBUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +47,13 @@ public class WorkFragment extends FragmentSupport {
     }
 
     public void initData(){
+        sqliteDBUtils = new SqliteDBUtils(mActivity);
+        //每天有人打卡就给每个领导人默认签到人员：'曾宇','兰天','胡正康','邓发权','安尤光','魏燕飞','胡美琪','杨亚琦',"陆建"
+        String[] leader={   "HZ9080955acfcfff015acfe883040409","HZ9080955acfcfff015acfe9cb0f044d","HZ9080955acfcfff015acfea2edb0456",
+                            "HZ9080955acfcfff015acfea808e045d","HZ9080955acfcfff015acfef3bb30555","HZ9080955acfcfff015ad00f25bd08bd",
+                            "HZ9080955acfcfff015acff073f9056f","HZ9080955acfcfff015acfeff1750561","HZ8bb0c95ce22e77015ce25ddd100319"};
+
+
         List<AppGridEntity> mList = new ArrayList<AppGridEntity>();
         //第一个
         AppGridEntity mEntity = new AppGridEntity();
@@ -67,14 +77,19 @@ public class WorkFragment extends FragmentSupport {
         mList.add(mEntity4);
         //第五个
         AppGridEntity mEntity5 = new AppGridEntity();
-        mEntity5.setImageId(R.drawable.item_notification);
+        mEntity5.setImageId(R.drawable.item_gongzuogong1ji);
         mEntity5.setName("工作轨迹");
         mList.add(mEntity5);
         //第六个
         AppGridEntity mEntity6 = new AppGridEntity();
-        mEntity6.setImageId(R.drawable.icon_xingzhenzhifa);
+        mEntity6.setImageId(R.drawable.item_renyuankaoqing);
         mEntity6.setName("人员考勤");
-        mList.add(mEntity6);
+        for(String uid : leader){
+             if(uid.equals(sqliteDBUtils.getLoginUid())){
+                 mList.add(mEntity6);
+             }
+        }
+
         //第七个
         AppGridEntity mEntity7 = new AppGridEntity();
         mEntity7.setImageId(R.drawable.item_add);

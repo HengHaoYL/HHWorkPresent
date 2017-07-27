@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
+
 /**
  * Created by bryanrady on 2017/7/18.
  */
@@ -61,8 +62,8 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.et_tarjectory_event)
     private EditText et_tarjectory_event;
 
-    @ViewInject(R.id.tv_tarjectory_time)
-    private TextView tv_tarjectory_time;
+    @ViewInject(R.id.et_tarjectory_time)
+    private EditText et_tarjectory_time;
 
     @ViewInject(R.id.tv_tarjectory_place)
     private TextView tv_tarjectory_place;
@@ -125,9 +126,9 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
         gridView.setAdapter(adapter);
 
         tv_tarjectory_place.setText(LocationUtils.getAddress());
-        Date date = new Date();
+        /*Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-        tv_tarjectory_time.setText(simpleDateFormat.format(date));
+        tv_tarjectory_time.setText(simpleDateFormat.format(date));*/
 
     }
 
@@ -142,15 +143,19 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
         okHttpClient.setWriteTimeout(300,TimeUnit.SECONDS);
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
-        if(et_tarjectory_event.getText().toString().trim()==null){
-            Toast.makeText(this,"事件不能为空！",Toast.LENGTH_SHORT).show();
+        if(et_tarjectory_event.getText().toString().trim()==null||et_tarjectory_event.getText().toString().equals("")){
+            Toast.makeText(this,"事件名称必须填写！",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(et_tarjectory_time.getText().toString().trim()==null|et_tarjectory_time.getText().toString().equals("")){
+            Toast.makeText(this,"时间必须填写！",Toast.LENGTH_SHORT).show();
             return;
         }
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("userId", sqliteDBUtils.getLoginUid())
                 .addFormDataPart("eventDate",simpleDateFormat.format(new Date()))
                 .addFormDataPart("eventName",et_tarjectory_event.getText().toString())
-                .addFormDataPart("eventTime",tv_tarjectory_time.getText().toString())
+                .addFormDataPart("eventTime",et_tarjectory_time.getText().toString())
                 .addFormDataPart("eventAddress",tv_tarjectory_place.getText().toString());
         for (File file : mFileList) {
             /*for(String filePath : mSelectPath) {
