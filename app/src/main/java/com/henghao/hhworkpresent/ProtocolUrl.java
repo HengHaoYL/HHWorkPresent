@@ -33,8 +33,8 @@ public class ProtocolUrl {
        //     ROOT_URL = "222.85.156.33:8082";
         } else {
             // 测试地址
-         ROOT_URL = "http://222.85.156.33:8082";
-      //  ROOT_URL = "http://172.16.0.194:8080";
+      //   ROOT_URL = "http://222.85.156.33:8082";
+        ROOT_URL = "http://172.16.0.68";
         }
     }
 
@@ -171,6 +171,56 @@ public class ProtocolUrl {
      */
     public static final String APP_QUERY_DAY_OF_QUEKA = "/checking-in/CI/queKaToApp";
 
+   /**
+    * 未签到人数情况查询
+    */
+    public static final String APP_QUERY_WEIQIANDAO = "/deletenum/attendance/noSignIn";
+
+    /**
+     * 已签到人数情况查询
+     */
+    public static final String APP_QUERY_YIQIANDAO = "/deletenum/attendance/signedIn";
+
+   /**
+    * 迟到情况查询
+    */
+    public static final String APP_QUERY_CHIDAO = "/deletenum/attendance/late";
+
+   /**
+    * 早退情况查询
+    */
+    public static final String APP_QUERY_ZAOTUI = "/deletenum/attendance/early";
+
+   /**
+    * 请假情况查询
+    */
+    public static final String APP_QUERY_QINGJIA = "/deletenum/attendance/leave";
+
+   /**
+    * 出差情况查询
+    */
+    public static final String APP_QUERY_CHUCHAI = "/deletenum/attendance/evection";
+
+   /**
+    * 按月份查询所有人的迟到记录
+    */
+    public static final String APP_QUERY_ALL_CHIDAOLIST="/deletenum/attendance/monthLate";
+
+   /**
+    * 按月份查询所有人的早退记录
+    */
+    public static final String APP_QUERY_ALL_ZAOTUILIST="/deletenum/attendance/monthEarly";
+
+    /**
+     * 按月份查询所有人的缺卡记录
+     */
+    public static final String APP_QUERY_ALL_QUEKALIST="/deletenum/attendance/missingCard";
+
+
+    /**
+     * 按月份查询所有人的旷工记录
+     */
+     public static final String APP_QUERY_ALL_KUANGGONGLIST="/deletenum/attendance/absenteeism";
 
 
     /************************ 考勤 end **************************/

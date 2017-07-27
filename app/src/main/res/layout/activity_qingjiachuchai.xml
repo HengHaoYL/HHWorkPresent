@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff"
+    android:id="@+id/tabhost"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <TabWidget
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@android:id/tabs"
+            ></TabWidget>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@android:id/tabcontent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/frame_qingjia"
+                android:orientation="vertical"
+                >
+                <com.benefit.buy.library.views.xlistview.XListView
+                    android:id="@+id/qingjia_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="@color/transparent"
+                    android:divider="@color/transparent"
+                    android:fadingEdge="none"
+                    android:listSelector="@drawable/list_selector_transition"
+                    android:splitMotionEvents="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/frame_chuchai"
+                android:orientation="vertical"
+                >
+                <com.benefit.buy.library.views.xlistview.XListView
+                    android:id="@+id/chuchai_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="@color/transparent"
+                    android:divider="@color/transparent"
+                    android:fadingEdge="none"
+                    android:listSelector="@drawable/list_selector_transition"
+                    android:splitMotionEvents="false" />
+            </LinearLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+</TabHost>

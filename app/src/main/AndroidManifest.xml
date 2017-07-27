@@ -354,6 +354,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <activity
+            android:name=".activity.QingjiaChuchaiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.DakaDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.ChidaoZaotuiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 考勤详情界面 -->
         <activity
             android:name=".activity.KaoqingDetailActivity"

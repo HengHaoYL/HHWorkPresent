@@ -44,6 +44,7 @@
             android:paddingRight="@dimen/padding_big"
             android:paddingTop="@dimen/padding_small"
             android:clickable="true"
+            android:text="2017-07"
             android:textSize="15dp" />
     </LinearLayout>
 
