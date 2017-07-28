@@ -92,7 +92,7 @@ public class RenyuanKaoqingFragment extends FragmentSupport {
 
     public void initWidget() {
         initWithBar();
-        mLeftTextView.setText("人员考勤通讯录");
+        mLeftTextView.setText("人员考勤");
         mLeftTextView.setVisibility(View.VISIBLE);
         mLeftTextView.setOnClickListener(new View.OnClickListener() {
             @Override

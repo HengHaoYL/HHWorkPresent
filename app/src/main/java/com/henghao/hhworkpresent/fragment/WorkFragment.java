@@ -90,11 +90,11 @@ public class WorkFragment extends FragmentSupport {
              }
         }
 
-        //第七个
+        /*//第七个
         AppGridEntity mEntity7 = new AppGridEntity();
         mEntity7.setImageId(R.drawable.item_add);
         mEntity7.setName("添加");
-        mList.add(mEntity7);
+        mList.add(mEntity7);*/
         WorkGridAdapter adapter = new WorkGridAdapter(this.mActivity,mList);
         gridview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
