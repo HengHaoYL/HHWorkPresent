@@ -313,20 +313,29 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 清单流程界面 -->
+        <activity
+            android:name=".activity.ListProcessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
 
-        <!-- 办公任务界面 -->
         <activity
-            android:name=".activity.BangGongRWActivity"
+            android:name=".activity.ListModelOneActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
-        <!-- 车辆审批界面 -->
+
         <activity
-            android:name=".activity.CheliangSPActivity"
+            android:name=".activity.ListModelTwoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
-        <!-- 邮箱界面 -->
+
         <activity
-            android:name=".activity.EmailActivity"
+            android:name=".activity.ListModelThreeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <activity
+            android:name=".activity.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
@@ -414,18 +423,6 @@
         <!-- 补签申请界面 -->
         <activity
             android:name=".activity.BuqianActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
-        <!-- 行政执法界面 -->
-        <activity
-            android:name=".activity.XingZhenZFActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
-        <!-- 行政审批界面 -->
-        <activity
-            android:name=".activity.XingZhenSPActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 

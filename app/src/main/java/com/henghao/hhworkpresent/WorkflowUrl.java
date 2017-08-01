@@ -22,6 +22,12 @@ public class WorkflowUrl {
     public static final String WORKFLOW_VIEW_URL = ROOT_URL + "/hz7/resource/skins/bootstrap/view/datatables/view.datatables.jsp?loginName=";
 
     /**
+     * 清单流程界面url + formid
+     */
+    public static final String WORKFLOW_LIST_VIEW_URL = ROOT_URL + "/hz7/horizon/template/form/default.wf?loginName=";
+
+
+    /**
      * 车辆预定  flowId
      */
     public static final String CHELIANG_FLOWID = "&viewid=HZ28811a554ddf6401554e0f63eb02db";
@@ -130,5 +136,30 @@ public class WorkflowUrl {
      * 领导去向  viewId
      */
     public static final String LINGDAOQUXIANG_VIEWID = "&viewid=HZ9080b95b6b5431015b6b7cba8c03e3";
+
+    /**
+     * 负面清单相关法律法规  formid
+     */
+    public static final String FMQDXGFLFG_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d56501";
+
+    /**
+     * 贵阳市安监局负面清单  formid
+     */
+    public static final String GYSAJJFMQD_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d56502";
+
+    /**
+     * 生态委对机关工作人员和委属单位主要负责人实行“负面清单”管理工作细则1008  formid
+     */
+    public static final String STWFMQD_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d56503";
+
+    /**
+     * 企业负面清单3.28二处  formid
+     */
+    public static final String QYFMQD_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d56504";
+
+    /**
+     * 贵阳市安全生产监督管理局权力清单和责任清单目录  formid
+     */
+    public static final String ZRQDMF_FORMID = "&formid=HZ8bb0c95d10de97015d62bfcb2613cd";
 
 }

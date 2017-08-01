@@ -13,6 +13,7 @@ import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
+import com.henghao.hhworkpresent.activity.ListProcessActivity;
 import com.henghao.hhworkpresent.activity.RenyuanKaoqingActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
 import com.henghao.hhworkpresent.activity.WorkTrajectoryActivity;
@@ -120,6 +121,11 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                         mActivityFragmentSupport.startActivity(intent);
                         break;
                     case 5:
+                        //清单流程
+                        intent.setClass(mActivityFragmentSupport,ListProcessActivity.class);
+                        mActivityFragmentSupport.startActivity(intent);
+                        break;
+                    case 6:
                         //人员考勤
                         intent.setClass(mActivityFragmentSupport,RenyuanKaoqingActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
