@@ -2,7 +2,6 @@ package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -181,11 +180,9 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
     @Override
     public void OnMessageResponse(String url, Object jo, AjaxStatus status) throws JSONException {
         super.OnMessageResponse(url, jo, status);
-        Log.d("wangqingbin","jo=="+jo);
         if (jo instanceof BaseEntity) {
             BaseEntity base = (BaseEntity) jo;
             msg(base.getMsg());
-            Log.d("wangqingbin","msg=="+base.getMsg());
             setResult(RESULT_OK);
             finish();
             return;

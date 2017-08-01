@@ -516,7 +516,6 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
                 String result_str = response.body().string();
                 //result_str=={"id":20170530,"date":"2017-05-30","status":"法定假日"}
                 // {"id":20170528,"date":"2017-05-28","status":"周末"}
-                Log.d("wangqingbin","result_str=="+result_str);
                 //如果是空，  result_str.length()==0这个判断才有用
                 mHandler.post(new Runnable() {
                     @Override

@@ -220,7 +220,6 @@ public class GongGaoActivity extends ActivityFragmentSupport {
             List<GonggaoEntity> homedata = (List<GonggaoEntity>) jo;
             unReadData.clear();
             unReadData.addAll(homedata);
-            Log.d("wangqingbin","homedata.size=="+homedata.size());
             mUnReadAdaper.notifyDataSetChanged();
         } else if(url.endsWith(ProtocolUrl.APP_QUERY_READ_GONGGAO)){
             if (jo instanceof BaseEntity) {

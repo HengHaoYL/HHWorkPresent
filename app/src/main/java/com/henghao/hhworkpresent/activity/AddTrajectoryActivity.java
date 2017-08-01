@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -175,7 +174,6 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
             }*/
             multipartBuilder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
         }
-        Log.d("wangqingbin","循环后");
         RequestBody requestBody = multipartBuilder.build();
         Request request = builder.post(requestBody).url(ProtocolUrl.ROOT_URL + ProtocolUrl.APP_UPLOAD_WORK_TRAJECTORY).build();
         mActivityFragmentView.viewLoading(View.VISIBLE);
