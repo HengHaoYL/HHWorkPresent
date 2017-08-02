@@ -162,4 +162,109 @@ public class WorkflowUrl {
      */
     public static final String ZRQDMF_FORMID = "&formid=HZ8bb0c95d10de97015d62bfcb2613cd";
 
+    /**
+     * 非煤矿山安全生产许可证核发审查流程  formid
+     */
+    public static final String FLOW1_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d56509";
+
+    /**
+     * 非煤矿山建设项目安全设施设计审查  formid
+     */
+    public static final String FLOW2_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d5650a";
+
+    /**
+     * 非药品类易制毒化学品生产经营备案流程  formid
+     */
+    public static final String FLOW3_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d5650b";
+
+    /**
+     * 建设项目职业病防护设施设计审查  formid
+     */
+    public static final String FLOW4_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d5650c";
+
+    /**
+     * 建设项目职业病危害防护设施竣工备案  formid
+     */
+    public static final String FLOW5_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d5650d";
+
+    /**
+     * 建设项目职业病危害防护设施竣工验收  formid
+     */
+    public static final String FLOW6_FORMID = "&formid=HZ8bb0c95d10de97015d534db1d5650e";
+
+    /**
+     * 建设项目职业病危害预评价报告审核  formid
+     */
+    public static final String FLOW7_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068aa";
+
+    /**
+     * 生产经营单位应急救援预案备案  formid
+     */
+    public static final String FLOW8_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068ab";
+
+    /**
+     * 危险化学品安全生产许可证初审流程  formid
+     */
+    public static final String FLOW9_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068ac";
+
+    /**
+     * 危险化学品安全使用许可流程  formid
+     */
+    public static final String FLOW10_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068ad";
+
+    /**
+     * 危险化学品建设项目安全设施设计审查流程  formid
+     */
+    public static final String FLOW11_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068ae";
+
+    /**
+     * 危险化学品建设项目安全条件审查流程  formid
+     */
+    public static final String FLOW12_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068af";
+
+    /**
+     * 危险化学品建设项目试生产（使用）方案备案流程  formid
+     */
+    public static final String FLOW13_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068b0";
+
+    /**
+     * 危险化学品经营许可流程  formid
+     */
+    public static final String FLOW14_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068b1";
+
+    /**
+     * 烟花爆竹经营（批发）许可审查流程  formid
+     */
+    public static final String FLOW15_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068b2";
+
+    /**
+     * 用人单位职业病危害现状评价报告备案  formid
+     */
+    public static final String FLOW16_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068b3";
+
+    /**
+     * 用人单位主要负责人和管理人员职业卫生培训考核  formid
+     */
+    public static final String FLOW17_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068b4";
+
+    /**
+     * 职业病危害项目申报审核  formid
+     */
+    public static final String FLOW18_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068b5";
+
+    /**
+     * 职业病危害预评价报告备案  formid
+     */
+    public static final String FLOW19_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068b6";
+
+    /**
+     * 职业卫生安全许可证书颁发  formid
+     */
+    public static final String FLOW20_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068b7";
+
+    /**
+     * 职业卫生技术服务机构丙级资质认可和颁发证书  formid
+     */
+    public static final String FLOW21_FORMID = "&formid=HZ8bb0c95d10de97015d539f90a068b8";
+
 }
