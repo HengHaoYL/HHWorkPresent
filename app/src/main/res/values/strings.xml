@@ -69,4 +69,13 @@
     <string name="updateing_hint">新版本下载</string>
     <string name="title_activity_login">登录</string>
 
+    <string-array name="spingarr">
+        <item>全部</item>
+        <item>北京</item>
+        <item>上海</item>
+        <item>广州</item>
+        <item>深圳</item>
+    </string-array>
+
+
 </resources>

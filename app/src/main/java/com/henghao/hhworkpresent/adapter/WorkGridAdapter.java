@@ -12,11 +12,13 @@ import android.widget.TextView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.activity.JianchaTaskActivity;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
 import com.henghao.hhworkpresent.activity.ListProcessActivity;
 import com.henghao.hhworkpresent.activity.RenyuanKaoqingActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
 import com.henghao.hhworkpresent.activity.WorkTrajectoryActivity;
+import com.henghao.hhworkpresent.activity.XunchaJianchaActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -126,6 +128,11 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                         mActivityFragmentSupport.startActivity(intent);
                         break;
                     case 6:
+                        //巡查检查
+                        intent.setClass(mActivityFragmentSupport,XunchaJianchaActivity.class);
+                        mActivityFragmentSupport.startActivity(intent);
+                        break;
+                    case 7:
                         //人员考勤
                         intent.setClass(mActivityFragmentSupport,RenyuanKaoqingActivity.class);
                         mActivityFragmentSupport.startActivity(intent);

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DDDDDD">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp">
+
+        <EditText
+            android:layout_weight="10"
+            android:id="@+id/edittext_search"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/icon_search_bg"
+            android:hint="输入你要查询的企业名称"
+            android:maxLength="10"
+            android:paddingLeft="15dp"
+            android:singleLine="true"
+            android:textSize="12sp" />
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btn_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:background="#2292DD"
+            android:text="搜索"/>
+
+    </LinearLayout>
+
+    <com.benefit.buy.library.views.xlistview.XListView
+        android:id="@+id/company_listview"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.benefit.buy.library.views.xlistview.XListView>
+
+</LinearLayout>

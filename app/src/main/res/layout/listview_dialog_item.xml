@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#fff">
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_marginLeft="10dp"
+            android:focusableInTouchMode="false" />
+
+        <TextView
+            android:layout_toRightOf="@id/checkBox"
+            android:id="@+id/tv_descript_title"
+            android:padding="5dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="标题"/>
+
+        <TextView
+            android:id="@+id/tv_descript"
+            android:layout_below="@id/checkBox"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="测试内容"/>
+    </RelativeLayout>
+
+</LinearLayout>

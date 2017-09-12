@@ -474,6 +474,42 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <!-- 巡查检查界面 -->
+        <activity
+            android:name=".activity.XunchaJianchaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 我要检查界面 -->
+        <activity
+            android:name=".activity.WoyaoJianchaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 添加检查任务界面 -->
+        <activity
+            android:name=".activity.AddJianchaTaskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 添加检查任务界面第二级 -->
+        <activity
+            android:name=".activity.JianchaTaskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 执法检查标准界面 -->
+        <activity
+            android:name=".activity.JianchaStandardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 新增隐患界面 -->
+        <activity
+            android:name=".activity.AddYinhuanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
     </application>
 
 </manifest>

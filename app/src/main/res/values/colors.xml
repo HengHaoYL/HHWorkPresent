@@ -67,4 +67,9 @@
 
     <color name="main_color">#51aaed</color>
 
+    <color name="dropdownlist_bg">#d5c9b9</color>
+    <color name="dropdownlist_press">#9d9087</color>
+    <color name="dropdownlist_item">#f2eada</color>
+    <color name="dropdownlist_item_press">#c1b5b7</color>
+
 </resources>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:id="@+id/xuncha_tabhost">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TabWidget
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@android:id/tabs"></TabWidget>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@android:id/tabcontent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/frame_woyaojiancha"
+                android:orientation="vertical">
+                <com.benefit.buy.library.views.xlistview.XListView
+                    android:id="@+id/listview_woyaojiancha"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="@color/transparent"
+                    android:divider="@color/transparent"
+                    android:fadingEdge="none"
+                    android:listSelector="@drawable/list_selector_transition"
+                    android:splitMotionEvents="false" />
+            </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/frame_woyaofucha"
+            android:orientation="vertical">
+            <com.benefit.buy.library.views.xlistview.XListView
+                android:id="@+id/listview_woyaofucha"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="@color/transparent"
+                android:divider="@color/transparent"
+                android:fadingEdge="none"
+                android:listSelector="@drawable/list_selector_transition"
+                android:splitMotionEvents="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/frame_diaochaquzheng"
+                android:orientation="vertical">
+                <com.benefit.buy.library.views.xlistview.XListView
+                    android:id="@+id/listview_diaochaquzheng"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="@color/transparent"
+                    android:divider="@color/transparent"
+                    android:fadingEdge="none"
+                    android:listSelector="@drawable/list_selector_transition"
+                    android:splitMotionEvents="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/frame_lishijilu"
+                android:orientation="vertical">
+                <com.benefit.buy.library.views.xlistview.XListView
+                    android:id="@+id/listview_lishijilu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="@color/transparent"
+                    android:divider="@color/transparent"
+                    android:fadingEdge="none"
+                    android:listSelector="@drawable/list_selector_transition"
+                    android:splitMotionEvents="false" />
+            </LinearLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <!--黑色背景遮罩层，平时隐藏 -->
+    <View
+        android:id="@+id/gray_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#66000000"/>
+</TabHost>
