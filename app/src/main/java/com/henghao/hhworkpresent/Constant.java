@@ -24,6 +24,11 @@ public class Constant {
 
 
 	/**
+	 * 按下保存键
+	 */
+	public static final String PRESS_SAVE_BUTTON = "press save button";
+
+	/**
 	 * 停止服务
 	 */
 	public static final String STOP_REALTIMESERVICE = "stop realtimeService";

@@ -510,6 +510,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 查看隐患信息界面 -->
+        <activity
+            android:name=".activity.QueryYinhuanInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
     </application>
 
 </manifest>

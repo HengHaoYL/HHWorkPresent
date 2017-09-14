@@ -5,15 +5,15 @@
     android:orientation="vertical">
     <TextView
         android:id="@+id/text1"
-        android:layout_width="200dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="对企业的检查任务"/>
+        android:text="重大"/>
     <TextView
         android:id="@+id/text2"
-        android:layout_width="200dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="添加一起事件"/>
+        android:text="一般"/>
 
 </LinearLayout>

@@ -1,29 +1,49 @@
 package com.henghao.hhworkpresent.activity;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
 import com.benefit.buy.library.utils.DigestUtils;
+import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.adapter.JianchaYinhuanListAdpter;
 import com.henghao.hhworkpresent.entity.CompanyInfoEntity;
 import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
 import com.henghao.hhworkpresent.entity.JianchaPersonalEntity;
+import com.henghao.hhworkpresent.entity.JianchaYinhuanEntity;
+import com.henghao.hhworkpresent.service.RealTimeService;
 import com.henghao.hhworkpresent.views.CustomDialog;
+import com.henghao.hhworkpresent.views.YinhuanDatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,8 +77,23 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_start_check)
     private TextView tv_start_check;
 
+    @ViewInject(R.id.tv_company_name_detail)
+    private TextView tv_company_name_detail;
+
     @ViewInject(R.id.image_proplem_list_up)
     private ImageView image_proplem_list_up;
+
+    @ViewInject(R.id.imageview_woyaojiancha)
+    private ImageView imageview_woyaojiancha;
+
+    @ViewInject(R.id.tv_woyao_checked_save)
+    private TextView tv_woyao_checked_save;
+
+    @ViewInject(R.id.tv_woyao_checked_cancel)
+    private TextView tv_woyao_checked_cancel;
+
+    @ViewInject(R.id.check_yinhuan_listview)
+    private ListView check_yinhuan_listview;
 
     @ViewInject(R.id.layout_problem_list)
     private LinearLayout layout_problem_list;
@@ -68,6 +103,21 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
     private CompanyInfoEntity.DataBean dataBean;
     private JianchaPersonalEntity jianchaPersonalEntity;
     private List<JianchaMaterialEntity> mJianchaMaterialEntityList;
+
+    private List<JianchaYinhuanEntity> mJianchaYinhuanEntityList;
+    private JianchaYinhuanListAdpter jianchaYinhuanListAdpter;
+
+    private ArrayList<String> mSelectPath;
+
+    private static final int REQUEST_IMAGE = 0x00;
+
+    private static final int REQUEST_CONTACTS = 0x01;
+
+    private ArrayList<String> mImageList=new ArrayList<>();
+
+    private ArrayList<File> mFileList = new ArrayList<>();//被选中的图片文件
+
+    private MyReceiver myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +144,16 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         mCenterTextView.setVisibility(View.VISIBLE);
 
         image_proplem_list_up.setImageResource(R.drawable.icon_down);
+
+        check_yinhuan_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.setClass(WoyaoJianchaActivity.this,QueryYinhuanInfoActivity.class);
+                intent.putExtra("JianchaYinhuanEntity",mJianchaYinhuanEntityList.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -107,15 +167,36 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         tv_company_name.setText(dataBean.getEntname());
         tv_company_type.setText(dataBean.getIndustry1());
         tv_check_time.setText(checktime);
+
+        mJianchaYinhuanEntityList = new ArrayList<>();
+
+        myReceiver = new MyReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.PRESS_SAVE_BUTTON);
+        registerReceiver(myReceiver,filter);
     }
 
-    @OnClick({R.id.tv_personal_login,R.id.tv_start_check,R.id.image_proplem_list_up})
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myReceiver);
+    }
+
+    @OnClick({R.id.tv_personal_login,R.id.tv_start_check,R.id.image_proplem_list_up, R.id.tv_company_name_detail,
+            R.id.imageview_woyaojiancha,R.id.tv_woyao_checked_save,R.id.tv_woyao_checked_cancel})
     private void viewOnClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()) {
+            case R.id.imageview_woyaojiancha:
+                choosePicture();
+                break;
             case R.id.tv_personal_login:  //陪同检查人员登录
                 showLoginDialog();
                 break;
             case R.id.tv_start_check:  //打开标准逐项排查
+                //删除隐患数据库，把之前的删除
+                deleteDatabase("threat_info.db");
+
                 if(et_check_scene.getText().toString()==null){
                     Toast.makeText(WoyaoJianchaActivity.this,"请填写检查现场",Toast.LENGTH_SHORT).show();
                     return;
@@ -128,7 +209,6 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                     Toast.makeText(WoyaoJianchaActivity.this,"请登录陪同执法人员",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent intent = new Intent();
                 intent.putExtra("mSelectDescriptData",(Serializable) mJianchaMaterialEntityList);
                 intent.setClass(this,JianchaStandardActivity.class);
                 startActivity(intent);
@@ -144,7 +224,59 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                     isProblemListOpen = true;
                 }
                 break;
+            case R.id.tv_company_name_detail:   //点击详细资料
+                intent.setClass(this,QueryYinhuanInfoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_woyao_checked_save:    //保存并打开现场检查文书
+                //先进行保存操作
+                break;
+            case R.id.tv_woyao_checked_cancel:  //取消  跳转到添加检查任务界面
+                intent.setClass(this,AddJianchaTaskActivity.class);
+                startActivity(intent);
+                //删除隐患数据库，以防下次重新进入的时候还存在原来的数据
+                deleteDatabase("threat_info.db");
+                finish();
+                break;
         }
+    }
+
+    class MyReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            //监听检查标准页面保存键
+            if((Constant.PRESS_SAVE_BUTTON).equals(action)){
+                mJianchaYinhuanEntityList = queryAllToThreat();
+                setListViewHeightBasedOnChildren(check_yinhuan_listview);
+                jianchaYinhuanListAdpter = new JianchaYinhuanListAdpter(WoyaoJianchaActivity.this,mJianchaYinhuanEntityList);
+                check_yinhuan_listview.setAdapter(jianchaYinhuanListAdpter);
+                jianchaYinhuanListAdpter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * 从threat表中查询所有数据
+     */
+    public List<JianchaYinhuanEntity> queryAllToThreat(){
+        String sql = "select * from threat";
+        YinhuanDatabaseHelper databaseHelper = new YinhuanDatabaseHelper(this,"threat_info.db");
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        List<JianchaYinhuanEntity> jianchaYinhuanEntityList = new ArrayList<JianchaYinhuanEntity>();
+        JianchaYinhuanEntity jianchaYinhuanEntity = null;
+        Cursor cursor = db.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            jianchaYinhuanEntity = new JianchaYinhuanEntity();
+            jianchaYinhuanEntity.setThreat_time(cursor.getString(cursor.getColumnIndex("threat_time")));
+            jianchaYinhuanEntity.setThreat_degree(cursor.getString(cursor.getColumnIndex("threat_degree")));
+            jianchaYinhuanEntity.setThreat_position(cursor.getString(cursor.getColumnIndex("threat_position")));
+            jianchaYinhuanEntity.setThreat_description(cursor.getString(cursor.getColumnIndex("threat_description")));
+            jianchaYinhuanEntity.setThreat_imagepath(cursor.getString(cursor.getColumnIndex("threat_imagepath")));
+            jianchaYinhuanEntityList.add(jianchaYinhuanEntity);
+        }
+        return jianchaYinhuanEntityList;
     }
 
     /**
@@ -168,6 +300,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                             if(jianchaPersonalEntity.getLoginid().equals(et_person_username.getText().toString()) &&
                                     jianchaPersonalEntity.getPassword().equals(DigestUtils.md5(et_person_password.getText().toString()))){
                                 tv_check_people.setText(jianchaPersonalEntity.getName());
+                                tv_personal_login.setVisibility(View.GONE);
                             }else{
                                 et_person_username.setText("");
                                 et_person_password.setText("");
@@ -183,4 +316,80 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         }).create().show();
     }
 
+    public void choosePicture(){
+        // 查看session是否过期
+        // int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
+        //设置单选模式
+        int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
+        int maxNum = 9;
+        Intent picIntent = new Intent(this, MultiImageSelectorActivity.class);
+        // 是否显示拍摄图片
+        picIntent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+        // 最大可选择图片数量
+        picIntent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, maxNum);
+        // 选择模式
+        picIntent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, selectedMode);
+        // 默认选择
+        if ((this.mSelectPath != null) && (this.mSelectPath.size() > 0)) {
+            picIntent.putExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, this.mSelectPath);
+        }
+        startActivityForResult(picIntent, REQUEST_IMAGE);
+    }
+
+    private String getImageName(String url) {
+        return url.substring(url.lastIndexOf("/") + 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            if (requestCode == REQUEST_IMAGE) {
+                if ((resultCode == Activity.RESULT_OK) || (resultCode == Activity.RESULT_CANCELED)) {
+                    this.mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                    if (!ToolsKit.isEmpty(this.mSelectPath)) {
+                        List<String> fileNames = new ArrayList<>();
+                        mImageList.clear();
+                        mFileList.clear();
+                        for (String filePath : mSelectPath) {
+                            String imageName = getImageName(filePath);
+                            fileNames.add(imageName);
+                            File file = new File(filePath);
+                            mFileList.add(file);
+                            Bitmap bm = BitmapFactory.decodeFile(filePath);
+                            //设置图片
+                            imageview_woyaojiancha.setImageBitmap(bm);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 根据Item数设定ListView高度
+     * @param listView
+     */
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * listAdapter.getCount());
+        listView.setLayoutParams(params);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //删除隐患数据库，以防下次重新进入的时候还存在原来的数据
+        deleteDatabase("threat_info.db");
+    }
 }

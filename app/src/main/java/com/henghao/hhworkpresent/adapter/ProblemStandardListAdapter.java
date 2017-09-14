@@ -46,7 +46,7 @@ public class ProblemStandardListAdapter extends BaseAdapter {
         return position;
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         HodlerView mHodlerView = null;
         if (convertView == null) {
             mHodlerView = new HodlerView();
@@ -75,14 +75,16 @@ public class ProblemStandardListAdapter extends BaseAdapter {
                 }
             }
         });
-        mHodlerView.tv_add_yinhuan.setOnClickListener(new View.OnClickListener() {
+        /*mHodlerView.tv_add_yinhuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HodlerView.radio_not_conform.setChecked(!mList.get(position).isChecked());
+                HodlerView.radio_conform.setChecked(mList.get(position).isChecked());
                 Intent intent = new Intent();
                 intent.setClass(mContext,AddYinhuanActivity.class);
                 mContext.startActivity(intent);
             }
-        });
+        });*/
         return convertView;
     }
 

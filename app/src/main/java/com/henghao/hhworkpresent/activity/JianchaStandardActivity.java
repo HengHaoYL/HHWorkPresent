@@ -2,6 +2,7 @@ package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -10,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.ProblemStandardListAdapter;
 import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
@@ -62,10 +64,13 @@ public class JianchaStandardActivity extends ActivityFragmentSupport {
         tv_standard_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //发送保存键按下的广播
+                Intent intent = new Intent();
+                intent.setAction(Constant.PRESS_SAVE_BUTTON);
+                sendBroadcast(intent);
+                finish();
             }
         });
-
     }
 
     @Override

@@ -44,11 +44,11 @@
                     android:textSize="15dp"
                     android:text="计划检查人员"/>
                 <TextView
+                    android:id="@+id/tv_login_check_person"
                     android:layout_marginLeft="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:text="董杨"/>
+                    android:textSize="15dp" />
             </LinearLayout>
 
             <LinearLayout

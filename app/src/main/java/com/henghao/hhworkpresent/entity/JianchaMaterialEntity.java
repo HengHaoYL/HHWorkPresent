@@ -11,6 +11,7 @@ public class JianchaMaterialEntity implements Serializable {
 
     private String title;
     private String descript;
+    private boolean isChecked;
 
     public String getTitle() {
         return title;
@@ -24,6 +25,14 @@ public class JianchaMaterialEntity implements Serializable {
         return descript;
     }
 
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
     public void setDescript(String descript) {
         this.descript = descript;
     }
@@ -33,6 +42,7 @@ public class JianchaMaterialEntity implements Serializable {
         return "JianchaMaterialEntity{" +
                 "title='" + title + '\'' +
                 ", descript='" + descript + '\'' +
+                ", isChecked=" + isChecked +
                 '}';
     }
 }

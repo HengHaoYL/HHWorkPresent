@@ -160,6 +160,7 @@ public class XunchaJianchaActivity extends ActivityFragmentSupport {
                 Intent intent = new Intent();
                 intent.setClass(XunchaJianchaActivity.this,AddJianchaTaskActivity.class);
                 startActivity(intent);
+                mPopupWindow.dismiss();
             }
         });
         isPopWindowShowing=true;
