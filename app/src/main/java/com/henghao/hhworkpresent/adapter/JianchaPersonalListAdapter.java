@@ -66,7 +66,7 @@ public class JianchaPersonalListAdapter extends BaseAdapter {
             mHodlerView = (HodlerView) convertView.getTag();
         }
         mHodlerView.tv_personal_name.setText(mList.get(position).getName());
-        mHodlerView.tv_personal_cidno.setText(mList.get(position).getCidno());
+        mHodlerView.tv_personal_cidno.setText(mList.get(position).getEmp_NUM());
         mHodlerView.tv_personal_phone.setText(mList.get(position).getPhone());
         // 根据isSelected来设置checkbox的选中状况
         mHodlerView.personal_checkbox.setChecked(getIsSelected().get(position));

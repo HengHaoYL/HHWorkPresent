@@ -34,7 +34,9 @@ import com.henghao.hhworkpresent.entity.CompanyInfoEntity;
 import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
 import com.henghao.hhworkpresent.entity.JianchaPersonalEntity;
 import com.henghao.hhworkpresent.entity.JianchaYinhuanEntity;
+import com.henghao.hhworkpresent.entity.SceneJianchaEntity;
 import com.henghao.hhworkpresent.service.RealTimeService;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.henghao.hhworkpresent.views.YinhuanDatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
@@ -230,6 +232,8 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                 break;
             case R.id.tv_woyao_checked_save:    //保存并打开现场检查文书
                 //先进行保存操作
+
+                bindingDataToSceneJianchaActivity();
                 break;
             case R.id.tv_woyao_checked_cancel:  //取消  跳转到添加检查任务界面
                 intent.setClass(this,AddJianchaTaskActivity.class);
@@ -239,6 +243,57 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                 finish();
                 break;
         }
+    }
+
+    /**
+     * 传递数据并打开页面
+     */
+    public void bindingDataToSceneJianchaActivity(){
+        String checkUnit = tv_company_name.getText().toString();    //被检查单位
+        String checkAddress = dataBean.getProductaddress();         //单位地址
+        String legalRepresentative = dataBean.getLegalpeople();     //法定代表人
+        String legalDuty = null;      //法定代表人职务没有找到
+        String contactNumber =  dataBean.getLegalmobilephone();     //法定代表人联系电话
+        String checkSite =  et_check_scene.getText().toString();    //检查场所
+        String checkTime = tv_check_time.getText().toString();      //检查时间
+        String cityName = null;   //市的名字 先暂时为Null
+        String checkPeople1 = new SqliteDBUtils(this).getLoginFirstName()+ new SqliteDBUtils(this).getLoginGiveName();  //检查人员1 也就是系统登录人员
+        String checkPeople2 = jianchaPersonalEntity.getName();  //检查人员2 也就是被选中的执法人员
+        String documentsId1 = null;  // =  执法人员1 的编号 也就是系统登录人员的员工编号
+        String documentsId2 = jianchaPersonalEntity.getEmp_NUM(); //执法人员2 的证件号
+        String checkCase = null;  // = 检查情况 没有数据
+        List<JianchaYinhuanEntity> checkYinhuanList = mJianchaYinhuanEntityList;    //被选中的检查问题隐患
+        String checkSignature11 = new SqliteDBUtils(this).getLoginFirstName()+ new SqliteDBUtils(this).getLoginGiveName();  //检查人员1的签名
+        String checkSignature12 = jianchaPersonalEntity.getName();  //检查人员2的签名
+        String beCheckedPeople = et_check_person.getText().toString();  //被检查企业现场负责人
+        String recordingTime = tv_check_time.getText().toString();
+
+        SceneJianchaEntity sceneJianchaEntity = new SceneJianchaEntity();
+        sceneJianchaEntity.setCheckUnit(checkUnit);
+        sceneJianchaEntity.setCheckAddress(checkAddress);
+        sceneJianchaEntity.setLegalRepresentative(legalRepresentative);
+        sceneJianchaEntity.setLegalDuty(legalDuty);
+        sceneJianchaEntity.setContactNumber(contactNumber);
+        sceneJianchaEntity.setCheckSite(checkSite);
+        sceneJianchaEntity.setCheckTime(checkTime);
+        sceneJianchaEntity.setCityName(cityName);
+        sceneJianchaEntity.setCheckPeople1(checkPeople1);
+        sceneJianchaEntity.setCheckPeople2(checkPeople2);
+        sceneJianchaEntity.setDocumentsId1(documentsId1);
+        sceneJianchaEntity.setDocumentsId2(documentsId2);
+        sceneJianchaEntity.setCheckCase(checkCase);
+        sceneJianchaEntity.setCheckYinhuanList(checkYinhuanList);
+        sceneJianchaEntity.setCheckSignature11(checkSignature11);
+        sceneJianchaEntity.setCheckSignature12(checkSignature12);
+        sceneJianchaEntity.setBeCheckedPeople(beCheckedPeople);
+        sceneJianchaEntity.setRecordingTime(recordingTime);
+
+        Intent intent = new Intent();
+        intent.setClass(this, SceneJianchaActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putSerializable("sceneJianchaEntity", sceneJianchaEntity);
+        intent.putExtras(mBundle);
+        startActivity(intent);
     }
 
     class MyReceiver extends BroadcastReceiver {

@@ -516,6 +516,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 现场检查界面 -->
+        <activity
+            android:name=".activity.SceneJianchaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
     </application>
 
 </manifest>

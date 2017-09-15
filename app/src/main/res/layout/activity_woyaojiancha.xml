@@ -288,19 +288,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <LinearLayout
+                    <ListView
+                        android:id="@+id/check_yinhuan_listview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <ListView
-                            android:id="@+id/check_yinhuan_listview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:cacheColorHint="@color/transparent"
-                            android:divider="@color/transparent"
-                            android:fadingEdge="none"
-                            android:listSelector="@drawable/list_selector_transition">
-                        </ListView>
-                    </LinearLayout>
+                        android:layout_height="180dp"
+                        android:cacheColorHint="@color/transparent"
+                        android:divider="@color/transparent"
+                        android:fadingEdge="none"
+                        android:listSelector="@drawable/list_selector_transition">
+                    </ListView>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="100dp">

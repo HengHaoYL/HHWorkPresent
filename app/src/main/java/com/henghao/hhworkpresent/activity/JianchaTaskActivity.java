@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.BaseManageGridAdapter;
 import com.henghao.hhworkpresent.adapter.DescriptListAdapter;
@@ -29,6 +30,8 @@ import com.henghao.hhworkpresent.entity.CompanyInfoEntity;
 import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
 import com.henghao.hhworkpresent.entity.JianchaPersonalEntity;
 import com.henghao.hhworkpresent.entity.JianchaTeamEntity;
+import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
+import com.henghao.hhworkpresent.utils.JSONHelper;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
@@ -39,8 +42,11 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.json.JSONException;
@@ -627,6 +633,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     return;
                 }
                 //进行保存操作
+                saveToService();
                 break;
             case R.id.tv_descript_save_into:  //保存并进入检查登记
                 if(tv_personal.getText().toString().equals("")
@@ -650,6 +657,54 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
 
         }
     }
+
+    /**
+     * Post 请求提交Json
+     * 保存数据到服务器
+     */
+    public void saveToService(){
+        String company_name = tv_company_name.getText().toString();
+        String checkPeople1 = tv_login_check_person.getText().toString();
+        String checkPeople2 = tv_personal.getText().toString();
+        String checkTime = et_check_time.getText().toString();
+        List<JianchaMaterialEntity> jianchaMaterialEntityList =  mSelectDescriptData;
+        SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
+        saveCheckTaskEntity.setCompany_name(company_name);
+        saveCheckTaskEntity.setCheckPeople1(checkPeople1);
+        saveCheckTaskEntity.setCheckPeople2(checkPeople2);
+        saveCheckTaskEntity.setCheckTime(checkTime);
+        saveCheckTaskEntity.setJianchaMaterialEntityList(jianchaMaterialEntityList);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        //这个要和服务器保持一致 application/json;charset=UTF-8
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),JSONHelper.toJSON(saveCheckTaskEntity));
+        Request request = builder.post(requestBody).url("http://172.16.0.81:8080/istration/enforceapp/savePlan").build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e){
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msg("网络请求错误！");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                Intent intent = new Intent();
+                intent.setClass(JianchaTaskActivity.this,XunchaJianchaActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+    }
+
 
     /**
      * 展示单选对话框
@@ -768,7 +823,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
         jianchaTeamEntityList = new ArrayList<>();
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        String request_url = "http://172.16.0.81:8080/tongji/firmdate/querytroop";
+        String request_url = "http://172.16.0.81:8080/istration/firmdate/querytroop";
         Request request = builder.url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -804,7 +859,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
     private void httpRequestJianchaPersonalInfo(String teamId){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        String request_url = "http://172.16.0.81:8080/tongji/firmdate/querytroopemp?id="+teamId;
+        String request_url = "http://172.16.0.81:8080/istration/firmdate/querytroopemp?id="+teamId;
         Request request = builder.url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+		<title>现场检查</title>
+	</head>
+	<style>
+		body{ font-size: 15px; background: #eaeff3;}
+		ul{ margin: 0; padding: 0; list-style: none;}
+		.fl{ float: left;}
+		.fr{ float: right;}
+		input[type='text']{ border: none; border-bottom: solid 1px #000000; outline: none; font-size: 1rem;}
+		.safe_all{ width: 100%; height: auto; margin: 0.5rem auto; background: #FFFFFF;}
+		.safe_top{ width: 100%; height: 3rem;}
+		.safe_couent{ width: 95%; margin: 0 auto;}
+		.header1{ font-size: 1rem; line-height: 1.5rem; font-weight: bold; border-bottom: solid 2px #000000; text-align: center;}
+		.header1 span{ padding-bottom: 5px;}
+		.header2{ font-size: 1rem; font-weight: bold;  text-align: center;}
+		.zhengwen{ width: 100%; height: auto; margin-top: 1rem; font-size: 1rem;}
+		.zhengwen ul li{  line-height: 3rem; margin-top: 1rem;}
+		.dw_div1{ width: 25%;  float: left; text-align: left;}
+		.dw_div2{ width: 75%;  float: left; text-align: left;}
+		.dw_div2 input{ width: 100%; height: 1rem; font-size: 2.2rem; border: none; border-bottom: solid 1px #000000;  }
+	
+		.dz_div1{ width: 25%;  float: left; text-align: left;}
+		.dz_div2{ width: 75%;  float: left; text-align: left;}
+		.dz_div2 input{ width: 100%; height: 1rem;
+		 font-size: 1rem; border: none; border-bottom: solid 1px #000000;  }
+		
+		.fdr{ width: 38%;}
+		.fdr_inp{ width: 62%;}
+		.fdr_inp input{ width: 100%;}
+		
+		.zw{ width: 12%;}
+		.zw_inp{ width: 38%;}
+		.zw_inp input{ width: 100%;}
+		.phone{ width: 12%;}
+		.phone_inp{ width: 38%;}
+		.phone_inp input{ width: 100%;}
+		
+		.my{ margin-left: 8%;}
+		.gys{ width: 30%;}
+		.gys input{ width: 100%;}
+		
+		.man1{ width: 30%; }
+		.man1 input{ width: 100%; }
+		.dian{ width: 10%; text-align: center;}
+		.man2{ width: 30%; }
+		.man2 input{ width: 100%; }
+		
+		.card1{ width: 45%;}
+		.card1 input{ width: 100%;}
+		
+		.card_chushi{ width: 100%;}
+		
+		.jcqk1{ width: 30%; text-align: right;}
+		.jcqk2{ width: 70%;}
+		.jcqk2 input{ width: 100%;}
+		
+		.quan_inp{ width: 100%;}
+		.quan_inp input{ width: 100%;}
+		
+		.qianzi1{ width: 29%;}
+		.qianzi1 input{ width: 100%;}
+		
+		.fzr_qz1{ width: 35%;}
+		.fzr_qz2{ width: 65%;}
+		.fzr_qz2 input{ width: 100%;}
+		.gognzhang{ width: 100%; font-size: 0.9rem; text-align: right;}
+		.shijian{ width: 100%; font-size: 0.9rem; text-align: right;}
+		.shijian a{ text-decoration: underline;}
+		
+		.xian{ width: 90%; margin: 0 auto; height: 2px; background: #676767;}
+		.fottom_yejiao{ width: 90%; margin: 0 auto;font-size: 0.7rem;}
+	</style>
+	<body>
+		<div class="safe_all">
+			<div class="safe_top"></div>
+			<div class="safe_couent">
+				<div class="header1">
+					<span>安全生产行政执法文书</span>
+				</div>
+				<div class="header2">
+					现场检查记录
+				</div>
+				<div class="zhengwen">
+					<ul>
+						<li>
+							<div class="dw_div1">检查单位：</div>
+							<div class="dw_div2">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							<div class="dz_div1">地址：</div>
+							<div class="dz_div2">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							
+								<div class="fl fdr">
+									<span>法定代表人(负责人)</span>
+								</div>
+								<div class="fl fdr_inp">
+									<input type="text" />
+								</div>
+								
+								
+							
+						</li>
+						<li>
+							<div class="fl zw">
+								<span>职务</span>
+							</div>
+							<div class="fl zw_inp">
+								<input type="text" />
+							</div>
+							<div class="fl phone">
+								<span>电话</span>
+							</div>
+							<div class="fl phone_inp">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							<div class="dw_div1">检查场所：</div>
+							<div class="dw_div2">
+								<input type="text" />
+							</div>
+						</li>
+						
+						<li>
+							<div class="dw_div1">检查时间：</div>
+							<div class="dw_div2">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							<div class="fl my">我们是</div>
+							<div class="fl gys">
+								<input type="text" />
+							</div>
+							<div class="fl">
+								<span>
+									安全监督管理局执法人员
+								</span>
+							</div>
+						</li>
+						<li>
+							<div class="fl man1">
+								<input type="text" />
+							</div>
+							<div class="fl dian">
+								<span>、</span>
+							</div>
+							<div class="fl man2">
+								<input type="text" />
+							</div>
+							<div class="fl">
+								<span>
+									证件号码为：
+								</span>
+							</div>
+						</li>
+						<li>
+							<div class="fl card1">
+								<input type="text" />
+							</div>
+							<div class="fl dian">
+								<span>、</span>
+							</div>
+							<div class="fl card1">
+								<input type="text" />
+							</div>
+						</li>	
+							
+							<li>
+							<div class="fl card_chushi">
+								<span>
+								这是我们的证件号(出示证件)。
+								现依法对你单位进行
+								</span>
+							</div>
+						</li>
+						<li>
+							<span>
+								检查，请予以配合。
+							</span>
+						</li>
+						<li>
+							<div class="jcqk1 fl">检查情况：</div>
+							<div class="jcqk2 fl">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							
+							<div class="quan_inp">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							
+							<div class="quan_inp">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							
+							<div class="quan_inp">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							
+							<div class="quan_inp">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							
+							<div class="quan_inp">
+								<input type="text" />
+							</div>
+						</li>
+						<li>
+							<div class="quan_inp">
+								<span>发现处置以下问题：</span>
+							</div>
+						</li>
+						<li>
+							<table cellpadding="0" cellspacing="0" border="1" style="width: 100%; text-align: center;">
+								<tr>
+									<td style="height: 2rem;">序号</td>
+									<td>检查部位</td>
+									<td>问题描述</td>
+								</tr>
+								<tr>
+									<td style="height: 2rem;"></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td style="height: 2rem;"></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</table>
+						</li>
+						<li> </li>
+						<li>
+							<div class="qianzi1 fl">
+								<span>检查人员(签名)</span>
+							</div>
+							<div class="qianzi1 fl">
+								<input type="text" />
+							</div>
+							<div class="dian fl">
+								<span>、</span>
+							</div>
+							<div class="qianzi1 fl">
+								<input type="text" />
+							</div>
+						</li>
+						<div style="clear: both;"></div>
+						
+						<li>
+							<div class="fzr_qz1 fl">
+								<span>现场负责人(签名)</span>
+							</div>
+							<div class="fzr_qz2 fl">
+								<input type="text" />
+							</div>
+							
+						</li>
+						<li>
+							<div class="gognzhang">
+								<span>贵阳市安全监督管理局(公章)</span>
+							</div>
+						</li>
+						<li>
+							<div class="shijian">
+								<a>2017年9月10号</a>
+							</div>
+						</li>
+						<li>
+							<div class="xian"></div>
+						</li>
+						<li>
+							<div class="fottom_yejiao">
+								<span>
+									本文书一式两份：一份由安全生产监督管理部门备案，一份交被检查单位
+								</span>
+							</div>
+						</li>
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	
+	 <script>
+
+	 		<!--alert("调用Android方法");-->
+	 	<!--}function getScene()-->
+	 	<!--{-->
+		var data1 =  jsonData=scene.jsontohtml());
+ 		var json1 = eval("(" + data1 + ")");
+  		alert(json1[0].label);
+    </script>
+</html>
