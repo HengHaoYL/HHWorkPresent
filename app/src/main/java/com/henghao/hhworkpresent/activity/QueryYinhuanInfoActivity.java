@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
+import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -50,7 +50,7 @@ public class QueryYinhuanInfoActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_query_check_ok)
     private TextView tv_query_check_ok;
 
-    private JianchaMaterialEntity jianchaMaterialEntity;
+    private SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity;
 
 
     @Override
@@ -89,17 +89,18 @@ public class QueryYinhuanInfoActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
-        jianchaMaterialEntity = (JianchaMaterialEntity) getIntent().getSerializableExtra("JianchaMaterialEntity");
+        jianchaMaterialEntity = (SaveCheckTaskEntity.JianchaMaterialEntityListBean) getIntent().getSerializableExtra("JianchaMaterialEntity");
         tv_query_check_time.setText(jianchaMaterialEntity.getFindTime());
         tv_query_check_degree.setText(jianchaMaterialEntity.getCheckDegree());
         tv_query_check_description.setText(jianchaMaterialEntity.getCheckDescript());
         tv_query_check_position.setText(jianchaMaterialEntity.getCheckPosition());
-        mSelectPath = jianchaMaterialEntity.getSelectImagePath();
-        if(mSelectPath!=null){
+        String imagePath = jianchaMaterialEntity.getSelectImagePath();
+        if(imagePath!=null){
+            String[] imagePathArr = imagePath.split(";");
+            mSelectPath = Arrays.asList(imagePathArr);
             GridAdapter adapter = new GridAdapter();
             query_check_image_gridview.setAdapter(adapter);
         }
-
     }
 
 

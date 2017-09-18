@@ -25,12 +25,12 @@ import android.widget.Toast;
 
 import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
 import com.benefit.buy.library.utils.tools.ToolsKit;
+import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.JianchaYinhuanListAdpter;
 import com.henghao.hhworkpresent.entity.CompanyInfoEntity;
-import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
 import com.henghao.hhworkpresent.entity.JianchaPersonalEntity;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.henghao.hhworkpresent.entity.SceneJianchaEntity;
@@ -48,12 +48,16 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Handler;
 
 /**
  * 我要检查界面
@@ -109,9 +113,10 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
 
     private boolean isProblemListOpen = true;
 
+    private SaveCheckTaskEntity saveCheckTaskEntity;
     private CompanyInfoEntity.DataBean dataBean;
     private JianchaPersonalEntity jianchaPersonalEntity;
-    private List<JianchaMaterialEntity> mJianchaMaterialEntityList;
+    private List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mJianchaMaterialEntityList;
 
     private JianchaYinhuanListAdpter jianchaYinhuanListAdpter;
 
@@ -126,6 +131,8 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
     private ArrayList<File> mFileList = new ArrayList<>();//被选中的图片文件
 
     private MyReceiver myReceiver;
+
+    private String Pid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,17 +176,65 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         super.initData();
         Intent data = getIntent();
         dataBean = (CompanyInfoEntity.DataBean)data.getSerializableExtra("dataBean");
-        mJianchaMaterialEntityList = (List<JianchaMaterialEntity>)data.getSerializableExtra("mSelectDescriptData");
         jianchaPersonalEntity = (JianchaPersonalEntity) data.getSerializableExtra("checkpeople");
-        String checktime = data.getStringExtra("checktime");
-        tv_company_name.setText(dataBean.getEntname());
-        tv_company_type.setText(dataBean.getIndustry1());
-        tv_check_time.setText(checktime);
+        Pid = data.getStringExtra("pid");
+        httpRequestSaveCheckTask();
+
 
         myReceiver = new MyReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.PRESS_SAVE_BUTTON);
         registerReceiver(myReceiver,filter);
+    }
+
+    public android.os.Handler mHandler = new android.os.Handler(){};
+    /**
+     * 根据pid查询检查任务
+     */
+    public void httpRequestSaveCheckTask(){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        final String request_url = "http://172.16.0.81:8080/istration/enforceapp/queryplanbyid?id="+Pid;
+        Request request = builder.url(request_url).build();
+        Call call = okHttpClient.newCall(request);
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    result_str = jsonObject.getString("data");
+                    Gson gson = new Gson();
+                    saveCheckTaskEntity = gson.fromJson(result_str,SaveCheckTaskEntity.class);
+                    mJianchaMaterialEntityList = saveCheckTaskEntity.getJianchaMaterialEntityList();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mActivityFragmentView.viewLoading(View.GONE);
+                            tv_company_type.setText(dataBean.getIndustry1());
+                            tv_company_name.setText(saveCheckTaskEntity.getCompany_name());
+                            tv_check_time.setText(saveCheckTaskEntity.getCheckTime());
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
     }
 
     @Override
@@ -236,7 +291,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                 break;
             case R.id.tv_woyao_checked_save:    //保存并打开现场检查文书
                 //先进行保存数据到服务器的操作
-            //    saveCheckedDataToService();
+                saveCheckedDataToService();
                 //然后再打开文书页面
                 bindingDataToSceneJianchaActivity();
                 break;
@@ -254,7 +309,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
      * 保存数据到服务器的操作
      */
     public void saveCheckedDataToService(){
-        /*SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
+        SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
         saveCheckTaskEntity.setCompany_name(tv_company_name.getText().toString());
         saveCheckTaskEntity.setCheckPeople1("");
         saveCheckTaskEntity.setCheckPeople2(tv_check_people.getText().toString());
@@ -263,7 +318,9 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         saveCheckTaskEntity.setCheckSite(et_check_scene.getText().toString());
         saveCheckTaskEntity.setSiteResponse(et_check_person.getText().toString());
         //上传图片路径 并且还要上传图片文件
-        saveCheckTaskEntity.setSiteImagePath(mSelectPath.get(0));
+        if(!ToolsKit.isEmpty(this.mSelectPath)){
+            saveCheckTaskEntity.setSiteImagePath(mSelectPath.get(0));
+        }
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         //这个要和服务器保持一致 application/json;charset=UTF-8
@@ -292,7 +349,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                     }
                 });
             }
-        });*/
+        });
     }
 
 
@@ -313,7 +370,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         String documentsId1 = null;  // =  执法人员1 的编号 也就是系统登录人员的员工编号
         String documentsId2 = jianchaPersonalEntity.getEmp_NUM(); //执法人员2 的证件号
         String checkCase = null;  // = 检查情况 没有数据
-        List<JianchaMaterialEntity> checkYinhuanList = mJianchaMaterialEntityList;    //被选中的检查问题隐患
+        List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> checkYinhuanList = mJianchaMaterialEntityList;    //被选中的检查问题隐患
         String checkSignature11 = new SqliteDBUtils(this).getLoginFirstName()+ new SqliteDBUtils(this).getLoginGiveName();  //检查人员1的签名
         String checkSignature12 = jianchaPersonalEntity.getName();  //检查人员2的签名
         String beCheckedPeople = et_check_person.getText().toString();  //被检查企业现场负责人
@@ -366,25 +423,21 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
     /**
      * 从threat表中查询所有数据
      */
-    public List<JianchaMaterialEntity> queryAllToThreat(){
+    public List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> queryAllToThreat(){
         String sql = "select * from threat";
         YinhuanDatabaseHelper databaseHelper = new YinhuanDatabaseHelper(this,"threat_info.db");
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        List<JianchaMaterialEntity> jianchaMaterialEntityList = new ArrayList<JianchaMaterialEntity>();
-        JianchaMaterialEntity jianchaMaterialEntity = null;
+        List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> jianchaMaterialEntityList = new ArrayList<SaveCheckTaskEntity.JianchaMaterialEntityListBean>();
+        SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity = null;
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
-            jianchaMaterialEntity = new JianchaMaterialEntity();
+            jianchaMaterialEntity = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
             jianchaMaterialEntity.setFindTime(cursor.getString(cursor.getColumnIndex("threat_time")));
             jianchaMaterialEntity.setCheckDegree(cursor.getString(cursor.getColumnIndex("threat_degree")));
             jianchaMaterialEntity.setCheckPosition(cursor.getString(cursor.getColumnIndex("threat_position")));
             jianchaMaterialEntity.setCheckDescript(cursor.getString(cursor.getColumnIndex("threat_description")));
             String threat_imagepath= cursor.getString(cursor.getColumnIndex("threat_imagepath"));
-            if(threat_imagepath!=null){
-                String[] imagePathArr = threat_imagepath.split(";");
-                List<String> mSelectPath = Arrays.asList(imagePathArr);
-                jianchaMaterialEntity.setSelectImagePath(mSelectPath);
-            }
+            jianchaMaterialEntity.setSelectImagePath(threat_imagepath);
             jianchaMaterialEntityList.add(jianchaMaterialEntity);
         }
         return jianchaMaterialEntityList;

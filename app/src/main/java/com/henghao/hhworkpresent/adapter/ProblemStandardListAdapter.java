@@ -6,15 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.AddYinhuanActivity;
-import com.henghao.hhworkpresent.activity.JianchaStandardActivity;
-import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
+import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 
 import java.util.List;
 
@@ -26,9 +24,9 @@ import java.util.List;
 public class ProblemStandardListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<JianchaMaterialEntity> mList;
+    private List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mList;
 
-    public ProblemStandardListAdapter(Context context,List<JianchaMaterialEntity> list) {
+    public ProblemStandardListAdapter(Context context,List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> list) {
         this.mContext = context;
         this.mList = list;
     }

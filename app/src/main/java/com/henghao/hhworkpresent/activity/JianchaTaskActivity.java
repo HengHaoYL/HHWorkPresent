@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.BaseManageGridAdapter;
 import com.henghao.hhworkpresent.adapter.DescriptListAdapter;
@@ -27,10 +25,10 @@ import com.henghao.hhworkpresent.adapter.DialogItemsListAdapter;
 import com.henghao.hhworkpresent.adapter.JianchaPersonalListAdapter;
 import com.henghao.hhworkpresent.adapter.SiteManageGridAdapter;
 import com.henghao.hhworkpresent.entity.CompanyInfoEntity;
-import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
 import com.henghao.hhworkpresent.entity.JianchaPersonalEntity;
 import com.henghao.hhworkpresent.entity.JianchaTeamEntity;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
+import com.henghao.hhworkpresent.entity.WoyaoJianchaEntity;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.henghao.hhworkpresent.views.ListViewForScrollView;
@@ -104,12 +102,12 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
     public boolean checkBaseState = true; //基础管理部分的 表示全选
     public boolean checkSiteState = true; //现场管理部分的 表示全选
 
-    private List<JianchaMaterialEntity> mSelectBaseData; //基础管理部分 勾选item项产生的数据
+    private List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mSelectBaseData; //基础管理部分 勾选item项产生的数据
     private List<Integer> mPostionBaseList; //基础管理部分 被勾选的item集合
 
-    private List<JianchaMaterialEntity> mSelectSiteData; //基础管理部分 勾选item项产生的数据
+    private List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mSelectSiteData; //基础管理部分 勾选item项产生的数据
     private List<Integer> mPostionSiteList; //基础管理部分 被勾选的item集合
-    private List<JianchaMaterialEntity> mSelectTotalData;  //基础和现场管理部分 加起来被选中的数据
+    private List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mSelectTotalData;  //基础和现场管理部分 加起来被选中的数据
 
     private List<JianchaPersonalEntity> mJianchaPersonalEntityList;  //检查人员集合
 
@@ -121,7 +119,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.selected_descript_listview)
     private ListViewForScrollView selected_descript_listview;
-    private List<JianchaMaterialEntity> mSelectDescriptData;  //被勾选的检查材料文书集合
+    private List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mSelectDescriptData;  //被勾选的检查材料文书集合
     private DescriptListAdapter descriptListAdapter;
 
     private CompanyInfoEntity.DataBean dataBean; //公司信息对象
@@ -301,10 +299,10 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
             switch (itemId){
                 case 1:
                     //资质证照
-                    JianchaMaterialEntity jianchaMaterialEntity1 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity1 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity1.setTitle("安全生产相关资质");
                     jianchaMaterialEntity1.setDescript("是否有安全生产相关资质证照，是否超期。如果不需取得相关资质，请注明。");
-                    JianchaMaterialEntity jianchaMaterialEntity2 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity2 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity2.setTitle("营业执照");
                     jianchaMaterialEntity2.setDescript("申请人凭批准书向工商行政管理部门办理登记注册手续。");
                     mSelectBaseData.add(jianchaMaterialEntity1);
@@ -312,7 +310,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     break;
                 case 2:
                     //2. 安全生产管理结构及人员
-                    JianchaMaterialEntity jianchaMaterialEntity3 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity3 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity3.setTitle("安全管理机构或人员");
                     jianchaMaterialEntity3.setDescript("“矿山、金属冶金、建筑施工、道路运输单位和危险物品的生产、经营、储存单位，应当设置安全生产管理机构或者配置专职安全生产管理人员。" +
                             "规定以外的其他生产经营单位，从业人员超过一百人的，应当设置安全生产管理机构或者配备专职安全生产管理人员；从业人员在一百人一下的，应当配备专职或者兼职的安全生产管理人员。”");
@@ -320,113 +318,113 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     break;
                 case 3:
                     //3. 安全生产责任制
-                    JianchaMaterialEntity jianchaMaterialEntity4 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity4 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity4.setTitle("单位主要负责人");
                     jianchaMaterialEntity4.setDescript("（一）建立、健全本单位安全生产责任制；（二）组织制定本单位安全生产规章制度和操作规程；" +
                             "（三）保证本单位安全生产投入的有效实施；（四）督促、检查本单位的安全生产工作，及时消除安全生产事故隐患；" +
                             "（五）组织制定并实施本单位的生产安全事故应急救援预案；（六）及时、如实报告安全生产事故。");
                     mSelectBaseData.add(jianchaMaterialEntity4);
-                    JianchaMaterialEntity jianchaMaterialEntity5 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity5 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity5.setTitle("各部门、各岗位职责");
                     jianchaMaterialEntity5.setDescript("生产经营单位的安全生产责任制应当明确各岗位的责任人员、责任内容和考核要求，形成包括全体人员和全部生产经营活动的责任体系。");
                     mSelectBaseData.add(jianchaMaterialEntity5);
                     break;
                 case 4:
                     //4. 安全生产规章制度
-                    JianchaMaterialEntity jianchaMaterialEntity6 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity6 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity6.setTitle("其他按法律、法规规章要求制定的制度");
                     jianchaMaterialEntity6.setDescript("按要求建立的制度，要合法、合规、真实、有效。");
                     mSelectBaseData.add(jianchaMaterialEntity6);
-                    JianchaMaterialEntity jianchaMaterialEntity7 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity7 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity7.setTitle("各岗位安全操作规程");
                     jianchaMaterialEntity7.setDescript("生产经营单位的主要负责人组织制定本单位安全生产规章制度和操作规程。");
                     mSelectBaseData.add(jianchaMaterialEntity7);
-                    JianchaMaterialEntity jianchaMaterialEntity8 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity8 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity8.setTitle("安全生产教育培训制度");
                     jianchaMaterialEntity8.setDescript("主要内容包括：（一）安全生产教育培训的目的；（二）负责安全生产培训的责任部门和责任人员；（三）培训的周期和时间安排；（四）参加安全生产教育和培训的人员；（五）教育和培训的主要内容；" +
                             "（六）教育和培训的形式（自行培训或委托专业机构培训） （七）教育和培训工作的要求。");
                     mSelectBaseData.add(jianchaMaterialEntity8);
-                    JianchaMaterialEntity jianchaMaterialEntity9 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity9 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity9.setTitle("生产安全事故报告和处理制度");
                     jianchaMaterialEntity9.setDescript("主要内容包括：（一）安全生产事故报告和处理制度制定依据；（二）安全生产事故的概念；（三）安全生产事故的分类；（四）安全生产事故报告程序；（五）安全生产事故现场保护的要求；（六）安全生产事故的调查处理；（七）安全生产事故资料的归档要求；（八）对安全生产事故进行经验教训总结。");
                     mSelectBaseData.add(jianchaMaterialEntity9);
                     break;
                 case 5:
                     //5. 安全生产教育培训
-                    JianchaMaterialEntity jianchaMaterialEntity10 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity10 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity10.setTitle("从业人员教育培训");
                     jianchaMaterialEntity10.setDescript("企业对新职工（包括临时、合同工）和实习培训人员必须进行三级安全教育。2、经“三级教育”考试合格的工人才允许上岗见习，并明确所跟师傅。学徒期满考试合格后，有车间签写安全作业证，送安全技术部门备案、认可盖章。取得安全作业证的工人，才具备独立上岗操作资格。3、三级安全教育必须保证教育时间：一级（厂级）安全教育的教育时间不应小于48小时；二级（车间级）安全教育不应小于36小时，班组安全教育不应少于24小时。4、企业必须对各级干部（包括公司、厂、车间、班组）每年进行一次或多次安全培训，累计时间不得少于24小时。主要学习安全生产的方针、政策，以及安全管理、安全技术知识等内容。");
                     mSelectBaseData.add(jianchaMaterialEntity10);
-                    JianchaMaterialEntity jianchaMaterialEntity11 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity11 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity11.setTitle("其他教育培训情况");
                     jianchaMaterialEntity11.setDescript("是否按照要求完成教育培训");
                     mSelectBaseData.add(jianchaMaterialEntity11);
                     break;
                 case 6:
                     //6. 安全生产管理基础档案
-                    JianchaMaterialEntity jianchaMaterialEntity12 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity12 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity12.setTitle("与承租单位、承包单位签订安全生产管理协议");
                     jianchaMaterialEntity12.setDescript("生产经营单位将生产经营项目、场所、设备发包或者出租的，应当与承包单位、租赁单位签订专门的安全生产管理协议，或者在承包、租赁合同中约定各自的安全生产管理职责。");
                     mSelectBaseData.add(jianchaMaterialEntity12);
-                    JianchaMaterialEntity jianchaMaterialEntity13 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity13 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity13.setTitle("事故管理记录档案");
                     jianchaMaterialEntity13.setDescript("生产经营单位应当保护事故现场；需要移动现场物品时，应当做出标记和书面记录，妥善保管有关证物。");
                     mSelectBaseData.add(jianchaMaterialEntity13);
-                    JianchaMaterialEntity jianchaMaterialEntity14 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity14 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity14.setTitle("其他安全生产管理档案");
                     jianchaMaterialEntity14.setDescript("其他安全生产管理档案");
                     mSelectBaseData.add(jianchaMaterialEntity14);
-                    JianchaMaterialEntity jianchaMaterialEntity15 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity15 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity15.setTitle("安全检查及事故隐患排查记录");
                     jianchaMaterialEntity15.setDescript("应当对安全生产状况进行经常性检查。检查情况应当记录在案，并按照规定的期限保存。对自查出的隐患要应当采取相应的安全防范措施，及时上报，并按要求进行整改。对发现的重大隐患要及时上报有关安全生产监管部门。");
                     mSelectBaseData.add(jianchaMaterialEntity15);
-                    JianchaMaterialEntity jianchaMaterialEntity16 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity16 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity16.setTitle("工商社会保险、安责险缴费记录");
                     jianchaMaterialEntity16.setDescript("生产经营单位必须依法参加工伤社会保险，为从业人员缴纳保险费，并按照先关规定投保安全生产责任保险。");
                     mSelectBaseData.add(jianchaMaterialEntity16);
                     break;
                 case 7:
                     //7. 应急救援
-                    JianchaMaterialEntity jianchaMaterialEntity17 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity17 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity17.setTitle("应急演练记录");
                     jianchaMaterialEntity17.setDescript("“1、应急救援预案应当每年演练2次以上，并有演练记录。2、应急预案演练结束后，应急预案演练组织单位应当对应急预案演练效果进行评估报告，分析存在的问题，并对应急预案提出修订意见。”");
                     mSelectBaseData.add(jianchaMaterialEntity17);
-                    JianchaMaterialEntity jianchaMaterialEntity18 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity18 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity18.setTitle("应急装备物资");
                     jianchaMaterialEntity18.setDescript("生产经营单位应当按照应急预案的要求配备相应的应急物资及装备，建立使用善状况档案，定期检测和维护，使其处于良好的状态。");
                     mSelectBaseData.add(jianchaMaterialEntity18);
-                    JianchaMaterialEntity jianchaMaterialEntity19 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity19 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity19.setTitle("应急队伍");
                     jianchaMaterialEntity19.setDescript("企业应当建立与本单位安全生产特点相适应的专兼职应急救援队伍，或指定专兼职应急救援人员，并组织训练；无需建立应急救援队伍的，可与附近具备专业资质的应急救援队伍签订服务协议。");
                     mSelectBaseData.add(jianchaMaterialEntity19);
-                    JianchaMaterialEntity jianchaMaterialEntity20 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity20 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity20.setTitle("应急预案");
                     jianchaMaterialEntity20.setDescript("“生产经营单位应当根据有关法律、法规和《生产经营单位安全生产事故应急预案编制导则》（AQ/T9002-2006），结合本单位和可能发生的事故特点，制定相应的应急预案。生产经营单位的应急预案按照针对情况的不同，分为综合应急预案、专项应急预案和现场处置方案。”");
                     mSelectBaseData.add(jianchaMaterialEntity20);
-                    JianchaMaterialEntity jianchaMaterialEntity21 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity21 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity21.setTitle("预案备案");
                     jianchaMaterialEntity21.setDescript("企业应急预案应根据有关规定报当地主管部门备案，与当地政府应急预案保持衔接，通报有关应急作协单位，并定期进行演练。");
                     mSelectBaseData.add(jianchaMaterialEntity21);
-                    JianchaMaterialEntity jianchaMaterialEntity22 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity22 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity22.setTitle("预案评审");
                     jianchaMaterialEntity22.setDescript("应急预案应当定期评审，并根据评审结果或实际情况的变化进行修订和完善，至少没三年修订一次，预案修订情况应有记录并归档。");
                     mSelectBaseData.add(jianchaMaterialEntity22);
                     break;
                 case 8:
                     //8. 职业卫生
-                    JianchaMaterialEntity jianchaMaterialEntity23 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity23 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity23.setTitle("其他职业卫生基础资料");
                     jianchaMaterialEntity23.setDescript("其他职业卫生基础资料");
                     mSelectBaseData.add(jianchaMaterialEntity23);
-                    JianchaMaterialEntity jianchaMaterialEntity24 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity24 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity24.setTitle("职业卫生应急救援预案");
                     jianchaMaterialEntity24.setDescript("用人单位应建立健全全职业病危害事故应急救援预案");
                     mSelectBaseData.add(jianchaMaterialEntity24);
-                    JianchaMaterialEntity jianchaMaterialEntity25 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity25 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity25.setTitle("职业卫生教育培训");
                     jianchaMaterialEntity25.setDescript("应设置或者指定职业卫生管理机构或者组织，配备专职或者兼职的职业卫生专业人员，负责本单位的职业病防治工作");
                     mSelectBaseData.add(jianchaMaterialEntity25);
-                    JianchaMaterialEntity jianchaMaterialEntity26 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity26 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity26.setTitle("职业卫生结构及人员");
                     jianchaMaterialEntity26.setDescript("应当对劳动者进行上岗前的职业卫生培训和在岗期间的定期职业卫生培训，普及职业卫生知识，督促劳动者遵守职业病防治法律、法规、规章和操作规程，知道劳动者正确使用职业病防护设备和个人使用的职业病防护用品。");
                     mSelectBaseData.add(jianchaMaterialEntity26);
@@ -445,7 +443,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     break;
                 case 13:
                     //13. 其他基础管理
-                    JianchaMaterialEntity jianchaMaterialEntity27 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity27 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity27.setTitle("其他基础资料");
                     jianchaMaterialEntity27.setDescript("其他基础资料");
                     mSelectBaseData.add(jianchaMaterialEntity27);
@@ -455,7 +453,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
             }
         }
         //去除集合重复元素
-        Set<JianchaMaterialEntity> set = new LinkedHashSet<>();
+        Set<SaveCheckTaskEntity.JianchaMaterialEntityListBean> set = new LinkedHashSet<>();
         set.addAll(mSelectBaseData);
         mSelectBaseData.clear();
         mSelectBaseData.addAll(set);
@@ -482,31 +480,31 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     break;
                 case 5:
                     //职业卫生现场安全
-                    JianchaMaterialEntity jianchaMaterialEntity28 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity28 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity28.setTitle("公告栏");
                     jianchaMaterialEntity28.setDescript("生产职业病危害的用人单位，应在醒目位置设置公告栏，公布有关职业病防治的规章制度、操作规程。");
                     mSelectSiteData.add(jianchaMaterialEntity28);
-                    JianchaMaterialEntity jianchaMaterialEntity29 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity29 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity29.setTitle("其他职业卫生现场安全");
                     jianchaMaterialEntity29.setDescript("其他按照《安全生产法》 《中华人民共和国职业病防治法》职业卫生现场安全情况检查。");
                     mSelectSiteData.add(jianchaMaterialEntity29);
-                    JianchaMaterialEntity jianchaMaterialEntity30 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity30 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity30.setTitle("检、维修要求");
                     jianchaMaterialEntity30.setDescript("对职业病防护设备和个人使用的职业病防护用品，用人单位应当进行经常性的维护、检修、定期检测其性能和效果，确保其处于正常状态。");
                     mSelectSiteData.add(jianchaMaterialEntity30);
-                    JianchaMaterialEntity jianchaMaterialEntity31 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity31 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity31.setTitle("生产布局");
                     jianchaMaterialEntity31.setDescript("作业场所与生活场所分开，作业场所不得住人；有害作业与无害作业分开。");
                     mSelectSiteData.add(jianchaMaterialEntity31);
-                    JianchaMaterialEntity jianchaMaterialEntity32 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity32 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity32.setTitle("禁止超标作业");
                     jianchaMaterialEntity32.setDescript("职业病危害因素不符合国家职业卫生标准和卫生要求，经治理仍不符合卫生要求，应停止存在职业病危害因素的作业。");
                     mSelectSiteData.add(jianchaMaterialEntity32);
-                    JianchaMaterialEntity jianchaMaterialEntity33 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity33 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity33.setTitle("警示标识");
                     jianchaMaterialEntity33.setDescript("对生产严重职业病危害的作业岗位，应当在醒目位置，设置警示标识和中文警示说明。警示说明应当载明产生职业病危害的种类、后果、预防以及应急救治措施等内容。");
                     mSelectSiteData.add(jianchaMaterialEntity33);
-                    JianchaMaterialEntity jianchaMaterialEntity34 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity34 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity34.setTitle("防护设施");
                     jianchaMaterialEntity34.setDescript("严禁擅自拆除、停止使用职业病防护设备");
                     mSelectSiteData.add(jianchaMaterialEntity34);
@@ -531,7 +529,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     break;
                 case 12:
                     //其他现场管理
-                    JianchaMaterialEntity jianchaMaterialEntity35 = new JianchaMaterialEntity();
+                    SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity35 = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
                     jianchaMaterialEntity35.setTitle("作业现场安全生产情况");
                     jianchaMaterialEntity35.setDescript("按照《安全生产法》及相关法律、法规、规章、标准要求进行安全检查。");
                     mSelectSiteData.add(jianchaMaterialEntity35);
@@ -541,7 +539,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
             }
         }
         //去除集合重复元素
-        Set<JianchaMaterialEntity> set = new LinkedHashSet<>();
+        Set<SaveCheckTaskEntity.JianchaMaterialEntityListBean> set = new LinkedHashSet<>();
         set.addAll(mSelectSiteData);
         mSelectSiteData.clear();
         mSelectSiteData.addAll(set);
@@ -581,7 +579,6 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
 
     @OnClick({R.id.tv_check_table,R.id.tv_personal,R.id.image_base_up,R.id.image_site_up,R.id.image_descript_up,R.id.tv_descript_save,R.id.tv_descript_save_into})
     private void viewOnClick(View v) {
-        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.tv_check_table:  //制作检查表
                 showSingleChoiceButton();
@@ -639,20 +636,67 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     Toast.makeText(this,"计划检查人员不能为空",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //进行保存进入下一步的操作
-                Intent mIntent = new Intent();
-                mIntent.setClass(JianchaTaskActivity.this,WoyaoJianchaActivity.class);
-                JianchaPersonalEntity jianchaPersonalEntity = mSelectedPersonalData.get(0);
-                //传递对象
-                mIntent.putExtra("dataBean",dataBean);      //传递公司对象
-                mIntent.putExtra("checkpeople",jianchaPersonalEntity);  //被选中的检查人员
-                mIntent.putExtra("mSelectDescriptData",(Serializable) mSelectDescriptData);
-                mIntent.putExtra("checktime",et_check_time.getText().toString());  //检查时间
-                startActivity(mIntent);
-                finish();
+                //进行保存并进入下一步操作
+                saveToServiceAndInto();
                 break;
 
         }
+    }
+
+    /**
+     * Post 请求提交Json
+     * 保存数据到服务器并进入下一步操作
+     */
+    public void saveToServiceAndInto(){
+        String company_name = tv_company_name.getText().toString();
+        String checkPeople1 = tv_login_check_person.getText().toString();
+        String checkPeople2 = tv_personal.getText().toString();
+        String checkTime = et_check_time.getText().toString();
+        List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> jianchaMaterialEntityList =  mSelectDescriptData;
+        SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
+        saveCheckTaskEntity.setCompany_name(company_name);
+        saveCheckTaskEntity.setCheckPeople1(checkPeople1);
+        saveCheckTaskEntity.setCheckPeople2(checkPeople2);
+        saveCheckTaskEntity.setCheckTime(checkTime);
+        saveCheckTaskEntity.setJianchaMaterialEntityList(jianchaMaterialEntityList);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        //这个要和服务器保持一致 application/json;charset=UTF-8
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),com.alibaba.fastjson.JSONObject.toJSONString(saveCheckTaskEntity));
+        Request request = builder.post(requestBody).url("http://172.16.0.81:8080/istration/enforceapp/savePlan").build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e){
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msg("网络请求错误！");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    String Pid = jsonObject.getString("data");
+                    Intent intent = new Intent();
+                    intent.setClass(JianchaTaskActivity.this,WoyaoJianchaActivity.class);
+                    intent.putExtra("pid",Pid);              //保存成功返回PID
+                    intent.putExtra("dataBean",dataBean);      //传递公司对象
+                    JianchaPersonalEntity jianchaPersonalEntity = mSelectedPersonalData.get(0);
+                    intent.putExtra("checkpeople",jianchaPersonalEntity);  //被选中的检查人员
+                    startActivity(intent);
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
@@ -664,7 +708,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
         String checkPeople1 = tv_login_check_person.getText().toString();
         String checkPeople2 = tv_personal.getText().toString();
         String checkTime = et_check_time.getText().toString();
-        List<JianchaMaterialEntity> jianchaMaterialEntityList =  mSelectDescriptData;
+        List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> jianchaMaterialEntityList =  mSelectDescriptData;
         SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
         saveCheckTaskEntity.setCompany_name(company_name);
         saveCheckTaskEntity.setCheckPeople1(checkPeople1);
@@ -712,7 +756,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
         //去除集合重复元素
         mSelectTotalData.addAll(mSelectBaseData);
         mSelectTotalData.addAll(mSelectSiteData);
-        Set<JianchaMaterialEntity> set = new LinkedHashSet<>();
+        Set<SaveCheckTaskEntity.JianchaMaterialEntityListBean> set = new LinkedHashSet<>();
         set.addAll(mSelectTotalData);
         mSelectTotalData.clear();
         mSelectTotalData.addAll(set);
@@ -750,7 +794,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                 holder.checkBox.toggle();
                 dialogItemsListAdapter.getIsSelected().put(position, holder.checkBox.isChecked());
                 //拿到被选中的对象
-                mSelectDescriptData.add((JianchaMaterialEntity) dialogItemsListAdapter.getItem(position));
+                mSelectDescriptData.add((SaveCheckTaskEntity.JianchaMaterialEntityListBean) dialogItemsListAdapter.getItem(position));
             }
         });
     }

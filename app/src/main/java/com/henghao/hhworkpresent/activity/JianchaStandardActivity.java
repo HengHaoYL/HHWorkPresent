@@ -2,19 +2,16 @@ package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.ProblemStandardListAdapter;
-import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
+import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -34,7 +31,7 @@ public class JianchaStandardActivity extends ActivityFragmentSupport {
     private TextView tv_standard_save;
 
     private ProblemStandardListAdapter mProblemStandardListAdapter;
-    private List<JianchaMaterialEntity> mJianchaMaterialEntityList;
+    private List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mJianchaMaterialEntityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +73,7 @@ public class JianchaStandardActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
-        mJianchaMaterialEntityList = (List<JianchaMaterialEntity>)getIntent().getSerializableExtra("mSelectDescriptData");
+        mJianchaMaterialEntityList = (List<SaveCheckTaskEntity.JianchaMaterialEntityListBean>)getIntent().getSerializableExtra("mSelectDescriptData");
         mProblemStandardListAdapter = new ProblemStandardListAdapter(this,mJianchaMaterialEntityList);
         problem_checked_listview.setAdapter(mProblemStandardListAdapter);
     }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
+import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by ASUS on 2017/9/14.
  */
 
-public class JianchaYinhuanListAdpter extends ArrayAdapter<JianchaMaterialEntity> {
+public class JianchaYinhuanListAdpter extends ArrayAdapter<SaveCheckTaskEntity.JianchaMaterialEntityListBean> {
 
     private final LayoutInflater inflater;
 
@@ -31,7 +31,7 @@ public class JianchaYinhuanListAdpter extends ArrayAdapter<JianchaMaterialEntity
 
     private final ActivityFragmentSupport mActivityFragmentSupport;
 
-    public JianchaYinhuanListAdpter(ActivityFragmentSupport activityFragment, List<JianchaMaterialEntity> mList){
+    public JianchaYinhuanListAdpter(ActivityFragmentSupport activityFragment, List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mList){
         super(activityFragment, R.layout.listview_jiancha_yinhuan_item, mList);
         this.mActivityFragmentSupport = activityFragment;
         this.inflater = LayoutInflater.from(activityFragment);

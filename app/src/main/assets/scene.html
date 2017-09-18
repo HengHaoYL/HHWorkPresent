@@ -544,21 +544,24 @@
 
 		var list = jsonData.checkYinhuanList;
 
-		var html='';
-		for(var i=0; i<list.length;i++){
-			html+='<tr>'+
-				'<td style="height: 1.5rem;">'+
-					'<input type="text" class="bn" value="'+(i+1)+'" />'+
-				'</td>'+
-			   '<td>'+
-					'<input type="text" class="bn" value="'+list[i].threat_position+'" />'+
-				'</td>'+
-				'<td>'+
-					'<input type="text" class="bn" value="'+list[i].threat_description+'" />'+
-				'</td>'+
-			  '</tr>';
+		for(var i=0;i<list.length;i++){
+			$(".safe_tab1").append("<tr>");
 		}
-		$(".safe_tab1 tr").after(html);
+		var i=0;
+		$.each(list, function(index,item) {
+
+			i++;
+			  var $tr = $('<tr>');
+			   var $td = $('<td>').html('<input class="bn" value="'+(i)+'"  />');
+        var $td1 = $('<td>').html('<input class="bn" value="'+item.threat_degree+'" />');
+        var $td2 = $('<td>').html('<input class="bn" value="'+item.threat_description+'" />');
+
+        $tr.append($td,$td1,$td2);
+
+    	$(".safe_tab1").append($tr);
+
+		});
+
 
 		$(".jcry_qz1_inp").val(jsonData.checkSignature11);
 		$(".jcry_qz2_inp").val(jsonData.checkSignature12);
