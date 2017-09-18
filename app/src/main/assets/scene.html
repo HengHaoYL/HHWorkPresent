@@ -294,7 +294,7 @@
 		.jcqk{ width: 83%; margin: 0 auto;}
 		.tea{ height: 5rem;}
 		.safe_tab1{ margin-bottom: 1rem;}
-		.bn{  clear: both; width: 100%; border: none!important;}
+		.bn{  clear: both; width: 100%; border: none!important; text-algin:center}
 		
 		
 		.jcryqz1{ width: 38%;}
@@ -451,28 +451,6 @@
 									<td>检查部位</td>
 									<td>问题描述</td>
 								</tr>
-								<tr>
-									<td style="height: 1.5rem;">
-										<input type="text" class="bn" />
-									</td>
-									<td>
-										<input type="text" class="bn" />
-									</td>
-									<td>
-										<input type="text" class="bn" />
-									</td>
-								</tr>
-								<tr>
-									<td style="height: 1.5rem;">
-										<input type="text" class="bn" />
-									</td>
-									<td>
-										<input type="text" class="bn" />
-									</td>
-									<td>
-										<input type="text" class="bn" />
-									</td>
-								</tr>
 								
 							</table>
 						</li>
@@ -553,8 +531,8 @@
 			i++;
 			  var $tr = $('<tr>');
 			   var $td = $('<td>').html('<input class="bn" value="'+(i)+'"  />');
-        var $td1 = $('<td>').html('<input class="bn" value="'+item.threat_degree+'" />');
-        var $td2 = $('<td>').html('<input class="bn" value="'+item.threat_description+'" />');
+        var $td1 = $('<td>').html('<input class="bn" value="'+item.checkPosition+'" />');
+        var $td2 = $('<td>').html('<input class="bn" value="'+item.checkDescript+'" />');
 
         $tr.append($td,$td1,$td2);
 

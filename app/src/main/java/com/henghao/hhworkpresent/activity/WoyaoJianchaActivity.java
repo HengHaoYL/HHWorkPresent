@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -28,6 +29,7 @@ import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
+import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.JianchaYinhuanListAdpter;
 import com.henghao.hhworkpresent.entity.CompanyInfoEntity;
@@ -43,6 +45,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -52,11 +55,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
 /**
@@ -128,7 +134,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
 
     private ArrayList<String> mImageList=new ArrayList<>();
 
-    private ArrayList<File> mFileList = new ArrayList<>();//被选中的图片文件
+    private ArrayList<File> mSiteFileList = new ArrayList<>();//点击现场图片被选中的图片文件
 
     private MyReceiver myReceiver;
 
@@ -177,7 +183,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         Intent data = getIntent();
         dataBean = (CompanyInfoEntity.DataBean)data.getSerializableExtra("dataBean");
         jianchaPersonalEntity = (JianchaPersonalEntity) data.getSerializableExtra("checkpeople");
-        Pid = data.getStringExtra("pid");
+        Pid = data.getStringExtra("Pid");
         httpRequestSaveCheckTask();
 
 
@@ -305,11 +311,13 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         }
     }
 
+
     /**
      * 保存数据到服务器的操作
      */
     public void saveCheckedDataToService(){
         SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
+        saveCheckTaskEntity.setPid(Integer.parseInt(Pid));
         saveCheckTaskEntity.setCompany_name(tv_company_name.getText().toString());
         saveCheckTaskEntity.setCheckPeople1("");
         saveCheckTaskEntity.setCheckPeople2(tv_check_people.getText().toString());
@@ -317,16 +325,22 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         saveCheckTaskEntity.setJianchaMaterialEntityList(mJianchaMaterialEntityList);
         saveCheckTaskEntity.setCheckSite(et_check_scene.getText().toString());
         saveCheckTaskEntity.setSiteResponse(et_check_person.getText().toString());
-        //上传图片路径 并且还要上传图片文件
+        //上传图片路径 并且还要上传图片文件 现场图片和隐患包含的图片
         if(!ToolsKit.isEmpty(this.mSelectPath)){
             saveCheckTaskEntity.setSiteImagePath(mSelectPath.get(0));
         }
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         //这个要和服务器保持一致 application/json;charset=UTF-8
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),
-                com.alibaba.fastjson.JSONObject.toJSONString(saveCheckTaskEntity));
-        Request request = builder.post(requestBody).url("http://172.16.0.81:8080/istration/enforceapp/savePlan").build();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("json", com.alibaba.fastjson.JSONObject.toJSONString(saveCheckTaskEntity));//json数据
+        for (File siteFile : mSiteFileList) {
+            //上传现场图片
+            multipartBuilder.addFormDataPart("file", siteFile.getName(), RequestBody.create(MediaType.parse("multipart/form-data"),siteFile));
+        }
+        RequestBody requestBody = multipartBuilder.build();
+        Request request = builder.post(requestBody).url("http://172.16.0.81:8080/istration/enforceapp/updateplanexaminedate").build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -513,12 +527,12 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                     if (!ToolsKit.isEmpty(this.mSelectPath)) {
                         List<String> fileNames = new ArrayList<>();
                         mImageList.clear();
-                        mFileList.clear();
+                        mSiteFileList.clear();
                         for (String filePath : mSelectPath) {
                             String imageName = getImageName(filePath);
                             fileNames.add(imageName);
                             File file = new File(filePath);
-                            mFileList.add(file);
+                            mSiteFileList.add(file);
                             Bitmap bm = BitmapFactory.decodeFile(filePath);
                             //设置图片
                             imageview_woyaojiancha.setImageBitmap(bm);

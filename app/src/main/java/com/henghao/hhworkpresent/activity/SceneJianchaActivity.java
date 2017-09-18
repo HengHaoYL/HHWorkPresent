@@ -1,8 +1,13 @@
 package com.henghao.hhworkpresent.activity;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -16,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.benefit.buy.library.phoneview.utils.FileUtils;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.SceneJianchaEntity;
@@ -24,6 +30,11 @@ import com.itextpdf.text.Rectangle;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 /**
@@ -78,7 +89,6 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
     public void initData() {
         super.initData();
         sceneJianchaEntity = (SceneJianchaEntity) getIntent().getSerializableExtra("sceneJianchaEntity");
-        Log.d("wangqingbin","JSONObject.toJSONString(sceneJianchaEntity)=="+JSONObject.toJSONString(sceneJianchaEntity));
 
         webView.loadUrl("file:///android_asset/scene.html");    //加载本地的html布局文件
         webView.setDrawingCacheEnabled(true);
@@ -138,12 +148,101 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
     private void viewOnClick(View v) {
         switch (v.getId()) {
             case R.id.tv_scene_jiancha_save:        //保存
-                /*//本地调用js方法
-                webView.loadUrl("javascript:getScene()");*/
                 break;
             case R.id.tv_scene_jiancha_print:       //打印
+                if(appIsInstalled(this,"")){
+
+                }else{
+
+                }
                 break;
         }
     }
+
+    /**
+     * 安装apk文件
+     */
+    public void installApkFile(){
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        File file = getAssetFileToCacheDir(this,"xxx.apk");
+        intent.setDataAndType(Uri.fromFile(file),"application/vnd.android.package-archive");
+        startActivity(intent);
+    }
+
+
+    /**
+     * 调用printershare打印pdf
+     */
+    public void printPdfFile(File pdf){
+        Intent intent = new Intent();
+        ComponentName comp = new ComponentName("com.dynamixsoftware.printershare","com.dynamixsoftware.printershare.ActivityPrintPDF");
+        intent = new Intent();
+        intent.setComponent(comp);
+        intent.setAction("android.intent.action.VIEW");
+        intent.setType("application/pdf");
+        intent.setData(Uri.fromFile(pdf));
+        startActivity(intent);
+    }
+
+
+    /**
+     * 把Asset下的apk拷贝到sdcard下 /Android/data/你的包名/cache 目录下
+     * @param context
+     * @param fileName
+     * @return
+     */
+    public static File getAssetFileToCacheDir(Context context, String fileName) {
+        try {
+            File cacheDir = getCacheDir(context);
+            final String cachePath = cacheDir.getAbsolutePath()+ File.separator + fileName;
+            InputStream is = context.getAssets().open(fileName);
+            File file = new File(cachePath);
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] temp = new byte[1024];
+
+            int i = 0;
+            while ((i = is.read(temp)) > 0) {
+                fos.write(temp, 0, i);
+            }
+            fos.close();
+            is.close();
+            return file;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取sd卡缓存目录
+     * @param context
+     * @return
+     */
+    public static File getCacheDir(Context context) {
+        String APP_DIR_NAME = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/";
+        File dir = new File(APP_DIR_NAME + context.getPackageName() + "/cache/");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        return dir;
+    }
+
+    /**
+     * 判断apk是否安装
+     * @param context
+     * @param pageName
+     * @return
+     */
+    public static boolean appIsInstalled(Context context, String pageName) {
+        try {
+            context.getPackageManager().getPackageInfo(pageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+
 
 }

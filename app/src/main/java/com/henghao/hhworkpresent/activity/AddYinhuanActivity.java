@@ -83,7 +83,7 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
 
     private ArrayList<String> mImageList=new ArrayList<>();
 
-    private ArrayList<File> mFileList = new ArrayList<>();//被选中的图片文件
+    public static ArrayList<File> mYinhuanFileList = new ArrayList<>();//被选中隐患的图片文件
 
     public Handler mHandler = new Handler(){};
 
@@ -254,10 +254,10 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
                     this.mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                     if (!ToolsKit.isEmpty(this.mSelectPath)) {
                         mImageList.clear();
-                        mFileList.clear();
+                        mYinhuanFileList.clear();
                         for (String filePath : mSelectPath) {  //mSelectPath是被选中的所有图片路径集合
                             File file = new File(filePath);
-                            mFileList.add(file);  //mFileList用来存储被选中的图片文件，不是路径
+                            mYinhuanFileList.add(file);  //mFileList用来存储被选中的图片文件，不是路径
                             if(!mImageList.contains(filePath)){
                                 mImageList.add(filePath);
                                 add_yinhuan_picture_gridView.setAdapter(adapter);

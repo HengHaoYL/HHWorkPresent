@@ -686,7 +686,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     String Pid = jsonObject.getString("data");
                     Intent intent = new Intent();
                     intent.setClass(JianchaTaskActivity.this,WoyaoJianchaActivity.class);
-                    intent.putExtra("pid",Pid);              //保存成功返回PID
+                    intent.putExtra("Pid",Pid);              //保存成功返回PID
                     intent.putExtra("dataBean",dataBean);      //传递公司对象
                     JianchaPersonalEntity jianchaPersonalEntity = mSelectedPersonalData.get(0);
                     intent.putExtra("checkpeople",jianchaPersonalEntity);  //被选中的检查人员

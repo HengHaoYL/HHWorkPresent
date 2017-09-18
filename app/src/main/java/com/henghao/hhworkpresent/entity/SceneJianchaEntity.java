@@ -129,7 +129,7 @@ public class SceneJianchaEntity implements Serializable {
         return checkYinhuanList;
     }
 
-    public void setCheckYinhuanList(List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> j) {
+    public void setCheckYinhuanList(List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> checkYinhuanList) {
         this.checkYinhuanList = checkYinhuanList;
     }
 

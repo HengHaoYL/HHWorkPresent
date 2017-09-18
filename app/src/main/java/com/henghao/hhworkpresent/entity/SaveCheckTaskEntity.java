@@ -210,6 +210,11 @@ public class SaveCheckTaskEntity implements Serializable {
         public void setSelectImagePath(String selectImagePath) {
             this.selectImagePath = selectImagePath;
         }
+
+        @Override
+        public String toString() {
+            return JSONObject.toJSONString(this);
+        }
     }
 
     @Override
