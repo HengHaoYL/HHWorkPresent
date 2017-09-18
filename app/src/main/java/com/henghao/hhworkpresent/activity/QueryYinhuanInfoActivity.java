@@ -1,11 +1,8 @@
 package com.henghao.hhworkpresent.activity;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +17,7 @@ import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.adapter.JianchaYinhuanListAdpter;
-import com.henghao.hhworkpresent.entity.JianchaYinhuanEntity;
-import com.henghao.hhworkpresent.views.YinhuanDatabaseHelper;
+import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -55,7 +50,7 @@ public class QueryYinhuanInfoActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_query_check_ok)
     private TextView tv_query_check_ok;
 
-    private JianchaYinhuanEntity jianchaYinhuanEntity;
+    private JianchaMaterialEntity jianchaMaterialEntity;
 
 
     @Override
@@ -94,18 +89,17 @@ public class QueryYinhuanInfoActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
-        jianchaYinhuanEntity = (JianchaYinhuanEntity) getIntent().getSerializableExtra("JianchaYinhuanEntity");
-        tv_query_check_time.setText(jianchaYinhuanEntity.getThreat_time());
-        tv_query_check_degree.setText(jianchaYinhuanEntity.getThreat_degree());
-        tv_query_check_description.setText(jianchaYinhuanEntity.getThreat_description());
-        tv_query_check_position.setText(jianchaYinhuanEntity.getThreat_position());
-        String imagePath = jianchaYinhuanEntity.getThreat_imagepath();
-        if(imagePath!=null){
-            String[] imagePathArr = imagePath.split(";");
-            mSelectPath = Arrays.asList(imagePathArr);
+        jianchaMaterialEntity = (JianchaMaterialEntity) getIntent().getSerializableExtra("JianchaMaterialEntity");
+        tv_query_check_time.setText(jianchaMaterialEntity.getFindTime());
+        tv_query_check_degree.setText(jianchaMaterialEntity.getCheckDegree());
+        tv_query_check_description.setText(jianchaMaterialEntity.getCheckDescript());
+        tv_query_check_position.setText(jianchaMaterialEntity.getCheckPosition());
+        mSelectPath = jianchaMaterialEntity.getSelectImagePath();
+        if(mSelectPath!=null){
+            GridAdapter adapter = new GridAdapter();
+            query_check_image_gridview.setAdapter(adapter);
         }
-        GridAdapter adapter = new GridAdapter();
-        query_check_image_gridview.setAdapter(adapter);
+
     }
 
 

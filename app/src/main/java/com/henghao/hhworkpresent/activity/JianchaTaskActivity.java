@@ -31,10 +31,8 @@ import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
 import com.henghao.hhworkpresent.entity.JianchaPersonalEntity;
 import com.henghao.hhworkpresent.entity.JianchaTeamEntity;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
-import com.henghao.hhworkpresent.utils.JSONHelper;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
-import com.henghao.hhworkpresent.views.DatabaseHelper;
 import com.henghao.hhworkpresent.views.ListViewForScrollView;
 import com.henghao.hhworkpresent.views.XCDropDownListView;
 import com.lidroid.xutils.ViewUtils;
@@ -43,7 +41,6 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -64,7 +61,7 @@ import java.util.Set;
 
 /**
  * 根据选择的公司添加检查任务界面
- * Created by ASUS on 2017/9/6.
+ * Created by wangqingbin on 2017/9/6.
  */
 
 public class JianchaTaskActivity extends ActivityFragmentSupport {
@@ -678,7 +675,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         //这个要和服务器保持一致 application/json;charset=UTF-8
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),JSONHelper.toJSON(saveCheckTaskEntity));
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),com.alibaba.fastjson.JSONObject.toJSONString(saveCheckTaskEntity));
         Request request = builder.post(requestBody).url("http://172.16.0.81:8080/istration/enforceapp/savePlan").build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -701,8 +698,6 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                 finish();
             }
         });
-
-
     }
 
 

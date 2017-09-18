@@ -23,7 +23,7 @@ public class SceneJianchaEntity implements Serializable {
     private String documentsId1;    //证件号码1
     private String documentsId2;    //证件号码2
     private String checkCase;       //检查情况
-    private List<JianchaYinhuanEntity> checkYinhuanList;  //检查隐患的集合
+    private List<JianchaMaterialEntity> checkYinhuanList;  //检查隐患的集合
     private String checkSignature11; //检查人员签名1
     private String checkSignature12; //检查人员签名2
     private String beCheckedPeople; //被检查负责人
@@ -125,11 +125,11 @@ public class SceneJianchaEntity implements Serializable {
         this.documentsId2 = documentsId2;
     }
 
-    public List<JianchaYinhuanEntity> getCheckYinhuanList() {
+    public List<JianchaMaterialEntity> getCheckYinhuanList() {
         return checkYinhuanList;
     }
 
-    public void setCheckYinhuanList(List<JianchaYinhuanEntity> checkYinhuanList) {
+    public void setCheckYinhuanList(List<JianchaMaterialEntity> j) {
         this.checkYinhuanList = checkYinhuanList;
     }
 
@@ -189,7 +189,7 @@ public class SceneJianchaEntity implements Serializable {
                 ", documentsId1='" + documentsId1 + '\'' +
                 ", documentsId2='" + documentsId2 + '\'' +
                 ", checkCase='" + checkCase + '\'' +
-                ", checkYinhuanList=" + checkYinhuanList +
+                ", checkYinhuanList=" + checkYinhuanList + '\'' +
                 ", checkSignature11='" + checkSignature11 + '\'' +
                 ", checkSignature12='" + checkSignature12 + '\'' +
                 ", beCheckedPeople='" + beCheckedPeople + '\'' +

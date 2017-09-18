@@ -2,287 +2,508 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		
-		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-		<title>现场检查</title>
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	</head>
-	<style>
-		body{ font-size: 15px; background: #eaeff3;}
+	<body>
+		<style>
+			body{ font-size: 15px; background: #eaeff3; font-family: "verdana, geneva, arial, helvetica, sans-serif";}
 		ul{ margin: 0; padding: 0; list-style: none;}
 		.fl{ float: left;}
 		.fr{ float: right;}
-		input[type='text']{ border: none; border-bottom: solid 1px #000000; outline: none; font-size: 1rem;}
-		.safe_all{ width: 100%; height: auto; margin: 0.5rem auto; background: #FFFFFF;}
-		.safe_top{ width: 100%; height: 3rem;}
-		.safe_couent{ width: 95%; margin: 0 auto;}
-		.header1{ font-size: 1rem; line-height: 1.5rem; font-weight: bold; border-bottom: solid 2px #000000; text-align: center;}
-		.header1 span{ padding-bottom: 5px;}
-		.header2{ font-size: 1rem; font-weight: bold;  text-align: center;}
-		.zhengwen{ width: 100%; height: auto; margin-top: 1rem; font-size: 1rem;}
-		.zhengwen ul li{  line-height: 3rem; margin-top: 1rem;}
-		.dw_div1{ width: 25%;  float: left; text-align: left;}
-		.dw_div2{ width: 75%;  float: left; text-align: left;}
-		.dw_div2 input{ width: 100%; height: 1rem; font-size: 2.2rem; border: none; border-bottom: solid 1px #000000;  }
-	
-		.dz_div1{ width: 25%;  float: left; text-align: left;}
-		.dz_div2{ width: 75%;  float: left; text-align: left;}
-		.dz_div2 input{ width: 100%; height: 1rem;
-		 font-size: 1rem; border: none; border-bottom: solid 1px #000000;  }
+		.texC{ text-align: center;}
+		.texL{ text-align: left;}
+		.texR{ text-align: right;}
+		 .inp{ width: 100%;}
+		 .tea{ width: 100%;}
+		input[type='text']{ border: none;
+		 border-bottom: solid 1px #000000; outline: none; font-size: 1.1rem; }
+		.safe_all{ width: 98%; height: auto; background: #FFFFFF;}
+		.safe_top{ width: 100%; height: 5rem;}
+		.safe_couent{ font-size: 1.1rem;}	
+		.safe_main_header{ font-size: 1.7rem;font-weight: 600; font-family: "宋体";}
+		.safe_main_header1{ border-bottom: solid 2px #808080; 
+		line-height: 1.7rem; color: #303030; }
+		.safe_ul1{ margin-top: 3rem;}
+		.safe_ul1 li{ width: 100%; line-height: 3rem; clear: both;}
+		.jcdw1{ width: 17%;}
+		.jcdw2{ width: 82%;}
+		.dz1{ width: 8%;}
+		.dz2{ width: 92%;}
+		.fddb1{ width: 27%;}
+		.fddb2{ width: 73%;}
+		.zw1{ width: 8%; text-align: left;}
+		.zw2{ width: 37%;}
+		.phone_div1{ width: 16%;}
+		.phone_div2{ width: 37%;}
+		.jccs1{ width: 16%;}
+		.jccs2{ width: 84%;}
 		
-		.fdr{ width: 38%;}
-		.fdr_inp{ width: 62%;}
-		.fdr_inp input{ width: 100%;}
+		.jctime1{ width: 16%;}
+		.strattime{ width: 37%;}
+		.zhi1{ width: 10%;}
+		.endtime{ width: 37%;}
 		
-		.zw{ width: 12%;}
-		.zw_inp{ width: 38%;}
-		.zw_inp input{ width: 100%;}
-		.phone{ width: 12%;}
-		.phone_inp{ width: 38%;}
-		.phone_inp input{ width: 100%;}
+		.my1{ width: 12%; margin-left: 5%;}
+		.city1{ width: 30%;}
 		
-		.my{ margin-left: 8%;}
-		.gys{ width: 30%;}
-		.gys input{ width: 100%;}
-		
-		.man1{ width: 30%; }
-		.man1 input{ width: 100%; }
+		.zfry1{ width: 45%;}
 		.dian{ width: 10%; text-align: center;}
-		.man2{ width: 30%; }
-		.man2 input{ width: 100%; }
+		.zfry2{ width: 45%;}
 		
-		.card1{ width: 45%;}
-		.card1 input{ width: 100%;}
+		.card_num_div1{ width: 14%;}
+		.card_num_div2{ width: 38%;}
+		.card_num_div3{ width: 38%;}
 		
-		.card_chushi{ width: 100%;}
+		.jcqk{ width: 83%; margin: 0 auto;}
+		.tea{ height: 8rem;}
+		.safe_tab1{ margin-bottom: 2rem;}
+		.bn{  clear: both; width: 100%; border: none!important;}
 		
-		.jcqk1{ width: 30%; text-align: right;}
-		.jcqk2{ width: 70%;}
-		.jcqk2 input{ width: 100%;}
 		
-		.quan_inp{ width: 100%;}
-		.quan_inp input{ width: 100%;}
+		.jcryqz1{ width: 24%;}
+		.jcry_qz1{ width: 33%;}
+		.jcry_qz2{ width: 33%;}
+		}
 		
-		.qianzi1{ width: 29%;}
-		.qianzi1 input{ width: 100%;}
+		.bjcry_qz1{ width: 26%;}
+		.bjcry_qz2{ width:74%;}
 		
-		.fzr_qz1{ width: 35%;}
-		.fzr_qz2{ width: 65%;}
-		.fzr_qz2 input{ width: 100%;}
-		.gognzhang{ width: 100%; font-size: 0.9rem; text-align: right;}
-		.shijian{ width: 100%; font-size: 0.9rem; text-align: right;}
-		.shijian a{ text-decoration: underline;}
+		.xian{ width: 100%; height: 1px; background: #000000; margin-top: 1rem;}
+		.fottom_yejiao{ font-size: 0.4rem;}
+			
+			@media only screen and (min-width: 320px) and (max-width:359px){
+				
+			body{ font-size: 15px; background: #eaeff3; font-family: "verdana, geneva, arial, helvetica, sans-serif";}	
+		ul{ margin: 0; padding: 0; list-style: none;}
+		.fl{ float: left;}
+		.fr{ float: right;}
+		.texC{ text-align: center;}
+		.texL{ text-align: left;}
+		.texR{ text-align: right;}
+		 .inp{ width: 100%;}
+		 .tea{ width: 100%;}
+		input[type='text']{ border: none;
+		 border-bottom: solid 1px #000000; outline: none; font-size: 1.2rem; }
+		.safe_all{ width: 98%; height: auto; background: #FFFFFF;}
+		.safe_top{ width: 100%; height: 4rem;}
 		
-		.xian{ width: 90%; margin: 0 auto; height: 2px; background: #676767;}
-		.fottom_yejiao{ width: 90%; margin: 0 auto;font-size: 0.7rem;}
-	</style>
-	<body>
+		.safe_couent{ width: 95%; height: auto; margin: 0 auto;}
+		.safe_main_header{ font-size: 1.7rem;font-weight: 600; font-family: "宋体";}
+		.safe_main_header1{ border-bottom: solid 2px #808080; 
+		line-height: 1.7rem; color: #303030; }
+		.safe_ul1{ margin-top: 1rem;}
+		.safe_ul1 li{ width: 100%; line-height: 3rem; clear: both;}
+			.safe_top{ width: 100%; height: 3rem;}
+			input[type='text']{ border: none;
+		 border-bottom: solid 1px #000000; outline: none; font-size: 0.6rem; }
+		.safe_main_header{ font-size: 1rem;font-weight: 600; font-family: "宋体";}
+		.safe_main_header1{ border-bottom: solid 2px #808080; 
+		line-height: 1.5rem; color: #303030; }
+		.safe_ul1{ margin-top: 1.1rem;}
+		.safe_ul1 li{ width: 100%; line-height: 1.6rem; font-size: 0.8rem; clear: both;}
+		.jcdw1{ width: 30%;}
+		.jcdw2{ width: 67%;}
+		.dz1{ width: 15%;}
+		.dz2{ width: 85%;}
+		.fddb1{ width: 45%;}
+		.fddb2{ width: 55%;}
+		.zw1{ width: 15%;}
+		.zw2{ width: 25%;}
+		.phone_div1{ width: 23%;}
+		.phone_div2{ width: 37%;}
+		.jccs1{ width: 25%;}
+		.jccs2{ width: 75%;}
+		
+		.jctime1{ width: 25%;}
+		.strattime{ width: 33%;}
+		.zhi1{ width: 10%;}
+		.endtime{ width: 32%;}
+		
+		.my1{ width: 15%; margin-left: 7%;}
+		.city1{ width: 25%;}
+		
+		.zfry1{ width: 45%;}
+		.dian{ width: 10%; text-align: center;}
+		.zfry2{ width: 45%;}
+		
+		.card_num_div1{ width: 25%;}
+		.card_num_div2{ width: 32%;}
+		.card_num_div3{ width: 33%;}
+		
+		.jcqk{ width: 83%; margin: 0 auto;}
+		.tea{ height: 5rem;}
+		.safe_tab1{ margin-bottom: 1rem;}
+		.bn{  clear: both; width: 100%; border: none!important;}
+		
+		
+		.jcryqz1{ width: 44%;}
+		.jcry_qz1{ width: 23%;}
+		.jcry_qz2{ width: 23%;}
+		
+		
+		.bjcry_qz1{ width: 60%;}
+		.bjcry_qz2{ width: 40%;}
+		
+		.xian{ width: 100%; height: 1px; background: #000000; margin-top: 1rem;}
+		.fottom_yejiao{ font-size: 0.4rem;}
+				
+			}
+			
+			
+			@media only screen and (min-width: 360px) and (max-width: 375px) {
+				
+				body{ font-size: 15px; background: #eaeff3; font-family: "verdana, geneva, arial, helvetica, sans-serif";}	
+		ul{ margin: 0; padding: 0; list-style: none;}
+		.fl{ float: left;}
+		.fr{ float: right;}
+		.texC{ text-align: center;}
+		.texL{ text-align: left;}
+		.texR{ text-align: right;}
+		 .inp{ width: 100%;}
+		 .tea{ width: 100%;}
+		input[type='text']{ border: none;
+		 border-bottom: solid 1px #000000; outline: none; font-size: 1.2rem; }
+		.safe_all{ width: 98%; height: auto; background: #FFFFFF;}
+		.safe_top{ width: 100%; height: 3.5rem;}
+		
+		.safe_couent{ width: 95%; height: auto; margin: 0 auto;}
+		.safe_main_header{ font-size: 1.7rem;font-weight: 600; font-family: "宋体";}
+		.safe_main_header1{ border-bottom: solid 2px #808080; 
+		line-height: 1.7rem; color: #303030; }
+		.safe_ul1{ margin-top: 1rem;}
+		.safe_ul1 li{ width: 100%; line-height: 3rem; clear: both;}
+			.safe_top{ width: 100%; height: 3rem;}
+			input[type='text']{ border: none;
+		 border-bottom: solid 1px #000000; outline: none; font-size: 0.6rem; }
+		.safe_main_header{ font-size: 1rem;font-weight: 600; font-family: "宋体";}
+		.safe_main_header1{ border-bottom: solid 2px #808080; 
+		line-height: 1.5rem; color: #303030; }
+		.safe_ul1{ margin-top: 1.1rem;}
+		.safe_ul1 li{ width: 100%; line-height: 1.6rem; font-size: 0.8rem; clear: both;}
+		.jcdw1{ width: 25%;}
+		.jcdw2{ width: 75%;}
+		.dz1{ width: 13%;}
+		.dz2{ width: 87%;}
+		.fddb1{ width: 40%;}
+		.fddb2{ width: 60%;}
+		.zw1{ width: 15%;}
+		.zw2{ width: 25%;}
+		.phone_div1{ width: 23%;}
+		.phone_div2{ width: 37%;}
+		.jccs1{ width: 22%;}
+		.jccs2{ width: 78%;}
+		
+		.jctime1{ width: 22%;}
+		.strattime{ width: 34%;}
+		.zhi1{ width: 10%;}
+		.endtime{ width: 34%;}
+		
+		.my1{ width: 15%; margin-left: 7%;}
+		.city1{ width: 25%;}
+		
+		.zfry1{ width: 45%;}
+		.dian{ width: 10%; text-align: center;}
+		.zfry2{ width: 45%;}
+		
+		.card_num_div1{ width: 20%;}
+		.card_num_div2{ width: 35%;}
+		.card_num_div3{ width: 35%;}
+		
+		.jcqk{ width: 83%; margin: 0 auto;}
+		.tea{ height: 5rem;}
+		.safe_tab1{ margin-bottom: 1rem;}
+		.bn{  clear: both; width: 100%; border: none!important;}
+		
+		
+		.jcryqz1{ width: 38%;}
+		.jcry_qz1{ width: 26%;}
+		.jcry_qz2{ width: 26%;}
+		
+		
+		.bjcry_qz1{ width: 40%;}
+		.bjcry_qz2{ width: 60%;}
+		
+		.xian{ width: 100%; height: 2px; background: #000000; margin-top: 1rem;}
+		.fottom_yejiao{ font-size: 0.4rem;}
+				
+			}
+			
+			
+		
+		
+		@media only screen and (min-width: 376px) and (max-width: 480px) {
+			body{ font-size: 15px; background: #eaeff3; font-family: "verdana, geneva, arial, helvetica, sans-serif";}	
+		ul{ margin: 0; padding: 0; list-style: none;}
+		.fl{ float: left;}
+		.fr{ float: right;}
+		.texC{ text-align: center;}
+		.texL{ text-align: left;}
+		.texR{ text-align: right;}
+		 .inp{ width: 100%;}
+		 .tea{ width: 100%;}
+		input[type='text']{ border: none;
+		 border-bottom: solid 1px #000000; outline: none; font-size: 1.2rem; }
+		.safe_all{ width: 98%; height: auto; background: #FFFFFF;}
+		.safe_top{ width: 100%; height: 3.5rem;}
+		
+		.safe_couent{ width: 95%; height: auto; margin: 0 auto;}
+		.safe_main_header{ font-size: 1.7rem;font-weight: 600; font-family: "宋体";}
+		.safe_main_header1{ border-bottom: solid 2px #808080; 
+		line-height: 1.7rem; color: #303030; }
+		.safe_ul1{ margin-top: 1rem;}
+		.safe_ul1 li{ width: 100%; line-height: 3rem; clear: both;}
+			.safe_top{ width: 100%; height: 3rem;}
+			input[type='text']{ border: none;
+		 border-bottom: solid 1px #000000; outline: none; font-size: 0.6rem; }
+		.safe_main_header{ font-size: 1rem;font-weight: 600; font-family: "宋体";}
+		.safe_main_header1{ border-bottom: solid 2px #808080; 
+		line-height: 1.5rem; color: #303030; }
+		.safe_ul1{ margin-top: 1.1rem;}
+		.safe_ul1 li{ width: 100%; line-height: 1.6rem; font-size: 0.8rem; clear: both;}
+		.jcdw1{ width: 22%;}
+		.jcdw2{ width: 78%;}
+		.dz1{ width: 12%;}
+		.dz2{ width: 88%;}
+		.fddb1{ width: 34%;}
+		.fddb2{ width: 66%;}
+		.zw1{ width: 12%; text-align: left;}
+		.zw2{ width: 26%;}
+		.phone_div1{ width: 22%;}
+		.phone_div2{ width: 39%;}
+		.jccs1{ width: 19%;}
+		.jccs2{ width: 81%;}
+		
+		.jctime1{ width: 19%;}
+		.strattime{ width: 35%;}
+		.zhi1{ width: 10%;}
+		.endtime{ width: 36%;}
+		
+		.my1{ width: 15%; margin-left: 5%;}
+		.city1{ width: 25%;}
+		
+		.zfry1{ width: 45%;}
+		.dian{ width: 10%; text-align: center;}
+		.zfry2{ width: 45%;}
+		
+		.card_num_div1{ width: 20%;}
+		.card_num_div2{ width: 35%;}
+		.card_num_div3{ width: 35%;}
+		
+		.jcqk{ width: 83%; margin: 0 auto;}
+		.tea{ height: 5rem;}
+		.safe_tab1{ margin-bottom: 1rem;}
+		.bn{  clear: both; width: 100%; border: none!important;}
+		
+		
+		.jcryqz1{ width: 38%;}
+		.jcry_qz1{ width: 26%;}
+		.jcry_qz2{ width: 26%;}
+		
+		
+		.bjcry_qz1{ width: 40%;}
+		.bjcry_qz2{ width: 60%;}
+		
+		.xian{ width: 100%; height: 2px; background: #000000; margin-top: 1rem;}
+		.fottom_yejiao{ font-size: 0.4rem;}
+		}
+			
+		
+			
+		
+		
+		</style>
+		
+		
 		<div class="safe_all">
 			<div class="safe_top"></div>
 			<div class="safe_couent">
-				<div class="header1">
-					<span>安全生产行政执法文书</span>
+				<div class="safe_main_header wd100 texC">
+					<div class="safe_main_header1 wd100">
+						<span>安全生产行政处罚文书</span>
+					</div>
+					<div class="safe_main_header2 wd100">
+						<span>现场检查记录</span>
+					</div>
 				</div>
-				<div class="header2">
-					现场检查记录
-				</div>
-				<div class="zhengwen">
-					<ul>
-						<li>
-							<div class="dw_div1">检查单位：</div>
-							<div class="dw_div2">
-								<input type="text" />
+				<ul class="safe_ul1">
+					<li>
+						<div class="jcdw1  fl">
+							<span>被检查单位：</span>
+						</div>
+						<div class="jcdw2 fl">
+							<input type="text" class="jcdw_inp inp " />
+						</div>
+					</li>
+					<li>
+							<div class="dz1 fl">
+								<span>地址：</span>
+							</div>
+							<div class="dz2 fl">
+								<input type="text" class="dz_inp inp" />
 							</div>
 						</li>
 						<li>
-							<div class="dz_div1">地址：</div>
-							<div class="dz_div2">
-								<input type="text" />
+							<div class="fddb1  fl">
+								<span>法定代表人(负责人)：</span>
 							</div>
-						</li>
-						<li>
+							<div class="fddb2  fl">
+								<input type="text"  class="fdfzr_inp  inp" />
+							</div>
 							
-								<div class="fl fdr">
-									<span>法定代表人(负责人)</span>
-								</div>
-								<div class="fl fdr_inp">
-									<input type="text" />
-								</div>
-								
-								
 							
 						</li>
 						<li>
-							<div class="fl zw">
-								<span>职务</span>
+							<div class="zw1 texC fl">
+								<span>职务：</span>
 							</div>
-							<div class="fl zw_inp">
-								<input type="text" />
+							<div class="zw2   fl">
+								<input type="text" class="zw_inp texC inp" />
 							</div>
-							<div class="fl phone">
-								<span>电话</span>
+							<div class=" phone_div1  fl texC">
+								<span>联系电话：</span>
 							</div>
-							<div class="fl phone_inp">
-								<input type="text" />
-							</div>
-						</li>
-						<li>
-							<div class="dw_div1">检查场所：</div>
-							<div class="dw_div2">
-								<input type="text" />
-							</div>
-						</li>
-						
-						<li>
-							<div class="dw_div1">检查时间：</div>
-							<div class="dw_div2">
-								<input type="text" />
+							<div class=" phone_div2 fl">
+								<input type="text" class="phone_inp  inp" />
 							</div>
 						</li>
 						<li>
-							<div class="fl my">我们是</div>
-							<div class="fl gys">
-								<input type="text" />
+							<div class="jccs1 fl">
+								<span>检查场所：</span>
 							</div>
-							<div class="fl">
-								<span>
-									安全监督管理局执法人员
-								</span>
+							<div class="jccs2 wd80 fl">
+								<input type="text" class="jccs_inp inp" />
 							</div>
 						</li>
 						<li>
-							<div class="fl man1">
-								<input type="text" />
+							<div class="jctime1  fl">
+								<span>检查时间：</span>
 							</div>
-							<div class="fl dian">
-								<span>、</span>
+							<div class="strattime  fl">
+								<input type="text" class="strattime_inp inp" />
 							</div>
-							<div class="fl man2">
-								<input type="text" />
+							<div class="zhi1 texC fl">
+								<span>至：</span>
 							</div>
-							<div class="fl">
-								<span>
-									证件号码为：
-								</span>
+							<div class="endtime  fl">
+								<input type="text" class="endtime_inp inp" />
 							</div>
-						</li>
-						<li>
-							<div class="fl card1">
-								<input type="text" />
-							</div>
-							<div class="fl dian">
-								<span>、</span>
-							</div>
-							<div class="fl card1">
-								<input type="text" />
-							</div>
-						</li>	
-							
+							</li>
 							<li>
-							<div class="fl card_chushi">
-								<span>
-								这是我们的证件号(出示证件)。
-								现依法对你单位进行
-								</span>
-							</div>
-						</li>
-						<li>
-							<span>
-								检查，请予以配合。
-							</span>
-						</li>
-						<li>
-							<div class="jcqk1 fl">检查情况：</div>
-							<div class="jcqk2 fl">
-								<input type="text" />
-							</div>
-						</li>
-						<li>
+								<div class="fl my1 texC">
+									<span>我们是</span>
+								</div>
+								<div class="fl city1">
+									<input type="text" class="inp  city_inp" />
+								</div>
+								<div class="fl zfry_div">
+									<span>安全监督管理局执法人员</span>
+								</div>
+								
+							</li>
+							<li>
+								<div class="fl zfry1 texC">
+									<input type="text" class="inp  zfry1_inp" />
+								</div>
+								<div class="fl texC dian">、</div>
+								<div class="fl zfry2">
+									<input type="text" class="inp  zfry2_inp" />
+								</div>
+							</li>
+							<li>
+								<div class=" card_num_div1 fl">
+									<span>证件号码：</span>
+								</div>
+								<div class="fl card_num_div2  texC">
+									<input type="text" class="inp texC card_num2_inp" />
+								</div>
+								<div class="fl texC dian">、</div>
+								<div class="fl card_num_div2">
+									<input type="text" class="inp texC card_num3_inp" />
+								</div>
+								<div class=" fl">
+									<span>这是我们的证件。(出示证件)现依法对你单位进行检查，请予以配合</span>
+								</div>
+							</li>
+								
+							<li>
+								<div class="jcqk">
+									<span>检查情况：</span>
+								</div>
 							
-							<div class="quan_inp">
-								<input type="text" />
-							</div>
-						</li>
-						<li>
+							</li>
+							<li>
+								<div class="wd100">
+									<textarea class="wd100 tea"></textarea>
+								</div>
+							</li>
+							<li>
+								<div class="wd100">
+									<span>发现处置以下问题：</span>
+								</div>
 							
-							<div class="quan_inp">
-								<input type="text" />
-							</div>
-						</li>
-						<li>
-							
-							<div class="quan_inp">
-								<input type="text" />
-							</div>
-						</li>
-						<li>
-							
-							<div class="quan_inp">
-								<input type="text" />
-							</div>
-						</li>
-						<li>
-							
-							<div class="quan_inp">
-								<input type="text" />
-							</div>
-						</li>
-						<li>
-							<div class="quan_inp">
-								<span>发现处置以下问题：</span>
-							</div>
-						</li>
-						<li>
-							<table cellpadding="0" cellspacing="0" border="1" style="width: 100%; text-align: center;">
+							</li>
+							<li>
+							<table class="safe_tab1" cellpadding="0" cellspacing="0" border="1" style="width: 100%; text-align: center;">
 								<tr>
-									<td style="height: 2rem;">序号</td>
+									<td style="height: 1.2rem;">序号</td>
 									<td>检查部位</td>
 									<td>问题描述</td>
 								</tr>
 								<tr>
-									<td style="height: 2rem;"></td>
-									<td></td>
-									<td></td>
+									<td style="height: 1.5rem;">
+										<input type="text" class="bn" />
+									</td>
+									<td>
+										<input type="text" class="bn" />
+									</td>
+									<td>
+										<input type="text" class="bn" />
+									</td>
 								</tr>
 								<tr>
-									<td style="height: 2rem;"></td>
-									<td></td>
-									<td></td>
+									<td style="height: 1.5rem;">
+										<input type="text" class="bn" />
+									</td>
+									<td>
+										<input type="text" class="bn" />
+									</td>
+									<td>
+										<input type="text" class="bn" />
+									</td>
 								</tr>
+								
 							</table>
 						</li>
-						<li> </li>
 						<li>
-							<div class="qianzi1 fl">
-								<span>检查人员(签名)</span>
-							</div>
-							<div class="qianzi1 fl">
-								<input type="text" />
-							</div>
-							<div class="dian fl">
-								<span>、</span>
-							</div>
-							<div class="qianzi1 fl">
-								<input type="text" />
-							</div>
-						</li>
-						<div style="clear: both;"></div>
-						
-						<li>
-							<div class="fzr_qz1 fl">
-								<span>现场负责人(签名)</span>
-							</div>
-							<div class="fzr_qz2 fl">
-								<input type="text" />
-							</div>
-							
-						</li>
-						<li>
-							<div class="gognzhang">
+								<div class="jcryqz1 fl">
+									<span>检查人员（签名）：</span>
+								</div>
+								<div class="fl jcry_qz1">
+									<input type="text" class="inp texC jcry_qz1_inp" />
+								</div>
+								<div class="fl texC dian">、</div>
+								<div class="fl jcry_qz2 ">
+									<input type="text" class="inp texC jcry_qz2_inp" />
+								</div>
+								
+							</li>
+							<li>
+								<div class="bjcdy_qz1 fl">
+									<span>被检查单位（签名）：</span>
+								</div>
+								<div class="bjcdy_qz2 fl">
+									<input type="text" class="inp texC bjcdy_qz2_inp" />
+								</div>																
+							</li>
+							<li>
+							<div class="gognzhang wd100 texR">
 								<span>贵阳市安全监督管理局(公章)</span>
 							</div>
 						</li>
 						<li>
-							<div class="shijian">
+							<div class="shijian wd100 texR">
 								<a>2017年9月10号</a>
 							</div>
 						</li>
@@ -296,21 +517,54 @@
 								</span>
 							</div>
 						</li>
-						<div style="clear: both;"></div>
-					</ul>
-				</div>
+				</ul>
 			</div>
+			<div style="clear: both;"></div>
 		</div>
+		
 	</body>
-	
-	
-	 <script>
+	<script type="text/javascript" src="jquery-3.1.0.min.js" ></script>
+	<script>
+		var jsonData = JSON.parse(scene.jsontohtml());
 
-	 		<!--alert("调用Android方法");-->
-	 	<!--}function getScene()-->
-	 	<!--{-->
-		var data1 =  jsonData=scene.jsontohtml());
- 		var json1 = eval("(" + data1 + ")");
-  		alert(json1[0].label);
-    </script>
+		$(".jcdw_inp").val(jsonData.checkUnit);
+		$(".dz_inp").val(jsonData.checkAddress);
+		$(".fdfzr_inp").val(jsonData.legalRepresentative);
+		$(".zw_inp").val(jsonData.legalDuty);
+		$(".phone_inp").val(jsonData.contactNumber);
+		$(".jccs_inp").val(jsonData.checkSite);
+		$(".strattime_inp").val(jsonData.checkTime);
+		$(".endtime_inp").val(jsonData.checkTime);
+		$(".city_inp").val(jsonData.cityName);
+		$(".zfry1_inp").val(jsonData.checkPeople1);
+		$(".zfry2_inp").val(jsonData.checkPeople2);
+		$(".card_num2_inp").val(jsonData.documentsId1);
+		$(".card_num3_inp").val(jsonData.documentsId2);
+		$(".tea").val(jsonData.checkCase);
+
+		var list = jsonData.checkYinhuanList;
+
+		var html='';
+		for(var i=0; i<list.length;i++){
+			html+='<tr>'+
+				'<td style="height: 1.5rem;">'+
+					'<input type="text" class="bn" value="'+(i+1)+'" />'+
+				'</td>'+
+			   '<td>'+
+					'<input type="text" class="bn" value="'+list[i].threat_position+'" />'+
+				'</td>'+
+				'<td>'+
+					'<input type="text" class="bn" value="'+list[i].threat_description+'" />'+
+				'</td>'+
+			  '</tr>';
+		}
+		$(".safe_tab1 tr").after(html);
+
+		$(".jcry_qz1_inp").val(jsonData.checkSignature11);
+		$(".jcry_qz2_inp").val(jsonData.checkSignature12);
+		$(".bjcdy_qz2_inp").val(jsonData.beCheckedPeople);
+		$(".lttime").val(jsonData.recordingTime);
+
+	</script>
+	
 </html>

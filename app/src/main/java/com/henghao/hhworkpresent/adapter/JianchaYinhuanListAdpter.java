@@ -1,24 +1,17 @@
 package com.henghao.hhworkpresent.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.AddYinhuanActivity;
 import com.henghao.hhworkpresent.entity.JianchaMaterialEntity;
-import com.henghao.hhworkpresent.entity.JianchaYinhuanEntity;
 import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
@@ -28,7 +21,7 @@ import java.util.List;
  * Created by ASUS on 2017/9/14.
  */
 
-public class JianchaYinhuanListAdpter extends ArrayAdapter<JianchaYinhuanEntity> {
+public class JianchaYinhuanListAdpter extends ArrayAdapter<JianchaMaterialEntity> {
 
     private final LayoutInflater inflater;
 
@@ -38,7 +31,7 @@ public class JianchaYinhuanListAdpter extends ArrayAdapter<JianchaYinhuanEntity>
 
     private final ActivityFragmentSupport mActivityFragmentSupport;
 
-    public JianchaYinhuanListAdpter(ActivityFragmentSupport activityFragment, List<JianchaYinhuanEntity> mList){
+    public JianchaYinhuanListAdpter(ActivityFragmentSupport activityFragment, List<JianchaMaterialEntity> mList){
         super(activityFragment, R.layout.listview_jiancha_yinhuan_item, mList);
         this.mActivityFragmentSupport = activityFragment;
         this.inflater = LayoutInflater.from(activityFragment);
@@ -62,7 +55,7 @@ public class JianchaYinhuanListAdpter extends ArrayAdapter<JianchaYinhuanEntity>
             mHodlerView = (HodlerView) convertView.getTag();
         }
 
-        mHodlerView.tv_check_description.setText(getItem(position).getThreat_description());
+        mHodlerView.tv_check_description.setText(getItem(position).getCheckDescript());
         mHodlerView.image_delete_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

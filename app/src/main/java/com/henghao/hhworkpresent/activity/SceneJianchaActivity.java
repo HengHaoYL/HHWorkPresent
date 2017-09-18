@@ -3,6 +3,7 @@ package com.henghao.hhworkpresent.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
@@ -14,10 +15,10 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.SceneJianchaEntity;
-import com.henghao.hhworkpresent.utils.JSONHelper;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.lidroid.xutils.ViewUtils;
@@ -77,6 +78,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
     public void initData() {
         super.initData();
         sceneJianchaEntity = (SceneJianchaEntity) getIntent().getSerializableExtra("sceneJianchaEntity");
+        Log.d("wangqingbin","JSONObject.toJSONString(sceneJianchaEntity)=="+JSONObject.toJSONString(sceneJianchaEntity));
 
         webView.loadUrl("file:///android_asset/scene.html");    //加载本地的html布局文件
         webView.setDrawingCacheEnabled(true);
@@ -126,7 +128,8 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
 
         @JavascriptInterface
         public String jsontohtml(){
-            return JSONHelper.toJSON(sceneJianchaEntity);
+            //使用fastjson转json
+            return JSONObject.toJSONString(sceneJianchaEntity);
         }
     }
 

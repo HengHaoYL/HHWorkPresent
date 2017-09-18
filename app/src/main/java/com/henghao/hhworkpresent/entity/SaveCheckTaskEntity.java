@@ -1,19 +1,24 @@
 package com.henghao.hhworkpresent.entity;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.List;
 
 /**
- * 添加检查任务界面点击保存后要提交的数据对象
+ * 添加检查任务界面点击保存后要提交的数据对象  再把我要检查界面需要提交的数据封装
  * Created by ASUS on 2017/9/15.
  */
 
 public class SaveCheckTaskEntity {
 
-    private String company_name;
-    private String checkPeople1;
-    private String checkPeople2;
-    private String checkTime;
-    private List<JianchaMaterialEntity> jianchaMaterialEntityList;
+    private String company_name;        //公司名称
+    private String checkPeople1;        //检查人员1  也就是系统登录人员
+    private String checkPeople2;        //检查人员2  也就是被选中的执法人员
+    private String checkTime;           //检查时间
+    private List<JianchaMaterialEntity> jianchaMaterialEntityList;  //被选中的隐患列表
+    private String checkSite;           //检查现场
+    private String siteResponse;        //企业现场负责人
+    private String siteImagePath;       //巡查现场合照
 
     public String getCompany_name() {
         return company_name;
@@ -55,14 +60,32 @@ public class SaveCheckTaskEntity {
         this.jianchaMaterialEntityList = jianchaMaterialEntityList;
     }
 
+    public String getCheckSite() {
+        return checkSite;
+    }
+
+    public void setCheckSite(String checkSite) {
+        this.checkSite = checkSite;
+    }
+
+    public String getSiteImagePath() {
+        return siteImagePath;
+    }
+
+    public void setSiteImagePath(String siteImagePath) {
+        this.siteImagePath = siteImagePath;
+    }
+
+    public String getSiteResponse() {
+        return siteResponse;
+    }
+
+    public void setSiteResponse(String siteResponse) {
+        this.siteResponse = siteResponse;
+    }
+
     @Override
     public String toString() {
-        return "SaveCheckTaskEntity{" +
-                "company_name='" + company_name + '\'' +
-                ", checkPeople1='" + checkPeople1 + '\'' +
-                ", checkPeople2='" + checkPeople2 + '\'' +
-                ", checkTime='" + checkTime + '\'' +
-                ", jianchaMaterialEntityList=" + jianchaMaterialEntityList +
-                '}';
+        return JSONObject.toJSONString(this);
     }
 }
