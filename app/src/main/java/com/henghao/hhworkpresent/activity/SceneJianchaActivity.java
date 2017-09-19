@@ -1,8 +1,10 @@
 package com.henghao.hhworkpresent.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -17,6 +19,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,7 @@ import com.benefit.buy.library.phoneview.utils.FileUtils;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.SceneJianchaEntity;
+import com.henghao.hhworkpresent.views.CustomDialog;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.lidroid.xutils.ViewUtils;
@@ -148,6 +153,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
     private void viewOnClick(View v) {
         switch (v.getId()) {
             case R.id.tv_scene_jiancha_save:        //保存
+                showDialog();
                 break;
             case R.id.tv_scene_jiancha_print:       //打印
                 if(appIsInstalled(this,"")){
@@ -158,6 +164,79 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
                 break;
         }
     }
+
+    /**
+     * 点击保存弹出列表样式对话框
+     */
+    public void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("选择处理方式");
+        //定义列表中的选项
+        final String[] items = new String[]{
+                "无隐患，归档",
+                "存在隐患，责令更改",
+                "存在违法，走一般程序处罚",
+                "存在违法，走简易程序处罚",
+        };
+        //设置列表选项
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            //点击任何一个列表选项都会触发这个方法
+            //which：点击的是哪一个选项
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case 0: //无隐患，归档
+                        showWuyinghuanDialog();
+                        break;
+                    case 1: //存在隐患，责令更改
+                        break;
+                    case 2: //存在违法，走一般程序处罚
+                        break;
+                    case 3: //存在违法，走简易程序处罚
+                        break;
+                }
+            }
+        });
+        // 取消选择
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
+    }
+
+    /**
+     * 展示无隐患归档的确认对话框
+     */
+    public void showWuyinghuanDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //设置对话框图标，可以使用自己的图片，Android本身也提供了一些图标供我们使用
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        //设置对话框标题
+        builder.setTitle("您选择的处理方式");
+        //设置对话框内的文本
+        builder.setMessage("无隐患，归档");
+        //设置确定按钮，并给按钮设置一个点击侦听，注意这个OnClickListener使用的是DialogInterface类里的一个内部接口
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 执行点击确定按钮的业务逻辑
+            }
+        });
+        //设置取消按钮
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 执行点击取消按钮的业务逻辑
+            }
+        });
+        //使用builder创建出对话框对象
+        AlertDialog dialog = builder.create();
+        //显示对话框
+        dialog.show();
+    }
+
 
     /**
      * 安装apk文件

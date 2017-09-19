@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
 import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.ProtocolUrl;
@@ -136,7 +137,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
 
     private MyReceiver myReceiver;
 
-    private String Pid;
+    public static String Pid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,8 +183,8 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         dataBean = (CompanyInfoEntity.DataBean)data.getSerializableExtra("dataBean");
         jianchaPersonalEntity = (JianchaPersonalEntity) data.getSerializableExtra("checkpeople");
         Pid = data.getStringExtra("Pid");
-        httpRequestCheckTask();
 
+        httpRequestCheckTask();
 
         myReceiver = new MyReceiver();
         IntentFilter filter = new IntentFilter();
@@ -259,8 +260,6 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                 showLoginDialog();
                 break;
             case R.id.tv_start_check:  //打开标准逐项排查
-                //删除隐患数据库，把之前的删除
-                deleteDatabase("threat_info.db");
 
                 if(et_check_scene.getText().toString()==null){
                     Toast.makeText(WoyaoJianchaActivity.this,"请填写检查现场",Toast.LENGTH_SHORT).show();
@@ -302,8 +301,6 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
             case R.id.tv_woyao_checked_cancel:  //取消  跳转到添加检查任务界面
                 intent.setClass(this,AddJianchaTaskActivity.class);
                 startActivity(intent);
-                //删除隐患数据库，以防下次重新进入的时候还存在原来的数据
-                deleteDatabase("threat_info.db");
                 finish();
                 break;
         }
@@ -314,13 +311,14 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
      * 保存数据到服务器的操作
      */
     public void saveCheckedDataToService(){
+        SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(this);
         SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
         saveCheckTaskEntity.setPid(Integer.parseInt(Pid));
-        saveCheckTaskEntity.setCompany_name(tv_company_name.getText().toString());
-        saveCheckTaskEntity.setCheckPeople1("");
-        saveCheckTaskEntity.setCheckPeople2(tv_check_people.getText().toString());
-        saveCheckTaskEntity.setCheckTime(tv_check_time.getText().toString());
-        saveCheckTaskEntity.setJianchaMaterialEntityList(mJianchaMaterialEntityList);
+     //   saveCheckTaskEntity.setCompany_name(tv_company_name.getText().toString());
+     //   saveCheckTaskEntity.setCheckPeople1(sqliteDBUtils.getLoginFirstName()+ sqliteDBUtils.getLoginGiveName());
+     //   saveCheckTaskEntity.setCheckPeople2(tv_check_people.getText().toString());
+     //   saveCheckTaskEntity.setCheckTime(tv_check_time.getText().toString());
+    //    saveCheckTaskEntity.setJianchaMaterialEntityList(mJianchaMaterialEntityList); 这个数据在添加隐患界面保存过了，就不添加保存了
         saveCheckTaskEntity.setCheckSite(et_check_scene.getText().toString());
         saveCheckTaskEntity.setSiteResponse(et_check_person.getText().toString());
         //上传图片路径 并且还要上传图片文件 现场图片和隐患包含的图片
@@ -422,36 +420,70 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
             String action = intent.getAction();
             //监听检查标准页面保存键
             if((Constant.PRESS_SAVE_BUTTON).equals(action)){
-                mJianchaMaterialEntityList = queryAllToThreat();
-                setListViewHeightBasedOnChildren(check_yinhuan_listview);
-                jianchaYinhuanListAdpter = new JianchaYinhuanListAdpter(WoyaoJianchaActivity.this,mJianchaMaterialEntityList);
-                check_yinhuan_listview.setAdapter(jianchaYinhuanListAdpter);
-                jianchaYinhuanListAdpter.notifyDataSetChanged();
+                //根据pid查询有隐患的被检查隐患文件列表
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                final String request_url = "http://172.16.0.81:8080/istration/enforceapp/queryjianchabystatus?pid="+Pid;
+                Request request = builder.url(request_url).build();
+                Call call = okHttpClient.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mActivityFragmentView.viewLoading(View.GONE);
+                                Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        String result_str = response.body().string();
+                        try {
+                            JSONObject jsonObject = new JSONObject(result_str);
+                            result_str = jsonObject.getString("data");
+                            Gson gson = new Gson();
+                            mJianchaMaterialEntityList = gson.fromJson(result_str,new TypeToken<ArrayList<SaveCheckTaskEntity.JianchaMaterialEntityListBean>>() {}.getType());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    jianchaYinhuanListAdpter = new JianchaYinhuanListAdpter(WoyaoJianchaActivity.this, mJianchaMaterialEntityList);
+                                    setListViewHeightBasedOnChildren(check_yinhuan_listview);
+                                    check_yinhuan_listview.setAdapter(jianchaYinhuanListAdpter);
+                                    jianchaYinhuanListAdpter.notifyDataSetChanged();
+                                }
+                            });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
             }
         }
     }
 
     /**
-     * 从threat表中查询所有数据
+     * 根据Item数设定ListView高度
+     * @param listView
      */
-    public List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> queryAllToThreat(){
-        String sql = "select * from threat";
-        YinhuanDatabaseHelper databaseHelper = new YinhuanDatabaseHelper(this,"threat_info.db");
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> jianchaMaterialEntityList = new ArrayList<SaveCheckTaskEntity.JianchaMaterialEntityListBean>();
-        SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity = null;
-        Cursor cursor = db.rawQuery(sql, null);
-        while (cursor.moveToNext()) {
-            jianchaMaterialEntity = new SaveCheckTaskEntity.JianchaMaterialEntityListBean();
-            jianchaMaterialEntity.setFindTime(cursor.getString(cursor.getColumnIndex("threat_time")));
-            jianchaMaterialEntity.setCheckDegree(cursor.getString(cursor.getColumnIndex("threat_degree")));
-            jianchaMaterialEntity.setCheckPosition(cursor.getString(cursor.getColumnIndex("threat_position")));
-            jianchaMaterialEntity.setCheckDescript(cursor.getString(cursor.getColumnIndex("threat_description")));
-            String threat_imagepath= cursor.getString(cursor.getColumnIndex("threat_imagepath"));
-            jianchaMaterialEntity.setSelectImagePath(threat_imagepath);
-            jianchaMaterialEntityList.add(jianchaMaterialEntity);
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
         }
-        return jianchaMaterialEntityList;
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * listAdapter.getCount());
+        listView.setLayoutParams(params);
     }
 
     /**
@@ -540,30 +572,4 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         }
     }
 
-    /**
-     * 根据Item数设定ListView高度
-     * @param listView
-     */
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * listAdapter.getCount());
-        listView.setLayoutParams(params);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        //删除隐患数据库，以防下次重新进入的时候还存在原来的数据
-        deleteDatabase("threat_info.db");
-    }
 }

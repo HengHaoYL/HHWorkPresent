@@ -16,10 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,6 +54,12 @@ public class QueryYinhuanInfoActivity extends ActivityFragmentSupport {
     private TextView tv_query_check_ok;
 
     private SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntity;
+
+    private ImageLoader imageLoader;
+
+    private DisplayImageOptions options;
+
+    private List<String> mSelectPath = new ArrayList<>();
 
 
     @Override
@@ -85,7 +94,6 @@ public class QueryYinhuanInfoActivity extends ActivityFragmentSupport {
         });
     }
 
-    private List<String> mSelectPath = new ArrayList<>();
     @Override
     public void initData() {
         super.initData();
@@ -96,13 +104,12 @@ public class QueryYinhuanInfoActivity extends ActivityFragmentSupport {
         tv_query_check_position.setText(jianchaMaterialEntity.getCheckPosition());
         String imagePath = jianchaMaterialEntity.getSelectImagePath();
         if(imagePath!=null){
-            String[] imagePathArr = imagePath.split(";");
+            String[] imagePathArr = imagePath.split(",");
             mSelectPath = Arrays.asList(imagePathArr);
             GridAdapter adapter = new GridAdapter();
             query_check_image_gridview.setAdapter(adapter);
         }
     }
-
 
     class GridAdapter extends BaseAdapter {
 
@@ -140,33 +147,20 @@ public class QueryYinhuanInfoActivity extends ActivityFragmentSupport {
             }
 
             holder.btn.setVisibility(View.GONE);
-            //做压缩处理后就不会爆出OOM异常
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            Bitmap bm = BitmapFactory.decodeFile(mSelectPath.get(position),options);
-            // 获取到这个图片的原始宽度和高度  
-            int picWidth = options.outWidth;
-            int picHeight = options.outHeight;
-            // 获取屏的宽度和高度  
-            WindowManager windowManager = getWindowManager();
-            Display display = windowManager.getDefaultDisplay();
-            int screenWidth = display.getWidth();
-            int screenHeight = display.getHeight();
-            // isSampleSize是表示对图片的缩放程度，比如值为2图片的宽度和高度都变为以前的1/2  
-            options.inSampleSize = 2;
-            // 根据屏的大小和图片大小计算出缩放比例  
-            if(picWidth > picHeight){
-                if(picWidth > screenWidth)
-                    options.inSampleSize = picWidth/screenWidth;
-            }else{
-                if (picHeight > screenHeight)
-                    options.inSampleSize = picHeight/screenHeight;
-            }
-            // 这次再真正地生成一个有像素的，经过缩放了的bitmap  
-            options.inJustDecodeBounds = false;
-            bm = BitmapFactory.decodeFile(mSelectPath.get(position),options);
-            //将图片显示到ImageView中
-            holder.image.setImageBitmap(bm);
+
+            /**
+             * 下载隐患图片
+             */
+            options = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.icon_logo) // 设置图片下载期间显示的图片
+                    .showImageForEmptyUri(R.drawable.ic_launcher) // 设置图片Uri为空或是错误的时候显示的图片
+                    .showImageOnFail(R.drawable.ic_launcher) // 设置图片加载或解码过程中发生错误显示的图片
+                    .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
+                    .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
+                    .build(); // 构建完成
+            imageLoader = ImageLoader.getInstance();
+            String[] imageUrl = mSelectPath.toArray(new String[mSelectPath.size()]);
+            imageLoader.displayImage("http://172.16.0.81:8080/image/" + imageUrl[position], holder.image, options);
             return convertView;
         }
     }

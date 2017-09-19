@@ -300,7 +300,6 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
     public void getDialogBaseData(){
         for(int i = 0; i < mPostionBaseList.size(); i++){
             int itemId = mPostionBaseList.get(i);
-            Log.d("wangqingbin","itemId=="+itemId);
             switch (itemId){
                 case 1:
                     //资质证照

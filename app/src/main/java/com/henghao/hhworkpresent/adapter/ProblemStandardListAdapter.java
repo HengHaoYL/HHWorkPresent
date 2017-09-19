@@ -69,20 +69,11 @@ public class ProblemStandardListAdapter extends BaseAdapter {
                 }else if(checkedId == HodlerView.radio_not_conform.getId()){
                     Intent intent = new Intent();
                     intent.setClass(mContext,AddYinhuanActivity.class);
+                    intent.putExtra("JianchaMaterialEntityListBean",mList.get(position));
                     mContext.startActivity(intent);
                 }
             }
         });
-        /*mHodlerView.tv_add_yinhuan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HodlerView.radio_not_conform.setChecked(!mList.get(position).isChecked());
-                HodlerView.radio_conform.setChecked(mList.get(position).isChecked());
-                Intent intent = new Intent();
-                intent.setClass(mContext,AddYinhuanActivity.class);
-                mContext.startActivity(intent);
-            }
-        });*/
         return convertView;
     }
 

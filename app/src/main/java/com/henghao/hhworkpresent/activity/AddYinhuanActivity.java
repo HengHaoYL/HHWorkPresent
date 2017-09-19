@@ -29,14 +29,24 @@ import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
 import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.henghao.hhworkpresent.utils.AnimationUtil;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.YinhuanDatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,6 +99,8 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
     private boolean isPopWindowShowing = false;
     int fromYDelta;
 
+    private SaveCheckTaskEntity.JianchaMaterialEntityListBean jianchaMaterialEntityListBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +134,8 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
 
         adapter = new GridAdapter();
         add_yinhuan_picture_gridView.setAdapter(adapter);
+
+        jianchaMaterialEntityListBean = (SaveCheckTaskEntity.JianchaMaterialEntityListBean)getIntent().getSerializableExtra("JianchaMaterialEntityListBean");
     }
 
     @OnClick({R.id.tv_addyinhuan_degree,R.id.tv_addyinhuan_save,R.id.tv_addyinhuan_cancel})
@@ -142,8 +156,8 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
                 }
                 break;
             case R.id.tv_addyinhuan_save:           //保存操作
+                saveCheckYinhuanDataToSerivce();
                 finish();
-                saveToYinhuanDatabase();
                 break;
             case R.id.tv_addyinhuan_cancel:
                 finish();
@@ -156,24 +170,51 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
      * 保存数据到 多张隐患图片到服务器  一个隐患问题可能对应多张图片 或没有图片
      */
     public void saveCheckYinhuanDataToSerivce(){
-
-    }
-
-    /**
-     * 保存数据到本地数据库
-     */
-    public void saveToYinhuanDatabase(){
-        YinhuanDatabaseHelper databaseHelper = new YinhuanDatabaseHelper(this,"threat_info.db");
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("threat_time",tv_addyinhuan_time.getText().toString());
-        contentValues.put("threat_degree",tv_addyinhuan_degree.getText().toString());
-        contentValues.put("threat_position",et_addyinhuan_position.getText().toString());
-        contentValues.put("threat_description",et_addyinhuan_description.getText().toString());
+        jianchaMaterialEntityListBean.setFindTime(tv_addyinhuan_time.getText().toString());
+        jianchaMaterialEntityListBean.setCheckDegree(tv_addyinhuan_degree.getText().toString());
+        jianchaMaterialEntityListBean.setCheckPosition(et_addyinhuan_position.getText().toString());
+        jianchaMaterialEntityListBean.setCheckDescript(et_addyinhuan_description.getText().toString());
         if(mSelectPath!=null){
-            contentValues.put("threat_imagepath",listToString(mSelectPath,';'));
+            jianchaMaterialEntityListBean.setSelectImagePath(listToString(mSelectPath,';'));    //以分隔符把图片路径拼接成为string
+        }else{
+            jianchaMaterialEntityListBean.setSelectImagePath("");
         }
-        db.insert("threat", null, contentValues);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        //这个要和服务器保持一致 application/json;charset=UTF-8
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("pid",WoyaoJianchaActivity.Pid)  //pid
+                .addFormDataPart("json", com.alibaba.fastjson.JSONObject.toJSONString(jianchaMaterialEntityListBean));//json数据
+        for (File file : mYinhuanFileList) {
+            //上传现场图片
+            multipartBuilder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"),file));
+        }
+        RequestBody requestBody = multipartBuilder.build();
+        Request request = builder.post(requestBody).url("http://172.16.0.81:8080/istration/enforceapp/updatecheckcontent").build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e){
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msg("网络请求错误！");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msg("隐患数据保存成功！");
+                    }
+                });
+            }
+        });
     }
 
     /**
