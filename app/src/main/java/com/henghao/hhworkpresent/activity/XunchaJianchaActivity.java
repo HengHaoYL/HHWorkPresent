@@ -35,23 +35,9 @@ public class XunchaJianchaActivity extends ActivityFragmentSupport {
 
     private PopupWindow mPopupWindow;
     private boolean isPopWindowShowing = false;
-    int fromYDelta;
+    private int fromYDelta;
 
     private TabHost mTabHost;
-
-    @ViewInject(R.id.listview_woyaojiancha)
-    private XListView woyaojiancha_listview;
-
-    @ViewInject(R.id.listview_woyaofucha)
-    private XListView woyaofucha_listview;
-
-    @ViewInject(R.id.listview_diaochaquzheng)
-    private XListView diaochaquzheng_listview;
-
-    @ViewInject(R.id.listview_lishijilu)
-    private XListView lishijilu_listview;
-
-    private List<WoyaoJianchaEntity> mWoyaoJianchaData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,15 +80,35 @@ public class XunchaJianchaActivity extends ActivityFragmentSupport {
             }
         });
 
-        //得到TabHost对象实例
-        mTabHost =(TabHost) findViewById(R.id.xuncha_tabhost);
-        //调用 TabHost.setup()
+        mTabHost =(TabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup();
-        //创建Tab标签
-        mTabHost.addTab(mTabHost.newTabSpec("one").setIndicator("我要检查").setContent(R.id.frame_woyaojiancha));
-        mTabHost.addTab(mTabHost.newTabSpec("two").setIndicator("我要复查").setContent(R.id.frame_woyaofucha));
-        mTabHost.addTab(mTabHost.newTabSpec("three").setIndicator("调查取证").setContent(R.id.frame_diaochaquzheng));
-        mTabHost.addTab(mTabHost.newTabSpec("four").setIndicator("历史记录").setContent(R.id.frame_lishijilu));
+
+        //创建选项卡
+        TabHost.TabSpec tab1 = mTabHost.newTabSpec("tab1")
+                //创建标题卡片，参数一：指定标题卡片的文本内容，参数二：指定标题卡片的背景图片
+        //        .setIndicator("我要检查", getResources().getDrawable(R.drawable.tab1))
+                .setIndicator("我要检查")
+                //将setContent（int）参数指定的组件（即面板）和上面的卡片标题进行绑定
+                .setContent(R.id.fragment_woyao_check);
+        //将上面创建好的一个选项卡（包括面板和卡片标题）添加到tabHost容器中
+        mTabHost.addTab(tab1);
+
+
+        //按照上面的方法创建剩余的三个选项卡，并进行添加
+        TabHost.TabSpec tab2 = mTabHost.newTabSpec("tab2")
+                .setIndicator("我要复查")
+                .setContent(R.id.fragment_woyao_fucha);
+        mTabHost.addTab(tab2);
+
+        TabHost.TabSpec tab3 = mTabHost.newTabSpec("tab3")
+                .setIndicator("调查取证")
+                .setContent(R.id.fragment_obtain_statement);
+        mTabHost.addTab(tab3);
+
+        TabHost.TabSpec tab4 = mTabHost.newTabSpec("tab4")
+                .setIndicator("历史记录")
+                .setContent(R.id.fragment_history_record);
+        mTabHost.addTab(tab4);
 
         //对黑色半透明背景做监听，点击时开始退出动画并将popupwindow dismiss掉
         mGrayLayout.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +130,6 @@ public class XunchaJianchaActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
-        mWoyaoJianchaData = new ArrayList<WoyaoJianchaEntity>();
     }
 
     /**
