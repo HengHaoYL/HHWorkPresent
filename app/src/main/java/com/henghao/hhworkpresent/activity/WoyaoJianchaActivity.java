@@ -130,8 +130,6 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
 
     private static final int REQUEST_IMAGE = 0x00;
 
-    private static final int REQUEST_CONTACTS = 0x01;
-
     private ArrayList<String> mImageList=new ArrayList<>();
 
     private ArrayList<File> mSiteFileList = new ArrayList<>();//点击现场图片被选中的图片文件
@@ -184,7 +182,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         dataBean = (CompanyInfoEntity.DataBean)data.getSerializableExtra("dataBean");
         jianchaPersonalEntity = (JianchaPersonalEntity) data.getSerializableExtra("checkpeople");
         Pid = data.getStringExtra("Pid");
-        httpRequestSaveCheckTask();
+        httpRequestCheckTask();
 
 
         myReceiver = new MyReceiver();
@@ -195,9 +193,9 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
 
     public android.os.Handler mHandler = new android.os.Handler(){};
     /**
-     * 根据pid查询检查任务
+     * 根据pid查询检查任务  并把数据添加到我要检查页面
      */
-    public void httpRequestSaveCheckTask(){
+    public void httpRequestCheckTask(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         final String request_url = "http://172.16.0.81:8080/istration/enforceapp/queryplanbyid?id="+Pid;
@@ -365,7 +363,6 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
             }
         });
     }
-
 
     /**
      * 传递数据并打开页面

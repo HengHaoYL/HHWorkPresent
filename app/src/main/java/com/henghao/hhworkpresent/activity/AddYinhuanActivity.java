@@ -79,8 +79,6 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
 
     private static final int REQUEST_IMAGE = 0x00;
 
-    private static final int REQUEST_CONTACTS = 0x01;
-
     private ArrayList<String> mImageList=new ArrayList<>();
 
     public static ArrayList<File> mYinhuanFileList = new ArrayList<>();//被选中隐患的图片文件
@@ -143,7 +141,7 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
                     showPopupWindow();
                 }
                 break;
-            case R.id.tv_addyinhuan_save:           //添加隐患的保存操作
+            case R.id.tv_addyinhuan_save:           //保存操作
                 finish();
                 saveToYinhuanDatabase();
                 break;
@@ -151,6 +149,14 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
                 finish();
                 break;
         }
+    }
+
+
+    /**
+     * 保存数据到 多张隐患图片到服务器  一个隐患问题可能对应多张图片 或没有图片
+     */
+    public void saveCheckYinhuanDataToSerivce(){
+
     }
 
     /**

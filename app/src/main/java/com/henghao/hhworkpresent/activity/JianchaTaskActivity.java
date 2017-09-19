@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -53,6 +54,8 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -245,10 +248,10 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     mPostionBaseList.clear();
                     mSelectBaseData.clear();
                 }
-                getDialogBaseData();
-
+        //        getDialogBaseData();
             }
         });
+
 
         //现场管理部分
         site_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -285,9 +288,10 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     mPostionSiteList.clear();
                     mSelectSiteData.clear();
                 }
-                getDialogSiteData();
+         //       getDialogSiteData();
             }
         });
+
     }
 
     /**
@@ -296,6 +300,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
     public void getDialogBaseData(){
         for(int i = 0; i < mPostionBaseList.size(); i++){
             int itemId = mPostionBaseList.get(i);
+            Log.d("wangqingbin","itemId=="+itemId);
             switch (itemId){
                 case 1:
                     //资质证照
@@ -452,11 +457,6 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     break;
             }
         }
-        //去除集合重复元素
-        Set<SaveCheckTaskEntity.JianchaMaterialEntityListBean> set = new LinkedHashSet<>();
-        set.addAll(mSelectBaseData);
-        mSelectBaseData.clear();
-        mSelectBaseData.addAll(set);
     }
 
     /**
@@ -538,11 +538,6 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     break;
             }
         }
-        //去除集合重复元素
-        Set<SaveCheckTaskEntity.JianchaMaterialEntityListBean> set = new LinkedHashSet<>();
-        set.addAll(mSelectSiteData);
-        mSelectSiteData.clear();
-        mSelectSiteData.addAll(set);
     }
 
     private void getListData(){
@@ -744,22 +739,22 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
         });
     }
 
-
     /**
      * 展示单选对话框
      */
     public void showSingleChoiceButton() {
+        mSelectBaseData.clear();
+        mSelectSiteData.clear();
+        mSelectTotalData.clear();
+        //去除集合重复元素
+        getDialogBaseData();
+        getDialogSiteData();
         if(mSelectBaseData.size()==0){
             Toast.makeText(this,"必须选择基础管理部分，否则不能制作检查表",Toast.LENGTH_SHORT).show();
             return;
         }
-        //去除集合重复元素
         mSelectTotalData.addAll(mSelectBaseData);
         mSelectTotalData.addAll(mSelectSiteData);
-        Set<SaveCheckTaskEntity.JianchaMaterialEntityListBean> set = new LinkedHashSet<>();
-        set.addAll(mSelectTotalData);
-        mSelectTotalData.clear();
-        mSelectTotalData.addAll(set);
 
         mSelectDescriptData = new ArrayList<>();
 
