@@ -528,6 +528,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 添加一起案件界面 -->
+        <activity
+            android:name=".activity.AddAnjianActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 调查取证界面 -->
+        <activity
+            android:name=".activity.DiaochaQuzhengActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
     </application>
 
 </manifest>

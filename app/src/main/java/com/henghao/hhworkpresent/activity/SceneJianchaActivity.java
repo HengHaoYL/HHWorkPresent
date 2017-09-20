@@ -189,10 +189,13 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
                         showWuyinghuanDialog();
                         break;
                     case 1: //存在隐患，责令更改
+                        showGenggaiDialog();
                         break;
                     case 2: //存在违法，走一般程序处罚
+                        showYibanDialog();
                         break;
                     case 3: //存在违法，走简易程序处罚
+                        showJianyiDialog();
                         break;
                 }
             }
@@ -212,7 +215,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
     public void showWuyinghuanDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //设置对话框图标，可以使用自己的图片，Android本身也提供了一些图标供我们使用
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
+     //   builder.setIcon(android.R.drawable.ic_dialog_alert);
         //设置对话框标题
         builder.setTitle("您选择的处理方式");
         //设置对话框内的文本
@@ -236,6 +239,121 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
         //显示对话框
         dialog.show();
     }
+
+    /**
+     * 展示责令更改对话框
+     */
+    public void showGenggaiDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("您选择的处理方式");
+        builder.setMessage("存在隐患，责令更改");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                showGenggaiTextDialog();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * 展示走一般程序处罚
+     */
+    public void showYibanDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("您选择的处理方式");
+        builder.setMessage("存在违法，走一般程序处罚");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //添加案件
+                Intent intent = new Intent();
+                intent.setClass(SceneJianchaActivity.this,AddAnjianActivity.class);
+                intent.putExtra("sceneJianchaEntity",sceneJianchaEntity);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * 展示走简易程序处罚
+     */
+    public void showJianyiDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("您选择的处理方式");
+        builder.setMessage("存在违法，走简易程序处罚");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //弹出2个打印文书
+                showJianyiTextDialog();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * 责令更改 弹出3个打印文书对话框
+     */
+    public void showGenggaiTextDialog(){
+        View customView = View.inflate(this,R.layout.layout_genggai_text_dialog,null);
+        CustomDialog.Builder dialog=new CustomDialog.Builder(this);
+        dialog.setTitle("请选择要打印的文书")
+                .setContentView(customView)//设置自定义customView
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).create().show();
+    }
+
+    /**
+     * 简易处罚 弹出2个打印文书对话框
+     */
+    public void showJianyiTextDialog(){
+        View customView = View.inflate(this,R.layout.layout_jianyi_text_dialog,null);
+        CustomDialog.Builder dialog=new CustomDialog.Builder(this);
+        dialog.setTitle("请选择要打印的文书")
+                .setContentView(customView)//设置自定义customView
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).create().show();
+    }
+
 
 
     /**
