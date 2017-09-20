@@ -39,6 +39,7 @@ android {
 dependencies {
     compile project(':b_library')
     compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
     compile project(':x_library')
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'

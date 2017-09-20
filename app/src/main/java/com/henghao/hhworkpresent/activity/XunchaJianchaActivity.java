@@ -3,7 +3,10 @@ package com.henghao.hhworkpresent.activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -12,10 +15,13 @@ import android.widget.PopupWindow;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.benefit.buy.library.views.xlistview.XListView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.entity.WoyaoJianchaEntity;
+import com.henghao.hhworkpresent.adapter.TopPagerAdapter;
+import com.henghao.hhworkpresent.fragment.HistoryRecordFragment;
+import com.henghao.hhworkpresent.fragment.ObtainStatementFragment;
+import com.henghao.hhworkpresent.fragment.WoyaoCheckFragment;
+import com.henghao.hhworkpresent.fragment.WoyaoFuchaFragment;
 import com.henghao.hhworkpresent.utils.AnimationUtil;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -37,7 +43,15 @@ public class XunchaJianchaActivity extends ActivityFragmentSupport {
     private boolean isPopWindowShowing = false;
     private int fromYDelta;
 
-    private TabHost mTabHost;
+    @ViewInject(R.id.top_tabLayout)
+    private TabLayout mTabLayout;
+
+    @ViewInject(R.id.top_viewPager)
+    private ViewPager mViewPager;
+
+    private FragmentPagerAdapter mAdapter;
+    private List<Fragment> mFragment;
+    private List<String> mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,36 +94,6 @@ public class XunchaJianchaActivity extends ActivityFragmentSupport {
             }
         });
 
-        mTabHost =(TabHost) findViewById(android.R.id.tabhost);
-        mTabHost.setup();
-
-        //创建选项卡
-        TabHost.TabSpec tab1 = mTabHost.newTabSpec("tab1")
-                //创建标题卡片，参数一：指定标题卡片的文本内容，参数二：指定标题卡片的背景图片
-        //        .setIndicator("我要检查", getResources().getDrawable(R.drawable.tab1))
-                .setIndicator("我要检查")
-                //将setContent（int）参数指定的组件（即面板）和上面的卡片标题进行绑定
-                .setContent(R.id.fragment_woyao_check);
-        //将上面创建好的一个选项卡（包括面板和卡片标题）添加到tabHost容器中
-        mTabHost.addTab(tab1);
-
-
-        //按照上面的方法创建剩余的三个选项卡，并进行添加
-        TabHost.TabSpec tab2 = mTabHost.newTabSpec("tab2")
-                .setIndicator("我要复查")
-                .setContent(R.id.fragment_woyao_fucha);
-        mTabHost.addTab(tab2);
-
-        TabHost.TabSpec tab3 = mTabHost.newTabSpec("tab3")
-                .setIndicator("调查取证")
-                .setContent(R.id.fragment_obtain_statement);
-        mTabHost.addTab(tab3);
-
-        TabHost.TabSpec tab4 = mTabHost.newTabSpec("tab4")
-                .setIndicator("历史记录")
-                .setContent(R.id.fragment_history_record);
-        mTabHost.addTab(tab4);
-
         //对黑色半透明背景做监听，点击时开始退出动画并将popupwindow dismiss掉
         mGrayLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,12 +109,51 @@ public class XunchaJianchaActivity extends ActivityFragmentSupport {
                 }
             }
         });
+        initTabFragment();
     }
 
     @Override
     public void initData() {
         super.initData();
     }
+
+    private void initTabFragment() {
+
+        //初始化Fragment
+        WoyaoCheckFragment fragment1 = new WoyaoCheckFragment();
+        WoyaoFuchaFragment fragment2 = new WoyaoFuchaFragment();
+        ObtainStatementFragment fragment3 = new ObtainStatementFragment();
+        HistoryRecordFragment fragment4 = new HistoryRecordFragment();
+
+        //将Fragment装进列表中
+        mFragment = new ArrayList<>();
+        mFragment.add(fragment1);
+        mFragment.add(fragment2);
+        mFragment.add(fragment3);
+        mFragment.add(fragment4);
+
+        //将名称添加daoTab列表
+        mTitle = new ArrayList<>();
+        mTitle.add("我要检查");
+        mTitle.add("我要复查");
+        mTitle.add("调查取证");
+        mTitle.add("历史记录");
+
+        //为TabLayout添加Tab名称
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(0)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(1)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(2)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(3)));
+
+        mAdapter = new TopPagerAdapter(this.getSupportFragmentManager(), mFragment, mTitle);
+
+        //ViewPager加载Adapter
+        mViewPager.setAdapter(mAdapter);
+
+        //TabLayout加载ViewPager
+        mTabLayout.setupWithViewPager(mViewPager);
+    }
+
 
     /**
      * http://blog.csdn.net/lnn368/article/details/51185732

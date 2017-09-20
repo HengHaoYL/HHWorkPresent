@@ -18,6 +18,7 @@ public class ObtainStatementFragment extends FragmentSupport {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        mActivityFragmentView.getNavitionBarView().setVisibility(View.GONE);
         this.mActivityFragmentView.viewMain(R.layout.fragment_woyao_check);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();

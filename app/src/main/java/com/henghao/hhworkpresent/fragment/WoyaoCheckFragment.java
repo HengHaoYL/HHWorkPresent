@@ -49,6 +49,7 @@ public class WoyaoCheckFragment extends FragmentSupport{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        mActivityFragmentView.getNavitionBarView().setVisibility(View.GONE);        //要把fragment的这个导航栏去掉，要不然一直显示出来
         this.mActivityFragmentView.viewMain(R.layout.fragment_woyao_check);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
