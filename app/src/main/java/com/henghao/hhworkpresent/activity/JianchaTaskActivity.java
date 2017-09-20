@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -26,10 +25,8 @@ import com.henghao.hhworkpresent.adapter.DialogItemsListAdapter;
 import com.henghao.hhworkpresent.adapter.JianchaPersonalListAdapter;
 import com.henghao.hhworkpresent.adapter.SiteManageGridAdapter;
 import com.henghao.hhworkpresent.entity.CompanyInfoEntity;
-import com.henghao.hhworkpresent.entity.JianchaPersonalEntity;
 import com.henghao.hhworkpresent.entity.JianchaTeamEntity;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
-import com.henghao.hhworkpresent.entity.WoyaoJianchaEntity;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.henghao.hhworkpresent.views.ListViewForScrollView;
@@ -49,16 +46,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 根据选择的公司添加检查任务界面
@@ -112,11 +104,11 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
     private List<Integer> mPostionSiteList; //基础管理部分 被勾选的item集合
     private List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mSelectTotalData;  //基础和现场管理部分 加起来被选中的数据
 
-    private List<JianchaPersonalEntity> mJianchaPersonalEntityList;  //检查人员集合
+    private List<SaveCheckTaskEntity.TroopempBean> mTroopempBeanList;  //检查人员集合
 
     private ListView personal_listview;
     private JianchaPersonalListAdapter jianchaPersonalListAdapter;
-    private List<JianchaPersonalEntity> mSelectedPersonalData;  //被选中的个人列表集合
+    private List<SaveCheckTaskEntity.TroopempBean> mSelectedPersonalData;  //被选中的个人列表集合
 
     private DialogItemsListAdapter dialogItemsListAdapter;
 
@@ -195,7 +187,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
         mSelectSiteData = new ArrayList<>();
         mSelectTotalData = new ArrayList<>();
         mSelectedPersonalData = new ArrayList<>();
-        mJianchaPersonalEntityList = new ArrayList<>();
+        mTroopempBeanList = new ArrayList<>();
 
         mBaseManageGridAdapter = new BaseManageGridAdapter(this,mBaseList);
         mSiteManageGridAdapter = new SiteManageGridAdapter(this,mSiteList);
@@ -648,7 +640,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
         String checkTime = et_check_time.getText().toString();
         List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> jianchaMaterialEntityList =  mSelectDescriptData;
         SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
-        saveCheckTaskEntity.setCompany_name(company_name);
+        saveCheckTaskEntity.setEnterpriseid(dataBean.getEnterpriseid());
         saveCheckTaskEntity.setCheckPeople1(checkPeople1);
         saveCheckTaskEntity.setCheckPeople2(checkPeople2);
         saveCheckTaskEntity.setCheckTime(checkTime);
@@ -681,9 +673,6 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     Intent intent = new Intent();
                     intent.setClass(JianchaTaskActivity.this,WoyaoJianchaActivity.class);
                     intent.putExtra("Pid",Pid);              //保存成功返回PID
-                    intent.putExtra("dataBean",dataBean);      //传递公司对象
-                    JianchaPersonalEntity jianchaPersonalEntity = mSelectedPersonalData.get(0);
-                    intent.putExtra("checkpeople",jianchaPersonalEntity);  //被选中的检查人员
                     startActivity(intent);
                     finish();
                 } catch (JSONException e) {
@@ -704,7 +693,7 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
         String checkTime = et_check_time.getText().toString();
         List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> jianchaMaterialEntityList =  mSelectDescriptData;
         SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
-        saveCheckTaskEntity.setCompany_name(company_name);
+        saveCheckTaskEntity.setEnterpriseid(dataBean.getEnterpriseid());
         saveCheckTaskEntity.setCheckPeople1(checkPeople1);
         saveCheckTaskEntity.setCheckPeople2(checkPeople2);
         saveCheckTaskEntity.setCheckTime(checkTime);
@@ -810,12 +799,12 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //使用checkbox实现单选功能
-                for (int i = 0; i < mJianchaPersonalEntityList.size(); i++) {
+                for (int i = 0; i < mTroopempBeanList.size(); i++) {
                     jianchaPersonalListAdapter.getIsSelected().put(i, false);
                     jianchaPersonalListAdapter.notifyDataSetChanged();
                 }
                 jianchaPersonalListAdapter.getIsSelected().put(position,true);
-                mSelectedPersonalData.add((JianchaPersonalEntity) jianchaPersonalListAdapter.getItem(position));
+                mSelectedPersonalData.add((SaveCheckTaskEntity.TroopempBean) jianchaPersonalListAdapter.getItem(position));
                 jianchaPersonalListAdapter.notifyDataSetChanged();
             }
         });
@@ -826,8 +815,8 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        for(JianchaPersonalEntity jianchaPersonalEntity : mSelectedPersonalData){
-                            tv_personal.setText(jianchaPersonalEntity.getName());
+                        for(SaveCheckTaskEntity.TroopempBean troopempBean : mSelectedPersonalData){
+                            tv_personal.setText(troopempBean.getName());
 
                         }
                     }
@@ -841,8 +830,8 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
         xCDropDownListView.setOnItemClickXCDropDownListViewListener(new XCDropDownListView.XCDropDownListViewListener() {
             @Override
             public void getItemData(JianchaTeamEntity jianchaTeamEntity) {
-                if(mJianchaPersonalEntityList!=null){
-                    mJianchaPersonalEntityList.clear();
+                if(mTroopempBeanList!=null){
+                    mTroopempBeanList.clear();
                 }
                 httpRequestJianchaPersonalInfo(jianchaTeamEntity.getId());
             }
@@ -913,12 +902,12 @@ public class JianchaTaskActivity extends ActivityFragmentSupport {
                     JSONObject jsonObject = new JSONObject(result_str);
                     result_str = jsonObject.getString("data");
                     Gson gson = new Gson();
-                    Type type = new TypeToken<ArrayList<JianchaPersonalEntity>>() {}.getType();
-                    mJianchaPersonalEntityList = gson.fromJson(result_str,type);
+                    Type type = new TypeToken<ArrayList<SaveCheckTaskEntity.TroopempBean>>() {}.getType();
+                    mTroopempBeanList = gson.fromJson(result_str,type);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            jianchaPersonalListAdapter = new JianchaPersonalListAdapter(JianchaTaskActivity.this,mJianchaPersonalEntityList);
+                            jianchaPersonalListAdapter = new JianchaPersonalListAdapter(JianchaTaskActivity.this,mTroopempBeanList);
                             personal_listview.setAdapter(jianchaPersonalListAdapter);
                             jianchaPersonalListAdapter.notifyDataSetChanged();
                         }

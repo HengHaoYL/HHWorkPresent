@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -30,16 +28,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
-import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.JianchaYinhuanListAdpter;
-import com.henghao.hhworkpresent.entity.CompanyInfoEntity;
-import com.henghao.hhworkpresent.entity.JianchaPersonalEntity;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.henghao.hhworkpresent.entity.SceneJianchaEntity;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
-import com.henghao.hhworkpresent.views.YinhuanDatabaseHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -56,18 +50,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
 
 /**
- * 我要检查界面
+ * 我要检查界面  可编辑界面
  * Created by ASUS on 2017/9/4.
  */
 
@@ -121,8 +110,6 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
     private boolean isProblemListOpen = true;
 
     private SaveCheckTaskEntity saveCheckTaskEntity;
-    private CompanyInfoEntity.DataBean dataBean;
-    private JianchaPersonalEntity jianchaPersonalEntity;
     private List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mJianchaMaterialEntityList;
 
     private JianchaYinhuanListAdpter jianchaYinhuanListAdpter;
@@ -137,7 +124,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
 
     private MyReceiver myReceiver;
 
-    public static String Pid;
+    public static int Pid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,9 +167,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
     public void initData() {
         super.initData();
         Intent data = getIntent();
-        dataBean = (CompanyInfoEntity.DataBean)data.getSerializableExtra("dataBean");
-        jianchaPersonalEntity = (JianchaPersonalEntity) data.getSerializableExtra("checkpeople");
-        Pid = data.getStringExtra("Pid");
+        Pid = data.getIntExtra("Pid",0);
 
         httpRequestCheckTask();
 
@@ -228,8 +213,8 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                         @Override
                         public void run() {
                             mActivityFragmentView.viewLoading(View.GONE);
-                            tv_company_type.setText(dataBean.getIndustry1());
-                            tv_company_name.setText(saveCheckTaskEntity.getCompany_name());
+                            tv_company_type.setText(saveCheckTaskEntity.getEnterprise().getIndustry1());
+                            tv_company_name.setText(saveCheckTaskEntity.getEnterprise().getEntname());
                             tv_check_time.setText(saveCheckTaskEntity.getCheckTime());
                         }
                     });
@@ -260,16 +245,15 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                 showLoginDialog();
                 break;
             case R.id.tv_start_check:  //打开标准逐项排查
-
-                if(et_check_scene.getText().toString()==null){
+                if(et_check_scene.getText().toString().equals("")){
                     Toast.makeText(WoyaoJianchaActivity.this,"请填写检查现场",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(et_check_person.getText().toString()==null){
+                if(et_check_person.getText().toString().equals("")){
                     Toast.makeText(WoyaoJianchaActivity.this,"请填写企业现场负责人",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(tv_check_people.getText().toString()==null){
+                if(tv_check_people.getText().toString().equals("")){
                     Toast.makeText(WoyaoJianchaActivity.this,"请登录陪同执法人员",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -313,7 +297,7 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
     public void saveCheckedDataToService(){
         SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(this);
         SaveCheckTaskEntity saveCheckTaskEntity = new SaveCheckTaskEntity();
-        saveCheckTaskEntity.setPid(Integer.parseInt(Pid));
+        saveCheckTaskEntity.setPid(Pid);
      //   saveCheckTaskEntity.setCompany_name(tv_company_name.getText().toString());
      //   saveCheckTaskEntity.setCheckPeople1(sqliteDBUtils.getLoginFirstName()+ sqliteDBUtils.getLoginGiveName());
      //   saveCheckTaskEntity.setCheckPeople2(tv_check_people.getText().toString());
@@ -367,21 +351,21 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
      */
     public void bindingDataToSceneJianchaActivity(){
         String checkUnit = tv_company_name.getText().toString();    //被检查单位
-        String checkAddress = dataBean.getProductaddress();         //单位地址
-        String legalRepresentative = dataBean.getLegalpeople();     //法定代表人
+        String checkAddress = saveCheckTaskEntity.getEnterprise().getProductaddress();         //单位地址
+        String legalRepresentative = saveCheckTaskEntity.getEnterprise().getLegalpeople();     //法定代表人
         String legalDuty = null;      //法定代表人职务没有找到
-        String contactNumber =  dataBean.getLegalmobilephone();     //法定代表人联系电话
+        String contactNumber =  saveCheckTaskEntity.getEnterprise().getLegalmobilephone();     //法定代表人联系电话
         String checkSite =  et_check_scene.getText().toString();    //检查场所
         String checkTime = tv_check_time.getText().toString();      //检查时间
         String cityName = null;   //市的名字 先暂时为Null
         String checkPeople1 = new SqliteDBUtils(this).getLoginFirstName()+ new SqliteDBUtils(this).getLoginGiveName();  //检查人员1 也就是系统登录人员
-        String checkPeople2 = jianchaPersonalEntity.getName();  //检查人员2 也就是被选中的执法人员
+        String checkPeople2 = saveCheckTaskEntity.getTroopemp().getName();  //检查人员2 也就是被选中的执法人员
         String documentsId1 = null;  // =  执法人员1 的编号 也就是系统登录人员的员工编号
-        String documentsId2 = jianchaPersonalEntity.getEmp_NUM(); //执法人员2 的证件号
+        String documentsId2 = saveCheckTaskEntity.getTroopemp().getEmp_NUM(); //执法人员2 的证件号
         String checkCase = null;  // = 检查情况 没有数据
         List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> checkYinhuanList = mJianchaMaterialEntityList;    //被选中的检查问题隐患
         String checkSignature11 = new SqliteDBUtils(this).getLoginFirstName()+ new SqliteDBUtils(this).getLoginGiveName();  //检查人员1的签名
-        String checkSignature12 = jianchaPersonalEntity.getName();  //检查人员2的签名
+        String checkSignature12 = saveCheckTaskEntity.getTroopemp().getName();  //检查人员2的签名
         String beCheckedPeople = et_check_person.getText().toString();  //被检查企业现场负责人
         String recordingTime = tv_check_time.getText().toString();
 
@@ -503,9 +487,9 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
                         boolean isUsername = et_person_username.getText().toString()!=null && !et_person_username.getText().toString().equals("") && !et_person_username.getText().toString().equals("null");
                         boolean isPassword = et_person_password.getText().toString()!=null && !et_person_password.getText().toString().equals("") && !et_person_password.getText().toString().equals("null");
                         if(isUsername && isPassword){
-                            if(jianchaPersonalEntity.getLoginid().equals(et_person_username.getText().toString()) &&
-                                    jianchaPersonalEntity.getPassword().equals(et_person_password.getText().toString())){
-                                tv_check_people.setText(jianchaPersonalEntity.getName());
+                            if(saveCheckTaskEntity.getTroopemp().getLoginid().equals(et_person_username.getText().toString()) &&
+                                    saveCheckTaskEntity.getTroopemp().getPassword().equals(et_person_password.getText().toString())){
+                                tv_check_people.setText(saveCheckTaskEntity.getTroopemp().getName());
                                 tv_personal_login.setVisibility(View.GONE);
                             }else{
                                 et_person_username.setText("");

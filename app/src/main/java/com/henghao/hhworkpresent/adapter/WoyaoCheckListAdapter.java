@@ -59,10 +59,10 @@ public class WoyaoCheckListAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_woyaojiancha_company_name.setText(mList.get(arg0).getCompany_name());
+        viewHolder.tv_woyaojiancha_company_name.setText(mList.get(arg0).getEnterprise().getEntname());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         viewHolder.tv_woyaoojiancha_xianshi.setText(format.format(new Date(Long.parseLong(mList.get(arg0).getCreatePlanTime()))));
-        viewHolder.tv_woyaojiancha_check_people.setText(mList.get(arg0).getCheckPeople1() +" "+ mList.get(arg0).getCheckPeople2());
+        viewHolder.tv_woyaojiancha_check_people.setText(mList.get(arg0).getCheckPeople1() +" "+ mList.get(arg0).getTroopemp().getName());
         return convertView;
     }
 

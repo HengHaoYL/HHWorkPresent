@@ -486,6 +486,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 我要检查界面 不可编辑 -->
+        <activity
+            android:name=".activity.WoyaoJianchaNotEditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 添加检查任务界面 -->
         <activity
             android:name=".activity.AddJianchaTaskActivity"

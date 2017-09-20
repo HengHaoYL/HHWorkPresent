@@ -9,7 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.entity.JianchaPersonalEntity;
+import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,11 +22,11 @@ import java.util.List;
 public class JianchaPersonalListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<JianchaPersonalEntity> mList;
+    private List<SaveCheckTaskEntity.TroopempBean> mList;
     // 用来控制CheckBox的选中状况
     private static HashMap<Integer, Boolean> isSelected;
 
-    public JianchaPersonalListAdapter(Context context,List<JianchaPersonalEntity> list) {
+    public JianchaPersonalListAdapter(Context context,List<SaveCheckTaskEntity.TroopempBean> list) {
         this.mContext = context;
         this.mList = list;
         isSelected = new HashMap<Integer, Boolean>();

@@ -1,7 +1,9 @@
 package com.henghao.hhworkpresent.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.activity.WoyaoJianchaActivity;
+import com.henghao.hhworkpresent.activity.WoyaoJianchaNotEditActivity;
 import com.henghao.hhworkpresent.adapter.WoyaoCheckListAdapter;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
@@ -64,13 +68,29 @@ public class WoyaoCheckFragment extends FragmentSupport{
         woyaojiancha_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent();
+                //判断上次保存的时候检查现场是否有填写，分别进入不同的页面
+                if(((SaveCheckTaskEntity) woyaoCheckListAdapter.getItem(position)).getCheckSite()==null){
+                    intent.setClass(mActivity, WoyaoJianchaActivity.class);
+                    intent.putExtra("Pid",((SaveCheckTaskEntity) woyaoCheckListAdapter.getItem(position)).getPid());
+                    startActivity(intent);
+                }else{
+                    //如果不为null就进入我要检查不可编辑页面
+                    intent.setClass(mActivity, WoyaoJianchaNotEditActivity.class);
+                    intent.putExtra("Pid",((SaveCheckTaskEntity) woyaoCheckListAdapter.getItem(position)).getPid());
+                    startActivity(intent);
+                }
             }
         });
     }
 
     public void initData(){
         saveCheckTaskEntityList = new ArrayList<>();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         httpRequesSaveCheckPlanList();
     }
 

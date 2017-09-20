@@ -184,7 +184,7 @@ public class AddYinhuanActivity extends ActivityFragmentSupport {
         //这个要和服务器保持一致 application/json;charset=UTF-8
         MultipartBuilder multipartBuilder = new MultipartBuilder();
         multipartBuilder.type(MultipartBuilder.FORM)
-                .addFormDataPart("pid",WoyaoJianchaActivity.Pid)  //pid
+                .addFormDataPart("pid",String.valueOf(WoyaoJianchaActivity.Pid))  //pid
                 .addFormDataPart("json", com.alibaba.fastjson.JSONObject.toJSONString(jianchaMaterialEntityListBean));//json数据
         for (File file : mYinhuanFileList) {
             //上传现场图片
