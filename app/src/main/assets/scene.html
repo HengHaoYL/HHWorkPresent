@@ -539,7 +539,7 @@
 				i++;
 				var $tr = $('<tr>');
 				var $td = $('<td>').html('<input class="bn" value="'+(i)+'"  />');
-				var $td1 = $('<td>').html('<input class="bn" value="'+item.checkDegree+'" />');
+				var $td1 = $('<td>').html('<input class="bn" value="'+item.checkPosition+'" />');
 				var $td2 = $('<td>').html('<input class="bn" value="'+item.checkDescript+'" />');
 
 				$tr.append($td,$td1,$td2);
@@ -558,8 +558,8 @@
 				var legalDuty=	$(".zw_inp").val();
 				var contactNumber=	$(".phone_inp").val();
 				var checkSite=	$(".jccs_inp").val();
-				var checkTime1=	$(".strattime_inp").val();
-				var checkTime2=	$(".endtime_inp").val();
+				var checkTime=	$(".strattime_inp").val();
+				var checkTime=	$(".endtime_inp").val();
 				var cityName=	$(".city_inp").val();
 				var checkPeople1=	$(".zfry1_inp").val();
 				var checkPeople2=	$(".zfry2_inp").val();
@@ -571,8 +571,8 @@
 				var trs = $(".safe_tab1 tr:not(:first)");
 
 				for(var i=0;i<trs.length;i++){
-					var td = $(".safe_tab1 tr:not(:first)").find("td");
-					tableTr[i] = {checkDegree:td.eq(1).find("input").val(),checkDescript:td.eq(2).find("input").val()};
+					var td = trs.eq(i).find("td");
+					tableTr[i] = {checkPosition:td.eq(1).find("input").val(),checkDescript:td.eq(2).find("input").val()};
 				}
 				var checkYinhuanList = tableTr;
 
@@ -583,8 +583,8 @@
 
 				var returnData = {	"checkUnit":checkUnit,"legalRepresentative":legalRepresentative,
 									"legalDuty":legalDuty,"contactNumber":contactNumber,
-									"checkSite":checkSite,"checkTime1":checkTime1,
-									"checkTime2":checkTime2,"cityName":cityName,
+									"checkSite":checkSite,"checkTime1":checkTime,
+									"checkTime1":checkTime,"cityName":cityName,
 									"checkPeople1":checkPeople1,"checkPeople2":checkPeople2,
 									"documentsId1":documentsId1,"documentsId2":documentsId2,
 									"checkCase":checkCase,"checkYinhuanList":checkYinhuanList,

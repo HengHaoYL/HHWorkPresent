@@ -19,6 +19,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -38,6 +39,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 
 /**
@@ -60,7 +62,11 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
 
     private CkInspectrecord ckInspectrecord;    //从我要检查页面传过来的对象
 
+    private CkInspectrecord editCkInspectrecord;
+
     public static String textJson;      //从页面返回的json对象
+
+    public static String Pid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +99,9 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
+        Pid = getIntent().getStringExtra("Pid");
         ckInspectrecord = (CkInspectrecord) getIntent().getSerializableExtra("ckInspectrecord");
+        Log.d("wangqingbin","ckInspectrecord=="+ckInspectrecord);
 
         webView.loadUrl("file:///android_asset/scene.html");    //加载本地的html布局文件
         webView.setDrawingCacheEnabled(true);
@@ -147,23 +155,18 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
         }
     }
 
-    /**
-     * 传入从我要检查页面传过来的对象 再把html页面修改后的数据封装到对象中 产生新的对象
-     * @param ckInspectrecord
-     */
     public CkInspectrecord packingCkInspectrecord(CkInspectrecord ckInspectrecord){
         Gson gson = new Gson();
-        CkInspectrecord edit_ckInspectrecord = new CkInspectrecord();  //从现场检查页面修改后返回的对象
-        //得到从页面返回的看得到的数据对象 再把看不到的封装进去
-        Log.d("wangqingbin","textJson=="+textJson);
-        edit_ckInspectrecord = gson.fromJson(textJson,CkInspectrecord.class);
-        //把剩下的两个属性也封装进去
-        edit_ckInspectrecord.setPid(ckInspectrecord.getPid());
-        edit_ckInspectrecord.setWtid(ckInspectrecord.getWtid());
-        return edit_ckInspectrecord;
+        editCkInspectrecord  = gson.fromJson(textJson,CkInspectrecord.class);
+        List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> list = ckInspectrecord.getCheckYinhuanList();
+        List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> editList = editCkInspectrecord.getCheckYinhuanList();
+        for(int i=0;i<list.size();i++){
+            editList.get(i).setCid(list.get(i).getCid());       //将之前的cid放进去改过的json中
+        }
+        editCkInspectrecord.setCheckYinhuanList(editList);
+        Log.d("wangqingbin","editCkInspectrecord=="+editCkInspectrecord);
+        return editCkInspectrecord;
     }
-
-
 
     @OnClick({R.id.tv_scene_jiancha_save,R.id.tv_scene_jiancha_print})
     private void viewOnClick(View v) {

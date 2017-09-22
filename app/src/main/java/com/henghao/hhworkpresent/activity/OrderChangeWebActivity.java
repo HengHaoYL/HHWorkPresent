@@ -75,7 +75,7 @@ public class OrderChangeWebActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftImageView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("现场检查");
+        mCenterTextView.setText("责令整改");
         mCenterTextView.setVisibility(View.VISIBLE);
 
     }
@@ -150,6 +150,7 @@ public class OrderChangeWebActivity extends ActivityFragmentSupport {
                 //将从html页面返回的json数据message解析成对象
                 Gson gson = new Gson();
                 OrderChangeEntity orderChangeEntity = gson.fromJson(message,OrderChangeEntity.class);
+                saveSceneJianchaDataToService(ckInspectrecord);
                 saveOrderChangeDataToService(orderChangeEntity);
                 return true;
             }
@@ -158,7 +159,51 @@ public class OrderChangeWebActivity extends ActivityFragmentSupport {
     }
 
     /**
-     * 上传文书数据到服务器
+     * 上传现场检查文书数据到服务器
+     * @param ckInspectrecord
+     */
+    public void saveSceneJianchaDataToService(CkInspectrecord ckInspectrecord){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("json", com.alibaba.fastjson.JSONObject.toJSONString(ckInspectrecord))//json数据
+                .addFormDataPart("pid",SceneJianchaActivity.Pid)
+                .addFormDataPart("htmlUrl","scene.html");        //文书web页面地址
+
+        RequestBody requestBody = multipartBuilder.build();
+        Request request = builder.post(requestBody).url("http://172.16.0.81:8080/istration/writData/addCkInspectrecord").build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e){
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msg("网络请求错误！");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msg("数据保存成功！");
+                    }
+                });
+                Intent intent = new Intent();
+                intent.setClass(OrderChangeWebActivity.this,XunchaJianchaActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    /**
+     * 上传责令整改文书数据到服务器
      * @param orderChangeEntity
      */
     public void saveOrderChangeDataToService(OrderChangeEntity orderChangeEntity){
@@ -167,7 +212,7 @@ public class OrderChangeWebActivity extends ActivityFragmentSupport {
         MultipartBuilder multipartBuilder = new MultipartBuilder();
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("json", com.alibaba.fastjson.JSONObject.toJSONString(orderChangeEntity))//json数据
-                .addFormDataPart("pid",ckInspectrecord.getPid())        //计划检查表的计划id
+                .addFormDataPart("pid",SceneJianchaActivity.Pid)
                 .addFormDataPart("htmlUrl","order_change.html");        //文书web页面地址
 
         RequestBody requestBody = multipartBuilder.build();

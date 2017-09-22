@@ -11,8 +11,7 @@ import java.util.List;
 
 public class CkInspectrecord implements Serializable {
 
-    private String pid;
-    private String wtid;            //文书id
+    private String wtid;            //文书id      在服务器生成
     private String checkUnit;      //被检查单位
     private String checkAddress;      //单位地址
     private String legalRepresentative;   //法定代表人
@@ -39,14 +38,6 @@ public class CkInspectrecord implements Serializable {
 
     public void setCheckTime1(String checkTime1) {
         this.checkTime1 = checkTime1;
-    }
-
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
     }
 
     public String getCheckSignature11() {
@@ -204,8 +195,7 @@ public class CkInspectrecord implements Serializable {
     @Override
     public String toString() {
         return "CkInspectrecord{" +
-                "pid='" + pid + '\'' +
-                ", wtid='" + wtid + '\'' +
+                "wtid='" + wtid + '\'' +
                 ", checkUnit='" + checkUnit + '\'' +
                 ", checkAddress='" + checkAddress + '\'' +
                 ", legalRepresentative='" + legalRepresentative + '\'' +
