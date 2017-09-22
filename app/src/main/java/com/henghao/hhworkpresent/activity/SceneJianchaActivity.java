@@ -19,16 +19,15 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
-import com.benefit.buy.library.phoneview.utils.FileUtils;
+import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.entity.SceneJianchaEntity;
+import com.henghao.hhworkpresent.entity.CkInspectrecord;
+import com.henghao.hhworkpresent.entity.OrderChangeEntity;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
@@ -60,7 +59,11 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
 
     public static Rectangle A4 = PageSize.A4;
 
-    private SceneJianchaEntity sceneJianchaEntity;
+    private CkInspectrecord ckInspectrecord;
+
+    public static String Pid;
+
+    public static String textJson;      //从页面返回的json对象
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +96,8 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
-        sceneJianchaEntity = (SceneJianchaEntity) getIntent().getSerializableExtra("sceneJianchaEntity");
+        Pid = getIntent().getStringExtra("Pid");
+        ckInspectrecord = (CkInspectrecord) getIntent().getSerializableExtra("ckInspectrecord");
 
         webView.loadUrl("file:///android_asset/scene.html");    //加载本地的html布局文件
         webView.setDrawingCacheEnabled(true);
@@ -101,7 +105,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);   //启用javascript支持
 
-        webView.addJavascriptInterface(new SceneJianchaService(sceneJianchaEntity), "scene");//new类名，交互访问时使用的别名
+        webView.addJavascriptInterface(new SceneJianchaService(ckInspectrecord), "scene");//new类名，交互访问时使用的别名
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         // 设置可以支持缩放
         webSettings.setSupportZoom(true);
@@ -123,7 +127,8 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
             @Override
             public boolean onJsAlert(WebView view, String url, String message,
                                      final JsResult result) {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                textJson = message;
+                Log.d("wangqingbin","textJson=="+textJson);
                 result.confirm();
                 return true;
             }
@@ -143,8 +148,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
 
         @JavascriptInterface
         public String jsontohtml(){
-            //使用fastjson转json
-            return JSONObject.toJSONString(sceneJianchaEntity);
+            return JSONObject.toJSONString(ckInspectrecord);
         }
     }
 
@@ -153,7 +157,8 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
     private void viewOnClick(View v) {
         switch (v.getId()) {
             case R.id.tv_scene_jiancha_save:        //保存
-                showDialog();
+                webView.loadUrl("javascript:alert(getTextData())");     //先抓取页面数据
+                showDialog();                                   //展示下一步操作对话框
                 break;
             case R.id.tv_scene_jiancha_print:       //打印
                 if(appIsInstalled(this,"")){
@@ -186,15 +191,15 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case 0: //无隐患，归档
-                        showWuyinghuanDialog();
+                        showWuyinghuanDialog();     //归档后 可以把数据添加到历史记录
                         break;
-                    case 1: //存在隐患，责令更改
+                    case 1: //存在隐患，责令更改     保存后到我要复查
                         showGenggaiDialog();
                         break;
-                    case 2: //存在违法，走一般程序处罚
+                    case 2: //存在违法，走一般程序处罚  保存后到调查取证
                         showYibanDialog();
                         break;
-                    case 3: //存在违法，走简易程序处罚
+                    case 3: //存在违法，走简易程序处罚  保存后 可以把数据添加到历史记录
                         showJianyiDialog();
                         break;
                 }
@@ -275,7 +280,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
                 //添加案件
                 Intent intent = new Intent();
                 intent.setClass(SceneJianchaActivity.this,AddAnjianActivity.class);
-                intent.putExtra("sceneJianchaEntity",sceneJianchaEntity);
+                intent.putExtra("ckInspectrecord", ckInspectrecord);
                 startActivity(intent);
                 finish();
             }
@@ -317,6 +322,9 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
      */
     public void showGenggaiTextDialog(){
         View customView = View.inflate(this,R.layout.layout_genggai_text_dialog,null);
+        TextView tv_order_change_text = (TextView) customView.findViewById(R.id.tv_order_change_text);
+        TextView tv_force_measures_text = (TextView) customView.findViewById(R.id.tv_force_measures_text);
+        TextView tv_site_measures_text = (TextView) customView.findViewById(R.id.tv_site_measures_text);
         CustomDialog.Builder dialog=new CustomDialog.Builder(this);
         dialog.setTitle("请选择要打印的文书")
                 .setContentView(customView)//设置自定义customView
@@ -331,6 +339,27 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
                 dialogInterface.dismiss();
             }
         }).create().show();
+        final Intent intent = new Intent();
+        tv_order_change_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.setClass(SceneJianchaActivity.this,OrderChangeWebActivity.class);
+                intent.putExtra("ckInspectrecord",ckInspectrecord);
+                startActivity(intent);
+            }
+        });
+        tv_force_measures_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        tv_site_measures_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     /**

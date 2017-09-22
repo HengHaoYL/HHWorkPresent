@@ -41,6 +41,15 @@ public class SaveCheckTaskEntity implements Serializable {
     private TroopempBean troopemp;
     private EnterpriseBean enterprise;
     private List<JianchaMaterialEntityListBean> jianchaMaterialEntityList;
+    private int resultStatus; //结果状态  默认0：我要检查列表， 1：无隐患归档 ，2：转到复查，3：转到调查取证 ，4：
+
+    public void setResultStatus(int resultStatus) {
+        this.resultStatus = resultStatus;
+    }
+
+    public int getResultStatus() {
+        return resultStatus;
+    }
 
     public int getPid() {
         return pid;

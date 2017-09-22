@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -31,7 +30,7 @@ import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.JianchaYinhuanListAdpter;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
-import com.henghao.hhworkpresent.entity.SceneJianchaEntity;
+import com.henghao.hhworkpresent.entity.CkInspectrecord;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.lidroid.xutils.ViewUtils;
@@ -353,46 +352,48 @@ public class WoyaoJianchaActivity extends ActivityFragmentSupport {
         String checkUnit = tv_company_name.getText().toString();    //被检查单位
         String checkAddress = saveCheckTaskEntity.getEnterprise().getProductaddress();         //单位地址
         String legalRepresentative = saveCheckTaskEntity.getEnterprise().getLegalpeople();     //法定代表人
-        String legalDuty = null;      //法定代表人职务没有找到
+        String legalDuty = "";      //法定代表人职务没有找到
         String contactNumber =  saveCheckTaskEntity.getEnterprise().getLegalmobilephone();     //法定代表人联系电话
         String checkSite =  et_check_scene.getText().toString();    //检查场所
-        String checkTime = tv_check_time.getText().toString();      //检查时间
-        String cityName = null;   //市的名字 先暂时为Null
+        String checkTime = tv_check_time.getText().toString();      //检查时间1和检查时间2
+        String cityName = "";   //市的名字 先暂时为Null
         String checkPeople1 = new SqliteDBUtils(this).getLoginFirstName()+ new SqliteDBUtils(this).getLoginGiveName();  //检查人员1 也就是系统登录人员
         String checkPeople2 = saveCheckTaskEntity.getTroopemp().getName();  //检查人员2 也就是被选中的执法人员
-        String documentsId1 = null;  // =  执法人员1 的编号 也就是系统登录人员的员工编号
+        String documentsId1 = "";  // =  执法人员1 的编号 也就是系统登录人员的员工编号
         String documentsId2 = saveCheckTaskEntity.getTroopemp().getEmp_NUM(); //执法人员2 的证件号
-        String checkCase = null;  // = 检查情况 没有数据
+        String checkCase = "";  // = 检查情况 没有数据
         List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> checkYinhuanList = mJianchaMaterialEntityList;    //被选中的检查问题隐患
         String checkSignature11 = new SqliteDBUtils(this).getLoginFirstName()+ new SqliteDBUtils(this).getLoginGiveName();  //检查人员1的签名
         String checkSignature12 = saveCheckTaskEntity.getTroopemp().getName();  //检查人员2的签名
         String beCheckedPeople = et_check_person.getText().toString();  //被检查企业现场负责人
         String recordingTime = tv_check_time.getText().toString();
 
-        SceneJianchaEntity sceneJianchaEntity = new SceneJianchaEntity();
-        sceneJianchaEntity.setCheckUnit(checkUnit);
-        sceneJianchaEntity.setCheckAddress(checkAddress);
-        sceneJianchaEntity.setLegalRepresentative(legalRepresentative);
-        sceneJianchaEntity.setLegalDuty(legalDuty);
-        sceneJianchaEntity.setContactNumber(contactNumber);
-        sceneJianchaEntity.setCheckSite(checkSite);
-        sceneJianchaEntity.setCheckTime(checkTime);
-        sceneJianchaEntity.setCityName(cityName);
-        sceneJianchaEntity.setCheckPeople1(checkPeople1);
-        sceneJianchaEntity.setCheckPeople2(checkPeople2);
-        sceneJianchaEntity.setDocumentsId1(documentsId1);
-        sceneJianchaEntity.setDocumentsId2(documentsId2);
-        sceneJianchaEntity.setCheckCase(checkCase);
-        sceneJianchaEntity.setCheckYinhuanList(checkYinhuanList);
-        sceneJianchaEntity.setCheckSignature11(checkSignature11);
-        sceneJianchaEntity.setCheckSignature12(checkSignature12);
-        sceneJianchaEntity.setBeCheckedPeople(beCheckedPeople);
-        sceneJianchaEntity.setRecordingTime(recordingTime);
+        CkInspectrecord ckInspectrecord = new CkInspectrecord();
+        ckInspectrecord.setCheckUnit(checkUnit);
+        ckInspectrecord.setCheckAddress(checkAddress);
+        ckInspectrecord.setLegalRepresentative(legalRepresentative);
+        ckInspectrecord.setLegalDuty(legalDuty);
+        ckInspectrecord.setContactNumber(contactNumber);
+        ckInspectrecord.setCheckSite(checkSite);
+        ckInspectrecord.setCheckTime1(checkTime);
+        ckInspectrecord.setCheckTime2(checkTime);
+        ckInspectrecord.setCityName(cityName);
+        ckInspectrecord.setCheckPeople1(checkPeople1);
+        ckInspectrecord.setCheckPeople2(checkPeople2);
+        ckInspectrecord.setDocumentsId1(documentsId1);
+        ckInspectrecord.setDocumentsId2(documentsId2);
+        ckInspectrecord.setCheckCase(checkCase);
+        ckInspectrecord.setCheckYinhuanList(checkYinhuanList);
+        ckInspectrecord.setCheckSignature11(checkSignature11);
+        ckInspectrecord.setCheckSignature12(checkSignature12);
+        ckInspectrecord.setBeCheckedPeople(beCheckedPeople);
+        ckInspectrecord.setRecordingTime(recordingTime);
 
         Intent intent = new Intent();
         intent.setClass(this, SceneJianchaActivity.class);
         Bundle mBundle = new Bundle();
-        mBundle.putSerializable("sceneJianchaEntity", sceneJianchaEntity);
+        mBundle.putSerializable("ckInspectrecord", ckInspectrecord);
+        mBundle.putString("Pid",String.valueOf(Pid));
         intent.putExtras(mBundle);
         startActivity(intent);
     }

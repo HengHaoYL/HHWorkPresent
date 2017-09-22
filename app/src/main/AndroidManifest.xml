@@ -540,6 +540,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 责令更改文书界面 -->
+        <activity
+            android:name=".activity.OrderChangeWebActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+
     </application>
 
 </manifest>

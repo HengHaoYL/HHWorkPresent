@@ -10,9 +10,7 @@ import android.widget.Toast;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.adapter.TextGridAdapter;
-import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
-import com.henghao.hhworkpresent.entity.SceneJianchaEntity;
+import com.henghao.hhworkpresent.entity.CkInspectrecord;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -73,7 +71,7 @@ public class AddAnjianActivity extends ActivityFragmentSupport {
         super.initData();
         Intent data = getIntent();
         tv_anjian_source.setText("现场执法检查");
-        tv_anjian_company.setText(((SceneJianchaEntity)data.getSerializableExtra("sceneJianchaEntity")).getCheckUnit());
+        tv_anjian_company.setText(((CkInspectrecord)data.getSerializableExtra("sceneJianchaEntity")).getCheckUnit());
     }
 
     @OnClick({R.id.tv_anjian_save,R.id.tv_anjian_cancel})
