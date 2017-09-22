@@ -167,7 +167,7 @@ public class OrderChangeWebActivity extends ActivityFragmentSupport {
         MultipartBuilder multipartBuilder = new MultipartBuilder();
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("json", com.alibaba.fastjson.JSONObject.toJSONString(orderChangeEntity))//json数据
-                .addFormDataPart("pid",SceneJianchaActivity.Pid)        //计划检查表的计划id
+                .addFormDataPart("pid",ckInspectrecord.getPid())        //计划检查表的计划id
                 .addFormDataPart("htmlUrl","order_change.html");        //文书web页面地址
 
         RequestBody requestBody = multipartBuilder.build();
@@ -225,7 +225,7 @@ public class OrderChangeWebActivity extends ActivityFragmentSupport {
         switch (v.getId()) {
             case R.id.tv_scene_jiancha_save:        //保存
                 webView.loadUrl("javascript:alert(getTextData())");
-                //保存成功返回巡查检查界面 数据添加到我要复查列表
+                //还要把现场检查文书也保存
                 break;
             case R.id.tv_scene_jiancha_print:       //打印
                 break;

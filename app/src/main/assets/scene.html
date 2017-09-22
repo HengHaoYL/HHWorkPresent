@@ -520,8 +520,8 @@
 			$(".zw_inp").val(jsonData.legalDuty);
 			$(".phone_inp").val(jsonData.contactNumber);
 			$(".jccs_inp").val(jsonData.checkSite);
-			$(".strattime_inp").val(jsonData.checkTime);
-			$(".endtime_inp").val(jsonData.checkTime);
+			$(".strattime_inp").val(jsonData.checkTime1);
+			$(".endtime_inp").val(jsonData.checkTime2);
 			$(".city_inp").val(jsonData.cityName);
 			$(".zfry1_inp").val(jsonData.checkPeople1);
 			$(".zfry2_inp").val(jsonData.checkPeople2);
@@ -558,8 +558,8 @@
 				var legalDuty=	$(".zw_inp").val();
 				var contactNumber=	$(".phone_inp").val();
 				var checkSite=	$(".jccs_inp").val();
-				var checkTime=	$(".strattime_inp").val();
-				var checkTime=	$(".endtime_inp").val();
+				var checkTime1=	$(".strattime_inp").val();
+				var checkTime2=	$(".endtime_inp").val();
 				var cityName=	$(".city_inp").val();
 				var checkPeople1=	$(".zfry1_inp").val();
 				var checkPeople2=	$(".zfry2_inp").val();
@@ -583,8 +583,8 @@
 
 				var returnData = {	"checkUnit":checkUnit,"legalRepresentative":legalRepresentative,
 									"legalDuty":legalDuty,"contactNumber":contactNumber,
-									"checkSite":checkSite,"checkTime":checkTime,
-									"checkTime":checkTime,"cityName":cityName,
+									"checkSite":checkSite,"checkTime1":checkTime1,
+									"checkTime2":checkTime2,"cityName":cityName,
 									"checkPeople1":checkPeople1,"checkPeople2":checkPeople2,
 									"documentsId1":documentsId1,"documentsId2":documentsId2,
 									"checkCase":checkCase,"checkYinhuanList":checkYinhuanList,

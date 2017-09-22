@@ -20,14 +20,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.CkInspectrecord;
-import com.henghao.hhworkpresent.entity.OrderChangeEntity;
+import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
@@ -59,9 +58,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
 
     public static Rectangle A4 = PageSize.A4;
 
-    private CkInspectrecord ckInspectrecord;
-
-    public static String Pid;
+    private CkInspectrecord ckInspectrecord;    //从我要检查页面传过来的对象
 
     public static String textJson;      //从页面返回的json对象
 
@@ -96,7 +93,6 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
-        Pid = getIntent().getStringExtra("Pid");
         ckInspectrecord = (CkInspectrecord) getIntent().getSerializableExtra("ckInspectrecord");
 
         webView.loadUrl("file:///android_asset/scene.html");    //加载本地的html布局文件
@@ -128,7 +124,6 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
             public boolean onJsAlert(WebView view, String url, String message,
                                      final JsResult result) {
                 textJson = message;
-                Log.d("wangqingbin","textJson=="+textJson);
                 result.confirm();
                 return true;
             }
@@ -151,6 +146,23 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
             return JSONObject.toJSONString(ckInspectrecord);
         }
     }
+
+    /**
+     * 传入从我要检查页面传过来的对象 再把html页面修改后的数据封装到对象中 产生新的对象
+     * @param ckInspectrecord
+     */
+    public CkInspectrecord packingCkInspectrecord(CkInspectrecord ckInspectrecord){
+        Gson gson = new Gson();
+        CkInspectrecord edit_ckInspectrecord = new CkInspectrecord();  //从现场检查页面修改后返回的对象
+        //得到从页面返回的看得到的数据对象 再把看不到的封装进去
+        Log.d("wangqingbin","textJson=="+textJson);
+        edit_ckInspectrecord = gson.fromJson(textJson,CkInspectrecord.class);
+        //把剩下的两个属性也封装进去
+        edit_ckInspectrecord.setPid(ckInspectrecord.getPid());
+        edit_ckInspectrecord.setWtid(ckInspectrecord.getWtid());
+        return edit_ckInspectrecord;
+    }
+
 
 
     @OnClick({R.id.tv_scene_jiancha_save,R.id.tv_scene_jiancha_print})
@@ -280,7 +292,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
                 //添加案件
                 Intent intent = new Intent();
                 intent.setClass(SceneJianchaActivity.this,AddAnjianActivity.class);
-                intent.putExtra("ckInspectrecord", ckInspectrecord);
+                intent.putExtra("ckInspectrecord", packingCkInspectrecord(ckInspectrecord));
                 startActivity(intent);
                 finish();
             }
@@ -321,7 +333,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
      * 责令更改 弹出3个打印文书对话框
      */
     public void showGenggaiTextDialog(){
-        View customView = View.inflate(this,R.layout.layout_genggai_text_dialog,null);
+        final View customView = View.inflate(this,R.layout.layout_genggai_text_dialog,null);
         TextView tv_order_change_text = (TextView) customView.findViewById(R.id.tv_order_change_text);
         TextView tv_force_measures_text = (TextView) customView.findViewById(R.id.tv_force_measures_text);
         TextView tv_site_measures_text = (TextView) customView.findViewById(R.id.tv_site_measures_text);
@@ -344,7 +356,7 @@ public class SceneJianchaActivity extends ActivityFragmentSupport {
             @Override
             public void onClick(View v) {
                 intent.setClass(SceneJianchaActivity.this,OrderChangeWebActivity.class);
-                intent.putExtra("ckInspectrecord",ckInspectrecord);
+                intent.putExtra("ckInspectrecord",packingCkInspectrecord(ckInspectrecord));
                 startActivity(intent);
             }
         });

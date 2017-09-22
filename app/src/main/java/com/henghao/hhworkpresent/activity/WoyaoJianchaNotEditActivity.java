@@ -293,7 +293,6 @@ public class WoyaoJianchaNotEditActivity extends ActivityFragmentSupport {
         intent.setClass(this, SceneJianchaActivity.class);
         Bundle mBundle = new Bundle();
         mBundle.putSerializable("ckInspectrecord", ckInspectrecord);
-        mBundle.putString("Pid",String.valueOf(Pid));
         intent.putExtras(mBundle);
         startActivity(intent);
     }
