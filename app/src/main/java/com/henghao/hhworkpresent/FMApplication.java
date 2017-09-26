@@ -28,6 +28,8 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * @author zhangxianwen
  */
@@ -51,6 +53,10 @@ public class FMApplication extends Application {
         super.onCreate();
         instance = this;
         // 注意该方法要再setContentView方法之前实现
+
+        //添加Jpush极光推送的初始化代码
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
 
         initImageLoader(getApplicationContext());
         LocationUtils.Location(this);
