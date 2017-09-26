@@ -88,16 +88,21 @@ public class WorkFragment extends FragmentSupport {
         mList.add(mEntity6);
         //第七个
         AppGridEntity mEntity7 = new AppGridEntity();
-        mEntity7.setImageId(R.drawable.icon_xunchajiancha);
-        mEntity7.setName("巡查检查");
+        mEntity7.setImageId(R.drawable.icon_listprocess);
+        mEntity7.setName("会议管理");
         mList.add(mEntity7);
         //第八个
         AppGridEntity mEntity8 = new AppGridEntity();
-        mEntity8.setImageId(R.drawable.item_renyuankaoqing);
-        mEntity8.setName("人员考勤");
+        mEntity8.setImageId(R.drawable.icon_xunchajiancha);
+        mEntity8.setName("巡查检查");
+        mList.add(mEntity8);
+        //第九个
+        AppGridEntity mEntity9 = new AppGridEntity();
+        mEntity9.setImageId(R.drawable.item_renyuankaoqing);
+        mEntity9.setName("人员考勤");
         for(String uid : leader){
              if(uid.equals(sqliteDBUtils.getLoginUid())){
-                 mList.add(mEntity8);
+                 mList.add(mEntity9);
              }
         }
         WorkGridAdapter adapter = new WorkGridAdapter(this.mActivity,mList);

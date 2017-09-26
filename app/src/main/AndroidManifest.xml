@@ -462,6 +462,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 会议管理界面 -->
+        <activity
+            android:name=".activity.MeetingManagementActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
 
         <!-- activity 启动本地图片和相机 -->
         <activity

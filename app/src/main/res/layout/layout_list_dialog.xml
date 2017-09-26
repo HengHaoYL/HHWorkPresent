@@ -16,7 +16,7 @@
             android:textSize="15dp"
             android:text="执法队伍"/>
 
-        <com.henghao.hhworkpresent.views.XCDropDownListView
+        <com.henghao.hhworkpresent.views.XCDropDownDeptListView
             android:id="@+id/xCDropDownListView"
             android:layout_toRightOf="@id/tv_zhifaduiwu"
             android:layout_marginLeft="20dp"
