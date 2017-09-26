@@ -199,4 +199,10 @@ public class Constant {
 	/** app强制更新 */
 	public static final int APP_UPDATE_COMPEL = 2;
 
+	/** 我要检查列表*/
+	public final static int WOYAO_CHECK = 0;
+
+	/** 我要复查列表*/
+	public final static int WOYAO_FUCHA = 2;
+
 }

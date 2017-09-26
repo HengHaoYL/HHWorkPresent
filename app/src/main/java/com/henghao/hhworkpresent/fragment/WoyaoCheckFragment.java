@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.WoyaoJianchaActivity;
@@ -102,7 +103,7 @@ public class WoyaoCheckFragment extends FragmentSupport{
         String uid = sqliteDBUtils.getLoginUid();
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        String request_url = "http://172.16.0.81:8080/istration/enforceapp/queryplanbyuser?userid="+uid;
+        String request_url = "http://172.16.0.81:8080/istration/enforceapp/queryplanbyuser?userid="+uid+"&resultStatus="+ Constant.WOYAO_CHECK;
         Request request = builder.url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
