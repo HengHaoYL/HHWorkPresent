@@ -15,6 +15,7 @@ import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.exception.CustomExceptionHandler;
 import com.henghao.hhworkpresent.service.ReConnectService;
 import com.henghao.hhworkpresent.utils.LocationUtils;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -27,8 +28,10 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * @author zhangxianwen
@@ -58,10 +61,19 @@ public class FMApplication extends Application {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
+        String alias = new SqliteDBUtils(this).getUsername();
+        JPushInterface.setAlias(this, //上下文对象
+                alias, //别名
+                new TagAliasCallback() {  //回调接口,i=0表示成功,其它设置失败
+                    @Override
+                    public void gotResult(int i, String s, Set<String> set) {
+                    }
+                });
+
         initImageLoader(getApplicationContext());
         LocationUtils.Location(this);
         SDKInitializer.initialize(this);
-     //   appException();
+        appException();
     }
 
     public static void initImageLoader(Context context) {

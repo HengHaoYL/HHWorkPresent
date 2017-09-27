@@ -9,8 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.entity.PersonnelEntity;
-import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
+import com.henghao.hhworkpresent.entity.MeetingEntity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,11 +22,11 @@ import java.util.List;
 public class PersonnelListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<PersonnelEntity> mList;
+    private List<MeetingEntity.PersonnelEntity> mList;
     // 用来控制CheckBox的选中状况
     private static HashMap<Integer, Boolean> isSelected;
 
-    public PersonnelListAdapter(Context context, List<PersonnelEntity> list) {
+    public PersonnelListAdapter(Context context, List<MeetingEntity.PersonnelEntity> list) {
         this.mContext = context;
         this.mList = list;
         isSelected = new HashMap<Integer, Boolean>();

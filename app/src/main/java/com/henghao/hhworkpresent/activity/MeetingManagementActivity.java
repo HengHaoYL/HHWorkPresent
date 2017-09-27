@@ -19,7 +19,8 @@ import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.PersonnelListAdapter;
 import com.henghao.hhworkpresent.entity.DeptEntity;
-import com.henghao.hhworkpresent.entity.PersonnelEntity;
+import com.henghao.hhworkpresent.entity.MeetingEntity;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.henghao.hhworkpresent.views.MyDateChooseWheelViewDialog;
 import com.henghao.hhworkpresent.views.XCDropDownDeptListView;
@@ -28,8 +29,10 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.json.JSONException;
@@ -37,7 +40,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,11 +84,11 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
     private ListView personal_listview;
     private ArrayList<DeptEntity> mDeptList;
 
-    private List<PersonnelEntity> personnelEntityList;      //查出来的人员列表
+    private List<MeetingEntity.PersonnelEntity> personnelEntityList;      //查出来的人员列表
 
     private PersonnelListAdapter personnelListAdapter;
 
-    private List<PersonnelEntity> mSelectPersonnelList;     //被选中的参会人员列表
+    private List<MeetingEntity.PersonnelEntity> mSelectPersonnelList;     //被选中的参会人员列表
 
     /**记录选中的条数*/
     private int checkNum;
@@ -118,6 +123,9 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
         mDeptList = new ArrayList<>();
         mSelectPersonnelList = new ArrayList<>();
 
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        tv_meeting_start_time.setText(format.format(new Date()));
+
         //查询部门集合
         httpRequestDeptList();
     }
@@ -135,9 +143,72 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
                 showSingleChoiceButton();
                 break;
             case R.id.tv_meeting_ok:
+                httpSaveMeetingToService();
                 break;
         }
     }
+
+    /**
+     * 上传会议到服务器
+     */
+    public void httpSaveMeetingToService(){
+        String meetingTheme = et_meeting_theme.getText().toString();
+        if(meetingTheme.equals("")){
+            Toast.makeText(this,"必须填写会议主题",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String meetingStartTime = tv_meeting_start_time.getText().toString();
+        String meetingDuration = tv_meeting_duration.getText().toString();
+        if(mSelectPersonnelList == null){
+            Toast.makeText(this,"请选择参会人员",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(mSelectPersonnelList.size()<3){
+            Toast.makeText(this,"请选择至少3位以上参会人员",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        MeetingEntity meetingEntity = new MeetingEntity();
+        meetingEntity.setUid(new SqliteDBUtils(this).getLoginUid());
+        meetingEntity.setMeetingTheme(meetingTheme);
+        meetingEntity.setMeetingStartTime(meetingStartTime);
+        meetingEntity.setMeetingDuration(meetingDuration);
+        meetingEntity.setMeetingPeople(mSelectPersonnelList);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        //这个要和服务器保持一致 application/json;charset=UTF-8
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("json", com.alibaba.fastjson.JSONObject.toJSONString(meetingEntity));
+        RequestBody requestBody = multipartBuilder.build();
+        Request request = builder.post(requestBody).url("http://172.16.0.81:8080/istration/JPush/addMeetingEntity").build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e){
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msg("网络请求错误！");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msg("数据保存成功！");
+                        finish();
+                    }
+                });
+            }
+        });
+
+    }
+
 
     /**
      * 弹出时间选择器
@@ -220,7 +291,7 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
                     JSONObject jsonObject = new JSONObject(result_str);
                     result_str = jsonObject.getString("data");
                     Gson gson = new Gson();
-                    Type type = new TypeToken<ArrayList<PersonnelEntity>>() {}.getType();
+                    Type type = new TypeToken<ArrayList<MeetingEntity.PersonnelEntity>>() {}.getType();
                     personnelEntityList = gson.fromJson(result_str,type);
                     runOnUiThread(new Runnable() {
                         @Override
@@ -278,8 +349,8 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
                         }
                         tv_meeting_people_num.setText(mSelectPersonnelList.size()+"人");
                         StringBuilder stringBuilder = new StringBuilder();
-                        for(PersonnelEntity personnelEntity : mSelectPersonnelList){
-                            stringBuilder.append(personnelEntity.getName()+"\n");
+                        for(MeetingEntity.PersonnelEntity personnelEntity : mSelectPersonnelList){
+                            stringBuilder.append(personnelEntity.getName()+";");
                             tv_join_meeting_people.setText(stringBuilder);
                         }
                     }
