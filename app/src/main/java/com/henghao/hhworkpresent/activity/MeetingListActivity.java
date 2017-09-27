@@ -94,12 +94,16 @@ public class MeetingListActivity extends ActivityFragmentSupport {
                             intent.putExtra("msg_id",msg_id);
                             startActivity(intent);
                         }else if(isRead==1){
-                            //进入查看页面
+                            //先暂时提示消息不能点击 进入查看页面
+                            Toast.makeText(MeetingListActivity.this,"此消息已经审批过了，不用继续审批",Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case 2:   //自己发给自己
                         break;
                     case 3:   //3代表通知大家开会
+                        intent.setClass(MeetingListActivity.this,MeetingNotificationActivity.class);
+                        intent.putExtra("msg_id",msg_id);
+                        startActivity(intent);
                         break;
                 }
             }
