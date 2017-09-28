@@ -312,6 +312,24 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 会议审批结果界面 -->
+        <activity
+            android:name=".activity.MeetingShenpiResultsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 发起会议人等待审批结果界面 -->
+        <activity
+            android:name=".activity.MeetingWaitResultActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- /领导推送给发起会议人审批不通过界面 -->
+        <activity
+            android:name=".activity.MeetingShenpiNoPassActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 工作轨迹界面 -->
         <activity
             android:name=".activity.WorkTrajectoryActivity"

@@ -32,29 +32,32 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 通知开会的界面
- * Created by ASUS on 2017/9/27.
+ * /领导推送给发起会议人审批不通过界面
+ * Created by ASUS on 2017/9/28.
  */
 
-public class MeetingNotificationActivity extends ActivityFragmentSupport {
+public class MeetingShenpiNoPassActivity extends ActivityFragmentSupport {
 
-    @ViewInject(R.id.tv_meeting_notification)
-    private TextView tv_meeting_notification;
-
-    @ViewInject(R.id.tv_notification_time)
-    private TextView tv_notification_time;
+    @ViewInject(R.id.tv_meeting_nopass_description)
+    private TextView tv_meeting_nopass_description;
 
     @ViewInject(R.id.tv_meeting_faqiren)
     private TextView tv_meeting_faqiren;
 
-    private long msg_id;
+    @ViewInject(R.id.tv_meeting_shenpiren)
+    private TextView tv_meeting_shenpiren;
+
+    @ViewInject(R.id.tv_meeting_notification_time)
+    private TextView tv_meeting_notification_time;
+
     private Handler mHandler = new Handler(){};
+    private long msg_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.mActivityFragmentView.viewMain(R.layout.activity_meeting_notification);
+        this.mActivityFragmentView.viewMain(R.layout.activity_meeting_nopass);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
@@ -69,7 +72,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithCenterBar();
-        mCenterTextView.setText("会议召开通知");
+        mCenterTextView.setText("会议审批不通过");
         mCenterTextView.setVisibility(View.VISIBLE);
     }
 
@@ -81,9 +84,6 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
         httpRequestMeetingContent();
     }
 
-    /**
-     * 查询指定的消息
-     */
     public void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
@@ -122,11 +122,13 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
 
                             for(JPushToUser jPushToUser : jPushToUserList){
                                 if(jPushToUser.getMsg_id()==msg_id){
-                                    tv_meeting_notification.setText("你好，请于"+meetingEntity.getMeetingStartTime()+"参加"
-                                            +jPushToUser.getMessageSendPeople()+"发起的主题为"+meetingEntity.getMeetingTheme()
-                                            +"的会议，谢谢！");
+                                    tv_meeting_nopass_description.setText(
+                                            "你好，" + "你发起的主题为"+meetingEntity.getMeetingTheme()+"的预约会议经"
+                                            +meetingEntity.getLeadName()+"审批，以"+meetingEntity.getNoPassReason()
+                                            +"原因最后不能通过，详情请自己咨询审批人。");
                                     tv_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
-                                    tv_notification_time.setText(jPushToUser.getMessageSendTime());
+                                    tv_meeting_shenpiren.setText("会议审批人："+meetingEntity.getLeadName());
+                                    tv_meeting_notification_time.setText(jPushToUser.getMessageSendTime());
                                 }
                             }
 

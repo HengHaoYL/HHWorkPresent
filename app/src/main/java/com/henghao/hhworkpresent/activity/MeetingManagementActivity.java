@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.PersonnelListAdapter;
 import com.henghao.hhworkpresent.entity.DeptEntity;
@@ -181,7 +182,8 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("json", com.alibaba.fastjson.JSONObject.toJSONString(meetingEntity));
         RequestBody requestBody = multipartBuilder.build();
-        Request request = builder.post(requestBody).url("http://172.16.0.81:8080/istration/JPush/addMeetingEntity").build();
+        String request_url = ProtocolUrl.APP_ADD_MEETING_CONTENT;
+        Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -234,7 +236,7 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
     public void httpRequestDeptList(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        String request_url = "http://172.16.0.81:8080/istration/firmdate/queryDeptAll";
+        String request_url = ProtocolUrl.APP_QUERY_DEPT_LIST;
         Request request = builder.url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -265,13 +267,17 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
     }
 
     /**
-     * 根据部门Id请求相应队伍的部门人员列表  GET
+     * 根据部门Id请求相应队伍的部门人员列表
      */
     private void httpRequestJianchaPersonalInfo(String deptId){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        String request_url = "http://172.16.0.81:8080/istration/firmdate/queryDeptByIdUser?id="+deptId;
-        Request request = builder.url(request_url).build();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("id", deptId);
+        RequestBody requestBody = multipartBuilder.build();
+        String request_url = ProtocolUrl.APP_QUERY_PERSONAL_LIST;
+        Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override

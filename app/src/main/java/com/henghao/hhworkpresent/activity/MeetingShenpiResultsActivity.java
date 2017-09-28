@@ -3,8 +3,10 @@ package com.henghao.hhworkpresent.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,29 +34,47 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 通知开会的界面
- * Created by ASUS on 2017/9/27.
+ * 会议审批结果界面
+ * Created by ASUS on 2017/9/28.
  */
 
-public class MeetingNotificationActivity extends ActivityFragmentSupport {
+public class MeetingShenpiResultsActivity extends ActivityFragmentSupport {
 
-    @ViewInject(R.id.tv_meeting_notification)
-    private TextView tv_meeting_notification;
-
-    @ViewInject(R.id.tv_notification_time)
-    private TextView tv_notification_time;
+    @ViewInject(R.id.tv_meeting_theme)
+    private TextView tv_meeting_theme;
 
     @ViewInject(R.id.tv_meeting_faqiren)
     private TextView tv_meeting_faqiren;
 
-    private long msg_id;
+    @ViewInject(R.id.tv_meeting_start_time)
+    private TextView tv_meeting_start_time;
+
+    @ViewInject(R.id.tv_meeting_duration)
+    private TextView tv_meeting_duration;
+
+    @ViewInject(R.id.tv_join_meeting_people_num)
+    private TextView tv_join_meeting_people_num;
+
+    @ViewInject(R.id.tv_join_meeting_people)
+    private TextView tv_join_meeting_people;
+
+    @ViewInject(R.id.tv_meeting_shenpi_result)
+    private TextView tv_meeting_shenpi_result;
+
+    @ViewInject(R.id.tv_meeting_dispass_reason)
+    private TextView tv_meeting_dispass_reason;
+
+    @ViewInject(R.id.linear_meeting_dispass_reason)
+    private LinearLayout linear_meeting_dispass_reason;
+
     private Handler mHandler = new Handler(){};
+    private long msg_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.mActivityFragmentView.viewMain(R.layout.activity_meeting_notification);
+        this.mActivityFragmentView.viewMain(R.layout.activity_meeting_shenpi_pass);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
@@ -69,7 +89,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithCenterBar();
-        mCenterTextView.setText("会议召开通知");
+        mCenterTextView.setText("会议审批结果");
         mCenterTextView.setVisibility(View.VISIBLE);
     }
 
@@ -82,7 +102,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     }
 
     /**
-     * 查询指定的消息
+     * 从后台获取会议数据
      */
     public void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -119,17 +139,26 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            tv_meeting_theme.setText(meetingEntity.getMeetingTheme());
                             for(JPushToUser jPushToUser : jPushToUserList){
                                 if(jPushToUser.getMsg_id()==msg_id){
-                                    tv_meeting_notification.setText("你好，请于"+meetingEntity.getMeetingStartTime()+"参加"
-                                            +jPushToUser.getMessageSendPeople()+"发起的主题为"+meetingEntity.getMeetingTheme()
-                                            +"的会议，谢谢！");
-                                    tv_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
-                                    tv_notification_time.setText(jPushToUser.getMessageSendTime());
+                                    tv_meeting_faqiren.setText(jPushToUser.getMessageSendPeople());
                                 }
                             }
-
+                            tv_meeting_start_time.setText(meetingEntity.getMeetingStartTime());
+                            tv_meeting_duration.setText(meetingEntity.getMeetingDuration());
+                            String name = meetingEntity.getUserIds();   //获取参会人员
+                            String[] strings = name.split(",");
+                            tv_join_meeting_people_num.setText(String.valueOf(strings.length));
+                            tv_join_meeting_people.setText(name);
+                            if(meetingEntity.getWhetherPass()==2){  //表示未通过审批
+                                tv_meeting_shenpi_result.setText("未通过");
+                                linear_meeting_dispass_reason.setVisibility(View.VISIBLE);
+                                tv_meeting_dispass_reason.setText(meetingEntity.getNoPassReason());
+                            } else if(meetingEntity.getWhetherPass()==1){
+                                tv_meeting_shenpi_result.setText("已通过");
+                                linear_meeting_dispass_reason.setVisibility(View.GONE);
+                            }
                         }
                     });
 

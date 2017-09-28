@@ -1,13 +1,20 @@
 package com.henghao.hhworkpresent.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.allenliu.badgeview.BadgeFactory;
+import com.allenliu.badgeview.BadgeView;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.activity.MeetingListActivity;
 import com.henghao.hhworkpresent.entity.JPushToUser;
 
 import java.util.List;
@@ -52,6 +59,7 @@ public class MeetingMessageListAdapter extends BaseAdapter {
             viewHolder.tv_meeting_message_content=(TextView) convertView.findViewById(R.id.tv_meeting_message_content);
             viewHolder.tv_message_time=(TextView) convertView.findViewById(R.id.tv_message_time);
             viewHolder.tv_meeting_message_faqiren=(TextView) convertView.findViewById(R.id.tv_meeting_message_faqiren);
+            viewHolder.linear_meeting_list_item=(LinearLayout) convertView.findViewById(R.id.linear_meeting_list_item);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -60,6 +68,18 @@ public class MeetingMessageListAdapter extends BaseAdapter {
         viewHolder.tv_meeting_message_content.setText(mList.get(arg0).getMessageContent());
         viewHolder.tv_message_time.setText(mList.get(arg0).getMessageSendTime());
         viewHolder.tv_meeting_message_faqiren.setText(mList.get(arg0).getMessageSendPeople());
+        int isRead = mList.get(arg0).getIsRead();
+        if(isRead==0){  //表示没查看过
+            BadgeFactory.create(mContext)
+                    .setTextColor(Color.WHITE)
+                    .setWidthAndHeight(20,20)
+                    .setBadgeBackground(Color.RED)
+                    .setTextSize(10)
+                    .setBadgeGravity(Gravity.RIGHT|Gravity.TOP)
+                    .setBadgeCount(1)
+                    .setShape(BadgeView.SHAPE_CIRCLE)
+                    .bind(viewHolder.linear_meeting_list_item);
+        }
         return convertView;
     }
 
@@ -68,5 +88,7 @@ public class MeetingMessageListAdapter extends BaseAdapter {
         TextView tv_meeting_message_content;
         TextView tv_message_time;
         TextView tv_meeting_message_faqiren;
+        LinearLayout linear_meeting_list_item;
     }
+
 }

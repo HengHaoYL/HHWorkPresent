@@ -1,11 +1,14 @@
 package com.henghao.hhworkpresent.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,25 +17,29 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.JianchaYinhuanListAdpter;
 import com.henghao.hhworkpresent.entity.JPushToUser;
 import com.henghao.hhworkpresent.entity.MeetingEntity;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
+import com.henghao.hhworkpresent.views.CustomDialog;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -107,25 +114,82 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
     private void viewOnClick(View v) {
         switch (v.getId()){
             case R.id.tv_meeting_agree:
-                httpRequestAgreeOrCancel(1);
+                httpRequestAgreeOrCancel(1,"");
                 break;
             case R.id.tv_meeting_reject:
-                httpRequestAgreeOrCancel(2);
+                showNoPassDialog();
                 break;
         }
     }
 
     /**
+     * 展示不同意对话框
+     */
+    public void showNoPassDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("您选择的处理方式");
+        builder.setMessage("此会议确定驳回？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 执行点击确定按钮的业务逻辑
+                dialog.dismiss();
+                showNoPassReasonDialog();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * 显示不同意理由对话框
+     */
+    public void showNoPassReasonDialog(){
+        final View customView = View.inflate(this,R.layout.layout_no_pass_dialog,null);
+        final EditText et_no_pass_reason = (EditText) customView.findViewById(R.id.et_no_pass_reason);
+        CustomDialog.Builder dialog=new CustomDialog.Builder(this);
+        dialog.setTitle("请填写驳回会议的原因")
+                .setContentView(customView)//设置自定义customView
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(et_no_pass_reason.getText().toString().equals("")){
+                            Toast.makeText(MeetingReviewActivity.this,"请填写不通过原因",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        httpRequestAgreeOrCancel(2,et_no_pass_reason.getText().toString());
+                        dialogInterface.dismiss();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).create().show();
+    }
+
+    /**
      * 1代表同意 2代表不同意
-     * 点击同意或取消会走的接口
+     * 点击同意或取消会走的接口并且上传理由
      * @param whetherPass
      */
-    public void httpRequestAgreeOrCancel(int whetherPass){
-        //根据pid查询有隐患的被检查隐患文件列表
+    public void httpRequestAgreeOrCancel(final int whetherPass,String noPassReason){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        String request_url = "http://172.16.0.81:8080/istration/JPush/updateMeetingEntityWhetherPass?mid=" +mid+"&whetherPass="+whetherPass;
-        Request request = builder.url(request_url).build();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("mid", String.valueOf(mid))
+                .addFormDataPart("whetherPass",String.valueOf(whetherPass))
+                .addFormDataPart("noPassReason",noPassReason);
+        RequestBody requestBody = multipartBuilder.build();
+        String request_url = ProtocolUrl.APP_ONCLICK_AGREE_OR_REJECT;
+        Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -144,7 +208,11 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        msg("调用接口成功");
+                        Intent intent = new Intent();
+                        intent.setClass(MeetingReviewActivity.this,MeetingShenpiResultsActivity.class);
+                        intent.putExtra("msg_id",msg_id);
+                        startActivity(intent);
+                        finish();
                     }
                 });
             }
@@ -153,13 +221,18 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
     }
 
     /**
-     * 从后台获取会议数据
+     * 从后台获取会议数据和消息数据
      */
     public void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        final String request_url = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByMsgid?msg_id="+msg_id;
-        Request request = builder.url(request_url).build();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("msg_id", String.valueOf(msg_id))
+                .addFormDataPart("uid", new SqliteDBUtils(this).getLoginUid());
+        RequestBody requestBody = multipartBuilder.build();
+        String request_url = ProtocolUrl.APP_QUERY_TUI_SONG_MESSAGE;
+        Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override

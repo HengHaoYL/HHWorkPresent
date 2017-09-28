@@ -25,43 +25,11 @@ public class ProtocolUrl {
      */
     public static String ROOT_URL = "";
 
-   public static boolean isURL = true;
-
     static {
-        if (!isURL) {
-            // 生产地址
-       //     ROOT_URL = "222.85.156.33:8082";
-        } else {
-            // 测试地址
-         ROOT_URL = "http://222.85.156.33:8082";
-      //  ROOT_URL = "http://172.16.0.68";
-        }
+      ROOT_URL = "http://222.85.156.33:8082";
     }
 
     /************************ 用户相关 end **************************/
-
-    // TODO app系统 相关
-    /************************
-     * app系统 相关
-     **************************/
-    public static final String SYSTEM = "j_appSystem/";
-
-    /**
-     * app启动页面信息
-     */
-    public static final String APP_START = SYSTEM + "appStart";
-
-    /**
-     * app引导页面信息
-     */
-    public static final String APP_GUIDE = SYSTEM + "appGuide";
-
-    /**
-     * app系统版本更新
-     */
-    public static final String APP_SYS_UPDATE = SYSTEM + "appUserUpdate";
-    /************************ app系统 end **************************/
-
 
     /**
      * 上传错误日志到服务器
@@ -82,6 +50,48 @@ public class ProtocolUrl {
     public static final String APP_WORKFLOW_NOLOGIN = "/hz7/horizon/basics/getBasics.wf?loginName=";
 
     /************************* 工作流 end **************************/
+
+   /************************* 会议管理 start **************************/
+
+
+    /**
+    * 添加预约会议内容到服务器
+    */
+    public static final String APP_ADD_MEETING_CONTENT = "http://172.16.0.81:8080/istration/JPush/addMeetingEntity";
+
+    /**
+    * 查询部门集合列表
+    */
+    public static final String APP_QUERY_DEPT_LIST = "http://172.16.0.81:8080/istration/firmdate/queryDeptAll";
+
+    /**
+    * 根据部门查询人员列表
+    */
+    public static final String APP_QUERY_PERSONAL_LIST = "http://172.16.0.81:8080/istration/firmdate/queryDeptByIdUser";
+
+
+    /**
+     * 将未读消息变为已读
+     */
+    public static final String APP_SET_UNREAD_TO_READ = "http://172.16.0.81:8080/istration/JPush/updateJPushToUserIsRead";
+
+    /**
+     * 根据uid查询别人推送给自己的消息
+     */
+    public static final String APP_QUERY_TUI_SONG_MESSAGE_LIST = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByUserIdAll";
+
+    /**
+     * 根据uid和msg_id查询别人推送给自己的消息的那一条详细消息
+     */
+    public static final String APP_QUERY_TUI_SONG_MESSAGE = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByMsgid";
+
+    /**
+     * 点击同意或取消会走的接口并且上传理由
+     */
+    public static final String APP_ONCLICK_AGREE_OR_REJECT = "http://172.16.0.81:8080/istration/JPush/updateMeetingEntityWhetherPass";
+
+    /************************* 会议管理 end **************************/
+
 
 
     /************************* 消息 start **************************/

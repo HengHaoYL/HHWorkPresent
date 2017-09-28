@@ -3,6 +3,7 @@ package com.henghao.hhworkpresent.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -32,29 +33,32 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 通知开会的界面
- * Created by ASUS on 2017/9/27.
+ * 发起会议人等待审批结果界面
+ * Created by ASUS on 2017/9/28.
  */
 
-public class MeetingNotificationActivity extends ActivityFragmentSupport {
+public class MeetingWaitResultActivity extends ActivityFragmentSupport {
 
-    @ViewInject(R.id.tv_meeting_notification)
-    private TextView tv_meeting_notification;
+    @ViewInject(R.id.tv_wait_meeting_descript)
+    private TextView tv_wait_meeting_descript;
 
-    @ViewInject(R.id.tv_notification_time)
-    private TextView tv_notification_time;
+    @ViewInject(R.id.tv_wait_meeting_faqiren)
+    private TextView tv_wait_meeting_faqiren;
 
-    @ViewInject(R.id.tv_meeting_faqiren)
-    private TextView tv_meeting_faqiren;
+    @ViewInject(R.id.tv_wait_meeting_shenpiren)
+    private TextView tv_wait_meeting_shenpiren;
 
-    private long msg_id;
+    @ViewInject(R.id.tv_wait_message_time)
+    private TextView tv_wait_message_time;
+
     private Handler mHandler = new Handler(){};
+    private long msg_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.mActivityFragmentView.viewMain(R.layout.activity_meeting_notification);
+        this.mActivityFragmentView.viewMain(R.layout.activity_meeting_wait_result);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
@@ -69,7 +73,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithCenterBar();
-        mCenterTextView.setText("会议召开通知");
+        mCenterTextView.setText("等待审批结果");
         mCenterTextView.setVisibility(View.VISIBLE);
     }
 
@@ -81,9 +85,6 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
         httpRequestMeetingContent();
     }
 
-    /**
-     * 查询指定的消息
-     */
     public void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
@@ -119,14 +120,14 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
                             for(JPushToUser jPushToUser : jPushToUserList){
                                 if(jPushToUser.getMsg_id()==msg_id){
-                                    tv_meeting_notification.setText("你好，请于"+meetingEntity.getMeetingStartTime()+"参加"
-                                            +jPushToUser.getMessageSendPeople()+"发起的主题为"+meetingEntity.getMeetingTheme()
-                                            +"的会议，谢谢！");
-                                    tv_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
-                                    tv_notification_time.setText(jPushToUser.getMessageSendTime());
+                                    tv_wait_meeting_descript.setText(
+                                            "你好，" + "你发起的主题为"+meetingEntity.getMeetingTheme()+"的预约会议已经成功推送给"
+                                                    +meetingEntity.getLeadName()+"审批，请留意通知消息等待审批结果。");
+                                    tv_wait_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
+                                    tv_wait_meeting_shenpiren.setText("会议审批人："+meetingEntity.getLeadName());
+                                    tv_wait_message_time.setText(jPushToUser.getMessageSendTime());
                                 }
                             }
 

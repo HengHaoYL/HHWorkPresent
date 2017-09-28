@@ -16,11 +16,20 @@ public class MeetingEntity {
     private String meetingStartTime;
     private String meetingDuration;
     private List<PersonnelEntity> meetingPeople;    //参会人员
-    private int whetherPass;   //是否通过审批   默认0未通过， 1：通过审批
-
+    private int whetherPass;   //是否通过审批   数据库默认是0   拒绝通过审批:2， 通过审批：1
+    private String noPassReason;  //审批不通过理由
+    private String leadName;    //审批领导名字  也就是审批人
     private String userIds;   //参会人员id
-
     private List<JPushToUser> jPushToUser;    //参会人员
+
+
+    public String getLeadName() {
+        return leadName;
+    }
+
+    public void setLeadName(String leadName) {
+        this.leadName = leadName;
+    }
 
     public int getMid() {
         return mid;
@@ -76,6 +85,14 @@ public class MeetingEntity {
 
     public void setMeetingPeople(List<PersonnelEntity> meetingPeople) {
         this.meetingPeople = meetingPeople;
+    }
+
+    public void setNoPassReason(String noPassReason) {
+        this.noPassReason = noPassReason;
+    }
+
+    public String getNoPassReason() {
+        return noPassReason;
     }
 
     public int getWhetherPass() {

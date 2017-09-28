@@ -7,6 +7,7 @@ package com.henghao.hhworkpresent.entity;
 public class JPushToUser {
 
     private int cid;
+    private int mid;    //会议Id
     private String uid; //消息接收人id
     private int isRead; //0 未查看 ，1已查看
     private int type; //1 代表发给领导，2 发给自己， 3代表通知大家开会
@@ -15,6 +16,14 @@ public class JPushToUser {
     private String messageContent;	//消息内容
     private String messageSendTime; //发起会议审批时间
     private String messageSendPeople; //发起会议人名字
+
+    public int getMid() {
+        return mid;
+    }
+
+    public void setMid(int mid) {
+        this.mid = mid;
+    }
 
     public int getCid() {
         return cid;
@@ -92,12 +101,15 @@ public class JPushToUser {
     public String toString() {
         return "JPushToUser{" +
                 "cid=" + cid +
+                ", mid=" + mid +
                 ", uid='" + uid + '\'' +
                 ", isRead=" + isRead +
                 ", type=" + type +
                 ", msg_id=" + msg_id +
                 ", messageTitle='" + messageTitle + '\'' +
                 ", messageContent='" + messageContent + '\'' +
+                ", messageSendTime='" + messageSendTime + '\'' +
+                ", messageSendPeople='" + messageSendPeople + '\'' +
                 '}';
     }
 }
