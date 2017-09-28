@@ -88,8 +88,8 @@ public class WorkFragment extends FragmentSupport {
         mList.add(mEntity6);
         //第七个
         AppGridEntity mEntity7 = new AppGridEntity();
-        mEntity7.setImageId(R.drawable.icon_listprocess);
-        mEntity7.setName("会议管理");
+        mEntity7.setImageId(R.drawable.icon_huiyi_guanli);
+        mEntity7.setName("会议预约");
         mList.add(mEntity7);
         //第八个
         AppGridEntity mEntity8 = new AppGridEntity();

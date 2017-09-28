@@ -51,7 +51,7 @@ public class MeetingListActivity extends ActivityFragmentSupport {
 
     private List<MeetingEntity> meetingEntityList;      //会议集合
 
-    private List<JPushToUser> jPushToUserList;      //用户的推送消息集合 别人推送过来的
+    public static List<JPushToUser> jPushToUserList;      //用户的推送消息集合 别人推送过来的
 
     private Handler mHandler = new Handler(){};
 
@@ -75,9 +75,24 @@ public class MeetingListActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
+        initWithBar();
+        mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("会议推送消息列表");
+        mCenterTextView.setText("会议推送消息");
         mCenterTextView.setVisibility(View.VISIBLE);
+
+        initWithRightBar();
+        mRightTextView.setText("会议上传");
+        mRightTextView.setVisibility(View.VISIBLE);
+        mRightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MeetingListActivity.this,MeetingUploadActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         meeting_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -133,6 +148,20 @@ public class MeetingListActivity extends ActivityFragmentSupport {
 
     }
 
+    @Override
+    public void initData() {
+        super.initData();
+        sqliteDBUtils = new SqliteDBUtils(this);
+        meetingEntityList = new ArrayList<>();
+        jPushToUserList = new ArrayList<>();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        httpRequestMeetingMessageList();
+    }
+
     /**
      * 将未读消息变为已读
      * @param cid
@@ -166,25 +195,10 @@ public class MeetingListActivity extends ActivityFragmentSupport {
         });
     }
 
-    @Override
-    public void initData() {
-        super.initData();
-        sqliteDBUtils = new SqliteDBUtils(this);
-        meetingEntityList = new ArrayList<>();
-        jPushToUserList = new ArrayList<>();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        httpRequestMeetingMessageList();
-    }
-
     /**
      * 根据uid查询别人推送给自己的消息
      */
     public void httpRequestMeetingMessageList(){
-        //根据pid查询有隐患的被检查隐患文件列表
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();

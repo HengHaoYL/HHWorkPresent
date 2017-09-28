@@ -112,8 +112,10 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
+        initWithBar();
+        mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("预约开会");
+        mCenterTextView.setText("会议预约");
         mCenterTextView.setVisibility(View.VISIBLE);
 
     }
@@ -202,7 +204,6 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("数据保存成功！");
                         finish();
                     }
                 });

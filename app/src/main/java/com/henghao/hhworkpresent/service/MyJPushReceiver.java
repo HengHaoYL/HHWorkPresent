@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.henghao.hhworkpresent.activity.MeetingListActivity;
 import com.henghao.hhworkpresent.activity.MeetingManagementActivity;
 import com.henghao.hhworkpresent.activity.MeetingReviewActivity;
 import com.henghao.hhworkpresent.entity.MeetingEntity;
@@ -34,24 +35,38 @@ public class MyJPushReceiver extends BroadcastReceiver {
             // 在这里可以做些统计，或者做些其他工作
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            // 在这里可以自己写代码去定义用户点击后的行为
-            Bundle bundle = intent.getExtras();
+            // 在这里可以自己写代码去定义用户点击后的行为  可以统一进入推送消息列表
+            Intent intent1 = new Intent();
+            intent1.setClass(context, MeetingListActivity.class);
+            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent1);
+            /*Bundle bundle = intent.getExtras();
             msg_id = bundle.getString(JPushInterface.EXTRA_MSG_ID);    //唯一标识通知消息的 ID
             String result_str = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            try {
+                JSONObject jsonObject = new JSONObject(result_str);
+                String extra = jsonObject.getString("extra");
+                if(extra!=null){
+                    MeetingEntity meetingEntity = new Gson().fromJson(extra,MeetingEntity.class);
+                    //    messageMeetingList.add(meetingEntity);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
         } else if(JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())){   //用户接收SDK消息的intent
             Bundle bundle = intent.getExtras();
             String msg_id = bundle.getString(JPushInterface.EXTRA_MSG_ID);    //唯一标识通知消息的 ID
             String result_str = bundle.getString(JPushInterface.EXTRA_EXTRA);
-//            try {
-//            JSONObject jsonObject = new JSONObject(result_str);
-//                String extra = jsonObject.getString("extra");
-//                if(extra!=null){
-//                    MeetingEntity meetingEntity = new Gson().fromJson(extra,MeetingEntity.class);
-//                    messageMeetingList.add(meetingEntity);
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+            /*try {
+            JSONObject jsonObject = new JSONObject(result_str);
+                String extra = jsonObject.getString("extra");
+                if(extra!=null){
+                    MeetingEntity meetingEntity = new Gson().fromJson(extra,MeetingEntity.class);
+                //    messageMeetingList.add(meetingEntity);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
         }
     }
 }

@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.allenliu.badgeview.BadgeFactory;
 import com.allenliu.badgeview.BadgeView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
@@ -22,6 +25,9 @@ import com.henghao.hhworkpresent.activity.GerendaibanActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.MeetingListActivity;
 import com.henghao.hhworkpresent.activity.YibanshiyiActivity;
+import com.henghao.hhworkpresent.adapter.MeetingMessageListAdapter;
+import com.henghao.hhworkpresent.entity.JPushToUser;
+import com.henghao.hhworkpresent.entity.MeetingEntity;
 import com.henghao.hhworkpresent.utils.NotificationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -30,6 +36,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -40,6 +47,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 消息首页
@@ -94,6 +103,8 @@ public class MsgFragment extends FragmentSupport {
     private SqliteDBUtils sqliteDBUtils;
     private NotificationUtils notificationUtils;
 
+    private List<JPushToUser> jPushToUserList;
+
     //通知的唯一标识，在一个应用程序中不同的通知要区别开来
     public static final int NO_1 = 1001;    //通知公告
     public static final int NO_2 = 1002;    //需办理
@@ -136,6 +147,7 @@ public class MsgFragment extends FragmentSupport {
     }
 
     public void initData(){
+        jPushToUserList = new ArrayList<>();
         sqliteDBUtils = new SqliteDBUtils(mActivity);
         notificationUtils = new NotificationUtils(mActivity);
         queryUnReadGonggao();
@@ -147,7 +159,79 @@ public class MsgFragment extends FragmentSupport {
         super.onResume();
         queryUnReadGonggao();
         httpRequesMsgCounts();
+        queryUnReadMeeting();
     }
+
+    /**
+     * 查询未读的推送消息
+     */
+    public void queryUnReadMeeting(){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("uid", sqliteDBUtils.getLoginUid());
+        RequestBody requestBody = multipartBuilder.build();
+        String request_url = ProtocolUrl.APP_QUERY_UNREAD_MESSAGE;
+        Request request = builder.post(requestBody).url(request_url).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    result_str = jsonObject.getString("data");
+                    if(result_str!=null){
+                        Gson gson = new Gson();
+                        jPushToUserList.clear();
+                        jPushToUserList = gson.fromJson(result_str,new TypeToken<ArrayList<JPushToUser>>() {}.getType());
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(jPushToUserList.size()>0){
+                                    BadgeFactory.create(mActivity)
+                                            .setTextColor(Color.WHITE)
+                                            .setWidthAndHeight(20,20)
+                                            .setBadgeBackground(Color.RED)
+                                            .setTextSize(10)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount(jPushToUserList.size())
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(huiyiguanli);
+                                }else if(jPushToUserList.size()==0){
+                                    BadgeFactory.create(mActivity)
+                                            .setWidthAndHeight(50,50)
+                                            .setBadgeBackground(Color.WHITE)
+                                            .setTextSize(0)
+                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
+                                            .setBadgeCount("")
+                                            .setShape(BadgeView.SHAPE_CIRCLE)
+                                            .bind(huiyiguanli);
+                                }
+                            }
+                        });
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
 
     @OnClick({R.id.huiyiguanli,R.id.tongzhigonggao,R.id.gerendaiban,R.id.faqishiyi,/*R.id.keyueshiyi,*/R.id.yibanshiyi,
               /*R.id.daibanrenling,*/R.id.daiyueshiyi/*,R.id.chebanwenjian,R.id.yiyueshiyi*/})

@@ -72,6 +72,8 @@ public class MeetingWaitResultActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
+        initWithBar();
+        mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
         mCenterTextView.setText("等待审批结果");
         mCenterTextView.setVisibility(View.VISIBLE);

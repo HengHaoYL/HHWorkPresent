@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,6 +56,7 @@ public class MeetingMessageListAdapter extends BaseAdapter {
         if(convertView==null){
             convertView= LayoutInflater.from(mContext).inflate(R.layout.listview_meeting_item, null);
             viewHolder = new ViewHolder();
+            viewHolder.message_image=(ImageView) convertView.findViewById(R.id.message_image);
             viewHolder.tv_meeting_message_title=(TextView) convertView.findViewById(R.id.tv_meeting_message_title);
             viewHolder.tv_meeting_message_content=(TextView) convertView.findViewById(R.id.tv_meeting_message_content);
             viewHolder.tv_message_time=(TextView) convertView.findViewById(R.id.tv_message_time);
@@ -68,6 +70,21 @@ public class MeetingMessageListAdapter extends BaseAdapter {
         viewHolder.tv_meeting_message_content.setText(mList.get(arg0).getMessageContent());
         viewHolder.tv_message_time.setText(mList.get(arg0).getMessageSendTime());
         viewHolder.tv_meeting_message_faqiren.setText(mList.get(arg0).getMessageSendPeople());
+        switch (mList.get(arg0).getType()){     //为不同的类型设置不同的图片
+            case 1:
+                viewHolder.message_image.setImageResource(R.drawable.icon_daibanrenling);
+                break;
+            case 2:
+                viewHolder.message_image.setImageResource(R.drawable.icon_chebanwenjian);
+                break;
+            case 3:
+                viewHolder.message_image.setImageResource(R.drawable.icon_yiyueshiyi);
+                break;
+            case 4:
+                viewHolder.message_image.setImageResource(R.drawable.icon_keyueshiyi);
+                break;
+        }
+        //为没查看过的数据添加红点数量标识
         int isRead = mList.get(arg0).getIsRead();
         if(isRead==0){  //表示没查看过
             BadgeFactory.create(mContext)
@@ -84,6 +101,7 @@ public class MeetingMessageListAdapter extends BaseAdapter {
     }
 
     class ViewHolder{
+        ImageView message_image;
         TextView tv_meeting_message_title;
         TextView tv_meeting_message_content;
         TextView tv_message_time;

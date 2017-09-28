@@ -330,6 +330,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 会议上传界面 -->
+        <activity
+            android:name=".activity.MeetingUploadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 工作轨迹界面 -->
         <activity
             android:name=".activity.WorkTrajectoryActivity"

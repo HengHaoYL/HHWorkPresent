@@ -85,6 +85,13 @@ public class ProtocolUrl {
      */
     public static final String APP_QUERY_TUI_SONG_MESSAGE = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByMsgid";
 
+
+    /**
+     * 根据uid查询未读的推送消息
+     */
+    public static final String APP_QUERY_UNREAD_MESSAGE = "http://172.16.0.81:8080/istration/JPush/queryJPushToUserUnRead";
+
+
     /**
      * 点击同意或取消会走的接口并且上传理由
      */

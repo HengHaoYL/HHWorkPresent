@@ -96,6 +96,8 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
+        initWithBar();
+        mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
         mCenterTextView.setText("会议审批");
         mCenterTextView.setVisibility(View.VISIBLE);
