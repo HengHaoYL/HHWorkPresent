@@ -302,7 +302,7 @@
 
         <!-- 会议管理界面 -->
         <activity
-            android:name=".activity.MeetingListActivity"
+            android:name=".activity.MeetingManageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
@@ -651,7 +651,7 @@
 
         <!-- 会议管理界面 -->
         <activity
-            android:name=".activity.MeetingManagementActivity"
+            android:name=".activity.MeetingSubscribeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 

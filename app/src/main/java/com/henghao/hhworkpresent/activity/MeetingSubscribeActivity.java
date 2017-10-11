@@ -3,7 +3,6 @@ package com.henghao.hhworkpresent.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -48,11 +47,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 会议管理界面
+ * 预约会议界面
  * Created by ASUS on 2017/9/26.
  */
 
-public class MeetingManagementActivity extends ActivityFragmentSupport {
+public class MeetingSubscribeActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.tv_meeting_people_num)
     private TextView tv_meeting_people_num;
@@ -98,7 +97,7 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.mActivityFragmentView.viewMain(R.layout.activity_meeting_management);
+        this.mActivityFragmentView.viewMain(R.layout.activity_meeting_subscribe);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
@@ -303,7 +302,7 @@ public class MeetingManagementActivity extends ActivityFragmentSupport {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            personnelListAdapter = new PersonnelListAdapter(MeetingManagementActivity.this,personnelEntityList);
+                            personnelListAdapter = new PersonnelListAdapter(MeetingSubscribeActivity.this,personnelEntityList);
                             personal_listview.setAdapter(personnelListAdapter);
                             personnelListAdapter.notifyDataSetChanged();
                         }

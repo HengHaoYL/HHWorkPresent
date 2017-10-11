@@ -12,10 +12,9 @@ import android.widget.TextView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.JianchaTaskActivity;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
 import com.henghao.hhworkpresent.activity.ListProcessActivity;
-import com.henghao.hhworkpresent.activity.MeetingManagementActivity;
+import com.henghao.hhworkpresent.activity.MeetingSubscribeActivity;
 import com.henghao.hhworkpresent.activity.RenyuanKaoqingActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
 import com.henghao.hhworkpresent.activity.WorkTrajectoryActivity;
@@ -130,7 +129,7 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                         break;
                     case 6:
                         //会议管理
-                        intent.setClass(mActivityFragmentSupport,MeetingManagementActivity.class);
+                        intent.setClass(mActivityFragmentSupport,MeetingSubscribeActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
                         break;
                     case 7:

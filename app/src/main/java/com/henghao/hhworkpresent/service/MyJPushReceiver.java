@@ -4,19 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.google.gson.Gson;
-import com.henghao.hhworkpresent.activity.MeetingListActivity;
-import com.henghao.hhworkpresent.activity.MeetingManagementActivity;
-import com.henghao.hhworkpresent.activity.MeetingReviewActivity;
-import com.henghao.hhworkpresent.entity.MeetingEntity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.henghao.hhworkpresent.activity.MeetingManageActivity;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -37,7 +26,7 @@ public class MyJPushReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             // 在这里可以自己写代码去定义用户点击后的行为  可以统一进入推送消息列表
             Intent intent1 = new Intent();
-            intent1.setClass(context, MeetingListActivity.class);
+            intent1.setClass(context, MeetingManageActivity.class);
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent1);
             /*Bundle bundle = intent.getExtras();

@@ -2,7 +2,6 @@ package com.henghao.hhworkpresent.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.allenliu.badgeview.BadgeFactory;
 import com.allenliu.badgeview.BadgeView;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.MeetingListActivity;
 import com.henghao.hhworkpresent.entity.JPushToUser;
 
 import java.util.List;

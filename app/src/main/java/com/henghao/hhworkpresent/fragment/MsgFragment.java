@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +22,9 @@ import com.henghao.hhworkpresent.activity.DaiyueshiyiActivity;
 import com.henghao.hhworkpresent.activity.FaqishiyiActivity;
 import com.henghao.hhworkpresent.activity.GerendaibanActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
-import com.henghao.hhworkpresent.activity.MeetingListActivity;
+import com.henghao.hhworkpresent.activity.MeetingManageActivity;
 import com.henghao.hhworkpresent.activity.YibanshiyiActivity;
-import com.henghao.hhworkpresent.adapter.MeetingMessageListAdapter;
 import com.henghao.hhworkpresent.entity.JPushToUser;
-import com.henghao.hhworkpresent.entity.MeetingEntity;
 import com.henghao.hhworkpresent.utils.NotificationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -239,7 +236,7 @@ public class MsgFragment extends FragmentSupport {
         Intent intent = new Intent();
         switch (v.getId()){
             case R.id.huiyiguanli:
-                intent.setClass(mActivity, MeetingListActivity.class);
+                intent.setClass(mActivity, MeetingManageActivity.class);
                 mActivity.startActivity(intent);
                 break;
             case R.id.tongzhigonggao:
