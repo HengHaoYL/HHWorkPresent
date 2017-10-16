@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <LinearLayout
+        android:id="@+id/linear_meeting_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <ImageView
+            android:id="@+id/message_image"
+            android:layout_gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_faqishiyi"/>
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="160dp"
+            android:layout_margin="10dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_meeting_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:text="会议主题"/>
+            <TextView
+                android:id="@+id/tv_meeting_join_people"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12dp"
+                android:text="参会人员"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_meeting_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12dp"
+                android:text="2016-09-27"/>
+
+            <Button
+                android:id="@+id/btn_meeting_upload"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:background="@color/main_color"
+                android:layout_marginTop="5dp"
+                android:textSize="10dp"
+                android:text="会议上传"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

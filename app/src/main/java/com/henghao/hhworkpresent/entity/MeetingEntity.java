@@ -15,12 +15,13 @@ public class MeetingEntity {
     private String meetingTheme;
     private String meetingStartTime;
     private String meetingDuration;
+    private String meetingPlace;
     private List<PersonnelEntity> meetingPeople;    //参会人员
     private int whetherPass;   //是否通过审批   数据库默认是0   拒绝通过审批:2， 通过审批：1
     private String noPassReason;  //审批不通过理由
     private String leadName;    //审批领导名字  也就是审批人
     private String userIds;   //参会人员id
-    private List<JPushToUser> jPushToUser;    //参会人员
+    private List<JPushToUser> jPushToUser;    //推送消息中间类
 
 
     public String getLeadName() {
@@ -53,6 +54,14 @@ public class MeetingEntity {
 
     public void setMeetingDuration(String meetingDuration) {
         this.meetingDuration = meetingDuration;
+    }
+
+    public void setMeetingPlace(String meetingPlace) {
+        this.meetingPlace = meetingPlace;
+    }
+
+    public String getMeetingPlace() {
+        return meetingPlace;
     }
 
     public String getUid() {

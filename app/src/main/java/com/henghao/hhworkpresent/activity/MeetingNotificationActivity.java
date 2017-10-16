@@ -124,8 +124,8 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
 
                             for(JPushToUser jPushToUser : jPushToUserList){
                                 if(jPushToUser.getMsg_id()==msg_id){
-                                    tv_meeting_notification.setText("你好，请于"+meetingEntity.getMeetingStartTime()+"参加"
-                                            +jPushToUser.getMessageSendPeople()+"发起的主题为"+meetingEntity.getMeetingTheme()
+                                    tv_meeting_notification.setText("你好，请于"+meetingEntity.getMeetingStartTime()+"在"+meetingEntity.getMeetingPlace()
+                                            +"参加" +jPushToUser.getMessageSendPeople()+"发起的主题为"+meetingEntity.getMeetingTheme()
                                             +"的会议，谢谢！");
                                     tv_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
                                     tv_notification_time.setText(jPushToUser.getMessageSendTime());

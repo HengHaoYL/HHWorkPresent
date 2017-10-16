@@ -81,6 +81,11 @@ public class ProtocolUrl {
     public static final String APP_QUERY_TUI_SONG_MESSAGE_LIST = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByUserIdAll";
 
     /**
+     * 根据uid查询审批通过的会议
+     */
+    public static final String APP_QUERY_MEETING_PASS_LIST = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByUserList";
+
+    /**
      * 根据uid和msg_id查询别人推送给自己的消息的那一条详细消息
      */
     public static final String APP_QUERY_TUI_SONG_MESSAGE = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByMsgid";

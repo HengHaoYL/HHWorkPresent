@@ -3,7 +3,6 @@ package com.henghao.hhworkpresent.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -45,6 +44,9 @@ public class MeetingShenpiResultsActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.tv_meeting_faqiren)
     private TextView tv_meeting_faqiren;
+
+    @ViewInject(R.id.tv_meeting_place)
+    private TextView tv_meeting_place;
 
     @ViewInject(R.id.tv_meeting_start_time)
     private TextView tv_meeting_start_time;
@@ -147,6 +149,7 @@ public class MeetingShenpiResultsActivity extends ActivityFragmentSupport {
                                     tv_meeting_faqiren.setText(jPushToUser.getMessageSendPeople());
                                 }
                             }
+                            tv_meeting_place.setText(meetingEntity.getMeetingPlace());
                             tv_meeting_start_time.setText(meetingEntity.getMeetingStartTime());
                             tv_meeting_duration.setText(meetingEntity.getMeetingDuration());
                             String name = meetingEntity.getUserIds();   //获取参会人员

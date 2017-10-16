@@ -62,6 +62,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.et_meeting_theme)
     private EditText et_meeting_theme;
 
+    @ViewInject(R.id.et_meeting_place)
+    private EditText et_meeting_place;
+
     @ViewInject(R.id.tv_meeting_start_time)
     private TextView tv_meeting_start_time;
 
@@ -159,6 +162,11 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
             Toast.makeText(this,"必须填写会议主题",Toast.LENGTH_SHORT).show();
             return;
         }
+        String meetingPlace = et_meeting_place.getText().toString();
+        if(meetingPlace.equals("")){
+            Toast.makeText(this,"必须填写会议地点",Toast.LENGTH_SHORT).show();
+            return;
+        }
         String meetingStartTime = tv_meeting_start_time.getText().toString();
         String meetingDuration = tv_meeting_duration.getText().toString();
         if(mSelectPersonnelList == null){
@@ -172,6 +180,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         MeetingEntity meetingEntity = new MeetingEntity();
         meetingEntity.setUid(new SqliteDBUtils(this).getLoginUid());
         meetingEntity.setMeetingTheme(meetingTheme);
+        meetingEntity.setMeetingPlace(meetingPlace);
         meetingEntity.setMeetingStartTime(meetingStartTime);
         meetingEntity.setMeetingDuration(meetingDuration);
         meetingEntity.setMeetingPeople(mSelectPersonnelList);

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -21,8 +22,8 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 
 public class MeetingUploadActivity extends ActivityFragmentSupport {
 
-    @ViewInject(R.id.et_meeting_upload_theme)
-    private EditText et_meeting_upload_theme;
+    @ViewInject(R.id.tv_meeting_upload_theme)
+    private TextView tv_meeting_upload_theme;
 
     @ViewInject(R.id.tv_meeting_upload_people)
     private TextView tv_meeting_upload_people;
@@ -30,14 +31,17 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_meeting_upload_start_time)
     private TextView tv_meeting_upload_start_time;
 
-    @ViewInject(R.id.et_meeting_upload_duration)
-    private EditText et_meeting_upload_duration;
+    @ViewInject(R.id.tv_meeting_upload_duration)
+    private TextView tv_meeting_upload_duration;
 
-    @ViewInject(R.id.et_meeting_upload_place)
-    private EditText et_meeting_upload_place;
+    @ViewInject(R.id.tv_meeting_upload_place)
+    private TextView tv_meeting_upload_place;
 
-    @ViewInject(R.id.tv_meeting_upload_qiandao_people)
-    private TextView tv_meeting_upload_qiandao_people;
+    @ViewInject(R.id.tv_meeting_join_people)
+    private TextView tv_meeting_join_people;
+
+    @ViewInject(R.id.et_meeting_upload_qiandao_people)
+    private EditText et_meeting_upload_qiandao_people;
 
     @ViewInject(R.id.et_meeting_upload_content)
     private EditText et_meeting_upload_content;
@@ -82,19 +86,19 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
+        SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(this);
+        Intent data = getIntent();
+        tv_meeting_upload_theme.setText(data.getStringExtra("meetingTheme"));
+        tv_meeting_upload_people.setText(sqliteDBUtils.getLoginFirstName()+sqliteDBUtils.getLoginGiveName());
+        tv_meeting_upload_start_time.setText(data.getStringExtra("meetingStartTime"));
+        tv_meeting_upload_duration.setText(data.getStringExtra("meetingDuration"));
+        tv_meeting_upload_place.setText(data.getStringExtra("meetingPlace"));
+        tv_meeting_join_people.setText(data.getStringExtra("meetingJoinPeople"));
     }
 
-    @OnClick({R.id.tv_meeting_upload_people,R.id.tv_meeting_upload_start_time,R.id.tv_meeting_upload_qiandao_people,
-            R.id.tv_meeting_upload_save,R.id.tv_meeting_upload_cancel})
+    @OnClick({R.id.tv_meeting_upload_save,R.id.tv_meeting_upload_cancel})
     public void viewClick(View v) {
-        Intent intent = new Intent();
         switch (v.getId()) {
-            case R.id.tv_meeting_upload_people:
-                break;
-            case R.id.tv_meeting_upload_start_time:
-                break;
-            case R.id.tv_meeting_upload_qiandao_people:
-                break;
             case R.id.tv_meeting_upload_save:
                 break;
             case R.id.tv_meeting_upload_cancel:

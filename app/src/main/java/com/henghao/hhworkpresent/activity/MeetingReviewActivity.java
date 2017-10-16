@@ -5,24 +5,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.adapter.JianchaYinhuanListAdpter;
 import com.henghao.hhworkpresent.entity.JPushToUser;
 import com.henghao.hhworkpresent.entity.MeetingEntity;
-import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.lidroid.xutils.ViewUtils;
@@ -55,6 +49,9 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.tv_meeting_faqiren)
     private TextView tv_meeting_faqiren;
+
+    @ViewInject(R.id.tv_meeting_place)
+    private TextView tv_meeting_place;
 
     @ViewInject(R.id.tv_meeting_start_time)
     private TextView tv_meeting_start_time;
@@ -267,6 +264,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                                     tv_meeting_faqiren.setText(jPushToUser.getMessageSendPeople());
                                 }
                             }
+                            tv_meeting_place.setText(meetingEntity.getMeetingPlace());
                             tv_meeting_start_time.setText(meetingEntity.getMeetingStartTime());
                             tv_meeting_duration.setText(meetingEntity.getMeetingDuration());
                             String name = meetingEntity.getUserIds();   //获取参会人员
