@@ -1,8 +1,6 @@
 package com.henghao.hhworkpresent.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,23 +8,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.MeetingUploadActivity;
-import com.henghao.hhworkpresent.entity.MeetingEntity;
+import com.henghao.hhworkpresent.entity.MeetingUploadEntity;
 
 import java.util.List;
 
 /**
- * 审批通过的会议列表
+ * 会议记录列表适配器
  * Created by bryanrady on 2017/10/16.
  */
 
-public class MeetingPassListAdapter extends BaseAdapter {
+public class MeetingRecordListAdapter extends BaseAdapter {
 
     public Context mContext;
-    public List<MeetingEntity> mList;
+    public List<MeetingUploadEntity> mList;
 
-    public MeetingPassListAdapter(Context context, List<MeetingEntity> list){
+    public MeetingRecordListAdapter(Context context, List<MeetingUploadEntity> list){
         super();
         this.mContext = context;
         this.mList = list;
@@ -50,7 +46,7 @@ public class MeetingPassListAdapter extends BaseAdapter {
     @Override
     public View getView(final int arg0, View convertView, ViewGroup arg2) {
         ViewHolder viewHolder;
-        if(convertView==null){
+        /*if(convertView==null){
             convertView= LayoutInflater.from(mContext).inflate(R.layout.listview_meeting_pass_item, null);
             viewHolder = new ViewHolder();
             viewHolder.message_image=(ImageView) convertView.findViewById(R.id.message_image);
@@ -70,7 +66,6 @@ public class MeetingPassListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(mContext, MeetingUploadActivity.class);
-                intent.putExtra("mid",String.valueOf(mList.get(arg0).getMid()));
                 intent.putExtra("meetingTheme",mList.get(arg0).getMeetingTheme());
                 intent.putExtra("meetingStartTime",mList.get(arg0).getMeetingStartTime());
                 intent.putExtra("meetingDuration",mList.get(arg0).getMeetingDuration());
@@ -78,7 +73,7 @@ public class MeetingPassListAdapter extends BaseAdapter {
                 intent.putExtra("meetingJoinPeople",mList.get(arg0).getUserIds());
                 mContext.startActivity(intent);
             }
-        });
+        });*/
         return convertView;
     }
 

@@ -60,6 +60,11 @@ public class ProtocolUrl {
     public static final String APP_ADD_MEETING_CONTENT = "http://172.16.0.81:8080/istration/JPush/addMeetingEntity";
 
     /**
+     * 会议上传
+     */
+    public static final String APP_ADD_MEETING_UPLOAD = "http://172.16.0.81:8080/istration/JPush/addMeetingUploadEntity";
+
+    /**
     * 查询部门集合列表
     */
     public static final String APP_QUERY_DEPT_LIST = "http://172.16.0.81:8080/istration/firmdate/queryDeptAll";
