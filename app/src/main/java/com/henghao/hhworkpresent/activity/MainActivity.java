@@ -1,5 +1,6 @@
 package com.henghao.hhworkpresent.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.benefit.buy.library.views.ToastView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
@@ -29,6 +31,10 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kr.co.namee.permissiongen.PermissionFail;
+import kr.co.namee.permissiongen.PermissionGen;
+import kr.co.namee.permissiongen.PermissionSuccess;
 
 
 /**
@@ -65,6 +71,8 @@ public class MainActivity extends ActivityFragmentSupport {
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
         this.mActivityFragmentView.clipToPadding(true);
+
+        requestPermission();
 
         /**
          * 开启检测版本任务
@@ -108,6 +116,34 @@ public class MainActivity extends ActivityFragmentSupport {
             }
         });
         initData();
+    }
+
+    public void requestPermission(){
+        PermissionGen.with(MainActivity.this)
+                .addRequestCode(100)
+                .permissions(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.CHANGE_WIFI_STATE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .request();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                                     int[] grantResults) {
+        PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @PermissionSuccess(requestCode = 100)
+    public void doSomething(){
+        Toast.makeText(this, "定位权限和读取sd卡被同意", Toast.LENGTH_SHORT).show();
+    }
+
+    @PermissionFail(requestCode = 100)
+    public void doFailSomething(){
+        Toast.makeText(this, "定位权限和读取sd卡被拒绝", Toast.LENGTH_SHORT).show();
     }
 
     @Override

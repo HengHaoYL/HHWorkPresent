@@ -1,15 +1,12 @@
 package com.henghao.hhworkpresent.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +29,7 @@ import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.JoinPeopleListAdapter;
-import com.henghao.hhworkpresent.entity.MeetingUploadEntity;
+import com.henghao.hhworkpresent.entity.MeetingDataBean;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.lidroid.xutils.ViewUtils;
@@ -116,12 +113,6 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
 
     private int mid;
 
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,15 +126,6 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
         setContentView(this.mActivityFragmentView);
         initWidget();
         initData();
-
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
     }
 
     @Override
@@ -218,7 +200,7 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
             Toast.makeText(this,"必须填写会议总结",Toast.LENGTH_SHORT).show();
             return;
         }
-        MeetingUploadEntity meetingUploadEntity = new MeetingUploadEntity();
+        MeetingDataBean.MeetingUploadEntity meetingUploadEntity = new MeetingDataBean.MeetingUploadEntity();
         meetingUploadEntity.setMid(mid);
         meetingUploadEntity.setMeetingUploadTheme(meetingUploadTheme);
         meetingUploadEntity.setMeetingUploadPeople(meetingUploadFaqiren);

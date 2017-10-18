@@ -18,7 +18,6 @@ import com.henghao.hhworkpresent.activity.MeetingSubscribeActivity;
 import com.henghao.hhworkpresent.activity.RenyuanKaoqingActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
 import com.henghao.hhworkpresent.activity.WorkTrajectoryActivity;
-import com.henghao.hhworkpresent.activity.XunchaJianchaActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -132,12 +131,12 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
                         intent.setClass(mActivityFragmentSupport,MeetingSubscribeActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
                         break;
-                    case 7:
+                    /*case 7:
                         //巡查检查
                         intent.setClass(mActivityFragmentSupport,XunchaJianchaActivity.class);
                         mActivityFragmentSupport.startActivity(intent);
-                        break;
-                    case 8:
+                        break;*/
+                    case 7:
                         //人员考勤
                         intent.setClass(mActivityFragmentSupport,RenyuanKaoqingActivity.class);
                         mActivityFragmentSupport.startActivity(intent);

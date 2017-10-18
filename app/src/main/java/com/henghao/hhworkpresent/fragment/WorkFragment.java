@@ -1,7 +1,6 @@
 package com.henghao.hhworkpresent.fragment;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,17 +91,17 @@ public class WorkFragment extends FragmentSupport {
         mEntity7.setName("会议预约");
         mList.add(mEntity7);
         //第八个
-        AppGridEntity mEntity8 = new AppGridEntity();
+        /*AppGridEntity mEntity8 = new AppGridEntity();
         mEntity8.setImageId(R.drawable.icon_xunchajiancha);
         mEntity8.setName("巡查检查");
-        mList.add(mEntity8);
+        mList.add(mEntity8);*/
         //第九个
-        AppGridEntity mEntity9 = new AppGridEntity();
-        mEntity9.setImageId(R.drawable.item_renyuankaoqing);
-        mEntity9.setName("人员考勤");
+        AppGridEntity mEntity8 = new AppGridEntity();
+        mEntity8.setImageId(R.drawable.item_renyuankaoqing);
+        mEntity8.setName("人员考勤");
         for(String uid : leader){
              if(uid.equals(sqliteDBUtils.getLoginUid())){
-                 mList.add(mEntity9);
+                 mList.add(mEntity8);
              }
         }
         WorkGridAdapter adapter = new WorkGridAdapter(this.mActivity,mList);

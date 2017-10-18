@@ -65,6 +65,16 @@ public class ProtocolUrl {
     public static final String APP_ADD_MEETING_UPLOAD = "http://172.16.0.81:8080/istration/JPush/addMeetingUploadEntity";
 
     /**
+     * 查询会议上传记录列表
+     */
+    public static final String APP_QUERT_MEETING_UPLOAD_LIST = "http://172.16.0.81:8080/istration/JPush/queryMeetingUploadEntityList";
+
+    /**
+     * 查询会议详情的图片
+     */
+    public static final String APP_QUERT_MEETING_UPLOAD_DETAIL_IMAGEPATH = "http://172.16.0.81:8080/meetingImage/";
+
+    /**
     * 查询部门集合列表
     */
     public static final String APP_QUERY_DEPT_LIST = "http://172.16.0.81:8080/istration/firmdate/queryDeptAll";

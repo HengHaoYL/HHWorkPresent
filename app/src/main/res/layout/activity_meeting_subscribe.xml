@@ -16,10 +16,8 @@
                 android:text="会议主题"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="18dp" />
+                android:padding="@dimen/padding_big"
+                android:textSize="@dimen/gj_f"  />
             <EditText
                 android:id="@+id/et_meeting_theme"
                 android:layout_width="match_parent"
@@ -28,7 +26,7 @@
                 android:layout_marginLeft="35dp"
                 android:layout_marginBottom="10dp"
                 android:textSize="18dp"
-                android:hint="填写开会主题"/>
+                android:background="@null" />
         </LinearLayout>
 
         <View
@@ -43,10 +41,8 @@
                 android:text="会议地点"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="18dp" />
+                android:padding="@dimen/padding_big"
+                android:textSize="@dimen/gj_f" />
             <EditText
                 android:id="@+id/et_meeting_place"
                 android:layout_width="match_parent"
@@ -55,7 +51,7 @@
                 android:layout_marginLeft="35dp"
                 android:layout_marginBottom="10dp"
                 android:textSize="18dp"
-                android:hint="填写开会地点"/>
+                android:background="@null" />
         </LinearLayout>
 
         <View
@@ -70,16 +66,18 @@
                 android:text="开始时间"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:textSize="18dp" />
+                android:padding="@dimen/padding_big"
+                android:textSize="@dimen/gj_f"/>
             <TextView
                 android:id="@+id/tv_meeting_start_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:maxLength="22"
-                android:drawableRight="@drawable/item_point_right"
-                android:textSize="18dp" />
+                android:background="@null"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:drawableRight="@drawable/icon_datatime"
+                android:textSize="@dimen/gj_f" />
         </LinearLayout>
 
         <View
@@ -95,16 +93,19 @@
                 android:text="预估时长"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:textSize="18dp" />
+                android:padding="@dimen/padding_big"
+                android:textSize="@dimen/gj_f"/>
             <TextView
                 android:id="@+id/tv_meeting_duration"
-                android:text="30分钟"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="30分钟"
+                android:background="@null"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
                 android:drawableRight="@drawable/item_point_right"
-                android:layout_margin="20dp"
-                android:textSize="18dp" />
+                android:textSize="@dimen/gj_f"/>
         </LinearLayout>
 
         <View
@@ -119,16 +120,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:padding="@dimen/gj_f"
                 android:text="选择参会人员"
-                android:textSize="18dp"/>
+                android:textSize="@dimen/gj_f"/>
             <TextView
                 android:id="@+id/tv_meeting_people_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:background="@null"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
                 android:drawableRight="@drawable/item_point_right"
-                android:textSize="18dp"/>
+                android:textSize="@dimen/gj_f" />
         </LinearLayout>
 
         <View

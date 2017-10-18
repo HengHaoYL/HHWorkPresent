@@ -31,7 +31,6 @@
 
     <!-- 程序退出操作权限 -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -315,6 +314,12 @@
         <!-- 会议上传界面 -->
         <activity
             android:name=".activity.MeetingUploadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
+        <!-- 会议详情界面 -->
+        <activity
+            android:name=".activity.MeetingUploadListInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
