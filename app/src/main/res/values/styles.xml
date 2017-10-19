@@ -3,7 +3,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/icon_yindaoye2</item>
+        <item name="android:windowBackground">@drawable/app_start_page</item>
     </style>
     <!-- 启动样式 -->
     <style name="Theme.Start" parent="AppBaseTheme">
