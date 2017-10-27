@@ -8,10 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.ZaotuiTongjiaEntity;
-import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
 
@@ -23,20 +21,14 @@ public class ZaotuiTongjiListAdapter extends ArrayAdapter<ZaotuiTongjiaEntity> {
 
     private final LayoutInflater inflater;
 
-    private final BitmapUtils mBitmapUtils;
+    private final ActivityFragmentSupport mActivityFragmentSupport;
 
     public Handler mHandler = new Handler(){};
-
-    private final ActivityFragmentSupport mActivityFragmentSupport;
 
     public ZaotuiTongjiListAdapter(ActivityFragmentSupport activityFragment, List<ZaotuiTongjiaEntity> mList){
         super(activityFragment, R.layout.listview_weidaka_item, mList);
         this.mActivityFragmentSupport = activityFragment;
         this.inflater = LayoutInflater.from(activityFragment);
-        this.mBitmapUtils = new BitmapUtils(activityFragment, Constant.CACHE_DIR_PATH);
-        this.mBitmapUtils.configDefaultLoadFailedImage(R.drawable.img_loading_fail_big);
-        this.mBitmapUtils.configDefaultLoadingImage(R.drawable.img_loading_default_big);
-
     }
 
 

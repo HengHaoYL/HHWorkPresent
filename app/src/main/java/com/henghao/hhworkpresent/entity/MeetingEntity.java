@@ -2,13 +2,14 @@ package com.henghao.hhworkpresent.entity;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by ASUS on 2017/9/26.
  */
 
-public class MeetingEntity {
+public class MeetingEntity implements Serializable {
 
     private int mid;    //会议id
     private String uid;     //发起会议人的id
@@ -120,7 +121,7 @@ public class MeetingEntity {
         this.userIds = userIds;
     }
 
-    public static class PersonnelEntity {
+    public static class PersonnelEntity implements Serializable {
 
         /**
          * headPath : null

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.KaoQingActivity;
 import com.henghao.hhworkpresent.activity.ListProcessActivity;
@@ -19,7 +18,6 @@ import com.henghao.hhworkpresent.activity.RenyuanKaoqingActivity;
 import com.henghao.hhworkpresent.activity.WaiqingQiandaoActivity;
 import com.henghao.hhworkpresent.activity.WorkTrajectoryActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
-import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
 
@@ -31,8 +29,6 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
 
     private final LayoutInflater inflater;
 
-    private final BitmapUtils mBitmapUtils;
-
     private final ActivityFragmentSupport mActivityFragmentSupport;
 
     private final List<AppGridEntity> mList;
@@ -42,9 +38,6 @@ public class WorkGridAdapter extends ArrayAdapter<AppGridEntity> {
         this.mActivityFragmentSupport = activityFragment;
         this.mList = mList2;
         this.inflater = LayoutInflater.from(activityFragment);
-        this.mBitmapUtils = new BitmapUtils(activityFragment, Constant.CACHE_DIR_PATH);
-        this.mBitmapUtils.configDefaultLoadFailedImage(R.drawable.img_loading_fail_big);
-        this.mBitmapUtils.configDefaultLoadingImage(R.drawable.img_loading_default_big);
     }
 
     @Override

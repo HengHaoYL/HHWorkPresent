@@ -293,6 +293,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
+        <!-- 会议x现场签到界面 -->
+        <activity
+            android:name=".activity.MeetingQiandaoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Activity.Theme" />
+
         <!-- 会议审批结果界面 -->
         <activity
             android:name=".activity.MeetingShenpiResultsActivity"

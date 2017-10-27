@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.TrajectoryEntity;
-import com.lidroid.xutils.BitmapUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -27,18 +25,12 @@ public class WorkTrajectoryListAdapter extends ArrayAdapter<TrajectoryEntity> {
 
     private final LayoutInflater inflater;
 
-    private final BitmapUtils mBitmapUtils;
-
     private final ActivityFragmentSupport mActivityFragmentSupport;
 
     public WorkTrajectoryListAdapter(ActivityFragmentSupport activityFragment, List<TrajectoryEntity> mList){
         super(activityFragment, R.layout.listview_item_trajectory, mList);
         this.mActivityFragmentSupport = activityFragment;
         this.inflater = LayoutInflater.from(activityFragment);
-        this.mBitmapUtils = new BitmapUtils(activityFragment, Constant.CACHE_DIR_PATH);
-        this.mBitmapUtils.configDefaultLoadFailedImage(R.drawable.img_loading_fail_big);
-        this.mBitmapUtils.configDefaultLoadingImage(R.drawable.img_loading_default_big);
-
     }
 
 

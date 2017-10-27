@@ -9,17 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.SaveCheckTaskEntity;
-import com.lidroid.xutils.BitmapUtils;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -30,20 +22,14 @@ public class JianchaYinhuanNotEditListAdpter extends ArrayAdapter<SaveCheckTaskE
 
     private final LayoutInflater inflater;
 
-    private final BitmapUtils mBitmapUtils;
+    private final ActivityFragmentSupport mActivityFragmentSupport;
 
     public Handler mHandler = new Handler(){};
-
-    private final ActivityFragmentSupport mActivityFragmentSupport;
 
     public JianchaYinhuanNotEditListAdpter(ActivityFragmentSupport activityFragment, List<SaveCheckTaskEntity.JianchaMaterialEntityListBean> mList){
         super(activityFragment, R.layout.listview_jiancha_yinhuan_item, mList);
         this.mActivityFragmentSupport = activityFragment;
         this.inflater = LayoutInflater.from(activityFragment);
-        this.mBitmapUtils = new BitmapUtils(activityFragment, Constant.CACHE_DIR_PATH);
-        this.mBitmapUtils.configDefaultLoadFailedImage(R.drawable.img_loading_fail_big);
-        this.mBitmapUtils.configDefaultLoadingImage(R.drawable.img_loading_default_big);
-
     }
 
     @Override

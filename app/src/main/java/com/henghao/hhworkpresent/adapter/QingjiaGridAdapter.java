@@ -9,13 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.BuqianActivity;
 import com.henghao.hhworkpresent.activity.QingjiaActivity;
 import com.henghao.hhworkpresent.activity.WaichuActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
-import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
 
@@ -28,20 +26,12 @@ public class QingjiaGridAdapter extends ArrayAdapter<AppGridEntity> {
 
     private final LayoutInflater inflater;
 
-    private final BitmapUtils mBitmapUtils;
-
     private final ActivityFragmentSupport mActivityFragmentSupport;
 
-    private final List<AppGridEntity> mList;
-
-    public QingjiaGridAdapter(ActivityFragmentSupport activityFragment, List<AppGridEntity> mList2){
-        super(activityFragment, R.layout.item_work_fragment_adapter, mList2);
+    public QingjiaGridAdapter(ActivityFragmentSupport activityFragment, List<AppGridEntity> mList){
+        super(activityFragment, R.layout.item_work_fragment_adapter, mList);
         this.mActivityFragmentSupport = activityFragment;
-        this.mList = mList2;
         this.inflater = LayoutInflater.from(activityFragment);
-        this.mBitmapUtils = new BitmapUtils(activityFragment, Constant.CACHE_DIR_PATH);
-        this.mBitmapUtils.configDefaultLoadFailedImage(R.drawable.img_loading_fail_big);
-        this.mBitmapUtils.configDefaultLoadingImage(R.drawable.img_loading_default_big);
     }
 
     @Override

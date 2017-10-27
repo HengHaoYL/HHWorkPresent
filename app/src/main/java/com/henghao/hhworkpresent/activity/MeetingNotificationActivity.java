@@ -1,22 +1,33 @@
 package com.henghao.hhworkpresent.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.adapter.PersonnelListAdapter;
+import com.henghao.hhworkpresent.entity.DeptEntity;
 import com.henghao.hhworkpresent.entity.JPushToUser;
 import com.henghao.hhworkpresent.entity.MeetingEntity;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
+import com.henghao.hhworkpresent.views.CustomDialog;
+import com.henghao.hhworkpresent.views.XCDropDownDeptListView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MultipartBuilder;
@@ -29,6 +40,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,8 +60,16 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_meeting_faqiren)
     private TextView tv_meeting_faqiren;
 
+    @ViewInject(R.id.btn_notification_join)
+    private Button btn_notification_join;
+
+    @ViewInject(R.id.btn_notification_not_join)
+    private Button btn_notification_not_join;
+
+    private int mid;
     private long msg_id;
     private Handler mHandler = new Handler(){};
+    private MeetingEntity meetingEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,15 +99,154 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
+        mDeptList = new ArrayList<>();
+        mSelectPersonnelList = new ArrayList<>();
         Intent intent = getIntent();
         msg_id = intent.getLongExtra("msg_id",0);
         httpRequestMeetingContent();
+    }
+
+    @OnClick({R.id.btn_notification_join,R.id.btn_notification_not_join})
+    private void viewOnClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()){
+            case R.id.btn_notification_join:        //准时参加
+                intent.setClass(this,MeetingQiandaoActivity.class);
+                intent.putExtra("meetingEntity",meetingEntity);
+                startActivity(intent);
+                break;
+            case R.id.btn_notification_not_join:    //找人代替
+                chooseJoinMeetingPeople();
+                break;
+        }
+    }
+
+    private XCDropDownDeptListView xcDropDownDeptListView;
+    private ListView personal_listview;
+    private ArrayList<DeptEntity> mDeptList;
+
+    private List<MeetingEntity.PersonnelEntity> personnelEntityList;      //查出来的人员列表
+
+    private PersonnelListAdapter personnelListAdapter;
+
+    private List<MeetingEntity.PersonnelEntity> mSelectPersonnelList;     //被选中的参会人员列表
+
+    /**
+     * 选择参会人员
+     */
+    public void chooseJoinMeetingPeople(){
+        View customView = View.inflate(this,R.layout.layout_list_dialog,null);
+        xcDropDownDeptListView = (XCDropDownDeptListView) customView.findViewById(R.id.xCDropDownListView);
+        TextView tv_zhifaduiwu = (TextView) customView.findViewById(R.id.tv_zhifaduiwu);
+        tv_zhifaduiwu.setText("部门");
+        personal_listview = (ListView) customView.findViewById(R.id.personal_listview);
+        xcDropDownDeptListView.setItemsData(mDeptList);
+
+        //传空id代表查询全部人员
+        httpRequestJianchaPersonalInfo("");
+
+        mSelectPersonnelList.clear();
+        personal_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PersonnelListAdapter.HodlerView holder = (PersonnelListAdapter.HodlerView) view.getTag();
+                personnelListAdapter.getIsSelected().put(position,true);
+                holder.personal_checkbox.toggle();
+                personnelListAdapter.getIsSelected().put(position, holder.personal_checkbox.isChecked());
+
+                //使用checkbox实现单选功能
+                for (int i = 0; i < personnelEntityList.size(); i++) {
+                    personnelListAdapter.getIsSelected().put(i, false);
+                    personnelListAdapter.notifyDataSetChanged();
+                }
+                personnelListAdapter.getIsSelected().put(position,true);
+                mSelectPersonnelList.add((MeetingEntity.PersonnelEntity) personnelListAdapter.getItem(position));
+                personnelListAdapter.notifyDataSetChanged();
+            }
+        });
+        CustomDialog.Builder dialog=new CustomDialog.Builder(this);
+        dialog.setTitle("选择替代参会人员")
+                .setContentView(customView)//设置自定义customView
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        for(MeetingEntity.PersonnelEntity personnelEntity : mSelectPersonnelList){
+                            //得到被选中的人
+                            chooseReplacedMeeting(String.valueOf(personnelEntity.getId()));
+                        }
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).create().show();
+
+        xcDropDownDeptListView.setOnItemClickXCDropDownListViewListener(new XCDropDownDeptListView.XCDropDownListViewListener() {
+            @Override
+            public void getItemData(DeptEntity deptEntity) {
+                if(personnelEntityList!=null){
+                    personnelEntityList.clear();
+                }
+                httpRequestJianchaPersonalInfo(deptEntity.getId());
+            }
+        });
+    }
+
+    /**
+     * 根据执法队伍Id请求相应队伍的执法人员列表  GET
+     */
+    private void httpRequestJianchaPersonalInfo(String teamId){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("id", teamId);
+        RequestBody requestBody = multipartBuilder.build();
+        String request_url = ProtocolUrl.APP_QUERY_PERSONAL_LIST;
+        Request request = builder.post(requestBody).url(request_url).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    result_str = jsonObject.getString("data");
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<ArrayList<MeetingEntity.PersonnelEntity>>() {}.getType();
+                    personnelEntityList = gson.fromJson(result_str,type);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            personnelListAdapter = new PersonnelListAdapter(MeetingNotificationActivity.this,personnelEntityList);
+                            personal_listview.setAdapter(personnelListAdapter);
+                            personnelListAdapter.notifyDataSetChanged();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
      * 查询指定的消息
      */
     public void httpRequestMeetingContent(){
+        Log.d("wangqingbin","msg_id=="+msg_id);
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -115,13 +275,14 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
                     result_str = jsonObject.getString("data");
+                    Log.d("wangqingbin","result_str=="+result_str);
                     Gson gson = new Gson();
-                    final MeetingEntity meetingEntity = gson.fromJson(result_str,MeetingEntity.class);
+                    meetingEntity = gson.fromJson(result_str,MeetingEntity.class);
+                    mid = meetingEntity.getMid();
                     final List<JPushToUser> jPushToUserList = meetingEntity.getjPushToUser();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
                             for(JPushToUser jPushToUser : jPushToUserList){
                                 if(jPushToUser.getMsg_id()==msg_id){
                                     tv_meeting_notification.setText("你好，请于"+meetingEntity.getMeetingStartTime()+"在"+meetingEntity.getMeetingPlace()
@@ -135,6 +296,57 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                         }
                     });
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
+    /**
+     * 选择代替人开会的接口
+     */
+    public void chooseReplacedMeeting(String fungibleId){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("mid", String.valueOf(mid))
+                .addFormDataPart("supersededId", new SqliteDBUtils(this).getLoginUid())      //本身id
+                .addFormDataPart("fungibleId", fungibleId);     //代替开会人的id
+        RequestBody requestBody = multipartBuilder.build();
+        String request_url = ProtocolUrl.APP_CHOOSE_REPLACE_PEOPLE;
+        Request request = builder.post(requestBody).url(request_url).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    final String resultStr = jsonObject.getString("data");
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(resultStr.equals("null")){     //代表选择人成功
+                                Toast.makeText(MeetingNotificationActivity.this,"选择代替开会人员成功!",Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(MeetingNotificationActivity.this,resultStr,Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

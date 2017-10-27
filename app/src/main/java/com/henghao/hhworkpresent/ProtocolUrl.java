@@ -113,6 +113,12 @@ public class ProtocolUrl {
 
 
     /**
+     * 选择代替人开会的接口
+     */
+    public static final String APP_CHOOSE_REPLACE_PEOPLE = "http://172.16.0.81:8080/istration/meetingTrajectory/updateMeetingTrajectoryEntity";
+
+
+    /**
      * 点击同意或取消会走的接口并且上传理由
      */
     public static final String APP_ONCLICK_AGREE_OR_REJECT = "http://172.16.0.81:8080/istration/JPush/updateMeetingEntityWhetherPass";

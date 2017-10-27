@@ -1,10 +1,12 @@
 package com.henghao.hhworkpresent.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by ASUS on 2017/9/27.
  */
 
-public class JPushToUser {
+public class JPushToUser implements Serializable {
 
     private int cid;
     private int mid;    //会议Id

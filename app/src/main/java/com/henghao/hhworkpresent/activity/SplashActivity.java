@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.service.KaoqingService;
 import com.henghao.hhworkpresent.service.NotificationService;
@@ -107,14 +106,7 @@ public class SplashActivity extends ActivityFragmentSupport {
 	@Override
 	public void initData() {
 		this.mTvTime.setText("跳过：" + this.count);
-		// 默认是本地图片
-		// 当服务端要求更改信息，以服务端为准
-		boolean isSplash = getLoginUserSharedPre().getBoolean(Constant.APP_SPLASH, false);
-		if (!isSplash) {// 取得本地启动页面画面
-			postDelayed(1000);
-		}
-		else {
-		}
+		postDelayed(1000);
 	}
 
 	@OnClick({

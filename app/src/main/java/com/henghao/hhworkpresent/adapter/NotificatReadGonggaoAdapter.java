@@ -12,12 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.GonggaoEntity;
 import com.henghao.hhworkpresent.protocol.GonggaoProtocol;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
-import com.lidroid.xutils.BitmapUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -39,18 +37,12 @@ public class NotificatReadGonggaoAdapter extends ArrayAdapter<GonggaoEntity> {
 
     private final LayoutInflater inflater;
 
-    private final BitmapUtils mBitmapUtils;
-
     private final ActivityFragmentSupport mActivityFragmentSupport;
 
     public NotificatReadGonggaoAdapter(ActivityFragmentSupport activityFragment, List<GonggaoEntity> mList){
         super(activityFragment, R.layout.listview_notification_item, mList);
         this.mActivityFragmentSupport = activityFragment;
         this.inflater = LayoutInflater.from(activityFragment);
-        this.mBitmapUtils = new BitmapUtils(activityFragment, Constant.CACHE_DIR_PATH);
-        this.mBitmapUtils.configDefaultLoadFailedImage(R.drawable.img_loading_fail_big);
-        this.mBitmapUtils.configDefaultLoadingImage(R.drawable.img_loading_default_big);
-
     }
 
 

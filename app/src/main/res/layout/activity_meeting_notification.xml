@@ -27,12 +27,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="120dp"
             android:layout_margin="10dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:orientation="vertical">
             <TextView
@@ -49,6 +48,36 @@
                 android:layout_marginTop="10dp"
                 android:textSize="18dp"
                 android:text="会议发起时间：2017-9-28 11:00"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btn_notification_join"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/text_color_green"
+                android:textSize="18dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="准时参加"/>
+
+            <Button
+                android:id="@+id/btn_notification_not_join"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:background="@color/register_hint_select"
+                android:textSize="18dp"
+                android:text="找人代替"/>
         </LinearLayout>
     </RelativeLayout>
 

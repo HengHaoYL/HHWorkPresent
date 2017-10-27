@@ -8,10 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
-import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.MsgEntity;
-import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
 
@@ -24,18 +22,12 @@ public class MsgNotificationAdapter extends ArrayAdapter<MsgEntity> {
 
     private final LayoutInflater inflater;
 
-    private final BitmapUtils mBitmapUtils;
-
     private final ActivityFragmentSupport mActivityFragmentSupport;
 
     public MsgNotificationAdapter (ActivityFragmentSupport activityFragment, List<MsgEntity> mList){
         super(activityFragment, R.layout.item_msgnotification, mList);
         this.mActivityFragmentSupport = activityFragment;
         this.inflater = LayoutInflater.from(activityFragment);
-        this.mBitmapUtils = new BitmapUtils(activityFragment, Constant.CACHE_DIR_PATH);
-        this.mBitmapUtils.configDefaultLoadFailedImage(R.drawable.img_loading_fail_big);
-        this.mBitmapUtils.configDefaultLoadingImage(R.drawable.img_loading_default_big);
-
     }
 
 
