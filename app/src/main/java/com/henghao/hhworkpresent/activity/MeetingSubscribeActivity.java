@@ -65,6 +65,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.et_meeting_place)
     private EditText et_meeting_place;
 
+    @ViewInject(R.id.et_meeting_wifi_ssid)
+    private EditText et_meeting_wifi_ssid;
+
     @ViewInject(R.id.tv_meeting_start_time)
     private TextView tv_meeting_start_time;
 
@@ -167,6 +170,11 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
             Toast.makeText(this,"必须填写会议地点",Toast.LENGTH_SHORT).show();
             return;
         }
+        String meetingWifiSSID = et_meeting_wifi_ssid.getText().toString();
+        if(meetingWifiSSID.equals("")){
+            Toast.makeText(this,"必须填写会议地点指定使用的wifi名称，否则无法实现会议签到！",Toast.LENGTH_SHORT).show();
+            return;
+        }
         String meetingStartTime = tv_meeting_start_time.getText().toString();
         String meetingDuration = tv_meeting_duration.getText().toString();
         if(mSelectPersonnelList == null){
@@ -181,6 +189,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         meetingEntity.setUid(new SqliteDBUtils(this).getLoginUid());
         meetingEntity.setMeetingTheme(meetingTheme);
         meetingEntity.setMeetingPlace(meetingPlace);
+        meetingEntity.setWifiSSID(meetingWifiSSID);
         meetingEntity.setMeetingStartTime(meetingStartTime);
         meetingEntity.setMeetingDuration(meetingDuration);
         meetingEntity.setMeetingPeople(mSelectPersonnelList);

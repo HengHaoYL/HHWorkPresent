@@ -40,7 +40,7 @@ public class ProtocolUrl {
     /**
      * 实时上传经纬度接口
      */
-    public static final String APP_REALTIME_UPLOAD_LATLON = "/statisticsInfo/user/ LongAndLat";
+    public static final String APP_REALTIME_UPLOAD_LATLON = "/statisticsInfo/user/LongAndLat";
 
     /************************* 工作流 start **************************/
 
@@ -53,6 +53,20 @@ public class ProtocolUrl {
 
    /************************* 会议管理 start **************************/
 
+    /**
+     * 进场签到更新数据
+     */
+    public static final String APP_UPDATE_MEETING_ONLICK_START = "http://172.16.0.81:8080/istration/meetingTrajectory/updateMteStartSignInCoordinates";
+
+    /**
+     * 退场签到更新数据
+     */
+    public static final String APP_UPDATE_MEETING_ONLICK_END = "http://172.16.0.81:8080/istration/meetingTrajectory/updateMteEndSignInCoordinates";
+
+    /**
+     * 上传工作纪要和现场图片
+     */
+    public static final String APP_UPDATE_MEETING_SUMMARY_FILE = "http://172.16.0.81:8080/istration/meetingTrajectory/updateMeetingImagePath";
 
     /**
     * 添加预约会议内容到服务器

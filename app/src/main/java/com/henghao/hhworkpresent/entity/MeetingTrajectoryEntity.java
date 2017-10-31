@@ -1,10 +1,12 @@
 package com.henghao.hhworkpresent.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by bryanrady on 2017/10/23.
  */
 
-public class MeetingTrajectoryEntity {
+public class MeetingTrajectoryEntity implements Serializable {
 
     private int mtid;
     private int mid;    //会议预约Id
@@ -16,7 +18,15 @@ public class MeetingTrajectoryEntity {
     private String endSignInTime;           //退场签到时间
     private String meetingSummary;          //会议纪要
     private String meetingImagePath;      //会议现场所有图片的路径
+    private MeetingEntity meetingEntity;
 
+    public void setMeetingEntity(MeetingEntity meetingEntity) {
+        this.meetingEntity = meetingEntity;
+    }
+
+    public MeetingEntity getMeetingEntity() {
+        return meetingEntity;
+    }
 
     public int getMtid() {
         return mtid;
@@ -111,6 +121,7 @@ public class MeetingTrajectoryEntity {
                 ", endSignInTime='" + endSignInTime + '\'' +
                 ", meetingSummary='" + meetingSummary + '\'' +
                 ", meetingImagePath='" + meetingImagePath + '\'' +
+                ", meetingEntity=" + meetingEntity +
                 '}';
     }
 }
