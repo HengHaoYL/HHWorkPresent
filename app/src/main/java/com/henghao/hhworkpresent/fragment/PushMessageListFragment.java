@@ -3,6 +3,7 @@ package com.henghao.hhworkpresent.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,7 +154,7 @@ public class PushMessageListFragment extends FragmentSupport {
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("cid", String.valueOf(cid));
         RequestBody requestBody = multipartBuilder.build();
-        String request_url = ProtocolUrl.APP_SET_UNREAD_TO_READ;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_SET_UNREAD_TO_READ;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -176,7 +177,7 @@ public class PushMessageListFragment extends FragmentSupport {
     }
 
     /**
-     * 根据uid查询别人推送给自己的消息
+     * 根据uid查询别人推送给自己的消息列表
      */
     public void httpRequestMeetingMessageList(){
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -185,7 +186,7 @@ public class PushMessageListFragment extends FragmentSupport {
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("uid", sqliteDBUtils.getLoginUid());
         RequestBody requestBody = multipartBuilder.build();
-        String request_url = ProtocolUrl.APP_QUERY_TUI_SONG_MESSAGE_LIST;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_TUI_SONG_MESSAGE_LIST;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -194,7 +195,6 @@ public class PushMessageListFragment extends FragmentSupport {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mActivityFragmentView.viewLoading(View.GONE);
                         Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -206,6 +206,7 @@ public class PushMessageListFragment extends FragmentSupport {
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
                     result_str = jsonObject.getString("data");
+                    Log.d("wangqingbin","result_str=="+result_str);
                     Gson gson = new Gson();
                     meetingEntityList = gson.fromJson(result_str,new TypeToken<ArrayList<MeetingEntity>>() {}.getType());
                     jPushToUserList.clear();

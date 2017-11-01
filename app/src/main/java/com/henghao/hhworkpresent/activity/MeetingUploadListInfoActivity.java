@@ -14,14 +14,16 @@ import android.widget.TextView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.entity.MeetingDataBean;
+import com.henghao.hhworkpresent.entity.MeetingTrajectoryEntity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,9 +36,6 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_meeting_upload_detail_theme)
     private TextView tv_meeting_upload_detail_theme;
 
-    @ViewInject(R.id.tv_meeting_upload_detail_people)
-    private TextView tv_meeting_upload_detail_people;
-
     @ViewInject(R.id.tv_meeting_upload_detail_start_time)
     private TextView tv_meeting_upload_detail_start_time;
 
@@ -46,14 +45,11 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_meeting_upload_detail_place)
     private TextView tv_meeting_upload_detail_place;
 
-    @ViewInject(R.id.tv_meeting_upload_detail_join_people)
-    private TextView tv_meeting_upload_detail_join_people;
+    @ViewInject(R.id.tv_meeting_upload_detail_start_qiandao)
+    private TextView tv_meeting_upload_detail_start_qiandao;
 
-    @ViewInject(R.id.tv_meeting_upload_detail_qiandao_people)
-    private TextView tv_meeting_upload_detail_qiandao_people;
-
-    @ViewInject(R.id.tv_meeting_upload_detail_content)
-    private TextView tv_meeting_upload_detail_content;
+    @ViewInject(R.id.tv_meeting_upload_detail_end_qiandao)
+    private TextView tv_meeting_upload_detail_end_qiandao;
 
     @ViewInject(R.id.tv_meeting_upload_detail_summary)
     private TextView tv_meeting_upload_detail_summary;
@@ -61,7 +57,7 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.upload_meeting_picture_gridview)
     private GridView upload_meeting_picture_gridview;
 
-    private MeetingDataBean.MeetingUploadEntity meetingUploadEntity;
+    private MeetingTrajectoryEntity meetingTrajectoryEntity;
 
     private ImageLoader imageLoader;
 
@@ -96,17 +92,18 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
-        meetingUploadEntity = (MeetingDataBean.MeetingUploadEntity)getIntent().getSerializableExtra("meetingUploadEntity");
-        tv_meeting_upload_detail_theme.setText(meetingUploadEntity.getMeetingUploadTheme());
-        tv_meeting_upload_detail_people.setText(meetingUploadEntity.getMeetingUploadPeople());
-        tv_meeting_upload_detail_start_time.setText(meetingUploadEntity.getMeetingUploadStartTime());
-        tv_meeting_upload_detail_duration.setText(meetingUploadEntity.getMeetingUploadDuration());
-        tv_meeting_upload_detail_place.setText(meetingUploadEntity.getMeetingUploadPlace());
-        tv_meeting_upload_detail_join_people.setText(meetingUploadEntity.getMeetingUploadJoinPeople());
-        tv_meeting_upload_detail_qiandao_people.setText(meetingUploadEntity.getMeetingUploadQiandaoPeople());
-        tv_meeting_upload_detail_content.setText(meetingUploadEntity.getMeetingUploadContent());
-        tv_meeting_upload_detail_summary.setText(meetingUploadEntity.getMeetingUploadSummary());
-        String imagePath = meetingUploadEntity.getMeetingUploadImagePath();
+        meetingTrajectoryEntity = (MeetingTrajectoryEntity) getIntent().getSerializableExtra("meetingTrajectoryEntity");
+        tv_meeting_upload_detail_theme.setText(meetingTrajectoryEntity.getMeetingEntity().getMeetingTheme());
+        tv_meeting_upload_detail_start_time.setText(meetingTrajectoryEntity.getMeetingEntity().getMeetingStartTime());
+        tv_meeting_upload_detail_duration.setText(meetingTrajectoryEntity.getMeetingEntity().getMeetingDuration());
+        tv_meeting_upload_detail_place.setText(meetingTrajectoryEntity.getMeetingEntity().getMeetingPlace());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        tv_meeting_upload_detail_start_qiandao.setText(meetingTrajectoryEntity.getStartSignInCoordinates()+"\n"+format.format(new Date(Long.parseLong(meetingTrajectoryEntity.getStartSignInTime()))));
+        if(meetingTrajectoryEntity.getEndSignInTime()!=null){
+            tv_meeting_upload_detail_end_qiandao.setText(meetingTrajectoryEntity.getEndSignInCoordinates()+"\n"+format.format(new Date(Long.parseLong(meetingTrajectoryEntity.getEndSignInTime()))));
+        }
+        tv_meeting_upload_detail_summary.setText(meetingTrajectoryEntity.getMeetingSummary());
+        String imagePath = meetingTrajectoryEntity.getMeetingImagePath();
         if(imagePath!=null){
             String[] imagePathArr = imagePath.split(",");
             mSelectPath = Arrays.asList(imagePathArr);
@@ -141,15 +138,11 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
                 convertView = layoutInflater.inflate(R.layout.gridview_picture_item, null);
                 holder.image = (ImageView) convertView.findViewById(R.id.imageView);
                 holder.btn = (Button) convertView.findViewById(R.id.delete);
-
                 holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
                 convertView.setTag(holder);
-            }
-            else{
+            } else{
                 holder = (ViewHolder) convertView.getTag();
             }
-
             holder.btn.setVisibility(View.GONE);
 
             /**
@@ -164,7 +157,7 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
                     .build(); // 构建完成
             imageLoader = ImageLoader.getInstance();
             String[] imageUrl = mSelectPath.toArray(new String[mSelectPath.size()]);
-            imageLoader.displayImage(ProtocolUrl.APP_QUERT_MEETING_UPLOAD_DETAIL_IMAGEPATH + imageUrl[position], holder.image, options);
+            imageLoader.displayImage(ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERT_MEETING_TRAJECTORY_DETAIL_IMAGEPATH + imageUrl[position], holder.image, options);
             return convertView;
         }
     }

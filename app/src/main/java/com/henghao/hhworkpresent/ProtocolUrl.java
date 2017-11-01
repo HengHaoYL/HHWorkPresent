@@ -10,14 +10,6 @@
  */
 package com.henghao.hhworkpresent;
 
-/**
- * 〈一句话功能简述〉 〈功能详细描述〉
- *
- * @author zhangxianwen
- * @version HDMNV100R001, 2015-4-20
- * @see [相关类/方法]
- * @since [产品/模块版本]
- */
 public class ProtocolUrl {
 
     /**
@@ -56,86 +48,86 @@ public class ProtocolUrl {
     /**
      * 进场签到更新数据
      */
-    public static final String APP_UPDATE_MEETING_ONLICK_START = "http://172.16.0.81:8080/istration/meetingTrajectory/updateMteStartSignInCoordinates";
+    public static final String APP_UPDATE_MEETING_ONLICK_START = "/istration/meetingTrajectory/updateMteStartSignInCoordinates";
 
     /**
      * 退场签到更新数据
      */
-    public static final String APP_UPDATE_MEETING_ONLICK_END = "http://172.16.0.81:8080/istration/meetingTrajectory/updateMteEndSignInCoordinates";
+    public static final String APP_UPDATE_MEETING_ONLICK_END = "/istration/meetingTrajectory/updateMteEndSignInCoordinates";
 
     /**
      * 上传工作纪要和现场图片
      */
-    public static final String APP_UPDATE_MEETING_SUMMARY_FILE = "http://172.16.0.81:8080/istration/meetingTrajectory/updateMeetingImagePath";
+    public static final String APP_UPDATE_MEETING_SUMMARY_FILE = "/istration/meetingTrajectory/updateMeetingImagePath";
 
     /**
     * 添加预约会议内容到服务器
     */
-    public static final String APP_ADD_MEETING_CONTENT = "http://172.16.0.81:8080/istration/JPush/addMeetingEntity";
+    public static final String APP_ADD_MEETING_CONTENT = "/istration/JPush/addMeetingEntity";
 
     /**
      * 会议上传
      */
-    public static final String APP_ADD_MEETING_UPLOAD = "http://172.16.0.81:8080/istration/JPush/addMeetingUploadEntity";
+    public static final String APP_ADD_MEETING_UPLOAD = "/istration/JPush/addMeetingUploadEntity";
 
     /**
-     * 查询会议上传记录列表
+     * 查询会议记录列表
      */
-    public static final String APP_QUERT_MEETING_UPLOAD_LIST = "http://172.16.0.81:8080/istration/JPush/queryMeetingUploadEntityList";
+    public static final String APP_QUERT_MEETING_TRAJECTORY_LIST = "/istration/meetingTrajectory/queryMeetingTrajectoryEntityByUserIdList";
 
     /**
      * 查询会议详情的图片
      */
-    public static final String APP_QUERT_MEETING_UPLOAD_DETAIL_IMAGEPATH = "http://172.16.0.81:8080/meetingImage/";
+    public static final String APP_QUERT_MEETING_TRAJECTORY_DETAIL_IMAGEPATH = "/meetingImage/";
 
     /**
     * 查询部门集合列表
     */
-    public static final String APP_QUERY_DEPT_LIST = "http://172.16.0.81:8080/istration/firmdate/queryDeptAll";
+    public static final String APP_QUERY_DEPT_LIST = "/istration/firmdate/queryDeptAll";
 
     /**
     * 根据部门查询人员列表
     */
-    public static final String APP_QUERY_PERSONAL_LIST = "http://172.16.0.81:8080/istration/firmdate/queryDeptByIdUser";
+    public static final String APP_QUERY_PERSONAL_LIST = "/istration/firmdate/queryDeptByIdUser";
 
 
     /**
      * 将未读消息变为已读
      */
-    public static final String APP_SET_UNREAD_TO_READ = "http://172.16.0.81:8080/istration/JPush/updateJPushToUserIsRead";
+    public static final String APP_SET_UNREAD_TO_READ = "/istration/JPush/updateJPushToUserIsRead";
 
     /**
      * 根据uid查询别人推送给自己的消息
      */
-    public static final String APP_QUERY_TUI_SONG_MESSAGE_LIST = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByUserIdAll";
+    public static final String APP_QUERY_TUI_SONG_MESSAGE_LIST = "/istration/JPush/queryMeetingEntityByUserIdAll";
 
     /**
      * 根据uid查询审批通过的会议
      */
-    public static final String APP_QUERY_MEETING_PASS_LIST = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByUserList";
+    public static final String APP_QUERY_MEETING_PASS_LIST = "/istration/JPush/queryMeetingEntityByUserList";
 
     /**
      * 根据uid和msg_id查询别人推送给自己的消息的那一条详细消息
      */
-    public static final String APP_QUERY_TUI_SONG_MESSAGE = "http://172.16.0.81:8080/istration/JPush/queryMeetingEntityByMsgid";
+    public static final String APP_QUERY_TUI_SONG_MESSAGE = "/istration/JPush/queryMeetingEntityByMsgid";
 
 
     /**
      * 根据uid查询未读的推送消息
      */
-    public static final String APP_QUERY_UNREAD_MESSAGE = "http://172.16.0.81:8080/istration/JPush/queryJPushToUserUnRead";
+    public static final String APP_QUERY_UNREAD_MESSAGE = "/istration/JPush/queryJPushToUserUnRead";
 
 
     /**
      * 选择代替人开会的接口
      */
-    public static final String APP_CHOOSE_REPLACE_PEOPLE = "http://172.16.0.81:8080/istration/meetingTrajectory/updateMeetingTrajectoryEntity";
+    public static final String APP_CHOOSE_REPLACE_PEOPLE = "/istration/meetingTrajectory/updateMeetingTrajectoryEntity";
 
 
     /**
      * 点击同意或取消会走的接口并且上传理由
      */
-    public static final String APP_ONCLICK_AGREE_OR_REJECT = "http://172.16.0.81:8080/istration/JPush/updateMeetingEntityWhetherPass";
+    public static final String APP_ONCLICK_AGREE_OR_REJECT = "/istration/JPush/updateMeetingEntityWhetherPass";
 
     /************************* 会议管理 end **************************/
 

@@ -54,9 +54,6 @@ import java.util.List;
 
 public class MsgFragment extends FragmentSupport {
 
-    /*@ViewInject(R.id.scrollview_layout)
-    private ScrollView scrollview_layout;*/
-
     @ViewInject(R.id.huiyiguanli)
     private LinearLayout huiyiguanli;
 
@@ -69,33 +66,16 @@ public class MsgFragment extends FragmentSupport {
     @ViewInject(R.id.faqishiyi)
     private LinearLayout faqishiyi;
 
-/*    @ViewInject(R.id.keyueshiyi)
-    private LinearLayout keyueshiyi;*/
-
     @ViewInject(R.id.yibanshiyi)
     private LinearLayout yibanshiyi;
-
-    /*@ViewInject(R.id.daibanrenling)
-    private LinearLayout daibanrenling;*/
 
     @ViewInject(R.id.daiyueshiyi)
     private LinearLayout daiyueshiyi;
 
-    /*@ViewInject(R.id.chebanwenjian)
-    private LinearLayout chebanwenjian;
-
-    @ViewInject(R.id.yiyueshiyi)
-    private LinearLayout yiyueshiyi;*/
-
     private int unread_gonggao_count;
     private int gerendaiban_count;
     private int faqishiyi_count;
-    private int keyueshiyi_count;
     private int yibanshiyi_count;
-    private int daibanrenling_count;
-    private int daiyueshiyi_count;
-    private int chebanwenjian_count;
-    private int yiyueshiyi_count;
 
     private SqliteDBUtils sqliteDBUtils;
     private NotificationUtils notificationUtils;
@@ -125,16 +105,6 @@ public class MsgFragment extends FragmentSupport {
 
     public void initWidget(){
         initwithContent();
-        //显示错误页面，点击重试
-        /*initLoadingError();
-        this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivityFragmentView.viewLoadingError(View.GONE);
-                httpRequesMsgCounts();
-            }
-        });*/
-
     }
 
     private void initwithContent() {
@@ -169,7 +139,7 @@ public class MsgFragment extends FragmentSupport {
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("uid", sqliteDBUtils.getLoginUid());
         RequestBody requestBody = multipartBuilder.build();
-        String request_url = ProtocolUrl.APP_QUERY_UNREAD_MESSAGE;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_UNREAD_MESSAGE;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -230,8 +200,7 @@ public class MsgFragment extends FragmentSupport {
     }
 
 
-    @OnClick({R.id.huiyiguanli,R.id.tongzhigonggao,R.id.gerendaiban,R.id.faqishiyi,/*R.id.keyueshiyi,*/R.id.yibanshiyi,
-              /*R.id.daibanrenling,*/R.id.daiyueshiyi/*,R.id.chebanwenjian,R.id.yiyueshiyi*/})
+    @OnClick({R.id.huiyiguanli,R.id.tongzhigonggao,R.id.gerendaiban,R.id.faqishiyi,R.id.yibanshiyi, R.id.daiyueshiyi})
     private void viewOnClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
@@ -243,46 +212,22 @@ public class MsgFragment extends FragmentSupport {
                 intent.setClass(mActivity, GongGaoActivity.class);
                 mActivity.startActivity(intent);
                 break;
-
             case R.id.gerendaiban:
                 intent.setClass(mActivity, GerendaibanActivity.class);
                 mActivity.startActivity(intent);
                 break;
-
             case R.id.faqishiyi:
                 intent.setClass(mActivity, FaqishiyiActivity.class);
                 mActivity.startActivity(intent);
                 break;
-
-            /*case R.id.keyueshiyi:
-                intent.setClass(mActivity, KeyueshiyiActivity.class);
-                mActivity.startActivity(intent);
-                break;*/
-
             case R.id.yibanshiyi:
                 intent.setClass(mActivity, YibanshiyiActivity.class);
                 mActivity.startActivity(intent);
                 break;
-
-           /* case R.id.daibanrenling:
-                intent.setClass(mActivity, DaibanrenlingActivity.class);
-                mActivity.startActivity(intent);
-                break;*/
-
             case R.id.daiyueshiyi:
                 intent.setClass(mActivity, DaiyueshiyiActivity.class);
                 mActivity.startActivity(intent);
                 break;
-
-            /*case R.id.chebanwenjian:
-                intent.setClass(mActivity, ChebanwenjianActivity.class);
-                mActivity.startActivity(intent);
-                break;
-
-            case R.id.yiyueshiyi:
-                intent.setClass(mActivity, YiyueshiyiActivity.class);
-                mActivity.startActivity(intent);
-                break;*/
 
         }
     }
@@ -370,8 +315,6 @@ public class MsgFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        /*mActivityFragmentView.viewLoadingError(View.VISIBLE);
-                        scrollview_layout.setVisibility(View.GONE);*/
                     }
                 });
             }
@@ -386,19 +329,21 @@ public class MsgFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                         //       mActivityFragmentView.viewLoadingError(View.GONE);
                                 mActivityFragmentView.viewLoading(View.GONE);
-                         //       scrollview_layout.setVisibility(View.VISIBLE);
                             }
                         });
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                        gerendaiban_count = Integer.parseInt(jsonObject1.optString("gerendaiban_count"));
-                        faqishiyi_count = Integer.parseInt(jsonObject1.optString("faqishiyi_count"));
-                        keyueshiyi_count = Integer.parseInt(jsonObject1.optString("keyueshiyi_count"));
-                        yibanshiyi_count = Integer.parseInt(jsonObject1.optString("yibanshiyi_count"));
-                        daibanrenling_count = Integer.parseInt(jsonObject1.optString("daibanrenling_count"));
-                        chebanwenjian_count = Integer.parseInt(jsonObject1.optString("chebanwenjian_count"));
-                        yiyueshiyi_count = Integer.parseInt(jsonObject1.optString("yiyueshiyi_count"));
+                        if(jsonObject1!=null){
+                            if(!"".equals(jsonObject1.optString("gerendaiban_count"))){
+                                gerendaiban_count = Integer.parseInt(jsonObject1.optString("gerendaiban_count"));
+                            }
+                            if(!"".equals(jsonObject1.optString("faqishiyi_count"))){
+                                faqishiyi_count = Integer.parseInt(jsonObject1.optString("faqishiyi_count"));
+                            }
+                            if(!"".equals(jsonObject1.optString("yibanshiyi_count"))){
+                                yibanshiyi_count = Integer.parseInt(jsonObject1.optString("yibanshiyi_count"));
+                            }
+                        }
 
                         mHandler.post(new Runnable() {
                             @Override
@@ -477,39 +422,6 @@ public class MsgFragment extends FragmentSupport {
                                             .bind(faqishiyi);
                                 }
 
-/*                                if(keyueshiyi_count==0){
-                                    BadgeFactory.create(mActivity)
-                                            .setWidthAndHeight(50,50)
-                                            .setBadgeBackground(Color.WHITE)
-                                            .setTextSize(0)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(keyueshiyi);
-                                }
-                                if(keyueshiyi_count>0){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount(keyueshiyi_count)
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(keyueshiyi);
-                                }
-                                if(keyueshiyi_count>99){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("99+")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(keyueshiyi);
-                                }*/
-
                                 if(yibanshiyi_count==0){
                                     BadgeFactory.create(mActivity)
                                             .setWidthAndHeight(50,50)
@@ -544,39 +456,6 @@ public class MsgFragment extends FragmentSupport {
                                             .bind(yibanshiyi);
                                 }
 
-                                /*if(daibanrenling_count==0){
-                                    BadgeFactory.create(mActivity)
-                                            .setWidthAndHeight(50,50)
-                                            .setBadgeBackground(Color.WHITE)
-                                            .setTextSize(0)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(daibanrenling);
-                                }
-                                if(daibanrenling_count>0){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount(daibanrenling_count)
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(daibanrenling);
-                                }
-                                if(daibanrenling_count>99){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("99+")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(daibanrenling);
-                                }*/
-
                                 //待阅事宜直接显示小红点点
                                 BadgeFactory.createDot(mActivity)
                                         .setTextColor(Color.WHITE)
@@ -587,71 +466,6 @@ public class MsgFragment extends FragmentSupport {
                                         .setShape(BadgeView.SHAPE_CIRCLE)
                                         .bind(daiyueshiyi);
 
-                                /*if(chebanwenjian_count==0){
-                                    BadgeFactory.create(mActivity)
-                                            .setWidthAndHeight(50,50)
-                                            .setBadgeBackground(Color.WHITE)
-                                            .setTextSize(0)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(chebanwenjian);
-                                }
-                                if(chebanwenjian_count>0){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount(chebanwenjian_count)
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(chebanwenjian);
-                                }
-                                if(chebanwenjian_count>99){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("99+")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(chebanwenjian);
-                                }*/
-
-                                /*if(yiyueshiyi_count==0){
-                                    BadgeFactory.create(mActivity)
-                                            .setWidthAndHeight(50,50)
-                                            .setBadgeBackground(Color.WHITE)
-                                            .setTextSize(0)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(yiyueshiyi);
-                                }
-                                if(yiyueshiyi_count>0){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount(yiyueshiyi_count)
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(yiyueshiyi);
-                                }
-                                if(yiyueshiyi_count>99){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("99+")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(yiyueshiyi);
-                                }*/
                             }
                         });
                     }

@@ -20,17 +20,17 @@
                     android:text="会议主题"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
                 <TextView
                     android:id="@+id/tv_meeting_theme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
 
@@ -46,17 +46,17 @@
                     android:text="会议发起人"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
                 <TextView
                     android:id="@+id/tv_meeting_faqiren"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
 
@@ -72,17 +72,17 @@
                     android:text="会议地点"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
                 <TextView
                     android:id="@+id/tv_meeting_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
 
@@ -98,13 +98,17 @@
                     android:text="开始时间"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
                 <TextView
                     android:id="@+id/tv_meeting_start_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
 
@@ -120,13 +124,17 @@
                     android:text="预估时长"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
                 <TextView
                     android:id="@+id/tv_meeting_duration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
 
@@ -141,14 +149,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
                     android:text="参会人员"
                     android:textSize="18dp"/>
                 <TextView
                     android:id="@+id/tv_join_meeting_people_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18dp"/>
             </LinearLayout>
 
@@ -160,7 +172,9 @@
             <TextView
                 android:id="@+id/tv_join_meeting_people"
                 android:layout_width="match_parent"
-                android:layout_margin="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
                 android:text="朱志刚、张三、李四、王五、码子"
                 android:textSize="18dp">

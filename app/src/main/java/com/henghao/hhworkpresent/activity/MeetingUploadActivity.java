@@ -226,7 +226,7 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
             multipartBuilder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"),file));
         }
         RequestBody requestBody = multipartBuilder.build();
-        String requestUrl = ProtocolUrl.APP_ADD_MEETING_UPLOAD;
+        String requestUrl = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_ADD_MEETING_UPLOAD;
         Request request = builder.post(requestBody).url(requestUrl).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {

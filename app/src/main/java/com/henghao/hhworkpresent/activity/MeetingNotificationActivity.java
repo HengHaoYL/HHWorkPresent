@@ -210,7 +210,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("id", teamId);
         RequestBody requestBody = multipartBuilder.build();
-        String request_url = ProtocolUrl.APP_QUERY_PERSONAL_LIST;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_PERSONAL_LIST;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -260,7 +260,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                 .addFormDataPart("uid", new SqliteDBUtils(this).getLoginUid());
         RequestBody requestBody = multipartBuilder.build();
         //这个接口用在很多地方 都是显示用的
-        String request_url = ProtocolUrl.APP_QUERY_TUI_SONG_MESSAGE;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_TUI_SONG_MESSAGE;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -327,7 +327,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                 .addFormDataPart("supersededId", new SqliteDBUtils(this).getLoginUid())      //本身id
                 .addFormDataPart("fungibleId", fungibleId);     //代替开会人的id
         RequestBody requestBody = multipartBuilder.build();
-        String request_url = ProtocolUrl.APP_CHOOSE_REPLACE_PEOPLE;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_CHOOSE_REPLACE_PEOPLE;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {

@@ -90,7 +90,7 @@ public class MeetingPassListFragment extends FragmentSupport {
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("uid", sqliteDBUtils.getLoginUid());
         RequestBody requestBody = multipartBuilder.build();
-        String request_url = ProtocolUrl.APP_QUERY_MEETING_PASS_LIST;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_MEETING_PASS_LIST;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {

@@ -94,7 +94,7 @@ public class MeetingShenpiNoPassActivity extends ActivityFragmentSupport {
                 .addFormDataPart("msg_id", String.valueOf(msg_id))
                 .addFormDataPart("uid", new SqliteDBUtils(this).getLoginUid());
         RequestBody requestBody = multipartBuilder.build();
-        String request_url = ProtocolUrl.APP_QUERY_TUI_SONG_MESSAGE;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_TUI_SONG_MESSAGE;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {

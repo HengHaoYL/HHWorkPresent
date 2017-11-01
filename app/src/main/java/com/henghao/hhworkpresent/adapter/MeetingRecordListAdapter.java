@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.entity.MeetingDataBean;
+import com.henghao.hhworkpresent.entity.MeetingTrajectoryEntity;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ import java.util.List;
 public class MeetingRecordListAdapter extends BaseAdapter {
 
     public Context mContext;
-    public List<MeetingDataBean.MeetingUploadEntity> mList;
+    public List<MeetingTrajectoryEntity> mList;
 
-    public MeetingRecordListAdapter(Context context, List<MeetingDataBean.MeetingUploadEntity> list){
+    public MeetingRecordListAdapter(Context context, List<MeetingTrajectoryEntity> list){
         super();
         this.mContext = context;
         this.mList = list;
@@ -53,16 +53,14 @@ public class MeetingRecordListAdapter extends BaseAdapter {
             viewHolder.message_image=(ImageView) convertView.findViewById(R.id.message_image);
             viewHolder.tv_meeting_title=(TextView) convertView.findViewById(R.id.tv_meeting_title);
             viewHolder.tv_meeting_start_time=(TextView) convertView.findViewById(R.id.tv_meeting_start_time);
-            viewHolder.tv_meeting_join_people=(TextView) convertView.findViewById(R.id.tv_meeting_join_people);
-            viewHolder.tv_meeting_upload_people=(TextView) convertView.findViewById(R.id.tv_meeting_upload_people);
+            viewHolder.tv_meeting_place=(TextView) convertView.findViewById(R.id.tv_meeting_place);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_meeting_title.setText(mList.get(arg0).getMeetingUploadTheme());
-        viewHolder.tv_meeting_start_time.setText(mList.get(arg0).getMeetingUploadStartTime());
-        viewHolder.tv_meeting_join_people.setText(mList.get(arg0).getMeetingUploadJoinPeople());
-        viewHolder.tv_meeting_upload_people.setText(mList.get(arg0).getMeetingUploadPeople());
+        viewHolder.tv_meeting_title.setText(mList.get(arg0).getMeetingEntity().getMeetingTheme());
+        viewHolder.tv_meeting_start_time.setText(mList.get(arg0).getMeetingEntity().getMeetingStartTime());
+        viewHolder.tv_meeting_place.setText(mList.get(arg0).getMeetingEntity().getMeetingPlace());
         return convertView;
     }
 
@@ -70,7 +68,6 @@ public class MeetingRecordListAdapter extends BaseAdapter {
         ImageView message_image;
         TextView tv_meeting_title;
         TextView tv_meeting_start_time;
-        TextView tv_meeting_join_people;
-        TextView tv_meeting_upload_people;
+        TextView tv_meeting_place;
     }
 }

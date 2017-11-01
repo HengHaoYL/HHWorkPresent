@@ -11,7 +11,6 @@ import android.view.Window;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.TopPagerAdapter;
-import com.henghao.hhworkpresent.fragment.MeetingPassListFragment;
 import com.henghao.hhworkpresent.fragment.MeetingRecordListFragment;
 import com.henghao.hhworkpresent.fragment.PushMessageListFragment;
 import com.lidroid.xutils.ViewUtils;
@@ -77,25 +76,25 @@ public class MeetingManageActivity extends ActivityFragmentSupport {
 
         //初始化Fragment
         PushMessageListFragment fragment1 = new PushMessageListFragment();
-        MeetingPassListFragment fragment2 = new MeetingPassListFragment();
-        MeetingRecordListFragment fragment3 = new MeetingRecordListFragment();
+    //    MeetingPassListFragment fragment2 = new MeetingPassListFragment();
+        MeetingRecordListFragment fragment2 = new MeetingRecordListFragment();
 
         //将Fragment装进列表中
         mFragment = new ArrayList<>();
         mFragment.add(fragment1);
+    //    mFragment.add(fragment2);
         mFragment.add(fragment2);
-        mFragment.add(fragment3);
 
         //将名称添加daoTab列表
         mTitle = new ArrayList<>();
         mTitle.add("推送消息");
-        mTitle.add("审批通过");
+    //    mTitle.add("审批通过");
         mTitle.add("会议记录");
 
         //为TabLayout添加Tab名称
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(1)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(2)));
+    //    mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(2)));
 
         mAdapter = new TopPagerAdapter(this.getSupportFragmentManager(), mFragment, mTitle);
 

@@ -3,6 +3,7 @@ package com.henghao.hhworkpresent.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -17,9 +18,11 @@ import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.adapter.CommonListStringAdapter;
 import com.henghao.hhworkpresent.adapter.PersonnelListAdapter;
 import com.henghao.hhworkpresent.entity.DeptEntity;
 import com.henghao.hhworkpresent.entity.MeetingEntity;
+import com.henghao.hhworkpresent.utils.PopupWindowHelper;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CustomDialog;
 import com.henghao.hhworkpresent.views.MyDateChooseWheelViewDialog;
@@ -80,6 +83,12 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_join_meeting_people)
     private TextView tv_join_meeting_people;
 
+    @ViewInject(R.id.linear_meeting_type)
+    private LinearLayout linear_meeting_type;
+
+    @ViewInject(R.id.tv_meeting_type)
+    private TextView tv_meeting_type;
+
     @ViewInject(R.id.tv_meeting_duration)
     private TextView tv_meeting_duration;
 
@@ -98,6 +107,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
 
     /**记录选中的条数*/
     private int checkNum;
+
+    private View popView;
+    private PopupWindowHelper popupWindowHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +135,27 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         mCenterTextView.setText("会议预约");
         mCenterTextView.setVisibility(View.VISIBLE);
 
+        this.popView = LayoutInflater.from(this).inflate(R.layout.common_android_listview, null);
+        ListView mListView = (ListView) this.popView.findViewById(R.id.mlistview);
+        final List<String> mList = new ArrayList<String>();
+        mList.add("小型会议");
+        mList.add("中型会议");
+        mList.add("大型会议");
+        mList.add("其他类型");
+        CommonListStringAdapter mListStringAdapter = new CommonListStringAdapter(this, mList);
+        mListView.setAdapter(mListStringAdapter);
+        mListStringAdapter.notifyDataSetChanged();
+        this.popupWindowHelper = new PopupWindowHelper(this.popView);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                String whatSelect = mList.get(arg2);
+                tv_meeting_type.setText(whatSelect);
+                popupWindowHelper.dismiss();
+            }
+        });
+
     }
 
     @Override
@@ -138,7 +171,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         httpRequestDeptList();
     }
 
-    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration, R.id.tv_meeting_ok})
+    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration,R.id.linear_meeting_type, R.id.tv_meeting_ok})
     private void viewOnClick(View v) {
         switch (v.getId()){
             case R.id.linear_choose_meet_people:
@@ -149,6 +182,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 break;
             case R.id.linear_meeting_duration:
                 showSingleChoiceButton();
+                break;
+            case R.id.linear_meeting_type:
+                popupWindowHelper.showFromTop(v);
                 break;
             case R.id.tv_meeting_ok:
                 httpSaveMeetingToService();
@@ -201,7 +237,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("json", com.alibaba.fastjson.JSONObject.toJSONString(meetingEntity));
         RequestBody requestBody = multipartBuilder.build();
-        String request_url = ProtocolUrl.APP_ADD_MEETING_CONTENT;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_ADD_MEETING_CONTENT;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -254,7 +290,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     public void httpRequestDeptList(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        String request_url = ProtocolUrl.APP_QUERY_DEPT_LIST;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_DEPT_LIST;
         Request request = builder.url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -294,7 +330,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("id", deptId);
         RequestBody requestBody = multipartBuilder.build();
-        String request_url = ProtocolUrl.APP_QUERY_PERSONAL_LIST;
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_PERSONAL_LIST;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {

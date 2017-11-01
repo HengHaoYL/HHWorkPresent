@@ -285,7 +285,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 .addFormDataPart("userId", userId)
                 .addFormDataPart("startSignInCoordinates", startSignInCoordinates);
         RequestBody requestBody = multipartBuilder.build();
-        String requestUrl = ProtocolUrl.APP_UPDATE_MEETING_ONLICK_START;
+        String requestUrl = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_UPDATE_MEETING_ONLICK_START;
         Request request = builder.post(requestBody).url(requestUrl).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -325,7 +325,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 .addFormDataPart("userId", userId)
                 .addFormDataPart("endSignInCoordinates", endSignInCoordinates);
         RequestBody requestBody = multipartBuilder.build();
-        String requestUrl = ProtocolUrl.APP_UPDATE_MEETING_ONLICK_END;
+        String requestUrl = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_UPDATE_MEETING_ONLICK_END;
         Request request = builder.post(requestBody).url(requestUrl).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -372,7 +372,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
             multipartBuilder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"),file));
         }
         RequestBody requestBody = multipartBuilder.build();
-        String requestUrl = ProtocolUrl.APP_UPDATE_MEETING_SUMMARY_FILE;
+        String requestUrl = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_UPDATE_MEETING_SUMMARY_FILE;
         Request request = builder.post(requestBody).url(requestUrl).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
