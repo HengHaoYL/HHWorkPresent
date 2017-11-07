@@ -14,250 +14,278 @@
         <LinearLayout
             android:id="@+id/huiyiguanli"
             android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:paddingTop="5dp"
-            android:layout_height="64dp">
+            android:paddingTop="5dp">
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="6dp"
-                android:src="@drawable/icon_keyueshiyi"/>
+                android:src="@drawable/icon_keyueshiyi" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
                     android:layout_marginTop="10dp"
-                    android:text="会议管理"/>
+                    android:text="会议管理"
+                    android:textSize="16dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="显示用户接收到会议管理消息"/>
+                    android:text="显示用户接收到会议管理消息"
+                    android:textSize="10dp" />
             </LinearLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="1dip"
+            android:layout_marginTop="10dp"
             android:background="@color/line" />
 
         <LinearLayout
             android:id="@+id/tongzhigonggao"
             android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:paddingTop="5dp"
-            android:layout_height="64dp">
+            android:paddingTop="5dp">
+
             <ImageView
                 android:id="@+id/image11"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="6dp"
-                android:src="@drawable/icon_tongzhigonggao"/>
+                android:src="@drawable/icon_tongzhigonggao" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
+
                 <TextView
-                    android:layout_toRightOf="@id/image11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
                     android:layout_marginTop="10dp"
-                    android:text="通知公告"/>
-                <TextView
                     android:layout_toRightOf="@id/image11"
+                    android:text="通知公告"
+                    android:textSize="16dp" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="显示用户接收到的通知公告"/>
+                    android:layout_toRightOf="@id/image11"
+                    android:text="显示用户接收到的通知公告"
+                    android:textSize="10dp" />
             </LinearLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="1dip"
+            android:layout_marginTop="10dp"
             android:background="@color/line" />
 
-    <LinearLayout
-        android:id="@+id/gerendaiban"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="5dp"
-        android:layout_height="64dp">
-        <ImageView
-            android:id="@+id/image1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="6dp"
-            android:src="@drawable/icon_gerendaiban"/>
-
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/gerendaiban"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_toRightOf="@id/image1"
+            android:layout_marginRight="10dp"
+            android:paddingTop="5dp">
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/icon_gerendaiban" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"
-                android:text="需办理的工作"/>
-            <TextView
-                android:layout_toRightOf="@id/image1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_marginTop="10dp"
-                android:text="显示用户的需办理的工作列表"/>
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/image1"
+                    android:text="需办理的工作"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/image1"
+                    android:text="显示用户的需办理的工作列表"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="1dip"
-        android:background="@color/line" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginTop="10dp"
+            android:background="@color/line" />
 
-    <LinearLayout
-        android:id="@+id/faqishiyi"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="5dp"
-        android:layout_height="64dp">
-        <ImageView
-            android:id="@+id/image2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="6dp"
-            android:src="@drawable/icon_faqishiyi"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+       <!-- <LinearLayout
+            android:id="@+id/faqishiyi"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_toRightOf="@id/image1"
+            android:layout_marginRight="10dp"
+            android:paddingTop="5dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/image2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/icon_faqishiyi" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"
-                android:text="我发起的工作"/>
-            <TextView
-                android:layout_toRightOf="@id/image1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_marginTop="10dp"
-                android:text="显示用户已发起的工作列表"/>
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/image1"
+                    android:text="我发起的工作"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/image1"
+                    android:text="显示用户已发起的工作列表"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="1dip"
-        android:background="@color/line" />
-
-    <LinearLayout
-        android:id="@+id/yibanshiyi"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="5dp"
-        android:layout_height="64dp">
-        <ImageView
-            android:id="@+id/image4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="6dp"
-            android:src="@drawable/icon_yibanshiyi"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginTop="10dp"
+            android:background="@color/line"
+            android:visibility="gone" />-->
+        <!--<LinearLayout
+            android:id="@+id/yibanshiyi"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_toRightOf="@id/image1"
+            android:layout_marginRight="10dp"
+            android:paddingTop="5dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/image4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/icon_yibanshiyi" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"
-                android:text="审批过的流程"/>
-            <TextView
-                android:layout_toRightOf="@id/image1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_marginTop="10dp"
-                android:text="显示用户的已办事宜列表"/>
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/image1"
+                    android:text="审批过的流程"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/image1"
+                    android:text="显示用户的已办事宜列表"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="1dip"
-        android:background="@color/line" />
-    <LinearLayout
-        android:id="@+id/daiyueshiyi"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="5dp"
-        android:layout_height="64dp">
-        <ImageView
-            android:id="@+id/image6"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="6dp"
-            android:src="@drawable/icon_daiyueshiyi"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginTop="10dp"
+            android:background="@color/line"
+            android:visibility="gone" />-->
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/daiyueshiyi"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_toRightOf="@id/image1"
+            android:layout_marginRight="10dp"
+            android:paddingTop="5dp">
+
+            <ImageView
+                android:id="@+id/image6"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/icon_daiyueshiyi" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"
-                android:text="需阅知的工作"/>
-            <TextView
-                android:layout_toRightOf="@id/image1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_marginTop="10dp"
-                android:text="显示用户需要阅知的工作列表"/>
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/image1"
+                    android:text="需阅知的工作"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/image1"
+                    android:text="显示用户需要阅知的工作列表"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="1dip"
-        android:background="@color/line" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginTop="10dp"
+            android:background="@color/line" />
 
     </LinearLayout>
 

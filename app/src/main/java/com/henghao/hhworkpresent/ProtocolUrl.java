@@ -97,7 +97,7 @@ public class ProtocolUrl {
     public static final String APP_SET_UNREAD_TO_READ = "/istration/JPush/updateJPushToUserIsRead";
 
     /**
-     * 根据uid查询别人推送给自己的消息
+     * 根据uid查询别人推送给自己的消息列表
      */
     public static final String APP_QUERY_TUI_SONG_MESSAGE_LIST = "/istration/JPush/queryMeetingEntityByUserIdAll";
 

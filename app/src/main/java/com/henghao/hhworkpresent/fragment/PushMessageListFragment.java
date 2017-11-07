@@ -3,7 +3,6 @@ package com.henghao.hhworkpresent.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -205,23 +204,24 @@ public class PushMessageListFragment extends FragmentSupport {
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
-                    result_str = jsonObject.getString("data");
-                    Log.d("wangqingbin","result_str=="+result_str);
-                    Gson gson = new Gson();
-                    meetingEntityList = gson.fromJson(result_str,new TypeToken<ArrayList<MeetingEntity>>() {}.getType());
-                    jPushToUserList.clear();
-                    for(int i=0;i<meetingEntityList.size();i++){
-                        jPushToUserList.addAll(meetingEntityList.get(i).getjPushToUser());
-                    }
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            meetingMessageListAdapter = new MeetingMessageListAdapter(mActivity,jPushToUserList);
-                            meeting_listview.setAdapter(meetingMessageListAdapter);
-                            meetingMessageListAdapter.notifyDataSetChanged();
+                    int status = jsonObject.getInt("status");
+                    if(status==0){
+                        result_str = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        meetingEntityList = gson.fromJson(result_str,new TypeToken<ArrayList<MeetingEntity>>() {}.getType());
+                        jPushToUserList.clear();
+                        for(int i=0;i<meetingEntityList.size();i++){
+                            jPushToUserList.addAll(meetingEntityList.get(i).getjPushToUser());
                         }
-                    });
-
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                meetingMessageListAdapter = new MeetingMessageListAdapter(mActivity,jPushToUserList);
+                                meeting_listview.setAdapter(meetingMessageListAdapter);
+                                meetingMessageListAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

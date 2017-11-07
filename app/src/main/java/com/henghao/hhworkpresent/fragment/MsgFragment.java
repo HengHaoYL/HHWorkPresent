@@ -19,11 +19,9 @@ import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.DaiyueshiyiActivity;
-import com.henghao.hhworkpresent.activity.FaqishiyiActivity;
 import com.henghao.hhworkpresent.activity.GerendaibanActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.MeetingManageActivity;
-import com.henghao.hhworkpresent.activity.YibanshiyiActivity;
 import com.henghao.hhworkpresent.entity.JPushToUser;
 import com.henghao.hhworkpresent.utils.NotificationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
@@ -63,11 +61,11 @@ public class MsgFragment extends FragmentSupport {
     @ViewInject(R.id.gerendaiban)
     private LinearLayout geredaiban;
 
-    @ViewInject(R.id.faqishiyi)
-    private LinearLayout faqishiyi;
+   /* @ViewInject(R.id.faqishiyi)
+    private LinearLayout faqishiyi;*/
 
-    @ViewInject(R.id.yibanshiyi)
-    private LinearLayout yibanshiyi;
+/*    @ViewInject(R.id.yibanshiyi)
+    private LinearLayout yibanshiyi;*/
 
     @ViewInject(R.id.daiyueshiyi)
     private LinearLayout daiyueshiyi;
@@ -200,7 +198,7 @@ public class MsgFragment extends FragmentSupport {
     }
 
 
-    @OnClick({R.id.huiyiguanli,R.id.tongzhigonggao,R.id.gerendaiban,R.id.faqishiyi,R.id.yibanshiyi, R.id.daiyueshiyi})
+    @OnClick({R.id.huiyiguanli,R.id.tongzhigonggao,R.id.gerendaiban,/*R.id.faqishiyi,*//*R.id.yibanshiyi,*/ R.id.daiyueshiyi})
     private void viewOnClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
@@ -216,14 +214,14 @@ public class MsgFragment extends FragmentSupport {
                 intent.setClass(mActivity, GerendaibanActivity.class);
                 mActivity.startActivity(intent);
                 break;
-            case R.id.faqishiyi:
+            /*case R.id.faqishiyi:
                 intent.setClass(mActivity, FaqishiyiActivity.class);
                 mActivity.startActivity(intent);
-                break;
-            case R.id.yibanshiyi:
+                break;*/
+           /* case R.id.yibanshiyi:
                 intent.setClass(mActivity, YibanshiyiActivity.class);
                 mActivity.startActivity(intent);
-                break;
+                break;*/
             case R.id.daiyueshiyi:
                 intent.setClass(mActivity, DaiyueshiyiActivity.class);
                 mActivity.startActivity(intent);
@@ -386,7 +384,7 @@ public class MsgFragment extends FragmentSupport {
                                             .bind(geredaiban);
                                 }
 
-                                if(faqishiyi_count==0){
+                                /*if(faqishiyi_count==0){
                                     BadgeFactory.create(mActivity)
                                             .setWidthAndHeight(50,50)
                                             .setBadgeBackground(Color.WHITE)
@@ -420,9 +418,9 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount("99+")
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(faqishiyi);
-                                }
+                                }*/
 
-                                if(yibanshiyi_count==0){
+                                /*if(yibanshiyi_count==0){
                                     BadgeFactory.create(mActivity)
                                             .setWidthAndHeight(50,50)
                                             .setBadgeBackground(Color.WHITE)
@@ -454,7 +452,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount("99+")
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(yibanshiyi);
-                                }
+                                }*/
 
                                 //待阅事宜直接显示小红点点
                                 BadgeFactory.createDot(mActivity)

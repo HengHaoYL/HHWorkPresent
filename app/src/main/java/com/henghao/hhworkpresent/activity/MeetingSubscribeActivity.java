@@ -228,6 +228,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         meetingEntity.setWifiSSID(meetingWifiSSID);
         meetingEntity.setMeetingStartTime(meetingStartTime);
         meetingEntity.setMeetingDuration(meetingDuration);
+        meetingEntity.setMeetingType(tv_meeting_type.getText().toString());
         meetingEntity.setMeetingPeople(mSelectPersonnelList);
 
         OkHttpClient okHttpClient = new OkHttpClient();

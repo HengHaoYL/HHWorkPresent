@@ -250,29 +250,32 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
-                    result_str = jsonObject.getString("data");
-                    Gson gson = new Gson();
-                    final MeetingEntity meetingEntity = gson.fromJson(result_str,MeetingEntity.class);
-                    mid = meetingEntity.getMid();
-                    final List<JPushToUser> jPushToUserList = meetingEntity.getjPushToUser();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            tv_meeting_theme.setText(meetingEntity.getMeetingTheme());
-                            for(JPushToUser jPushToUser : jPushToUserList){
-                                if(jPushToUser.getMsg_id()==msg_id){
-                                    tv_meeting_faqiren.setText(jPushToUser.getMessageSendPeople());
+                    int status = jsonObject.getInt("status");
+                    if(status==0){
+                        result_str = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        final MeetingEntity meetingEntity = gson.fromJson(result_str,MeetingEntity.class);
+                        mid = meetingEntity.getMid();
+                        final List<JPushToUser> jPushToUserList = meetingEntity.getjPushToUser();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_meeting_theme.setText(meetingEntity.getMeetingTheme());
+                                for(JPushToUser jPushToUser : jPushToUserList){
+                                    if(jPushToUser.getMsg_id()==msg_id){
+                                        tv_meeting_faqiren.setText(jPushToUser.getMessageSendPeople());
+                                    }
                                 }
+                                tv_meeting_place.setText(meetingEntity.getMeetingPlace());
+                                tv_meeting_start_time.setText(meetingEntity.getMeetingStartTime());
+                                tv_meeting_duration.setText(meetingEntity.getMeetingDuration());
+                                String name = meetingEntity.getUserIds();   //获取参会人员
+                                String[] strings = name.split(",");
+                                tv_join_meeting_people_num.setText(String.valueOf(strings.length));
+                                tv_join_meeting_people.setText(name);
                             }
-                            tv_meeting_place.setText(meetingEntity.getMeetingPlace());
-                            tv_meeting_start_time.setText(meetingEntity.getMeetingStartTime());
-                            tv_meeting_duration.setText(meetingEntity.getMeetingDuration());
-                            String name = meetingEntity.getUserIds();   //获取参会人员
-                            String[] strings = name.split(",");
-                            tv_join_meeting_people_num.setText(String.valueOf(strings.length));
-                            tv_join_meeting_people.setText(name);
-                        }
-                    });
+                        });
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
