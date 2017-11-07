@@ -67,7 +67,7 @@
                 android:textSize="18dp"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
-                android:text="准时参加"/>
+                android:text="会议签到"/>
 
             <Button
                 android:id="@+id/btn_notification_not_join"

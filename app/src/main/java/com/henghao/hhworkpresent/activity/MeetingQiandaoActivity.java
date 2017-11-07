@@ -211,6 +211,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 httpUploadSummaryAndSiteFile(meetingEntity.getMid(),sqliteDBUtils.getLoginUid(),et_meeting_upload_summary.getText().toString());
                 break;
             case R.id.tv_meeting_upload_cancel:
+                finish();
                 break;
         }
     }
@@ -265,8 +266,20 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
             String ssid = "\"" + meetingEntity.getWifiSSID() + "\"";
             if(getWifiSSID().equals(ssid)){
                 if(tv_qiandao_start_text.getText().toString().equals("进场签到")){
+                    String lat = String.valueOf(LocationUtils.getLat());
+                    String lng = String.valueOf(LocationUtils.getLng());
+                    if(lat==null && lng==null){
+                        Toast.makeText(this,"当前没有获取到你的位置信息，请重新点击!",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     httpOnClickStartQiandaoUploadData(meetingEntity.getMid(),sqliteDBUtils.getLoginUid(),LocationUtils.getLat()+","+LocationUtils.getLng());
                 }else if (tv_qiandao_start_text.getText().toString().equals("退场签到")){
+                    String lat = String.valueOf(LocationUtils.getLat());
+                    String lng = String.valueOf(LocationUtils.getLng());
+                    if(lat==null && lng==null){
+                        Toast.makeText(this,"当前没有获取到你的位置信息，请重新点击!",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     httpOnClickEndQiandaoUploadData(meetingEntity.getMid(),sqliteDBUtils.getLoginUid(),LocationUtils.getLat()+","+LocationUtils.getLng());
                 }
             }
@@ -367,6 +380,10 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 .addFormDataPart("mid", String.valueOf(mid))
                 .addFormDataPart("userId", userId)
                 .addFormDataPart("meetingSummary", meetingSummary);
+        if(mMeetingFileList.size()==0){
+            Toast.makeText(this,"必须上传会议图片",Toast.LENGTH_SHORT).show();
+            return;
+        }
         for (File file : mMeetingFileList) {
             //上传现场图片
             multipartBuilder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"),file));

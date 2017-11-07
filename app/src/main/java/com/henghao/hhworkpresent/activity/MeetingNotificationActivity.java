@@ -118,6 +118,11 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
         mSelectPersonnelList = new ArrayList<>();
         Intent intent = getIntent();
         msg_id = intent.getLongExtra("msg_id",0);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         httpRequestMeetingContent();
     }
 
@@ -229,18 +234,21 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
-                    result_str = jsonObject.getString("data");
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<ArrayList<MeetingEntity.PersonnelEntity>>() {}.getType();
-                    personnelEntityList = gson.fromJson(result_str,type);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            personnelListAdapter = new PersonnelListAdapter(MeetingNotificationActivity.this,personnelEntityList);
-                            personal_listview.setAdapter(personnelListAdapter);
-                            personnelListAdapter.notifyDataSetChanged();
-                        }
-                    });
+                    int status = jsonObject.getInt("status");
+                    if(status==0) {
+                        result_str = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<ArrayList<MeetingEntity.PersonnelEntity>>() {}.getType();
+                        personnelEntityList = gson.fromJson(result_str,type);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                personnelListAdapter = new PersonnelListAdapter(MeetingNotificationActivity.this,personnelEntityList);
+                                personal_listview.setAdapter(personnelListAdapter);
+                                personnelListAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -280,33 +288,39 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
-                    result_str = jsonObject.getString("data");
-                    Gson gson = new Gson();
-                    meetingEntity = gson.fromJson(result_str,MeetingEntity.class);
-                    mid = meetingEntity.getMid();
-                    meetingTrajectoryEntity = meetingEntity.getMeetingTrajectoryEntity();
-                    final List<JPushToUser> jPushToUserList = meetingEntity.getjPushToUser();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            for(JPushToUser jPushToUser : jPushToUserList){
-                                if(jPushToUser.getMsg_id()==msg_id){
-                                    tv_meeting_notification.setText("你好，请于"+meetingEntity.getMeetingStartTime()+"在"+meetingEntity.getMeetingPlace()
-                                            +"参加" +jPushToUser.getMessageSendPeople()+"发起的主题为"+meetingEntity.getMeetingTheme()
-                                            +"的会议，并在抵达会议地点的时候在会议的时候连接名字为"+meetingEntity.getWifiSSID()+"的wifi进行签到，谢谢！");
-                                    tv_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
-                                    tv_notification_time.setText(jPushToUser.getMessageSendTime());
+                    int status = jsonObject.getInt("status");
+                    if(status==0) {
+                        result_str = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        meetingEntity = gson.fromJson(result_str,MeetingEntity.class);
+                        mid = meetingEntity.getMid();
+                        meetingTrajectoryEntity = meetingEntity.getMeetingTrajectoryEntity();
+                        final List<JPushToUser> jPushToUserList = meetingEntity.getjPushToUser();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for(JPushToUser jPushToUser : jPushToUserList){
+                                    if(jPushToUser.getMsg_id()==msg_id){
+                                        tv_meeting_notification.setText("你好，请于"+meetingEntity.getMeetingStartTime()+"在"+meetingEntity.getMeetingPlace()
+                                                +"参加" +jPushToUser.getMessageSendPeople()+"发起的主题为"+meetingEntity.getMeetingTheme()
+                                                +"的会议，并在抵达会议地点的时候在会议的时候连接名字为"+meetingEntity.getWifiSSID()+"的wifi进行签到，谢谢！");
+                                        tv_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
+                                        tv_notification_time.setText(jPushToUser.getMessageSendTime());
+                                    }
+                                }
+                                if(meetingTrajectoryEntity==null){  //A选择B代替，B再选择C代替就会出现这种情况，因为后台会把B角色的数据没有，所以会返回Null.
+                                    relativelayout_btn.setVisibility(View.GONE);
+                                }else if (meetingTrajectoryEntity!=null){
+                                    if(meetingTrajectoryEntity.getSubstitute()!=null && !meetingTrajectoryEntity.getSubstitute().equals(sqliteDBUtils.getLoginUid())){      //表示已经找人代替自己去开会或会议纪要已经提交过了
+                                        relativelayout_btn.setVisibility(View.GONE);
+                                    }
+                                    if(meetingTrajectoryEntity.getMeetingSummary()!=null){  //会议纪要已经提交过了
+                                        relativelayout_btn.setVisibility(View.GONE);
+                                    }
                                 }
                             }
-                            if(meetingTrajectoryEntity.getSubstitute()!=null && !meetingTrajectoryEntity.getSubstitute().equals(sqliteDBUtils.getLoginUid())){      //表示已经找人代替自己去开会或会议纪要已经提交过了
-                                relativelayout_btn.setVisibility(View.GONE);
-                            }
-                            if(meetingTrajectoryEntity.getMeetingSummary()!= null){  //会议纪要已经提交过了
-                                relativelayout_btn.setVisibility(View.GONE);
-                            }
-                        }
-                    });
-
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -347,17 +361,21 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
-                    final String resultStr = jsonObject.getString("data");
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(resultStr.equals("null")){     //代表选择人成功
-                                Toast.makeText(MeetingNotificationActivity.this,"选择代替开会人员成功!",Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(MeetingNotificationActivity.this,resultStr,Toast.LENGTH_SHORT).show();
+                    int status = jsonObject.getInt("status");
+                    if(status==0) {
+                        final String resultStr = jsonObject.getString("data");
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(resultStr.equals("null")){     //代表选择人成功
+                                    relativelayout_btn.setVisibility(View.GONE);     //选择替代人成功之后把会议签到去掉
+                                    Toast.makeText(MeetingNotificationActivity.this,"选择代替开会人员成功!",Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(MeetingNotificationActivity.this,resultStr,Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

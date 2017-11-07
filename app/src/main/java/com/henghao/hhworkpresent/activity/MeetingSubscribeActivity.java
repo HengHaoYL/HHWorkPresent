@@ -77,8 +77,8 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.linear_meeting_duration)
     private LinearLayout linear_meeting_duration;
 
-    @ViewInject(R.id.tv_meeting_ok)
-    private TextView tv_meeting_ok;
+/*    @ViewInject(R.id.tv_meeting_ok)
+    private TextView tv_meeting_ok;*/
 
     @ViewInject(R.id.tv_join_meeting_people)
     private TextView tv_join_meeting_people;
@@ -134,6 +134,15 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         initWithCenterBar();
         mCenterTextView.setText("会议预约");
         mCenterTextView.setVisibility(View.VISIBLE);
+        initWithRightBar();
+        mRightTextView.setText("完成");
+        mRightTextView.setVisibility(View.VISIBLE);
+        mRightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                httpSaveMeetingToService();
+            }
+        });
 
         this.popView = LayoutInflater.from(this).inflate(R.layout.common_android_listview, null);
         ListView mListView = (ListView) this.popView.findViewById(R.id.mlistview);
@@ -171,7 +180,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         httpRequestDeptList();
     }
 
-    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration,R.id.linear_meeting_type, R.id.tv_meeting_ok})
+    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration,R.id.linear_meeting_type/*, R.id.tv_meeting_ok*/})
     private void viewOnClick(View v) {
         switch (v.getId()){
             case R.id.linear_choose_meet_people:
@@ -186,9 +195,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
             case R.id.linear_meeting_type:
                 popupWindowHelper.showFromTop(v);
                 break;
-            case R.id.tv_meeting_ok:
+            /*case R.id.tv_meeting_ok:
                 httpSaveMeetingToService();
-                break;
+                break;*/
         }
     }
 

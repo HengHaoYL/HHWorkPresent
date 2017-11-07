@@ -105,7 +105,7 @@
                 <TextView
                     android:id="@+id/tv_meeting_upload_detail_start_qiandao"
                     android:layout_width="230dp"
-                    android:layout_height="80dp"
+                    android:layout_height="60dp"
                     android:layout_margin="5dp"
                     android:padding="5dp"
                     android:background="@drawable/edittext_bg_border"
@@ -124,7 +124,7 @@
                 <TextView
                     android:id="@+id/tv_meeting_upload_detail_end_qiandao"
                     android:layout_width="230dp"
-                    android:layout_height="80dp"
+                    android:layout_height="60dp"
                     android:layout_margin="5dp"
                     android:padding="5dp"
                     android:background="@drawable/edittext_bg_border"
@@ -165,6 +165,7 @@
                 android:layout_width="315dp"
                 android:layout_height="170dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/edittext_bg_border">
                 <GridView
                     android:id="@+id/upload_meeting_picture_gridview"
