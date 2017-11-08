@@ -318,6 +318,9 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                                         relativelayout_btn.setVisibility(View.GONE);
                                     }
                                 }
+                                if(meetingTrajectoryEntity.getStartSignInTime()!=null){     //如果签到过了，就只显示会议签到按钮，找人代替按钮隐藏，不能选人代替了
+                                    btn_notification_not_join.setVisibility(View.GONE);
+                                }
                             }
                         });
                     }

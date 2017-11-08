@@ -98,7 +98,9 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
         tv_meeting_upload_detail_duration.setText(meetingTrajectoryEntity.getMeetingEntity().getMeetingDuration());
         tv_meeting_upload_detail_place.setText(meetingTrajectoryEntity.getMeetingEntity().getMeetingPlace());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        tv_meeting_upload_detail_start_qiandao.setText(meetingTrajectoryEntity.getStartSignInCoordinates()+"\n"+format.format(new Date(Long.parseLong(meetingTrajectoryEntity.getStartSignInTime()))));
+        if(meetingTrajectoryEntity.getStartSignInTime()!=null){
+            tv_meeting_upload_detail_start_qiandao.setText(meetingTrajectoryEntity.getStartSignInCoordinates()+"\n"+format.format(new Date(Long.parseLong(meetingTrajectoryEntity.getStartSignInTime()))));
+        }
         if(meetingTrajectoryEntity.getEndSignInTime()!=null){
             tv_meeting_upload_detail_end_qiandao.setText(meetingTrajectoryEntity.getEndSignInCoordinates()+"\n"+format.format(new Date(Long.parseLong(meetingTrajectoryEntity.getEndSignInTime()))));
         }

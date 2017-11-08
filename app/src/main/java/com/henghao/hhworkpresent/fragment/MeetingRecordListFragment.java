@@ -50,6 +50,8 @@ public class MeetingRecordListFragment extends FragmentSupport {
 
     private List<MeetingTrajectoryEntity> meetingTrajectoryEntityList;
 
+    private SqliteDBUtils sqliteDBUtils;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -79,8 +81,13 @@ public class MeetingRecordListFragment extends FragmentSupport {
     }
 
     public void initData(){
-        SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(mActivity);
+        sqliteDBUtils = new SqliteDBUtils(mActivity);
         meetingTrajectoryEntityList = new ArrayList<>();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         httpMeetingUploadRecordListInfo(sqliteDBUtils.getLoginUid());
     }
 
