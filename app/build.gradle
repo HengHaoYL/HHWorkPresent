@@ -1,14 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+
     signingConfigs {
         config {
-            keyAlias 'china'
-            keyPassword 'wqbsy199435'
-            storeFile file('C:\\Users\\bryanrady\\Desktop\\安监密钥\\keystore.jks')
-            storePassword '   \u0002   \u0001   \u0001 \u0005china  \u0001Z\u001C$  \u0005\u00020??\u000E\u0006 +\u0006\u0001\u0004\u0001*\u0002\u0011\u0001\u0001\u0005 \u0004?闍齐臼滓鋭贋锹\u0016Za\\絹?h/a 囨佻菆7姸4q綑r蜼齻pA\u0004轎_\u000E脧?8LIx胥 J]m6隤-曍籮飅邹1Y?櫮??3蕘:\u0015沈uX_0rff\u0019吻ov?湶熰?帮W\u0002&&錁e搪k袜笽咊im?\'?DTY炖蠖h?F\t\u0010\u000F!m%0恓V悷\u001F\u001D触礇㈤洜垵\f\u001B 5\'bJ)1漂L\u0018?f診眾3cR煒?沲粀垆?\u0010SC扩?峔\u001C法?KU\u001D?FmxLDi*褥?Ce(\u007F蛎\' 纲礕韡%簬鈹鋢麑l\u0011G7\u0019?8m)饐?咆儡<邿鲖=$\u0007\fBtD?K?犖袊涑愱鸤v??D[踿溳\u0019O寎篃宪M?:\u0014>疡 U\tw鶛眞\u000B倻??E\u0007*栒賸褅>?颐c9Z~?&?\u0015酹艛?jY6牮?\u001D宿\u0007悕k\u000B紉r\u0003?鳹厅3}@c唂\u001Ci2MVa)_@颞$|?尀G畮慼.坛茼}d?骲H軵桛畏止\u0001C;挂眿謅?(?樞漏K?鲿[U酩癕? \u000F2孻瑦稜冪\u0016?輽d-L畭枦?釥穛圓J\u0005僽=?H\u0006\u0017胧vf:\u001D-j梌ＳFB屒?^\u007F 纴篢揅*\u0006mDFUl麖譾殩停m螏?旚酶k\u0011Wq饮z\u0003侏yqE翐?\u0001薘&?€衭崃婖\'r>Q\u0015E\\\u001E?紨氋?欅蘅|蝥\u000B峮???E熿_G佃€箨E峉La幊KST\u001C椸%\u000F2\t?\u0011Za\u001B籐l侌垌?iPH?eVS羓? 符娇5p_儔厪鈪厱?[??氽9s多4?y\u0002JlJ蔔s尽佟?v駿に附M??瀦3训d;\\徘\u0014uＭo?题慤曎\u007F{g?r飲叵^9詡輹\u0015I!\u0018? T谮燴n\u0013癷-v?仉蝙嗇*b?QIMd巙R焑Q餕舌珁嶞\u001Er挐?媇\u0015牡粞穂趙\u0011?B髄藹螠豆h\u0016 渁﨓Z搚鮮麅O珞y6@\u0003?8僓\u000E?RS?間疹\u007Fb穁抸\u0012\u007F鱘0\'iOt\u001D0^?\f?畟赲?\u000E\u0018\u0004沗YTj\u0007?矿\u0016輿篩lh?g\u0002"q\u0010柜蛺?啀??\u001E韶?頤鼴\u000B&L郤?坰祵p\t瓖1\u0003[\u0001鍦\u001B?Oua墿Y斻斲\u000B0\u0014t??悟\u0003鮷j\u0010TM_艈q\u0013笐?湄\u007F\u0018/\u0003?4?/;f嬭\u001C鷓醴s"岅鹭\b?jD?濻诡郜调S\u0004a誜迱\t??X鉻峏斾??%穃y勝耜樍榍d??U\u000B=\u0013E??x\u0017?g碊硨蒯好??8\b劢Y介U猀\\瘦憏\u000E(Y?\u0005噎 o罞霈\\d0棯?\u0016ㄛ行?聪\u0015   \u0001 \u0005X.509  \u0003A0?=0?%?\u0002\u0001\u0002\u0002\u0004\u000Eja? \u0006\t*咹嗺 \u0001\u0001\u000B\u0005 0O1\u00100\u000E\u0006\u0003U\u0004\b\u0013\u0007guiyang1\u00100\u000E\u0006\u0003U\u0004\u0007\u0013\u0007guiyang1\u000B0\t\u0006\u0003U\u0004 \u0013\u0002no1\u000B0\t\u0006\u0003U\u0004\u000B\u0013\u0002no1\u000F0 \u0006\u0003U\u0004\u0003\u0013\u0006widsom0\u001E\u0017 170306022141Z\u0017 420228022141Z0O1\u00100\u000E\u0006\u0003U\u0004\b\u0013\u0007guiyang1\u00100\u000E\u0006\u0003U\u0004\u0007\u0013\u0007guiyang1\u000B0\t\u0006\u0003U\u0004 \u0013\u0002no1\u000B0\t\u0006\u0003U\u0004\u000B\u0013\u0002no1\u000F0 \u0006\u0003U\u0004\u0003\u0013\u0006widsom0?"0 \u0006\t*咹嗺 \u0001\u0001\u0001\u0005 \u0003?\u000F 0? \u0002?\u0001 蕄礸勤悒\u0016A?罽\u000E\u0001旔粻Z??2?撷\u0003?鈭Y*.x?[G?譀?襁\u000B5K}Ⅰ???_Y;P)褊澛?O?K\u0013護uΡッ疡丄駠縏?+??麦惺cyp4憾4讨妶X5??ZnU>v熳ynb劰灛\'\t\u0017\b?\f杷a餡t躽?v阿絫\u0003kc\u0019\u0011\f〣漓9Q?\u007F;銔阹?彘M妓$鏳k╆黝依珇*3_\u001A&N\u000B婚鼊痆G\u000FY禒J?UL\u007F瑖嚣睉処舔亠 涫-趸賚)羢\u0002\u0003\u0001 \u0001?0\u001F0\u001D\u0006\u0003U\u001D\u000E\u0004\u0016\u0004\u0014Yk\u0010AR??0尻颤岠「?0 \u0006\t*咹嗺 \u0001\u0001\u000B\u0005 \u0003?\u0001 碌柋?,炋,薣H?睼\u001DA杳艔\fr&榈\u000F\u0001鸅氺\u0004樁L蜻Y娺评墟龚???x??鯽b掽朣\u001Al?<\u0005匾\u0003\u0017y?9J駈}仧 ⒕\u0010=\u0005覑勯O€(蝘敉﹑包j嫐褶貌踐\u007Fa吱榶J|鮯U\u0018\u0004茄\u007F歼閔y燺稜f(\u001A-t致s\u0015\fq?幂嗞?-pE\u001B\u0007N?\u0015g穮;q?[\t^#蟏x\u0007疀|r?\u001EP蟺=曥?栯沰蛩E笿?\u00170Nめ?梄/緂4-竜|\bd箠\u0004\u0003?颗G\u0018?y/嘛荝倪F-譩N鉳屦怠g狲?Y漥'
+            keyAlias 'gysajj'
+            keyPassword 'henghao@123'
+            storeFile file('gysajj.jks')
+            storePassword 'henghao@123'
         }
     }
+
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -16,8 +18,8 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0.19"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionName "1.0.20"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -41,6 +43,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile project(':x_library')
+    compile 'com.android.support:multidex:1.0.0'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile files('libs/universal-image-loader-1.9.5.jar')
@@ -51,7 +54,6 @@ dependencies {
     compile 'com.android.support:cardview-v7:25.2.0'
     compile files('libs/iTextpdf.jar')
     compile files('libs/fastjson-1.2.2.jar')
-    compile files('libs/fastjson-1.2.2-sources.jar')
     compile files('libs/jcore-android-1.1.7.jar')
     compile files('libs/jpush-android-3.0.9.jar')
     compile 'com.lovedise:permissiongen:0.0.6'
