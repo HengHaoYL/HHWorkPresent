@@ -248,16 +248,23 @@ public class DakaFragment extends FragmentSupport {
     public void initData(){
         sqliteDBUtils = new SqliteDBUtils(mActivity);
 
-        httpLoadingHeadImage();
-        tv_loginName.setText(sqliteDBUtils.getLoginFirstName() + sqliteDBUtils.getLoginGiveName());
+        SDKInitializer.initialize(getActivity().getApplication().getApplicationContext());
+        LocationUtils.Location(getActivity().getApplication().getApplicationContext());
+        shangbanDakaAdrress = LocationUtils.getAddress();
+        if(("").equals(shangbanDakaAdrress)||("null").equals(shangbanDakaAdrress)||shangbanDakaAdrress==null){
+            shangban_qiandao_image.setImageResource(R.drawable.icon_grayciecle);
+            shangban_qiandao_location.setText("当前没有定位信息!");
+        }else{
+            shangban_qiandao_location.setText(shangbanDakaAdrress);
+        }
 
-        SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        textString = f.format(date);
-        datepickerTV.setText(textString);
-
-        //初始化数据前，先判断时候是家假日
-        equalsHoliday(textString);
+        xiabanDakaAdrress = LocationUtils.getAddress();
+        if(("").equals(xiabanDakaAdrress)||("null").equals(xiabanDakaAdrress)||xiabanDakaAdrress==null){
+            xiaban_qiandao_image.setImageResource(R.drawable.icon_grayciecle);
+            xiaban_qiandao_location.setText("当前没有定位信息!");
+        }else{
+            xiaban_qiandao_location.setText(xiabanDakaAdrress);
+        }
     }
 
     public void httpLoadingHeadImage(){
@@ -442,22 +449,16 @@ public class DakaFragment extends FragmentSupport {
     @Override
     public void onResume() {
         super.onResume();
-        LocationUtils.Location(getActivity().getApplication().getApplicationContext());
-        shangbanDakaAdrress = LocationUtils.getAddress();
-        if(("").equals(shangbanDakaAdrress)||("null").equals(shangbanDakaAdrress)||shangbanDakaAdrress==null){
-            shangban_qiandao_image.setImageResource(R.drawable.icon_grayciecle);
-            shangban_qiandao_location.setText("当前没有定位信息!");
-        }else{
-            shangban_qiandao_location.setText(shangbanDakaAdrress);
-        }
+        httpLoadingHeadImage();
+        tv_loginName.setText(sqliteDBUtils.getLoginFirstName() + sqliteDBUtils.getLoginGiveName());
 
-        xiabanDakaAdrress = LocationUtils.getAddress();
-        if(("").equals(xiabanDakaAdrress)||("null").equals(xiabanDakaAdrress)||xiabanDakaAdrress==null){
-            xiaban_qiandao_image.setImageResource(R.drawable.icon_grayciecle);
-            xiaban_qiandao_location.setText("当前没有定位信息!");
-        }else{
-            xiaban_qiandao_location.setText(xiabanDakaAdrress);
-        }
+        SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        textString = f.format(date);
+        datepickerTV.setText(textString);
+
+        //初始化数据前，先判断时候是家假日
+        equalsHoliday(textString);
     }
 
     @Override

@@ -343,6 +343,8 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         String time = dateFormat.format(date);
         this.tv_hourminute_qiandao.setText(time);
 
+        initPosition();
+
     }
 
     @OnClick({
@@ -431,9 +433,8 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
 
     private Handler mHandler = new Handler(){};
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void initPosition(){
+        SDKInitializer.initialize(getApplicationContext());
         LocationUtils.Location(getApplicationContext());
         latitude = LocationUtils.getLat();
         longitude = LocationUtils.getLng();
@@ -476,6 +477,11 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
             img_qiandao.setClickable(true);
             img_qiandao.setImageResource(R.drawable.icon_orangecircle);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     // 三个状态实现地图生命周期管理

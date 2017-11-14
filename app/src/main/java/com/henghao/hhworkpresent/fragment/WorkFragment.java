@@ -78,7 +78,7 @@ public class WorkFragment extends FragmentSupport {
         //第五个
         AppGridEntity mEntity5 = new AppGridEntity();
         mEntity5.setImageId(R.drawable.item_gongzuogong1ji);
-        mEntity5.setName("工作轨迹");
+        mEntity5.setName("工作记录");
         mList.add(mEntity5);
         //第六个
         AppGridEntity mEntity6 = new AppGridEntity();
