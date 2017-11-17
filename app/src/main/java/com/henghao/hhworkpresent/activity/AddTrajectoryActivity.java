@@ -48,7 +48,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 
@@ -105,7 +104,7 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("添加轨迹");
+        mLeftTextView.setText("添加记录");
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithRightBar();
         mRightTextView.setText("完成");
@@ -137,11 +136,6 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
     private void uploadWorkTrajectory(){
         SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(this);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setConnectTimeout(300, TimeUnit.SECONDS);
-        okHttpClient.setWriteTimeout(300,TimeUnit.SECONDS);
-        Request.Builder builder = new Request.Builder();
-        MultipartBuilder multipartBuilder = new MultipartBuilder();
         if(et_tarjectory_event.getText().toString().trim()==null||et_tarjectory_event.getText().toString().equals("")){
             Toast.makeText(this,"事件名称必须填写！",Toast.LENGTH_SHORT).show();
             return;
@@ -150,6 +144,10 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
             Toast.makeText(this,"时间必须填写！",Toast.LENGTH_SHORT).show();
             return;
         }
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+
         multipartBuilder.type(MultipartBuilder.FORM)
                 .addFormDataPart("userId", sqliteDBUtils.getLoginUid())
                 .addFormDataPart("eventDate",simpleDateFormat.format(new Date()))
@@ -172,7 +170,7 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
                     e.printStackTrace();
                 }
             }*/
-            multipartBuilder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
+            multipartBuilder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
         }
         RequestBody requestBody = multipartBuilder.build();
         Request request = builder.post(requestBody).url(ProtocolUrl.ROOT_URL + ProtocolUrl.APP_UPLOAD_WORK_TRAJECTORY).build();
@@ -200,7 +198,6 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
                         @Override
                         public void run() {
                             mActivityFragmentView.viewLoading(View.GONE);
-                            msg("添加轨迹成功");
                             finish();
                         }
                     });

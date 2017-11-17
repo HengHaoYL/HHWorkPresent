@@ -337,18 +337,18 @@ public class ProtocolUrl {
     /**
      * 上传工作轨迹接口
      */
-    public static final String APP_UPLOAD_WORK_TRAJECTORY = "/deletenum/event/addEventInformationAndImage";
+    public static final String APP_UPLOAD_WORK_TRAJECTORY = "/deletenum/userEventTrack/addUetEntity";
 
 
    /**
     *下载工作轨迹接口
     */
-    public static final String APP_DOWNLOAD_WORK_TRAJECTORY = "/deletenum/improvement/eventInformationAndImg";
+    public static final String APP_DOWNLOAD_WORK_TRAJECTORY = "/deletenum/userEventTrack/queryByUserIdAndDate";
 
    /**
     *下载工作轨迹事件对应图片的接口
     */
-    public static final String APP_DOWNLOAD_WORK_TRAJECTORY_IMAGE = "/deletenum/tousu/";
+    public static final String APP_DOWNLOAD_WORK_TRAJECTORY_IMAGE = "/eventTrack/";
 
     /**
      * 上传用户头像接口

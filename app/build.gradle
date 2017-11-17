@@ -2,15 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
 
-    signingConfigs {
-        config {
-            keyAlias 'gysajj'
-            keyPassword 'henghao@123'
-            storeFile file('gysajj.jks')
-            storePassword 'henghao@123'
-        }
-    }
-
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -18,15 +9,68 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0.21"
-        multiDexEnabled true
+        versionName "1.0.22"
+        multiDexEnabled true   // dex突破65535的限制
     }
-    buildTypes {
+
+    // 移除lint检查的error
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    signingConfigs {
+        debug {
+
+        }
+
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            File propFile = file('signing.properties');
+            if (propFile.exists()) {
+                def Properties props = new Properties()
+                props.load(new FileInputStream(propFile))
+                if (props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+                        props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+                    android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+                    android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+                    android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+                    android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+                } else {
+                    android.buildTypes.release.signingConfig = null
+                }
+            } else {
+                android.buildTypes.release.signingConfig = null
+            }
         }
     }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            //是否zip对齐
+            zipAlignEnabled false
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled false     //是否进行混淆
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称gyajj.apk
+                        def fileName = "gyajj.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+    }
+
     productFlavors {
     }
 
@@ -43,7 +87,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile project(':x_library')
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:multidex:1.0.0'  //然后就是引入multidex库文件
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile files('libs/universal-image-loader-1.9.5.jar')

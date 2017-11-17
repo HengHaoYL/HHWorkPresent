@@ -1,7 +1,5 @@
 package com.henghao.hhworkpresent.entity;
 
-import java.util.List;
-
 /**
  * 工作轨迹实体类
  * Created by bryanrady on 2017/7/18.
@@ -16,10 +14,42 @@ public class TrajectoryEntity {
      * eventImageNameList : []
      */
 
+    private int id;
+    private String userId;
+    // * 日期
+    private String eventDate;
+    // * 事件名称
     private String eventName;
+    // * 地点
     private String eventAddress;
+    // * 上传时间
     private String eventTime;
-    private List<String> eventImageNameList;
+    //图片地址
+    private String eventImagePath;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
+    }
 
     public String getEventName() {
         return eventName;
@@ -37,6 +67,14 @@ public class TrajectoryEntity {
         this.eventAddress = eventAddress;
     }
 
+    public String getEventImagePath() {
+        return eventImagePath;
+    }
+
+    public void setEventImagePath(String eventImagePath) {
+        this.eventImagePath = eventImagePath;
+    }
+
     public String getEventTime() {
         return eventTime;
     }
@@ -45,21 +83,16 @@ public class TrajectoryEntity {
         this.eventTime = eventTime;
     }
 
-    public List<String> getEventImageNameList() {
-        return eventImageNameList;
-    }
-
-    public void setEventImageNameList(List<String> eventImageNameList) {
-        this.eventImageNameList = eventImageNameList;
-    }
-
     @Override
     public String toString() {
         return "TrajectoryEntity{" +
-                "eventName='" + eventName + '\'' +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", eventDate='" + eventDate + '\'' +
+                ", eventName='" + eventName + '\'' +
                 ", eventAddress='" + eventAddress + '\'' +
                 ", eventTime='" + eventTime + '\'' +
-                ", eventImageNameList=" + eventImageNameList +
+                ", eventImagePath='" + eventImagePath + '\'' +
                 '}';
     }
 }

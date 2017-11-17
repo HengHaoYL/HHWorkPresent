@@ -15,6 +15,7 @@ import com.henghao.hhworkpresent.entity.TrajectoryEntity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,7 +52,13 @@ public class WorkTrajectoryListAdapter extends ArrayAdapter<TrajectoryEntity> {
         mHodlerView.tv_tarjectory_event.setText(getItem(position).getEventName());
         mHodlerView.tv_tarjectory_time.setText(getItem(position).getEventTime());
         mHodlerView.tv_tarjectory_place.setText(getItem(position).getEventAddress());
-        GridAdapter gridAdapter = new GridAdapter(mActivityFragmentSupport,getItem(position).getEventImageNameList());
+        String filePath = getItem(position).getEventImagePath();
+        String[] arr = filePath.split(",");
+        List<String> imageList = new ArrayList<>();
+        for(int i=0;i<arr.length;i++){
+            imageList.add(arr[i]);
+        }
+        GridAdapter gridAdapter = new GridAdapter(mActivityFragmentSupport,imageList);
         mHodlerView.trajectory_picture_gridView.setAdapter(gridAdapter);
         return convertView;
     }
@@ -109,7 +116,7 @@ public class WorkTrajectoryListAdapter extends ArrayAdapter<TrajectoryEntity> {
                 .build(); // 构建完成
             imageLoader =ImageLoader.getInstance();
             String[] imageUrl = eventImageNameList.toArray(new String[eventImageNameList.size()]);
-            imageLoader.displayImage(ProtocolUrl.ROOT_URL + "/"+ProtocolUrl.APP_DOWNLOAD_WORK_TRAJECTORY_IMAGE + imageUrl[position], holder.image, options);
+            imageLoader.displayImage(ProtocolUrl.ROOT_URL + ProtocolUrl.APP_DOWNLOAD_WORK_TRAJECTORY_IMAGE + imageUrl[position], holder.image, options);
             //用for循环会显示最后一张url的图片重复显示
             /*for(String imageUri : eventImageNameList){
                 imageUri = ProtocolUrl.ROOT_URL + "/"+ProtocolUrl.APP_DOWNLOAD_WORK_TRAJECTORY_IMAGE + imageUri;

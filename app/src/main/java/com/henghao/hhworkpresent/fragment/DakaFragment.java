@@ -69,6 +69,9 @@ import static com.henghao.hhworkpresent.R.id.daka_xiaban_shangbanstate;
 
 public class DakaFragment extends FragmentSupport {
 
+    private double latitude ;
+    private double longitude ;
+
     private ImageLoader imageLoader;
 
     private DisplayImageOptions options;
@@ -130,8 +133,8 @@ public class DakaFragment extends FragmentSupport {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        SDKInitializer.initialize(getActivity().getApplication().getApplicationContext());
-        LocationUtils.Location(getActivity().getApplication().getApplicationContext());
+        SDKInitializer.initialize(getActivity().getApplicationContext());
+        LocationUtils.Location(getActivity().getApplicationContext());
         this.mActivityFragmentView.viewMain(R.layout.fragment_currentdate_shangbandaka);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
@@ -212,8 +215,6 @@ public class DakaFragment extends FragmentSupport {
      * @param position，
      * @return
      */
-    private double latitude ;
-    private double longitude ;
     public LatLng getLatlng(final String position) {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -247,9 +248,13 @@ public class DakaFragment extends FragmentSupport {
 
     public void initData(){
         sqliteDBUtils = new SqliteDBUtils(mActivity);
+        initPosition();
+    }
 
-        SDKInitializer.initialize(getActivity().getApplication().getApplicationContext());
-        LocationUtils.Location(getActivity().getApplication().getApplicationContext());
+    public void initPosition(){
+        SDKInitializer.initialize(getActivity().getApplicationContext());
+        LocationUtils.Location(getActivity().getApplicationContext());
+
         shangbanDakaAdrress = LocationUtils.getAddress();
         if(("").equals(shangbanDakaAdrress)||("null").equals(shangbanDakaAdrress)||shangbanDakaAdrress==null){
             shangban_qiandao_image.setImageResource(R.drawable.icon_grayciecle);
@@ -444,8 +449,6 @@ public class DakaFragment extends FragmentSupport {
 
     private SpatialRelationUtil spatialRelationUtil = new SpatialRelationUtil();
 
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -459,6 +462,20 @@ public class DakaFragment extends FragmentSupport {
 
         //初始化数据前，先判断时候是家假日
         equalsHoliday(textString);
+
+        initPosition();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LocationUtils.onDestory();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocationUtils.onDestory();
     }
 
     @Override

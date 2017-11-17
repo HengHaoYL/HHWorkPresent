@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
@@ -32,7 +34,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -121,10 +122,10 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("工作轨迹");
+        mLeftTextView.setText("工作记录");
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithRightBar();
-        mRightTextView.setText("添加轨迹");
+        mRightTextView.setText("添加记录");
         mRightTextView.setVisibility(View.VISIBLE);
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +147,6 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
         datepickerTV.setText(textString);
 
         worktrajectoryList = new ArrayList<TrajectoryEntity>();
-        mAdapter = new WorkTrajectoryListAdapter(WorkTrajectoryActivity.this,worktrajectoryList);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
-        requestBodyBuilder.add("date", datepickerTV.getText().toString());
+        requestBodyBuilder.add("eventDate", datepickerTV.getText().toString());
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_DOWNLOAD_WORK_TRAJECTORY;
         final Request request = builder.url(request_url).post(requestBody).build();
@@ -196,34 +196,17 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
                             }
                         });
                     }
-                    worktrajectoryList.clear();
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-                    for(int i=0;i<jsonArray.length();i++){
-                        //这两个必须卸用在循环内，否则对象和集合重复
-                        TrajectoryEntity trajectoryEntity = new TrajectoryEntity();
-                        List<String> eventImageNameList = new ArrayList<String>();
-                        JSONObject dataObject = jsonArray.getJSONObject(i);
-                        String eventName = dataObject.optString("eventName");
-                        String eventAddress = dataObject.optString("eventAddress");
-                        String eventTime = dataObject.optString("eventTime");
-                        JSONArray jsonArray1 = dataObject.getJSONArray("eventImageNameList");
-                        eventImageNameList.clear();
-                        for(int j=0;j<jsonArray1.length();j++){
-                            String filePath = jsonArray1.optString(j);
-                            eventImageNameList.add(filePath);
-                        }
-                        trajectoryEntity.setEventName(eventName);
-                        trajectoryEntity.setEventAddress(eventAddress);
-                        trajectoryEntity.setEventTime(eventTime);
-                        trajectoryEntity.setEventImageNameList(eventImageNameList);
-                        worktrajectoryList.add(trajectoryEntity);
-                    }
+            //        worktrajectoryList.clear();
+                    result_str = jsonObject.getString("data");
+                    Gson gson = new Gson();
+                    worktrajectoryList = gson.fromJson(result_str,new TypeToken<ArrayList<TrajectoryEntity>>() {}.getType());
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             mActivityFragmentView.viewLoading(View.GONE);
-                            mAdapter.notifyDataSetChanged();
+                            mAdapter = new WorkTrajectoryListAdapter(WorkTrajectoryActivity.this,worktrajectoryList);
                             work_trajectory_listview.setAdapter(mAdapter);
+                            mAdapter.notifyDataSetChanged();
                         }
                     });
 
@@ -314,8 +297,8 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
                                     String currentTime = format.format(date);
                                     //如果没超过12.00 表示上午
                                     if(equalsStringMiddle(currentTime,middleTime)){
-                                        null_trajectory_layout.setVisibility(View.VISIBLE);
-                                        work_trajectory_layout.setVisibility(View.GONE);
+                                        null_trajectory_layout.setVisibility(View.GONE);
+                                        work_trajectory_layout.setVisibility(View.VISIBLE);
                                     }else {
                                         null_trajectory_layout.setVisibility(View.GONE);
                                         work_trajectory_layout.setVisibility(View.VISIBLE);
@@ -464,13 +447,16 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
                 int type = equalsDate(datepickerTV.getText().toString());
                 //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
                 if(type==0){
-                    null_trajectory_layout.setVisibility(View.VISIBLE);
+                    null_trajectory_layout.setVisibility(View.GONE);
+                    work_trajectory_layout.setVisibility(View.VISIBLE);
                     equalsHoliday(datepickerTV.getText().toString());
+                    downloadWorkTragectory();
                 } else if(type==1){
                     work_trajectory_layout.setVisibility(View.GONE);
                     null_trajectory_layout.setVisibility(View.VISIBLE);
                 } else if(type==-1){
                     equalsHoliday(datepickerTV.getText().toString());
+                    downloadWorkTragectory();
                 }
             }
         });

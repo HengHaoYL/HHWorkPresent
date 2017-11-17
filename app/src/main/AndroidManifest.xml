@@ -189,10 +189,10 @@
         <!-- Required. AppKey copied from Portal -->
         <meta-data android:name="JPUSH_APPKEY" android:value="e04b39c858f89fd268583c06"/>
 
-
+        <!-- 百度地图开发密钥-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="fpNESfd6m9b4S0BieY5HFHPTkvxk8WF5"/>
+            android:value="H8dqgVT2HUj3Yt6RrtA7whVb45AogO52"/>
 
         <!-- 百度地图所需的service -->
         <service

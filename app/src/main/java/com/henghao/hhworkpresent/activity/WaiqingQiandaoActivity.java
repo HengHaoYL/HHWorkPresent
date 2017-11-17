@@ -482,6 +482,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
     @Override
     public void onResume() {
         super.onResume();
+        initPosition();
     }
 
     // 三个状态实现地图生命周期管理
