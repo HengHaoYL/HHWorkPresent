@@ -1,8 +1,13 @@
 package com.henghao.hhworkpresent.activity;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,8 +44,10 @@ public class BuqianActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.webview_layout)
     private RelativeLayout webview_layout;
 
-    private ValueCallback mUploadMessage;
-    public static final int FILECHOOSER_RESULTCODE = 10000;
+    private ValueCallback<Uri> mUploadMessage;
+    private ValueCallback<Uri[]> mUploadMessage5;
+    public static final int FILECHOOSER_RESULTCODE = 5173;
+    public static final int FILECHOOSER_RESULTCODE_FOR_ANDROID_5 = 5174;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,45 +134,73 @@ public class BuqianActivity extends ActivityFragmentSupport {
          * 让webview支持文件上传
          */
         progressWebView.setWebChromeClient(new WebChromeClient(){
+            // For Android < 3.0
             public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-                mUploadMessage = uploadMsg;
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("*/*");
-                startActivityForResult(Intent.createChooser(i, "File Chooser"), FILECHOOSER_RESULTCODE);
+                this.openFileChooser(uploadMsg, "*/*");
             }
 
-            public void openFileChooser( ValueCallback uploadMsg, String acceptType ) {
+            // For Android >= 3.0
+            public void openFileChooser(ValueCallback<Uri> uploadMsg,
+                                        String acceptType) {
+                this.openFileChooser(uploadMsg, acceptType, null);
+            }
+
+            // For Android >= 4.1
+            public void openFileChooser(ValueCallback<Uri> uploadMsg,
+                                        String acceptType, String capture) {
                 mUploadMessage = uploadMsg;
                 Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                 i.addCategory(Intent.CATEGORY_OPENABLE);
                 i.setType("*/*");
-                startActivityForResult(
-                        Intent.createChooser(i, "File Browser"),
+                startActivityForResult(Intent.createChooser(i, "File Browser"),
                         FILECHOOSER_RESULTCODE);
             }
-            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture){
-                mUploadMessage = uploadMsg;
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("*/*");
-                startActivityForResult( Intent.createChooser( i, "File Browser" ), FILECHOOSER_RESULTCODE );
+
+            // For Lollipop 5.0+ Devices
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            public boolean onShowFileChooser(WebView mWebView,
+                                             ValueCallback<Uri[]> filePathCallback,
+                                             WebChromeClient.FileChooserParams fileChooserParams) {
+                if (mUploadMessage5 != null) {
+                    mUploadMessage5.onReceiveValue(null);
+                    mUploadMessage5 = null;
+                }
+                mUploadMessage5 = filePathCallback;
+                Intent intent = fileChooserParams.createIntent();
+                try {
+                    startActivityForResult(intent,
+                            FILECHOOSER_RESULTCODE_FOR_ANDROID_5);
+                } catch (ActivityNotFoundException e) {
+                    mUploadMessage5 = null;
+                    return false;
+                }
+                return true;
             }
         });
 
         progressWebView.loadUrl(WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+ WorkflowUrl.BUQIAN_FLOWID);
     }
 
+    @SuppressLint("NewApi")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == FILECHOOSER_RESULTCODE) {
-            if (null == mUploadMessage) return;
-            Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
-            if (mUploadMessage != null) {
-                mUploadMessage.onReceiveValue(result);
-                mUploadMessage = null;
+            if (null == mUploadMessage) {
+                return;
             }
+            Uri result = intent == null || resultCode != Activity.RESULT_OK ? null
+                    : intent.getData();
+            mUploadMessage.onReceiveValue(result);
+            mUploadMessage = null;
+        } else if (requestCode == FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
+            if (null == mUploadMessage5) {
+                return;
+            }
+            mUploadMessage5.onReceiveValue(WebChromeClient.FileChooserParams
+                    .parseResult(resultCode, intent));
+            mUploadMessage5 = null;
         }
     }
 

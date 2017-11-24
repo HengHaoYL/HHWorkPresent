@@ -232,15 +232,6 @@
             </intent-filter>
         </service>
 
-        <!-- 测试车辆 服务 service -->
-        <service
-            android:name=".service.CheliangService"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="com.henghao.hhworkpresent.service.CheliangService" ></action>
-            </intent-filter>
-        </service>
-
         <receiver
             android:name=".service.BootCompletedReceiver"
             android:enabled="true"
@@ -262,12 +253,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- activity 测试界面 -->
-        <activity
-            android:name=".activity.TestActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
 
         <!-- activity 登录界面 -->
         <activity
@@ -409,33 +394,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
-        <!-- 可阅事宜界面 -->
-        <activity
-            android:name=".activity.KeyueshiyiActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
         <!-- 已办事宜界面 -->
         <activity
             android:name=".activity.YibanshiyiActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
-        <!-- 待办认领界面 -->
-        <activity
-            android:name=".activity.DaibanrenlingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
         <!-- 待阅事宜界面 -->
         <activity
             android:name=".activity.DaiyueshiyiActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
-        <!-- 撤办文件界面 -->
-        <activity
-            android:name=".activity.ChebanwenjianActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
