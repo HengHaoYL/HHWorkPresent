@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -243,7 +242,6 @@ public class RenyuanKaoqingFragment extends FragmentSupport {
                 String result_str = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
-                    Log.d("wangqingbin","jsonObject=="+jsonObject);
                     int status = jsonObject.getInt("status");
                     if (status == 0) {
                         mHandler.post(new Runnable() {

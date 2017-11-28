@@ -120,6 +120,39 @@ public class KaoqingTongjiFragment extends FragmentSupport {
     private List<ChuchaiTongjiEntity> mChuchaiList;
     private List<QingjiaTongjiEntity> mQingjiaList;
 
+    /**
+     * 月统计
+     *
+     */
+    @ViewInject(R.id.kaoqingrenshu)
+    private TextView kaoqingrenshu;
+
+    @ViewInject(R.id.tv_month_datepicker)
+    private TextView tv_datepicker;
+
+    @ViewInject(R.id.tv_chidao_size)
+    private TextView tv_chidao_size;
+
+    @ViewInject(R.id.tv_zaotui_size)
+    private TextView tv_zaotui_size;
+
+    @ViewInject(R.id.tv_queka_size)
+    private TextView tv_queka_size;
+
+    @ViewInject(R.id.tv_kuanggong_size)
+    private TextView tv_kuanggong_size;
+
+    private String[] datas;
+    private RadioOnClick listener = new RadioOnClick(0);
+    public static final String KAOQING_TIME = "com.henghao.kaoqingtongji.time";
+
+    public List<AllChidaoEntity> allChidaoList;
+    public List<AllZaotuiEntity> allZaotuiList;
+    public List<AllQuekaEntity>  allQuekaList;
+    public List<AllKuanggongEntity> allKuanggongList;
+
+    public MyBroadcastReceiver myBroadcastReceiver;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -197,6 +230,11 @@ public class KaoqingTongjiFragment extends FragmentSupport {
         Date date = new Date();
         textString = f.format(date);
         datepickerTV.setText(textString);
+
+        f = new SimpleDateFormat("yyyy年MM月");
+        date = new Date();
+        textString = f.format(date);
+        tv_datepicker.setText(textString);
 
         myBroadcastReceiver = new MyBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
@@ -337,7 +375,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivity.msg("网络访问错误！");
                     }
                 });
             }
@@ -403,7 +441,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                                 @Override
                                 public void run() {
                                     mActivityFragmentView.viewLoading(View.GONE);
-                                    Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mActivity, "网络访问错误！", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -512,7 +550,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivity.msg("网络访问错误！");
                     }
                 });
             }
@@ -591,7 +629,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivity.msg("网络访问错误！");
                     }
                 });
             }
@@ -670,7 +708,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivity.msg("网络访问错误！");
                     }
                 });
             }
@@ -746,7 +784,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivity.msg("网络访问错误！");
                     }
                 });
             }
@@ -810,39 +848,6 @@ public class KaoqingTongjiFragment extends FragmentSupport {
         mActivity.unregisterReceiver(myBroadcastReceiver);
     }
 
-    /**
-     * 月统计
-     *
-     */
-    @ViewInject(R.id.kaoqingrenshu)
-    private TextView kaoqingrenshu;
-
-    @ViewInject(R.id.tv_month_datepicker)
-    private TextView tv_datepicker;
-
-    @ViewInject(R.id.tv_chidao_size)
-    private TextView tv_chidao_size;
-
-    @ViewInject(R.id.tv_zaotui_size)
-    private TextView tv_zaotui_size;
-
-    @ViewInject(R.id.tv_queka_size)
-    private TextView tv_queka_size;
-
-    @ViewInject(R.id.tv_kuanggong_size)
-    private TextView tv_kuanggong_size;
-
-    private String[] datas;
-    private RadioOnClick listener = new RadioOnClick(0);
-    public static final String KAOQING_TIME = "com.henghao.kaoqingtongji.time";
-
-    public List<AllChidaoEntity> allChidaoList;
-    public List<AllZaotuiEntity> allZaotuiList;
-    public List<AllQuekaEntity>  allQuekaList;
-    public List<AllKuanggongEntity> allKuanggongList;
-
-    public MyBroadcastReceiver myBroadcastReceiver;
-
     class MyBroadcastReceiver extends BroadcastReceiver {
 
         @Override
@@ -884,7 +889,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivity.msg("网络访问错误！");
                     }
                 });
             }
@@ -982,7 +987,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivity.msg("网络访问错误！");
                     }
                 });
             }
@@ -1079,7 +1084,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivity.msg("网络访问错误！");
                     }
                 });
             }
@@ -1176,7 +1181,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        mActivity.msg("网络访问错误!");
                     }
                 });
             }
@@ -1285,7 +1290,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
             setIndex(whichButton);
             tv_datepicker.setText(datas[index]);
             Intent intent = new Intent(KAOQING_TIME);
-            getContext().sendBroadcast(intent);
+            mActivity.sendBroadcast(intent);
             dialog.dismiss();
 
         }

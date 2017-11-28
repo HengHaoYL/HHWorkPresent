@@ -70,6 +70,8 @@ public class GerendaibanActivity extends ActivityFragmentSupport{
         initWithBar();
         mLeftImageView.setImageResource(R.drawable.icon_webfinish);
         mLeftImageView.setVisibility(View.VISIBLE);
+        mLeftTextView.setText("退出");
+        mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
         mCenterTextView.setText("个人待办");
         mCenterTextView.setVisibility(View.VISIBLE);

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.allenliu.badgeview.BadgeFactory;
 import com.allenliu.badgeview.BadgeView;
@@ -109,8 +108,6 @@ public class MsgFragment extends FragmentSupport {
         jPushToUserList = new ArrayList<>();
         sqliteDBUtils = new SqliteDBUtils(mActivity);
         notificationUtils = new NotificationUtils(mActivity);
-        queryUnReadGonggao();
-        httpRequesMsgCounts();
     }
 
     @Override
@@ -141,7 +138,6 @@ public class MsgFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
