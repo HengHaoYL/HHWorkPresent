@@ -347,6 +347,8 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
         String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_CHOOSE_REPLACE_PEOPLE;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+        btn_notification_not_join.setEnabled(false);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -354,7 +356,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        msg("网络请求错误！");
                     }
                 });
             }
@@ -367,14 +369,15 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                     int status = jsonObject.getInt("status");
                     if(status==0) {
                         final String resultStr = jsonObject.getString("data");
-                        mHandler.post(new Runnable() {
+                        runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if(resultStr.equals("null")){     //代表选择人成功
+                                    mActivityFragmentView.viewLoading(View.GONE);
                                     relativelayout_btn.setVisibility(View.GONE);     //选择替代人成功之后把会议签到去掉
-                                    Toast.makeText(MeetingNotificationActivity.this,"选择代替开会人员成功!",Toast.LENGTH_SHORT).show();
+                                    msg("选择代替开会人员成功!");
                                 }else{
-                                    Toast.makeText(MeetingNotificationActivity.this,resultStr,Toast.LENGTH_SHORT).show();
+                                    msg(resultStr);
                                 }
                             }
                         });

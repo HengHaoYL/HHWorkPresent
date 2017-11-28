@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
+    android:background="#fff"
     android:scrollbars="none">
 
     <LinearLayout
@@ -59,8 +60,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="请输入"
-                android:drawableRight="@drawable/item_point_right"
                 android:padding="@dimen/padding_big"
                 android:textColor="@color/text_color_c"
                 android:textColorHint="@color/line"
@@ -269,6 +268,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:padding="@dimen/padding_big"
+                android:drawableRight="@drawable/item_point_right"
                 android:textColor="@color/text_color_c"
                 android:textColorHint="@color/line"
                 android:textSize="@dimen/gj_f" />

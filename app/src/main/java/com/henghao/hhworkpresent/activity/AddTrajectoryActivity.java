@@ -124,9 +124,6 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
         gridView.setAdapter(adapter);
 
         tv_tarjectory_place.setText(LocationUtils.getAddress());
-        /*Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-        tv_tarjectory_time.setText(simpleDateFormat.format(date));*/
 
     }
 
@@ -144,6 +141,10 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
             Toast.makeText(this,"时间必须填写！",Toast.LENGTH_SHORT).show();
             return;
         }
+        if(mFileList.size() == 0){
+            Toast.makeText(this,"必须选择图片！",Toast.LENGTH_SHORT).show();
+            return;
+        }
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -155,21 +156,6 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
                 .addFormDataPart("eventTime",et_tarjectory_time.getText().toString())
                 .addFormDataPart("eventAddress",tv_tarjectory_place.getText().toString());
         for (File file : mFileList) {
-            /*for(String filePath : mSelectPath) {
-                Bitmap bm = BitmapFactory.decodeFile(filePath);
-                File outputFile=new File(filePath);
-                try {
-                    if (!outputFile.exists()) {
-                        outputFile.getParentFile().mkdirs();
-                    }else{
-                        outputFile.delete();
-                    }
-                    FileOutputStream out = new FileOutputStream(outputFile);
-                    bm.compress(Bitmap.CompressFormat.JPEG, 20, out);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }*/
             multipartBuilder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
         }
         RequestBody requestBody = multipartBuilder.build();
@@ -336,18 +322,6 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
                 bm = BitmapFactory.decodeFile(mSelectPath.get(position),options);
                 //将图片显示到ImageView中
                 holder.image.setImageBitmap(bm);
-                /*holder.btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //点击后移除图片
-                        mImageList.remove(position);
-                        mSelectPath.remove(position);
-
-                        //更新UI
-                        gridView.setAdapter(adapter);
-                    }
-                });*/
-
             }
             return convertView;
         }

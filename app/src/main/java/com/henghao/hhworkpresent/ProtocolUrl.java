@@ -360,10 +360,15 @@ public class ProtocolUrl {
      */
     public static final String APP_QUERY_MYSELF_ZILIAO = "/statisticsInfo/user/findByUid";
 
+    /**
+     * 查询个人部门id
+     */
+    public static final String APP_QUERY_MYSELF_DEPT_ID = "/safetysupervision/user/selectDeptIdByUserId";
+
    /**
     * 上传个人资料
     */
-    public static final String APP_UPLOAD_MYSELF_ZILIAO = "/statisticsInfo/user/updatePersonal";
+    public static final String APP_UPLOAD_MYSELF_ZILIAO = "/safetysupervision/user/updatePersonal";
 
     /**
      * 通讯录列表查询

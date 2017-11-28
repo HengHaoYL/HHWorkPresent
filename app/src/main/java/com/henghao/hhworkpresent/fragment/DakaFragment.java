@@ -26,7 +26,7 @@ import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.MainActivity;
 import com.henghao.hhworkpresent.activity.QiandaoShangbanSubmitActivity;
 import com.henghao.hhworkpresent.activity.QiandaoXiabanSubmitActivity;
-import com.henghao.hhworkpresent.adapter.CommonListStringAdapter;
+import com.henghao.hhworkpresent.adapter.ListStringAdapter;
 import com.henghao.hhworkpresent.listener.OnDateChooseDialogListener;
 import com.henghao.hhworkpresent.utils.LocationUtils;
 import com.henghao.hhworkpresent.utils.PopupWindowHelper;
@@ -184,7 +184,7 @@ public class DakaFragment extends FragmentSupport {
         //http://wiki.lbsyun.baidu.com/cms/androidsdk/doc/v3_7_0/com/baidu/mapapi/utils/SpatialRelationUtil.html#isPolygonContainsPoint(java.util.List,%20com.baidu.mapapi.model.LatLng)
         mList.add("贵阳市观山湖区金阳行政中心二期综合办公大楼");
         mList.add("贵州省贵阳市乌当区林城东路7号");
-        CommonListStringAdapter mListStringAdapter = new CommonListStringAdapter(this.mActivity, mList);
+        ListStringAdapter mListStringAdapter = new ListStringAdapter(this.mActivity, mList);
         mListView.setAdapter(mListStringAdapter);
         mListStringAdapter.notifyDataSetChanged();
         this.popupWindowHelper = new PopupWindowHelper(this.popView);

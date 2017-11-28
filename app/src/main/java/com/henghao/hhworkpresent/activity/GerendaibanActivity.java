@@ -67,6 +67,9 @@ public class GerendaibanActivity extends ActivityFragmentSupport{
     @Override
     public void initWidget() {
         super.initWidget();
+        initWithBar();
+        mLeftImageView.setImageResource(R.drawable.icon_webfinish);
+        mLeftImageView.setVisibility(View.VISIBLE);
         initWithCenterBar();
         mCenterTextView.setText("个人待办");
         mCenterTextView.setVisibility(View.VISIBLE);

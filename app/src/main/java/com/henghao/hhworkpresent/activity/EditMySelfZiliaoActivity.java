@@ -9,11 +9,15 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.CommonListStringAdapter;
+import com.henghao.hhworkpresent.entity.DeptEntity;
 import com.henghao.hhworkpresent.utils.PopupWindowHelper;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.DateChooseWheelViewDialog;
@@ -28,9 +32,12 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -82,10 +89,11 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
     private String dept_NAME;
 
     private View popView;
-    private View popView1;
 
+    private ListView mListView;
+    private ArrayList<DeptEntity> mDeptList;
+    private String deptId;
     private PopupWindowHelper popupWindowHelper;
-    private PopupWindowHelper popupWindowHelper1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,55 +114,24 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
+        httpRequestDeptList();
+
         initWithBar();
         mLeftTextView.setText("编辑个人资料");
         mLeftTextView.setVisibility(View.VISIBLE);
 
         this.popView = LayoutInflater.from(this).inflate(R.layout.common_android_listview, null);
-        ListView mListView = (ListView) this.popView.findViewById(R.id.mlistview);
-        final List<String> mList = new ArrayList<String>();
-        mList.add("局办公室");
-        mList.add("局领导");
-        mList.add("监察室");
-        mList.add("法规处");
-        mList.add("职安处");
-        mList.add("煤监处");
-        mList.add("协调办");
-        mList.add("综合科");
-        mList.add("安监一处");
-        mList.add("安监二处");
-        mList.add("安监三处");
-        mList.add("安监四处");
-        CommonListStringAdapter mListStringAdapter = new CommonListStringAdapter(EditMySelfZiliaoActivity.this, mList);
-        mListView.setAdapter(mListStringAdapter);
-        mListStringAdapter.notifyDataSetChanged();
+        mListView = (ListView) this.popView.findViewById(R.id.mlistview);
+
         this.popupWindowHelper = new PopupWindowHelper(this.popView);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                String whatSelect = mList.get(arg2);
-                et_dept_Name.setText(whatSelect);
+                DeptEntity whatSelect = mDeptList.get(arg2);
+                et_dept_Name.setText(whatSelect.getDept_NAME());
+                deptId = whatSelect.getId();
                 popupWindowHelper.dismiss();
-            }
-        });
-
-        this.popView1 = LayoutInflater.from(this).inflate(R.layout.common_android_listview, null);
-        ListView mListView1 = (ListView) this.popView1.findViewById(R.id.mlistview);
-        final List<String> mList1 = new ArrayList<String>();
-        mList1.add("男");
-        mList1.add("女");
-        CommonListStringAdapter mListStringAdapter1 = new CommonListStringAdapter(EditMySelfZiliaoActivity.this, mList1);
-        mListView1.setAdapter(mListStringAdapter1);
-        mListStringAdapter1.notifyDataSetChanged();
-        this.popupWindowHelper1 = new PopupWindowHelper(this.popView1);
-        mListView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                String whatSelect = mList1.get(arg2);
-                et_sex.setText(whatSelect);
-                popupWindowHelper1.dismiss();
             }
         });
 
@@ -173,10 +150,6 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
     @OnClick({R.id.tongxunlu_et_sex,R.id.tongxunlu_et_birth_DATE,R.id.tongxunlu_et_dept_NAME})
     private void viewOnClick(View v) {
         switch (v.getId()) {
-            //让部门不可编辑
-            /*case R.id.tongxunlu_et_sex:
-                popupWindowHelper1.showFromBottom(v);
-                break;*/
             case R.id.tongxunlu_et_dept_NAME:
                 popupWindowHelper.showFromBottom(v);
                 break;
@@ -214,6 +187,7 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
         cellphone = intent.getStringExtra("cellphone");
         work_DESC = intent.getStringExtra("work_DESC");
         dept_NAME = intent.getStringExtra("dept_NAME");
+        deptId = intent.getStringExtra("deptId");
 
         if("0".equals(sex)){
             sex = "男";
@@ -262,6 +236,50 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
     }
 
     /**
+     * 获取部门列表
+     */
+    public void httpRequestDeptList(){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_DEPT_LIST;
+        Request request = builder.url(request_url).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    result_str = jsonObject.getString("data");
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<ArrayList<DeptEntity>>() {}.getType();
+                    mDeptList = gson.fromJson(result_str,type);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonListStringAdapter mListStringAdapter = new CommonListStringAdapter(EditMySelfZiliaoActivity.this, mDeptList);
+                            mListView.setAdapter(mListStringAdapter);
+                            mListStringAdapter.notifyDataSetChanged();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
      * 上传编辑后的用户个人资料
      */
     public void uploadPersonalInformation(){
@@ -284,22 +302,22 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
-        multipartBuilder.type(MultipartBuilder.FORM)//
-                .addFormDataPart("ID", sqliteDBUtils.getLoginUid())
-                .addFormDataPart("NAME",name)
-                .addFormDataPart("SEX", sex)
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("id", sqliteDBUtils.getLoginUid())
+                .addFormDataPart("name",name)
+                .addFormDataPart("sex", sex)
                 .addFormDataPart("BIRTH_DATE", birth_DATE)
                 .addFormDataPart("EMP_NUM", emp_NUM)
-                .addFormDataPart("TELEPHONE", telephone)
-                .addFormDataPart("CELLPHONE", cellphone)
-                .addFormDataPart("POSITION", position)
-                .addFormDataPart("ADDRESS", address)
+                .addFormDataPart("telephone", telephone)
+                .addFormDataPart("cellphone", cellphone)
+                .addFormDataPart("position", position)
+                .addFormDataPart("address", address)
                 .addFormDataPart("WORK_DESC", work_DESC)
-                .addFormDataPart("DEPT_NAME", dept_NAME);
-
+                .addFormDataPart("deptId",deptId);
         RequestBody requestBody = multipartBuilder.build();
-        Request request = builder.post(requestBody).url(ProtocolUrl.ROOT_URL + "/" + ProtocolUrl.APP_UPLOAD_MYSELF_ZILIAO).build();
+        Request request = builder.post(requestBody).url(ProtocolUrl.ROOT_URL + ProtocolUrl.APP_UPLOAD_MYSELF_ZILIAO).build();
         Call call = okHttpClient.newCall(request);
+        this.mActivityFragmentView.viewLoading(View.VISIBLE);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e){
@@ -314,9 +332,15 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                finish();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        msg("数据上传成功");
+                        finish();
+                    }
+                });
             }
         });
     }
-
 }

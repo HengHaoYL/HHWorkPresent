@@ -8,17 +8,8 @@ import android.view.ViewGroup;
 
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.AnquanfuwuActivity;
-import com.henghao.hhworkpresent.activity.BanfaActivity;
-import com.henghao.hhworkpresent.activity.CheliangyudingActivity;
-import com.henghao.hhworkpresent.activity.ChushenActivity;
-import com.henghao.hhworkpresent.activity.FushenActivity;
-import com.henghao.hhworkpresent.activity.LingdaoQuXiangActivity;
-import com.henghao.hhworkpresent.activity.RenwupaifaActivity;
-import com.henghao.hhworkpresent.activity.SanzhongyidaActivity;
-import com.henghao.hhworkpresent.activity.SendGonggaoActivity;
-import com.henghao.hhworkpresent.activity.ShejishenchaActivity;
-import com.henghao.hhworkpresent.activity.ZhidingjiahuaActivity;
+import com.henghao.hhworkpresent.WorkflowUrl;
+import com.henghao.hhworkpresent.activity.WebViewActivity;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.MyImageTextButton;
 import com.lidroid.xutils.ViewUtils;
@@ -64,9 +55,6 @@ public class AppFragment extends FragmentSupport {
 
     @ViewInject(R.id.sanzhongyida)
     private MyImageTextButton sanzhongyida;
-
-
-    private Intent intent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -134,64 +122,37 @@ public class AppFragment extends FragmentSupport {
         SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(mActivity);
         switch (v.getId()){
             case R.id.cheliangyuding:
-                intent.setClass(this.mActivity,CheliangyudingActivity.class);
-                mActivity.startActivity(intent);
+                WebViewActivity.startToWebActivity(mActivity,"派车申请", WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.CHELIANG_FLOWID);
                 break;
             case R.id.anquanfuwu:
-                /*if("李苛".equals(sqliteDBUtils.getUsername())){*/
-                    intent.setClass(this.mActivity,AnquanfuwuActivity.class);
-                    mActivity.startActivity(intent);
-                /*}else{
-                    Toast.makeText(mActivity, "你不能发起当前流程，当前流程发起人为李苛!", Toast.LENGTH_SHORT).show();
-                }*/
+                WebViewActivity.startToWebActivity(mActivity,"安全服务", WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.ANQUANFUWU_FLOWID);
                 break;
             case R.id.shejishencha:
-                /*if("李苛".equals(sqliteDBUtils.getUsername())){*/
-                    intent.setClass(this.mActivity,ShejishenchaActivity.class);
-                    mActivity.startActivity(intent);
-                /*}else{
-                    Toast.makeText(mActivity, "你不能发起当前流程，当前流程发起人为李苛!", Toast.LENGTH_SHORT).show();
-                }*/
+                WebViewActivity.startToWebActivity(mActivity,"设计审查", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+ WorkflowUrl.SHEJISHENCHA_FLOWID);
                 break;
             case R.id.chushen:
-                /*if("唐小兵".equals(sqliteDBUtils.getUsername())){*/
-                    intent.setClass(this.mActivity,ChushenActivity.class);
-                    mActivity.startActivity(intent);
-               /* }else{
-                    Toast.makeText(mActivity, "你不能发起当前流程，此流程发起人为唐小兵!", Toast.LENGTH_SHORT).show();
-                }*/
+                WebViewActivity.startToWebActivity(mActivity,"标准化初次申请", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.CHUSHEN_FLOWID);
                 break;
             case R.id.fushen:
-//                if("唐小兵".equals(sqliteDBUtils.getUsername())){
-                    intent.setClass(this.mActivity,FushenActivity.class);
-                    mActivity.startActivity(intent);
-                /*}else{
-                    Toast.makeText(mActivity, "你不能发起当前流程，此流程发起人为唐小兵!", Toast.LENGTH_SHORT).show();
-                }*/
+                WebViewActivity.startToWebActivity(mActivity,"标准化复审", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.FUSHEN_FLOWID);
                 break;
             case R.id.banfa:
-                intent.setClass(this.mActivity,BanfaActivity.class);
-                mActivity.startActivity(intent);
+                WebViewActivity.startToWebActivity(mActivity,"许可颁发", WorkflowUrl.WORKFLOW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.XUKEBANFA_FLOWID);
                 break;
             case R.id.zhidingjihua:
-                intent.setClass(this.mActivity,ZhidingjiahuaActivity.class);
-                mActivity.startActivity(intent);
+                WebViewActivity.startToWebActivity(mActivity,"年初计划", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.ZHIDINGJIHUA_FLOWID);
                 break;
             case R.id.fabugonggao:
-                intent.setClass(this.mActivity,SendGonggaoActivity.class);
-                mActivity.startActivity(intent);
+                WebViewActivity.startToWebActivity(mActivity,"发布公告", WorkflowUrl.WORKFLOW_VIEW_URL+ sqliteDBUtils.getUsername()+ WorkflowUrl.SENDGONGGAO_FLOWID);
                 break;
             case R.id.renwupaifa:
-                intent.setClass(this.mActivity,RenwupaifaActivity.class);
-                mActivity.startActivity(intent);
+                WebViewActivity.startToWebActivity(mActivity,"任务派发", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.RENWUPAIFA_FLOWID);
                 break;
             case R.id.lingdaoquxiang:
-                intent.setClass(this.mActivity,LingdaoQuXiangActivity.class);
-                mActivity.startActivity(intent);
+                WebViewActivity.startToWebActivity(mActivity,"领导去向", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.LINGDAOQUXIANG_VIEWID);
                 break;
             case R.id.sanzhongyida:
-                intent.setClass(this.mActivity,SanzhongyidaActivity.class);
-                mActivity.startActivity(intent);
+                WebViewActivity.startToWebActivity(mActivity,"三重一大", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+ WorkflowUrl.SANZHONGYIDA_FLOWID);
                 break;
         }
     }

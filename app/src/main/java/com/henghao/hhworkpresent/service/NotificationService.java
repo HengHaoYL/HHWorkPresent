@@ -6,10 +6,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.henghao.hhworkpresent.ProtocolUrl;
-import com.henghao.hhworkpresent.activity.FaqishiyiActivity;
 import com.henghao.hhworkpresent.activity.GerendaibanActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
-import com.henghao.hhworkpresent.activity.YibanshiyiActivity;
 import com.henghao.hhworkpresent.utils.NotificationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.squareup.okhttp.Call;
@@ -28,8 +26,6 @@ import java.io.IOException;
 
 import static com.henghao.hhworkpresent.fragment.MsgFragment.NO_1;
 import static com.henghao.hhworkpresent.fragment.MsgFragment.NO_2;
-import static com.henghao.hhworkpresent.fragment.MsgFragment.NO_3;
-import static com.henghao.hhworkpresent.fragment.MsgFragment.NO_4;
 
 /**
  * Created by bryanrady on 2017/6/5.
@@ -37,11 +33,7 @@ import static com.henghao.hhworkpresent.fragment.MsgFragment.NO_4;
 
 public class NotificationService extends Service{
 
-    private int unread_gonggao_count;
     private int gerendaiban_count;
-    private int faqishiyi_count;
-    private int yibanshiyi_count;
-
     private SqliteDBUtils sqliteDBUtils;
     private NotificationUtils notificationUtils;
     private DownLoadMsgAndGonggaoThread thread;
@@ -149,18 +141,9 @@ public class NotificationService extends Service{
                     if (status == 0) {
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         gerendaiban_count = Integer.parseInt(jsonObject1.optString("gerendaiban_count"));
-                        faqishiyi_count = Integer.parseInt(jsonObject1.optString("faqishiyi_count"));
-                        yibanshiyi_count = Integer.parseInt(jsonObject1.optString("yibanshiyi_count"));
 
                         if(gerendaiban_count>0){
                             notificationUtils.addNotfication("需办理的工作", "你有新的需要办理的工作，请尽快办理！", NO_2 , new GerendaibanActivity());
-                        }
-
-                        if(faqishiyi_count>0){
-                            notificationUtils.addNotfication("我发起的工作", "你刚刚发起了一个流程，请关注后续！", NO_3 , new FaqishiyiActivity());
-                        }
-                        if(yibanshiyi_count>0){
-                            notificationUtils.addNotfication("审批过的流程", "你又审批了一条流程，请关注后续！", NO_4 , new YibanshiyiActivity());
                         }
                     }
                 } catch (JSONException e) {

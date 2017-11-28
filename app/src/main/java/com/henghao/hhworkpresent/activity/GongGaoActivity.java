@@ -2,7 +2,6 @@ package com.henghao.hhworkpresent.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -81,17 +80,6 @@ public class GongGaoActivity extends ActivityFragmentSupport {
         initWithRightBar();
         mRightTextView.setText("全部已读");
         mRightTextView.setVisibility(View.VISIBLE);
-        /*mRightTextView.setVisibility(View.GONE);
-        mRightTextView.setText("发公告");
-        mRightLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(GongGaoActivity.this, SendGonggaoActivity.class);
-                startActivity(intent);
-            }
-        });*/
-
 
         //得到TabHost对象实例
         tabHost =(TabHost) findViewById(R.id.tabhost);

@@ -190,6 +190,9 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
         String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_ONCLICK_AGREE_OR_REJECT;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+        tv_meeting_agree.setEnabled(false);
+        tv_meeting_reject.setEnabled(false);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -197,7 +200,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        msg("网络请求错误！");
                     }
                 });
             }
@@ -207,6 +210,8 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        msg("数据上传成功");
                         Intent intent = new Intent();
                         intent.setClass(MeetingReviewActivity.this,MeetingShenpiResultsActivity.class);
                         intent.putExtra("msg_id",msg_id);

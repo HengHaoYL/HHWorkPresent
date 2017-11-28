@@ -18,7 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.adapter.CommonListStringAdapter;
+import com.henghao.hhworkpresent.adapter.ListStringAdapter;
 import com.henghao.hhworkpresent.adapter.PersonnelListAdapter;
 import com.henghao.hhworkpresent.entity.DeptEntity;
 import com.henghao.hhworkpresent.entity.MeetingEntity;
@@ -111,6 +111,13 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     private View popView;
     private PopupWindowHelper popupWindowHelper;
 
+    private String meetingTheme;
+    private String meetingPlace;
+    private String meetingWifiSSID;
+    private String meetingStartTime;
+    private String meetingType;
+    private String meetingDuration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +158,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         mList.add("中型会议");
         mList.add("大型会议");
         mList.add("其他类型");
-        CommonListStringAdapter mListStringAdapter = new CommonListStringAdapter(this, mList);
+        ListStringAdapter mListStringAdapter = new ListStringAdapter(this, mList);
         mListView.setAdapter(mListStringAdapter);
         mListStringAdapter.notifyDataSetChanged();
         this.popupWindowHelper = new PopupWindowHelper(this.popView);
@@ -180,7 +187,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         httpRequestDeptList();
     }
 
-    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration,R.id.linear_meeting_type/*, R.id.tv_meeting_ok*/})
+    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration,R.id.linear_meeting_type})
     private void viewOnClick(View v) {
         switch (v.getId()){
             case R.id.linear_choose_meet_people:
@@ -195,33 +202,36 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
             case R.id.linear_meeting_type:
                 popupWindowHelper.showFromTop(v);
                 break;
-            /*case R.id.tv_meeting_ok:
-                httpSaveMeetingToService();
-                break;*/
         }
     }
+
 
     /**
      * 上传会议到服务器
      */
     public void httpSaveMeetingToService(){
-        String meetingTheme = et_meeting_theme.getText().toString();
+        meetingTheme = et_meeting_theme.getText().toString();
         if(meetingTheme.equals("")){
             Toast.makeText(this,"必须填写会议主题",Toast.LENGTH_SHORT).show();
             return;
         }
-        String meetingPlace = et_meeting_place.getText().toString();
+        meetingPlace = et_meeting_place.getText().toString();
         if(meetingPlace.equals("")){
             Toast.makeText(this,"必须填写会议地点",Toast.LENGTH_SHORT).show();
             return;
         }
-        String meetingWifiSSID = et_meeting_wifi_ssid.getText().toString();
+        meetingWifiSSID = et_meeting_wifi_ssid.getText().toString();
         if(meetingWifiSSID.equals("")){
             Toast.makeText(this,"必须填写会议地点指定使用的wifi名称，否则无法实现会议签到！",Toast.LENGTH_SHORT).show();
             return;
         }
-        String meetingStartTime = tv_meeting_start_time.getText().toString();
-        String meetingDuration = tv_meeting_duration.getText().toString();
+        meetingType = tv_meeting_type.getText().toString();
+        if(meetingType.equals("")){
+            Toast.makeText(this,"必须选择会议类型！",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        meetingStartTime = tv_meeting_start_time.getText().toString();
+        meetingDuration = tv_meeting_duration.getText().toString();
         if(mSelectPersonnelList == null){
             Toast.makeText(this,"请选择参会人员",Toast.LENGTH_SHORT).show();
             return;
@@ -237,9 +247,8 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         meetingEntity.setWifiSSID(meetingWifiSSID);
         meetingEntity.setMeetingStartTime(meetingStartTime);
         meetingEntity.setMeetingDuration(meetingDuration);
-        meetingEntity.setMeetingType(tv_meeting_type.getText().toString());
+        meetingEntity.setMeetingType(meetingType);
         meetingEntity.setMeetingPeople(mSelectPersonnelList);
-
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         //这个要和服务器保持一致 application/json;charset=UTF-8
@@ -250,6 +259,8 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_ADD_MEETING_CONTENT;
         Request request = builder.post(requestBody).url(request_url).build();
         Call call = okHttpClient.newCall(request);
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+        mRightTextView.setEnabled(false);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e){
@@ -257,6 +268,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
                         msg("网络请求错误！");
                     }
                 });
@@ -267,6 +279,8 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        msg("数据上传成功");
                         finish();
                     }
                 });

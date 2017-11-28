@@ -230,24 +230,6 @@ public class SendGonggaoNextActivity extends ActivityFragmentSupport{
     @Override
     public void initData() {
         super.initData();
-        /*slideButtonView = (MySlideButtonView) findViewById(R.id.slideButton);
-        slideButtonView.setOnStateChangedListener(new MySlideButtonView.OnStateChangedListener() {
-            @Override
-            public void onStateChanged(boolean state) {
-                if(true == state)
-                {
-                    gonggao_isEncrypt = "1";
-                    Toast.makeText(SendGonggaoNextActivity.this, "此公告已被设为保密公告，如想更改，可点击开关按钮关闭", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    gonggao_isEncrypt = "0";
-              //      createDialog();
-                }
-
-            }
-        });
-*/
         adapter = new GridAdapter();
         gridView.setAdapter(adapter);
     }

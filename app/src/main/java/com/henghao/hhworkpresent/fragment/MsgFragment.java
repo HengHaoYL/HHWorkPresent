@@ -18,10 +18,11 @@ import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.DaiyueshiyiActivity;
+import com.henghao.hhworkpresent.WorkflowUrl;
 import com.henghao.hhworkpresent.activity.GerendaibanActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.MeetingManageActivity;
+import com.henghao.hhworkpresent.activity.WebViewActivity;
 import com.henghao.hhworkpresent.entity.JPushToUser;
 import com.henghao.hhworkpresent.utils.NotificationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
@@ -61,12 +62,6 @@ public class MsgFragment extends FragmentSupport {
     @ViewInject(R.id.gerendaiban)
     private LinearLayout geredaiban;
 
-   /* @ViewInject(R.id.faqishiyi)
-    private LinearLayout faqishiyi;*/
-
-/*    @ViewInject(R.id.yibanshiyi)
-    private LinearLayout yibanshiyi;*/
-
     @ViewInject(R.id.daiyueshiyi)
     private LinearLayout daiyueshiyi;
 
@@ -94,7 +89,6 @@ public class MsgFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-    //    this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         initWidget();
         initData();
@@ -198,7 +192,7 @@ public class MsgFragment extends FragmentSupport {
     }
 
 
-    @OnClick({R.id.huiyiguanli,R.id.tongzhigonggao,R.id.gerendaiban,/*R.id.faqishiyi,*//*R.id.yibanshiyi,*/ R.id.daiyueshiyi})
+    @OnClick({R.id.huiyiguanli,R.id.tongzhigonggao,R.id.gerendaiban, R.id.daiyueshiyi})
     private void viewOnClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
@@ -214,17 +208,8 @@ public class MsgFragment extends FragmentSupport {
                 intent.setClass(mActivity, GerendaibanActivity.class);
                 mActivity.startActivity(intent);
                 break;
-            /*case R.id.faqishiyi:
-                intent.setClass(mActivity, FaqishiyiActivity.class);
-                mActivity.startActivity(intent);
-                break;*/
-           /* case R.id.yibanshiyi:
-                intent.setClass(mActivity, YibanshiyiActivity.class);
-                mActivity.startActivity(intent);
-                break;*/
             case R.id.daiyueshiyi:
-                intent.setClass(mActivity, DaiyueshiyiActivity.class);
-                mActivity.startActivity(intent);
+                WebViewActivity.startToWebActivity(mActivity,"待阅事宜", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.DAIYUESHIYI_VIEWID);
                 break;
 
         }
@@ -383,76 +368,6 @@ public class MsgFragment extends FragmentSupport {
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(geredaiban);
                                 }
-
-                                /*if(faqishiyi_count==0){
-                                    BadgeFactory.create(mActivity)
-                                            .setWidthAndHeight(50,50)
-                                            .setBadgeBackground(Color.WHITE)
-                                            .setTextSize(0)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(faqishiyi);
-                                }
-
-                                if(faqishiyi_count>0){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount(faqishiyi_count)
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(faqishiyi);
-
-                //                    notificationUtils.addNotfication("我发起的工作", "你刚刚发起了一个流程，请关注后续！", NO_3 , new FaqishiyiActivity());
-                                }
-                                if(faqishiyi_count>99){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("99+")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(faqishiyi);
-                                }*/
-
-                                /*if(yibanshiyi_count==0){
-                                    BadgeFactory.create(mActivity)
-                                            .setWidthAndHeight(50,50)
-                                            .setBadgeBackground(Color.WHITE)
-                                            .setTextSize(0)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(yibanshiyi);
-                                }
-                                if(yibanshiyi_count>0){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount(yibanshiyi_count)
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(yibanshiyi);
-                   //                 notificationUtils.addNotfication("审批过的流程", "你又审批了一条流程，请关注后续！", NO_4 , new YibanshiyiActivity());
-                                }
-                                if(yibanshiyi_count>99){
-                                    BadgeFactory.create(mActivity)
-                                            .setTextColor(Color.WHITE)
-                                            .setWidthAndHeight(20,20)
-                                            .setBadgeBackground(Color.RED)
-                                            .setTextSize(10)
-                                            .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("99+")
-                                            .setShape(BadgeView.SHAPE_CIRCLE)
-                                            .bind(yibanshiyi);
-                                }*/
 
                                 //待阅事宜直接显示小红点点
                                 BadgeFactory.createDot(mActivity)

@@ -28,6 +28,8 @@ public class WorkTrajectoryListAdapter extends ArrayAdapter<TrajectoryEntity> {
 
     private final ActivityFragmentSupport mActivityFragmentSupport;
 
+    private GridAdapter gridAdapter;
+
     public WorkTrajectoryListAdapter(ActivityFragmentSupport activityFragment, List<TrajectoryEntity> mList){
         super(activityFragment, R.layout.listview_item_trajectory, mList);
         this.mActivityFragmentSupport = activityFragment;
@@ -53,13 +55,15 @@ public class WorkTrajectoryListAdapter extends ArrayAdapter<TrajectoryEntity> {
         mHodlerView.tv_tarjectory_time.setText(getItem(position).getEventTime());
         mHodlerView.tv_tarjectory_place.setText(getItem(position).getEventAddress());
         String filePath = getItem(position).getEventImagePath();
-        String[] arr = filePath.split(",");
-        List<String> imageList = new ArrayList<>();
-        for(int i=0;i<arr.length;i++){
-            imageList.add(arr[i]);
+        if(filePath!=null) {
+            String[] arr = filePath.split(",");
+            List<String> imageList = new ArrayList<>();
+            for (int i = 0; i < arr.length; i++) {
+                imageList.add(arr[i]);
+            }
+            gridAdapter = new GridAdapter(mActivityFragmentSupport, imageList);
+            mHodlerView.trajectory_picture_gridView.setAdapter(gridAdapter);
         }
-        GridAdapter gridAdapter = new GridAdapter(mActivityFragmentSupport,imageList);
-        mHodlerView.trajectory_picture_gridView.setAdapter(gridAdapter);
         return convertView;
     }
 
@@ -115,14 +119,10 @@ public class WorkTrajectoryListAdapter extends ArrayAdapter<TrajectoryEntity> {
                 .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
                 .build(); // 构建完成
             imageLoader =ImageLoader.getInstance();
-            String[] imageUrl = eventImageNameList.toArray(new String[eventImageNameList.size()]);
-            imageLoader.displayImage(ProtocolUrl.ROOT_URL + ProtocolUrl.APP_DOWNLOAD_WORK_TRAJECTORY_IMAGE + imageUrl[position], holder.image, options);
-            //用for循环会显示最后一张url的图片重复显示
-            /*for(String imageUri : eventImageNameList){
-                imageUri = ProtocolUrl.ROOT_URL + "/"+ProtocolUrl.APP_DOWNLOAD_WORK_TRAJECTORY_IMAGE + imageUri;
-                Log.d("wangqingbin","imageUri=="+imageUri);
-                imageLoader.displayImage(imageUri, holder.image, options);
-            }*/
+            if(eventImageNameList != null) {
+                String[] imageUrl = eventImageNameList.toArray(new String[eventImageNameList.size()]);
+                imageLoader.displayImage(ProtocolUrl.ROOT_URL + ProtocolUrl.APP_DOWNLOAD_WORK_TRAJECTORY_IMAGE + imageUrl[position], holder.image, options);
+            }
             return convertView;
         }
     }

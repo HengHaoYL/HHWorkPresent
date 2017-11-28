@@ -1,6 +1,5 @@
 package com.henghao.hhworkpresent.adapter;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,10 @@ import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.R;
-import com.henghao.hhworkpresent.activity.BuqianActivity;
-import com.henghao.hhworkpresent.activity.QingjiaActivity;
-import com.henghao.hhworkpresent.activity.WaichuActivity;
+import com.henghao.hhworkpresent.WorkflowUrl;
+import com.henghao.hhworkpresent.activity.WebViewActivity;
 import com.henghao.hhworkpresent.entity.AppGridEntity;
+import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 
 import java.util.List;
 
@@ -64,34 +63,27 @@ public class QingjiaGridAdapter extends ArrayAdapter<AppGridEntity> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(mActivityFragmentSupport);
                 switch (position) {
                     case 0:
                         //请假
-                        intent.setClass(mActivityFragmentSupport, QingjiaActivity.class);
-                        mActivityFragmentSupport.startActivity(intent);
+                        WebViewActivity.startToWebActivity(mActivityFragmentSupport,"请假", WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername() + WorkflowUrl.QINGJIA_FLOWID);
                         break;
                     case 1:
                         //外出
-                        intent.setClass(mActivityFragmentSupport, WaichuActivity.class);
-                        mActivityFragmentSupport.startActivity(intent);
+                        WebViewActivity.startToWebActivity(mActivityFragmentSupport,"出差", WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername() + WorkflowUrl.CHUCHAI_FLOWID);
                         break;
                     case 2:
                         //补签
-                        intent.setClass(mActivityFragmentSupport, BuqianActivity.class);
-                        mActivityFragmentSupport.startActivity(intent);
+                        WebViewActivity.startToWebActivity(mActivityFragmentSupport,"补签", WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+ WorkflowUrl.BUQIAN_FLOWID);
                         break;
                 }
             }
         });
-
     }
 
-
     class HodlerView {
-
         TextView tv_title;
-
         ImageView image_title;
     }
 }

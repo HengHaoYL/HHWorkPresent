@@ -76,6 +76,8 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
     private String work_DESC;
     private String dept_NAME;
 
+    private String deptId;
+
     private Handler mHandler = new Handler(){};
 
     @Override
@@ -117,14 +119,6 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
             }
         });
 
-        /*initLoadingError();
-        tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivityFragmentView.viewLoadingError(View.GONE);
-                httpRequestMySelfZiliao();
-            }
-        });*/
     }
 
     public void toNextActivity(){
@@ -172,6 +166,7 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
         intent.putExtra("cellphone",cellphone);
         intent.putExtra("work_DESC",work_DESC);
         intent.putExtra("dept_NAME",dept_NAME);
+        intent.putExtra("deptId",deptId);
         startActivity(intent);
     }
 
@@ -179,7 +174,52 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
     @Override
     public void initData() {
         super.initData();
+        httpRequestDeptId();
         httpRequestMySelfZiliao();
+    }
+
+    private void httpRequestDeptId(){
+        SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(this);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
+        requestBodyBuilder.add("uid", sqliteDBUtils.getLoginUid());
+        RequestBody requestBody = requestBodyBuilder.build();
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_MYSELF_DEPT_ID;
+        Request request = builder.url(request_url).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    int status = jsonObject.getInt("status");
+                    if (status == 0) {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mActivityFragmentView.viewLoading(View.GONE);
+                            }
+                        });
+                    }
+                    deptId  = jsonObject.getString("data");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
@@ -203,8 +243,6 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        /*my_ziliao_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
                     }
                 });
             }
