@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.utils.DateTimeUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CircleImageView;
 import com.lidroid.xutils.ViewUtils;
@@ -182,7 +183,7 @@ public class RenyuanKaoqingInfoActivity extends ActivityFragmentSupport {
 
                     if (("null").equals(checkInfo)) {
                         //如果没超过中间时间, 表示上午
-                        if (equalsStringMiddle(currentTime,middleTime)) {
+                        if (DateTimeUtils.equalsStringMiddle(currentTime,middleTime)) {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -247,7 +248,7 @@ public class RenyuanKaoqingInfoActivity extends ActivityFragmentSupport {
                             //代表上午还没有签到
                             if ("0".equals(morningCount)) {
                                 //如果没超过12.00 表示上午
-                                if (equalsStringMiddle(currentTime,middleTime)) {
+                                if (DateTimeUtils.equalsStringMiddle(currentTime,middleTime)) {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -440,7 +441,7 @@ public class RenyuanKaoqingInfoActivity extends ActivityFragmentSupport {
 
                         //上班迟到情况
                         if(!("null").equals(clockInTime)){
-                            if(equalsStringShangban(clockInTime,shouldSBTime)){
+                            if(DateTimeUtils.equalsStringShangban(clockInTime,shouldSBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -453,7 +454,7 @@ public class RenyuanKaoqingInfoActivity extends ActivityFragmentSupport {
 
                         //下班早退情况
                         if(!("null").equals(clockOutTime)){
-                            if(equalsStringXiaban(clockOutTime,shouldXBTime)){
+                            if(DateTimeUtils.equalsStringXiaban(clockOutTime,shouldXBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -552,7 +553,7 @@ public class RenyuanKaoqingInfoActivity extends ActivityFragmentSupport {
 
                         //上班迟到情况
                         if(!("null").equals(clockInTime)){
-                            if(equalsStringShangban(clockInTime,shouldSBTime)){
+                            if(DateTimeUtils.equalsStringShangban(clockInTime,shouldSBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -571,173 +572,6 @@ public class RenyuanKaoqingInfoActivity extends ActivityFragmentSupport {
             }
         });
     }
-
-
-    /**
-     * 比较上班时间  迟到返回true
-     */
-    public boolean equalsStringShangban(String clockInTime,String shouldSBTime){
-        //定义一个标准时间 08:00
-        //    int[] arr = {9,0,0};
-        String[] strings = clockInTime.split(":");
-        //    String[] shangTimes = shouldSBTime.split(":");
-        int[] temp = new int[strings.length];
-        //     int[] shangTime = new int[shangTimes.length];
-        int[] shangTime ={9,10,0};
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        /*for (int i = 0; i < shangTime.length; i++) {
-            shangTime[i]=Integer.parseInt(shangTimes[i]);
-        }*/
-        //比较小时
-        if (temp[0]>shangTime[0]) {
-            return true;
-        }
-        if(temp[0]==shangTime[0]){
-            //比较分钟
-            if (temp[1]>shangTime[1]) {
-                return true;
-            }
-            //如果分钟相等	9.0.0 , 9.0.0
-            if (temp[1]==shangTime[1]) {
-                //比较秒的用意，是为了对刚好在时间点打卡（如：9:00:00）的判断
-                if (temp[2]>shangTime[2]) {
-                    return true;
-                }
-            }
-
-        }
-        return false;
-    }
-
-    /**
-     * 比较下班时间  早退返回true
-     */
-    public boolean equalsStringXiaban(String clockOutTime,String shouldXBTime){
-        //定义一个标准时间
-        //    int[] arr = {17,0,0};
-        String[] strings = clockOutTime.split(":");
-        //    String[] xiaTimes = shouldXBTime.split(":");
-        int[] temp = new int[strings.length];
-        //    int[] xiaTime = new int[xiaTimes.length];
-        int[] xiaTime = {16,50,0};
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        /*//将字符数据转为int数组
-        for (int i = 0; i < xiaTime.length; i++) {
-            xiaTime[i]=Integer.parseInt(xiaTimes[i]);
-        }*/
-        //只要是在18点之前，都属于早退，在18点之后，都属于正常下班
-        if (temp[0]<xiaTime[0]) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 进行时间转换
-     */
-    public String transferDateTime(String date){
-        String newDate = date.replace("年","-");
-        newDate = newDate.replace("月","-");
-        newDate = newDate.replace("日","");
-        return newDate;
-    }
-
-    /**
-     * 比较是否超过了12:00  超过返回false
-     */
-    public boolean equalsString12(String currentdate){
-        //定义一个标准时间
-        int[] arr = {12,0,0};
-        String[] strings = currentdate.split(":");
-        int[] temp = new int[strings.length];
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        //只要是在12点之前，都属于上午，在12点之后，都属于下午
-        if (temp[0]<arr[0]) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 比较是否超过了中间时间  超过返回false
-     */
-    public boolean equalsStringMiddle(String currentdate,String middleTime){
-        //定义一个标准时间
-        String[] strings = currentdate.split(":");
-        String[] middleArr = middleTime.split(":");
-        int[] temp = new int[strings.length];
-        int[] middle = new int[middleArr.length];
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        for (int i = 0; i < middle.length; i++) {
-            middle[i]=Integer.parseInt(middleArr[i]);
-        }
-        //只要是在12点之前，都属于上午，在12点之后，都属于下午
-        if (temp[0]<middle[0]) {
-            return true;
-        }
-        return false;
-    }
-
-    //日期比较测试       返回值：大于当前日期：1，等于当前日期：0，小于当前日期：-1
-    public static int equalsDate(String date){
-        //定义一个系统当前日期
-        Date date1 = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String currentTime = format.format(date1);
-        //传进来的日期数组
-        int[] dataArr = StringToIntArr(date);
-        //当前日期数组
-        int[] current = StringToIntArr(currentTime);
-        //进行比较
-        if (dataArr[0]>current[0]) {
-            System.out.println("大于当前日期");
-            return 1;
-        }
-        if (dataArr[0]==current[0]) {
-            //年份相等，判断月份
-            if (dataArr[1]>current[1]) {
-                System.out.println("大于当前日期");
-                return 1;
-            }else if(dataArr[1]==current[1]){
-                //月份相等，判断天
-                if (dataArr[2]>current[2]) {
-                    System.out.println("大于当前日期");
-                    return 1;
-                }else if(dataArr[2]==current[2]){
-                    System.out.println("等于当前日期");
-                    return 0;
-                }
-                System.out.println("小于当前日期");
-                return -1;
-            }
-        }
-        //年份小于
-        System.out.println("小于当前日期");
-        return -1;
-    }
-
-    //传入String类型日期，返回int 数组
-    public static int[] StringToIntArr(String date){
-        String[] strings = date.split("-");
-        int[] arr = new int[strings.length];
-        for (int i = 0; i < strings.length; i++) {
-            arr[i] = Integer.parseInt(strings[i]);
-        }
-        return arr;
-    }
-
 
     /**
      * 下载头像
@@ -809,4 +643,5 @@ public class RenyuanKaoqingInfoActivity extends ActivityFragmentSupport {
             }
         });
     }
+
 }

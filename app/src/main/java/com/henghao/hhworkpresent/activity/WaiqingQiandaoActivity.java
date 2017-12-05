@@ -27,6 +27,7 @@ import com.baidu.mapapi.utils.CoordinateConverter;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.utils.DateTimeUtils;
 import com.henghao.hhworkpresent.utils.LocationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.MyImageTextButton;
@@ -173,15 +174,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
         imageTextButton.setItemTextResource("选择");
         imageTextButton.setItemImageResource(R.drawable.item_choose);
 
-        /*initLoadingError();
-        tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivityFragmentView.viewLoadingError(View.GONE);
-                httpRequestKaoqingofCurrentDay();
-            }
-        });*/
-
         mMapView = (MapView) findViewById(R.id.bmapview);
         mBaiduMap = mMapView.getMap();
         //普通地图
@@ -254,7 +246,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                         final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                         String currentTime = format.format(date);
                         //如果没超过12.00 表示上午
-                        if (equalsStringMiddle(currentTime,middleTime)) {
+                        if (DateTimeUtils.equalsStringMiddle(currentTime,middleTime)) {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -304,7 +296,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                                     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                                     String currentTime = format.format(date);
                                     //如果没超过12.00 表示上午
-                                    if(equalsStringMiddle(currentTime,middleTime)){
+                                    if(DateTimeUtils.equalsStringMiddle(currentTime,middleTime)){
                                         tv_qiandao.setText("上班打卡");
                                     }else {
                                         tv_qiandao.setText("下班打卡");
@@ -361,7 +353,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
                     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                     String currentTime = format.format(date);
                     //如果没超过12.00 表示上午
-                    if (equalsString12(currentTime)) {
+                    if (DateTimeUtils.equalsString12(currentTime)) {
                         Toast.makeText(getContext(), "时间还没到下午，不能打下班卡!", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -398,7 +390,7 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
             SimpleDateFormat format = new SimpleDateFormat("HH:mm");
             String currentTime = format.format(date);
             //如果没超过12.00 表示上午
-            if(equalsString12(currentTime)){
+            if(DateTimeUtils.equalsString12(currentTime)){
                 this.morningCount++;
                 if(morningCount>0){
                     tv_qiandao.setText("下班打卡");
@@ -496,48 +488,6 @@ public class WaiqingQiandaoActivity extends ActivityFragmentSupport {
     @Override
     public void onPause() {
         super.onPause();
-    }
-
-    /**
-     * 比较是否超过了12:00  超过返回false
-     */
-    public boolean equalsString12(String currentdate){
-        //定义一个标准时间
-        int[] arr = {12,0,0};
-        String[] strings = currentdate.split(":");
-        int[] temp = new int[strings.length];
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        //只要是在12点之前，都属于上午，在12点之后，都属于下午
-        if (temp[0]<arr[0]) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 比较是否超过了中间时间  超过返回false
-     */
-    public boolean equalsStringMiddle(String currentdate,String middleTime){
-        //定义一个标准时间
-        String[] strings = currentdate.split(":");
-        String[] middleArr = middleTime.split(":");
-        int[] temp = new int[strings.length];
-        int[] middle = new int[middleArr.length];
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        for (int i = 0; i < middle.length; i++) {
-            middle[i]=Integer.parseInt(middleArr[i]);
-        }
-        //只要是在12点之前，都属于上午，在12点之后，都属于下午
-        if (temp[0]<middle[0]) {
-            return true;
-        }
-        return false;
     }
 
 }

@@ -2,7 +2,6 @@ package com.henghao.hhworkpresent.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +27,7 @@ import com.henghao.hhworkpresent.activity.QiandaoShangbanSubmitActivity;
 import com.henghao.hhworkpresent.activity.QiandaoXiabanSubmitActivity;
 import com.henghao.hhworkpresent.adapter.ListStringAdapter;
 import com.henghao.hhworkpresent.listener.OnDateChooseDialogListener;
+import com.henghao.hhworkpresent.utils.DateTimeUtils;
 import com.henghao.hhworkpresent.utils.LocationUtils;
 import com.henghao.hhworkpresent.utils.PopupWindowHelper;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
@@ -54,13 +54,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 import static com.henghao.hhworkpresent.ProtocolUrl.APP_LODAING_HEAD_IMAGE_URI;
 import static com.henghao.hhworkpresent.R.id.daka_shangban_qiandao_image;
 import static com.henghao.hhworkpresent.R.id.daka_xiaban_qiandao_image;
 import static com.henghao.hhworkpresent.R.id.daka_xiaban_shangbanstate;
+import static com.henghao.hhworkpresent.utils.DateTimeUtils.equalsStringMiddle;
 
 /**
  * Created by bryanrady on 2017/3/10.
@@ -113,18 +113,12 @@ public class DakaFragment extends FragmentSupport {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if(msg.what == HOLIDAY_TRUE){
-                pastdate_layout.setVisibility(View.GONE);
-                shangban_layout.setVisibility(View.GONE);
-                xiaban_layout.setVisibility(View.GONE);
-                null_daka_layout.setVisibility(View.VISIBLE);
+                showNullLayout();
             }else if(msg.what == HOLIDAY_FALSE){
                 httpRequestKaoqingofCurrentDay();
 
             }else if(msg.what == HOLIDAY_DIALOG_FALSE){
-                pastdate_layout.setVisibility(View.VISIBLE);
-                shangban_layout.setVisibility(View.GONE);
-                xiaban_layout.setVisibility(View.GONE);
-                null_daka_layout.setVisibility(View.GONE);
+                showPasteLayout();
                 httpRequestKaoqingofPastDate();
             }
         }
@@ -207,37 +201,6 @@ public class DakaFragment extends FragmentSupport {
                 httpLoadingHeadImage();
             }
         });
-    }
-
-    /**
-     * 这个方法先暂时不用，第一次调用会出现getLatlng()的到的值为Null，实际是耗时问题
-     * 根据位置获取经纬度  然后封装为LatLng
-     * @param position，
-     * @return
-     */
-    public LatLng getLatlng(final String position) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<android.location.Address> addressList = null;
-                if (position != null) {
-                    Geocoder gc = new Geocoder(mActivity, Locale.CHINA);
-                    try {
-                        //这是个耗时操作
-                        addressList = gc.getFromLocationName(position, 1);
-                        if (!addressList.isEmpty()) {
-                            android.location.Address address_temp = addressList.get(0);
-                            latitude = address_temp.getLatitude();
-                            longitude = address_temp.getLongitude();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
-        return new LatLng(latitude,longitude);
     }
 
     public void toMainActivity(){
@@ -448,6 +411,7 @@ public class DakaFragment extends FragmentSupport {
     private String xiabanDakaAdrress;
 
     private SpatialRelationUtil spatialRelationUtil = new SpatialRelationUtil();
+    private Handler mHandler = new Handler(){};
 
     @Override
     public void onResume() {
@@ -572,18 +536,12 @@ public class DakaFragment extends FragmentSupport {
             return;
         }else {
             //如果没超过12.00 表示上午
-            if(equalsString12(currentTime)){
+            if(DateTimeUtils.equalsString12(currentTime)){
                 Toast.makeText(this.mActivity, "时间还没到下午，不能打下班卡!", Toast.LENGTH_SHORT).show();
                 return;
             }else {
                 //下午
-                pastdate_layout.setVisibility(View.GONE);
-                shangban_layout.setVisibility(View.GONE);
-                xiaban_layout.setVisibility(View.VISIBLE);
-                httpRequestKaoqingofCurrentDateShangwu();
-                Date date1 = new Date();
-                String currentTime1 = format.format(date1);
-                xiaban_qiandao_date.setText(currentTime1);
+                showXiabanLayout();
             }
             Intent intent = new Intent(mActivity, QiandaoXiabanSubmitActivity.class);
             String time = xiaban_qiandao_date.getText().toString();// 签到时间
@@ -609,20 +567,10 @@ public class DakaFragment extends FragmentSupport {
         //上班打卡成功
         if (requestCode == SHANGBAN_QIANDAO_REQUEST && resultCode == RESULT_OK) {
             //显示下班签到布局
-            pastdate_layout.setVisibility(View.GONE);
-            shangban_layout.setVisibility(View.GONE);
-            xiaban_layout.setVisibility(View.VISIBLE);
-            httpRequestKaoqingofCurrentDateShangwu();
-            Date date = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-            String currentTime = format.format(date);
-            xiaban_qiandao_date.setText(currentTime);
-
+            showXiabanLayout();
         } else if(requestCode == XIABAN_QIANDAO_REQUEST && resultCode == RESULT_OK){
             //下班打卡成功
-            pastdate_layout.setVisibility(View.VISIBLE);
-            shangban_layout.setVisibility(View.GONE);
-            xiaban_layout.setVisibility(View.GONE);
+            showPasteLayout();
             httpRequestKaoqingofPastDate();
         }
     }
@@ -645,17 +593,14 @@ public class DakaFragment extends FragmentSupport {
             @Override
             public void onDateSetting(String textDate) {
                 datepickerTV.setText(textDate);
-                int type = equalsDate(datepickerTV.getText().toString());
+                int type = DateTimeUtils.equalsDate(datepickerTV.getText().toString());
                 //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
                 if(type==0){
                     null_daka_layout.setVisibility(View.GONE);
                     equalsHoliday(datepickerTV.getText().toString());
           //          httpRequestKaoqingofCurrentDay();
                 } else if(type==1){
-                    pastdate_layout.setVisibility(View.GONE);
-                    shangban_layout.setVisibility(View.GONE);
-                    xiaban_layout.setVisibility(View.GONE);
-                    null_daka_layout.setVisibility(View.VISIBLE);
+                    showNullLayout();
                 } else if(type==-1){
                     equalsHoliday(datepickerTV.getText().toString());
                 }
@@ -737,37 +682,6 @@ public class DakaFragment extends FragmentSupport {
     }
 
     /**
-     * 格式化日期  将.换为-
-     */
-    public String changeDate(String date){
-        String newDate = null;
-        String[] arr = date.split("\\.");
-        int year = Integer.parseInt(arr[0]);
-        int month = Integer.parseInt(arr[1]);
-        int dayOfMonth = Integer.parseInt(arr[2]);
-        String month1 = null;
-        String dayOfMonth1 = null;
-
-        newDate = year + "-" + month + "-" + dayOfMonth;
-        if(month<10 && dayOfMonth<10){
-            month1 = "0"+ month;
-            dayOfMonth1 = "0"+ dayOfMonth;
-            newDate = year + "-" + month1 + "-" + dayOfMonth1;
-        }
-        if(month<10 && dayOfMonth>=10){
-            month1 = "0"+ month;
-            dayOfMonth1 = dayOfMonth+"";
-            newDate = year + "-" + month1 + "-" + dayOfMonth1;
-        }
-        if(month>=10 && dayOfMonth<10){
-            month1 = month+"";
-            dayOfMonth1 = "0"+ dayOfMonth;
-            newDate = year + "-" + month1 + "-" + dayOfMonth1;
-        }
-        return newDate;
-    }
-
-    /**
      * 查询当天签到信息
      */
     private void httpRequestKaoqingofCurrentDay() {
@@ -797,8 +711,8 @@ public class DakaFragment extends FragmentSupport {
                 String result_str = response.body().string();
                 try {
                     Date date = new Date();
-                    final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                    final String currentTime = format.format(date);
+                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                    String currentTime = format.format(date);
 
                     JSONObject jsonObject = new JSONObject(result_str);
                     //开始用String 来接收 放回 data出现Null的情况 ,导致布局无法显示
@@ -816,12 +730,7 @@ public class DakaFragment extends FragmentSupport {
                                 @Override
                                 public void run() {
                                     mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.GONE);
-                                    shangban_layout.setVisibility(View.VISIBLE);
-                                    xiaban_layout.setVisibility(View.GONE);
-                                    Date date1 = new Date();
-                                    String currentTime1 = format.format(date1);
-                                    shangban_qiandao_date.setText(currentTime1);
+                                    showShangbanLayout();
                                 }
                             });
                         } else {
@@ -830,13 +739,7 @@ public class DakaFragment extends FragmentSupport {
                                 public void run() {
                                     //下午
                                     mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.GONE);
-                                    shangban_layout.setVisibility(View.GONE);
-                                    xiaban_layout.setVisibility(View.VISIBLE);
-                                    httpRequestKaoqingofCurrentDateShangwu();
-                                    Date date1 = new Date();
-                                    String currentTime1 = format.format(date1);
-                                    xiaban_qiandao_date.setText(currentTime1);
+                                    showXiabanLayout();
                                     xiaban_shangbanstate.setText("缺卡");
                                 }
                             });
@@ -853,9 +756,7 @@ public class DakaFragment extends FragmentSupport {
                                 @Override
                                 public void run() {
                                     mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.VISIBLE);
-                                    shangban_layout.setVisibility(View.GONE);
-                                    xiaban_layout.setVisibility(View.GONE);
+                                    showPasteLayout();
                                     pastdate_shangbantime.setText("无");
                                     pastdate_shangbanstate.setText("请假");
                                     pastdate_xiabantime.setText("无");
@@ -868,9 +769,7 @@ public class DakaFragment extends FragmentSupport {
                                 @Override
                                 public void run() {
                                     mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.VISIBLE);
-                                    shangban_layout.setVisibility(View.GONE);
-                                    xiaban_layout.setVisibility(View.GONE);
+                                    showPasteLayout();
                                     pastdate_shangbanstate.setText("补签");
                                     pastdate_shangbantime.setText(shouldSBTime);
                                     pastdate_xiabanstate.setText("补签");
@@ -883,9 +782,7 @@ public class DakaFragment extends FragmentSupport {
                                 @Override
                                 public void run() {
                                     mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.VISIBLE);
-                                    shangban_layout.setVisibility(View.GONE);
-                                    xiaban_layout.setVisibility(View.GONE);
+                                    showPasteLayout();
                                     pastdate_shangbantime.setText("无");
                                     pastdate_shangbanstate.setText("出差");
                                     pastdate_xiabantime.setText("无");
@@ -897,17 +794,12 @@ public class DakaFragment extends FragmentSupport {
                             //代表上午还没有签到
                             if ("0".equals(morningCount)) {
                                 //如果没超过12.00 表示上午
-                                if (equalsStringMiddle(currentTime,middleTime)) {
+                                if (DateTimeUtils.equalsStringMiddle(currentTime,middleTime)) {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
                                             mActivityFragmentView.viewLoading(View.GONE);
-                                            pastdate_layout.setVisibility(View.GONE);
-                                            shangban_layout.setVisibility(View.VISIBLE);
-                                            xiaban_layout.setVisibility(View.GONE);
-                                            Date date1 = new Date();
-                                            String currentTime1 = format.format(date1);
-                                            shangban_qiandao_date.setText(currentTime1);
+                                            showShangbanLayout();
                                         }
                                     });
                                     return;
@@ -917,13 +809,7 @@ public class DakaFragment extends FragmentSupport {
                                         public void run() {
                                             //下午
                                             mActivityFragmentView.viewLoading(View.GONE);
-                                            pastdate_layout.setVisibility(View.GONE);
-                                            shangban_layout.setVisibility(View.GONE);
-                                            xiaban_layout.setVisibility(View.VISIBLE);
-                                            httpRequestKaoqingofCurrentDateShangwu();
-                                            Date date1 = new Date();
-                                            String currentTime1 = format.format(date1);
-                                            xiaban_qiandao_date.setText(currentTime1);
+                                            showXiabanLayout();
                                             xiaban_shangbanstate.setText("缺卡");
                                         }
                                     });
@@ -934,14 +820,7 @@ public class DakaFragment extends FragmentSupport {
                                     public void run() {
                                         mActivityFragmentView.viewLoading(View.GONE);
                                         //如果不是0 则显示下午签到布局
-                                        pastdate_layout.setVisibility(View.GONE);
-                                        shangban_layout.setVisibility(View.GONE);
-                                        xiaban_layout.setVisibility(View.VISIBLE);
-                                        httpRequestKaoqingofCurrentDateShangwu();
-                                        Date date1 = new Date();
-                                        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                                        String currentTime1 = format.format(date1);
-                                        xiaban_qiandao_date.setText(currentTime1);
+                                        showXiabanLayout();
                                     }
                                 });
                             }
@@ -952,14 +831,7 @@ public class DakaFragment extends FragmentSupport {
                                     @Override
                                     public void run() {
                                         mActivityFragmentView.viewLoading(View.GONE);
-                                        pastdate_layout.setVisibility(View.GONE);
-                                        shangban_layout.setVisibility(View.GONE);
-                                        xiaban_layout.setVisibility(View.VISIBLE);
-                                        httpRequestKaoqingofCurrentDateShangwu();
-                                        Date date1 = new Date();
-                                        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                                        String currentTime1 = format.format(date1);
-                                        xiaban_qiandao_date.setText(currentTime1);
+                                        showXiabanLayout();
                                     }
                                 });
                             } else {
@@ -967,9 +839,7 @@ public class DakaFragment extends FragmentSupport {
                                     @Override
                                     public void run() {
                                         mActivityFragmentView.viewLoading(View.GONE);
-                                        pastdate_layout.setVisibility(View.VISIBLE);
-                                        shangban_layout.setVisibility(View.GONE);
-                                        xiaban_layout.setVisibility(View.GONE);
+                                        showPasteLayout();
                                         httpRequestKaoqingofPastDate();
                                     }
                                 });
@@ -984,7 +854,54 @@ public class DakaFragment extends FragmentSupport {
         });
     }
 
-    private Handler mHandler = new Handler(){};
+    /**
+     * 显示上午上班签到布局
+     */
+    private void showShangbanLayout(){
+        pastdate_layout.setVisibility(View.GONE);
+        shangban_layout.setVisibility(View.VISIBLE);
+        xiaban_layout.setVisibility(View.GONE);
+        null_daka_layout.setVisibility(View.GONE);
+        Date date1 = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        String currentTime1 = format.format(date1);
+        shangban_qiandao_date.setText(currentTime1);
+    }
+
+    /**
+     * 显示过去信息布局
+     */
+    private void showPasteLayout(){
+        pastdate_layout.setVisibility(View.VISIBLE);
+        shangban_layout.setVisibility(View.GONE);
+        xiaban_layout.setVisibility(View.GONE);
+        null_daka_layout.setVisibility(View.GONE);
+    }
+
+    /**
+     * 显示下午下班布局
+     */
+    private void showXiabanLayout(){
+        pastdate_layout.setVisibility(View.GONE);
+        shangban_layout.setVisibility(View.GONE);
+        xiaban_layout.setVisibility(View.VISIBLE);
+        null_daka_layout.setVisibility(View.GONE);
+        httpRequestKaoqingofCurrentDateShangwu();
+        Date date1 = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        String currentTime1 = format.format(date1);
+        xiaban_qiandao_date.setText(currentTime1);
+    }
+
+    /**
+     * 显示空布局
+     */
+    private void showNullLayout(){
+        pastdate_layout.setVisibility(View.GONE);
+        shangban_layout.setVisibility(View.GONE);
+        xiaban_layout.setVisibility(View.GONE);
+        null_daka_layout.setVisibility(View.VISIBLE);
+    }
 
     private void httpRequestKaoqingofCurrentDateShangwu() {
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -1037,14 +954,12 @@ public class DakaFragment extends FragmentSupport {
                             public void run() {
                                 xiaban_shangbanstate.setText("缺卡");
                                 xiaban_shangbantime.setText("无");
-                                //       xiaban_shangbanbuka.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
                     }else{
                         final JSONObject dataObject = jsonObject1.getJSONObject("ck");
                         final String clockInTime = dataObject.optString("clockInTime");
-                        //这时的clockInTime是一个null字符串 ，不是null
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -1059,7 +974,6 @@ public class DakaFragment extends FragmentSupport {
                                 public void run() {
                                     xiaban_shangbanstate.setText("缺卡");
                                     xiaban_shangbantime.setText("无");
-                                    //       xiaban_shangbanbuka.setVisibility(View.VISIBLE);
                                     mActivityFragmentView.viewLoading(View.GONE);
                                 }
                             });
@@ -1067,7 +981,7 @@ public class DakaFragment extends FragmentSupport {
 
                         //上班迟到情况
                         if(!("null").equals(clockInTime)){
-                            if(equalsStringShangban(clockInTime,shouldSBTime)){
+                            if(DateTimeUtils.equalsStringShangban(clockInTime,shouldSBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1126,11 +1040,8 @@ public class DakaFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                pastdate_layout.setVisibility(View.GONE);
-                                shangban_layout.setVisibility(View.GONE);
-                                xiaban_layout.setVisibility(View.GONE);
-                                null_daka_layout.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
+                                showNullLayout();
                             }
                         });
                     }else{
@@ -1164,9 +1075,7 @@ public class DakaFragment extends FragmentSupport {
                                 @Override
                                 public void run() {
                                     mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.VISIBLE);
-                                    shangban_layout.setVisibility(View.GONE);
-                                    xiaban_layout.setVisibility(View.GONE);
+                                    showPasteLayout();
                                     pastdate_shangbantime.setText("无");
                                     pastdate_shangbanstate.setText("请假");
                                     pastdate_xiabantime.setText("无");
@@ -1179,9 +1088,7 @@ public class DakaFragment extends FragmentSupport {
                                 @Override
                                 public void run() {
                                     mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.VISIBLE);
-                                    shangban_layout.setVisibility(View.GONE);
-                                    xiaban_layout.setVisibility(View.GONE);
+                                    showPasteLayout();
                                     pastdate_shangbanstate.setText("补签");
                                     pastdate_shangbantime.setText(shouldSBTime);
                                     pastdate_xiabanstate.setText("补签");
@@ -1194,9 +1101,7 @@ public class DakaFragment extends FragmentSupport {
                                 @Override
                                 public void run() {
                                     mActivityFragmentView.viewLoading(View.GONE);
-                                    pastdate_layout.setVisibility(View.VISIBLE);
-                                    shangban_layout.setVisibility(View.GONE);
-                                    xiaban_layout.setVisibility(View.GONE);
+                                    showPasteLayout();
                                     pastdate_shangbantime.setText("无");
                                     pastdate_shangbanstate.setText("出差");
                                     pastdate_xiabantime.setText("无");
@@ -1213,7 +1118,6 @@ public class DakaFragment extends FragmentSupport {
                                 public void run() {
                                     pastdate_shangbanstate.setText("缺卡");
                                     pastdate_shangbantime.setText("无");
-                                    //           pastdate_shangbanbuka.setVisibility(View.VISIBLE);
                                     mActivityFragmentView.viewLoading(View.GONE);
                                 }
                             });
@@ -1225,7 +1129,6 @@ public class DakaFragment extends FragmentSupport {
                                 public void run() {
                                     pastdate_xiabanstate.setText("缺卡");
                                     pastdate_xiabantime.setText("无");
-                                    //          pastdate_xiabanbuka.setVisibility(View.VISIBLE);
                                     mActivityFragmentView.viewLoading(View.GONE);
                                 }
                             });
@@ -1233,7 +1136,7 @@ public class DakaFragment extends FragmentSupport {
 
                         //上班迟到情况
                         if(!("null").equals(clockInTime)){
-                            if(equalsStringShangban(clockInTime,shouldSBTime)){
+                            if(DateTimeUtils.equalsStringShangban(clockInTime,shouldSBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1246,7 +1149,7 @@ public class DakaFragment extends FragmentSupport {
 
                         //下班早退情况
                         if(!("null").equals(clockOutTime)){
-                            if(equalsStringXiaban(clockOutTime,shouldXBTime)){
+                            if(DateTimeUtils.equalsStringXiaban(clockOutTime,shouldXBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1264,168 +1167,4 @@ public class DakaFragment extends FragmentSupport {
         });
     }
 
-    /**
-     * 比较上班时间  迟到返回true
-     */
-    public boolean equalsStringShangban(String clockInTime,String shouldSBTime){
-        //定义一个标准时间 08:00
-        //    int[] arr = {9,0,0};
-        String[] strings = clockInTime.split(":");
-    //    String[] shangTimes = shouldSBTime.split(":");
-        int[] temp = new int[strings.length];
-   //     int[] shangTime = new int[shangTimes.length];
-        int[] shangTime ={9,0,0};
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        /*for (int i = 0; i < shangTime.length; i++) {
-            shangTime[i]=Integer.parseInt(shangTimes[i]);
-        }*/
-        //比较小时
-        if (temp[0]>shangTime[0]) {
-            return true;
-        }
-        if(temp[0]==shangTime[0]){
-            //比较分钟
-            if (temp[1]>shangTime[1]) {
-                return true;
-            }
-            //如果分钟相等	9.0.0 , 9.0.0
-            if (temp[1]==shangTime[1]) {
-                //比较秒的用意，是为了对刚好在时间点打卡（如：9:00:00）的判断
-                if (temp[2]>shangTime[2]) {
-                    return true;
-                }
-            }
-
-        }
-        return false;
-    }
-
-    /**
-     * 比较下班时间  早退返回true
-     */
-    public boolean equalsStringXiaban(String clockOutTime,String shouldXBTime){
-        //定义一个标准时间
-        //    int[] arr = {17,0,0};
-        String[] strings = clockOutTime.split(":");
-    //    String[] xiaTimes = shouldXBTime.split(":");
-        int[] temp = new int[strings.length];
-    //    int[] xiaTime = new int[xiaTimes.length];
-        int[] xiaTime = {17,0,0};
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        /*//将字符数据转为int数组
-        for (int i = 0; i < xiaTime.length; i++) {
-            xiaTime[i]=Integer.parseInt(xiaTimes[i]);
-        }*/
-        //只要是在18点之前，都属于早退，在18点之后，都属于正常下班
-        if (temp[0]<xiaTime[0]) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 进行时间转换
-     */
-    public String transferDateTime(String date){
-        String newDate = date.replace("年","-");
-        newDate = newDate.replace("月","-");
-        newDate = newDate.replace("日","");
-        return newDate;
-    }
-
-    /**
-     * 比较是否超过了12:00  超过返回false
-     */
-    public boolean equalsString12(String currentdate){
-        //定义一个标准时间
-        int[] arr = {12,0,0};
-        String[] strings = currentdate.split(":");
-        int[] temp = new int[strings.length];
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        //只要是在12点之前，都属于上午，在12点之后，都属于下午
-        if (temp[0]<arr[0]) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 比较是否超过了中间时间  超过返回false
-     */
-    public boolean equalsStringMiddle(String currentdate,String middleTime){
-        //定义一个标准时间
-        String[] strings = currentdate.split(":");
-        String[] middleArr = middleTime.split(":");
-        int[] temp = new int[strings.length];
-        int[] middle = new int[middleArr.length];
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        for (int i = 0; i < middle.length; i++) {
-            middle[i]=Integer.parseInt(middleArr[i]);
-        }
-        //只要是在12点之前，都属于上午，在12点之后，都属于下午
-        if (temp[0]<middle[0]) {
-            return true;
-        }
-        return false;
-    }
-
-    //日期比较测试       返回值：大于当前日期：1，等于当前日期：0，小于当前日期：-1
-    public static int equalsDate(String date){
-        //定义一个系统当前日期
-        Date date1 = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String currentTime = format.format(date1);
-        //传进来的日期数组
-        int[] dataArr = StringToIntArr(date);
-        //当前日期数组
-        int[] current = StringToIntArr(currentTime);
-        //进行比较
-        if (dataArr[0]>current[0]) {
-            System.out.println("大于当前日期");
-            return 1;
-        }
-        if (dataArr[0]==current[0]) {
-            //年份相等，判断月份
-            if (dataArr[1]>current[1]) {
-                System.out.println("大于当前日期");
-                return 1;
-            }else if(dataArr[1]==current[1]){
-                //月份相等，判断天
-                if (dataArr[2]>current[2]) {
-                    System.out.println("大于当前日期");
-                    return 1;
-                }else if(dataArr[2]==current[2]){
-                    System.out.println("等于当前日期");
-                    return 0;
-                }
-                System.out.println("小于当前日期");
-                return -1;
-            }
-        }
-        //年份小于
-        System.out.println("小于当前日期");
-        return -1;
-    }
-
-    //传入String类型日期，返回int 数组
-    public static int[] StringToIntArr(String date){
-        String[] strings = date.split("-");
-        int[] arr = new int[strings.length];
-        for (int i = 0; i < strings.length; i++) {
-            arr[i] = Integer.parseInt(strings[i]);
-        }
-        return arr;
-    }
 }

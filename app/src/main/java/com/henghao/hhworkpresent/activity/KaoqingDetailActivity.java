@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
+import com.henghao.hhworkpresent.utils.DateTimeUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CircleImageView;
 import com.lidroid.xutils.ViewUtils;
@@ -110,12 +111,6 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
 
         httpLoadingHeadImage();
         tv_userName.setText(sqliteDBUtils.getLoginFirstName() + sqliteDBUtils.getLoginGiveName());
-
-        /*Intent intent = getIntent();
-        String currentDate = intent.getStringExtra("currentDate");
-        String currentWeek = intent.getStringExtra("currentWeek");
-        tv_currentDate.setText(currentDate);
-        tv_currentWeek.setText(currentWeek);*/
 
         /**
          * 用这个接收数据是为了发送通知时好解析数据
@@ -251,7 +246,6 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
                     final String clockInTime = dataObject.optString("clockInTime");
                     final String clockOutTime = dataObject.optString("clockOutTime");
 
-                    //这时的clockInTime是一个null字符串 ，不是null
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -267,7 +261,6 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
                             public void run() {
                                 tv_shangbanState.setText("缺卡");
                                 tv_shangbanTime.setText("无");
-                         //       btn_shangbanBuka.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
@@ -279,7 +272,6 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
                             public void run() {
                                 tv_xiabanState.setText("缺卡");
                                 tv_xiabanTime.setText("无");
-                         //       btn_xiabanBuka.setVisibility(View.VISIBLE);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
@@ -287,7 +279,7 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
 
                     //上班迟到情况
                     if(!("null").equals(clockInTime)){
-                        if(equalsStringShangban(clockInTime,shouldSBTime)){
+                        if(DateTimeUtils.equalsStringShangban(clockInTime,shouldSBTime)){
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -300,7 +292,7 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
 
                     //下班早退情况
                     if(!("null").equals(clockOutTime)){
-                        if(equalsStringXiaban(clockOutTime,shouldXBTime)){
+                        if(DateTimeUtils.equalsStringXiaban(clockOutTime,shouldXBTime)){
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -317,68 +309,4 @@ public class KaoqingDetailActivity extends ActivityFragmentSupport {
         });
     }
 
-    /**
-     * 比较上班时间  迟到返回true
-     */
-    public boolean equalsStringShangban(String clockInTime,String shouldSBTime){
-        //定义一个标准时间 08:00
-        //    int[] arr = {9,0,0};
-        String[] strings = clockInTime.split(":");
-        //    String[] shangTimes = shouldSBTime.split(":");
-        int[] temp = new int[strings.length];
-        //     int[] shangTime = new int[shangTimes.length];
-        int[] shangTime ={9,10,0};
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        /*for (int i = 0; i < shangTime.length; i++) {
-            shangTime[i]=Integer.parseInt(shangTimes[i]);
-        }*/
-        //比较小时
-        if (temp[0]>shangTime[0]) {
-            return true;
-        }
-        if(temp[0]==shangTime[0]){
-            //比较分钟
-            if (temp[1]>shangTime[1]) {
-                return true;
-            }
-            //如果分钟相等	9.0.0 , 9.0.0
-            if (temp[1]==shangTime[1]) {
-                //比较秒的用意，是为了对刚好在时间点打卡（如：9:00:00）的判断
-                if (temp[2]>shangTime[2]) {
-                    return true;
-                }
-            }
-
-        }
-        return false;
-    }
-
-    /**
-     * 比较下班时间  早退返回true
-     */
-    public boolean equalsStringXiaban(String clockOutTime,String shouldXBTime){
-        //定义一个标准时间
-        //    int[] arr = {17,0,0};
-        String[] strings = clockOutTime.split(":");
-        //    String[] xiaTimes = shouldXBTime.split(":");
-        int[] temp = new int[strings.length];
-        //    int[] xiaTime = new int[xiaTimes.length];
-        int[] xiaTime = {16,50,0};
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        /*//将字符数据转为int数组
-        for (int i = 0; i < xiaTime.length; i++) {
-            xiaTime[i]=Integer.parseInt(xiaTimes[i]);
-        }*/
-        //只要是在18点之前，都属于早退，在18点之后，都属于正常下班
-        if (temp[0]<xiaTime[0]) {
-            return true;
-        }
-        return false;
-    }
 }

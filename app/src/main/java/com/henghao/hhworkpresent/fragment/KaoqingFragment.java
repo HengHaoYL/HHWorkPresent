@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,7 @@ import com.henghao.hhworkpresent.adapter.KuanggongListAdapter;
 import com.henghao.hhworkpresent.adapter.QuekaListAdapter;
 import com.henghao.hhworkpresent.adapter.ZaotuiListAdapter;
 import com.henghao.hhworkpresent.entity.KaoqingEntity;
+import com.henghao.hhworkpresent.utils.DateTimeUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CircleImageView;
 import com.lidroid.xutils.ViewUtils;
@@ -52,11 +52,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static com.henghao.hhworkpresent.ProtocolUrl.APP_LODAING_HEAD_IMAGE_URI;
+import static com.henghao.hhworkpresent.utils.DateTimeUtils.transferDateTime;
 
 /**
  * Created by bryanrady on 2017/3/10.
@@ -107,9 +107,6 @@ public class KaoqingFragment extends FragmentSupport {
     @ViewInject(R.id.tv_normalPunchTimes)
     private TextView tv_normalPunchTimes;
 
-/*    @ViewInject(R.id.tv_waiqingPunchTimes)
-    private TextView tv_waiqingPunchTimes;*/
-
     @ViewInject(R.id.tv_leaveEarlyDay)
     private TextView tv_leaveEarlyDay;
 
@@ -127,9 +124,6 @@ public class KaoqingFragment extends FragmentSupport {
 
     @ViewInject(R.id.tv_lateTimes)
     private TextView tv_lateTimes;
-
-    /*@ViewInject(R.id.kaoqing_layout)
-    private ScrollView kaoqing_layout;*/
 
     private SqliteDBUtils sqliteDBUtils;
 
@@ -149,7 +143,6 @@ public class KaoqingFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-    //    this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         initWidget();
         initData();
@@ -175,15 +168,6 @@ public class KaoqingFragment extends FragmentSupport {
             }
         });
 
-        /*initLoadingError();
-        this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivityFragmentView.viewLoadingError(View.GONE);
-                httpLoadingHeadImage();
-            }
-        });*/
-
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月");
         tv_datepicker.setText(format.format(date));
@@ -206,8 +190,6 @@ public class KaoqingFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        /*kaoqing_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
                     }
                 });
             }
@@ -223,7 +205,6 @@ public class KaoqingFragment extends FragmentSupport {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
-                         //       mActivityFragmentView.viewLoadingError(View.VISIBLE);
                                 mActivity.msg("下载错误");
                             }
                         });
@@ -271,7 +252,7 @@ public class KaoqingFragment extends FragmentSupport {
         filter.addAction(KAOQING_TIME);
         mActivity.registerReceiver(myBroadcastReceiver, filter);
 
-        DynamicArray();
+        datas = DateTimeUtils.getDynamicArray();
 
         mChidaoData = new ArrayList<>();
         mZaotuiData = new ArrayList<>();
@@ -332,12 +313,9 @@ public class KaoqingFragment extends FragmentSupport {
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         requestBodyBuilder.add("userId", sqliteDBUtils.getLoginUid());
-        requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
-        Log.d("wangqingbin","userId=="+sqliteDBUtils.getLoginUid());
-        Log.d("wangqingbin","date=="+transferDateTime(tv_datepicker.getText().toString()));
+        requestBodyBuilder.add("date", DateTimeUtils.transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_MOUNTH_KAOQING;
-        Log.d("wangqingbin","request_url=="+request_url);
         Request request = builder.url(request_url).post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         mActivityFragmentView.viewLoading(View.VISIBLE);
@@ -672,44 +650,6 @@ public class KaoqingFragment extends FragmentSupport {
         });
     }
 
-    /**
-     * 进行时间转换
-     */
-    public String transferDateTime(String date){
-        String newDate = date.replace("年","-");
-        newDate = newDate.replace("月","");
-        return newDate;
-    }
-
-    /**
-     * 产生一个动态数组，从当前月份到之前月份的动态更新数组
-     */
-    private void DynamicArray() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int mouth = calendar.get(Calendar.MONTH) + 1;
-        datas = new String[10];
-        int j = 12;
-        for (int i = 0; i < 10; i++) {
-            if (mouth > 0) {
-                if(mouth<10){
-                    datas[i] = year + "年0" + mouth + "月";
-                }else{
-                    datas[i] = year + "年" + mouth + "月";
-                }
-                mouth--;
-            } else {
-                if(j<10){
-                    datas[i] = year - 1 + "年0"+j+"月";
-                }else{
-                    datas[i] = year - 1 + "年" + j + "月";
-                }
-                j--;
-            }
-        }
-    }
-
-
     public void initEvent(){
         chidaoListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -828,7 +768,6 @@ public class KaoqingFragment extends FragmentSupport {
             Intent intent = new Intent(KAOQING_TIME);
             getContext().sendBroadcast(intent);
             dialog.dismiss();
-
         }
 
     }

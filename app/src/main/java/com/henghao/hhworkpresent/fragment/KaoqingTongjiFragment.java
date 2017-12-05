@@ -34,6 +34,7 @@ import com.henghao.hhworkpresent.entity.WeiQiandaoEntity;
 import com.henghao.hhworkpresent.entity.YiQiandanEntity;
 import com.henghao.hhworkpresent.entity.ZaotuiTongjiaEntity;
 import com.henghao.hhworkpresent.listener.OnDateChooseDialogListener;
+import com.henghao.hhworkpresent.utils.DateTimeUtils;
 import com.henghao.hhworkpresent.utils.LocationUtils;
 import com.henghao.hhworkpresent.views.DateChooseDialog;
 import com.henghao.hhworkpresent.views.MyChatView;
@@ -55,7 +56,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -241,7 +241,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
         filter.addAction(KAOQING_TIME);
         mActivity.registerReceiver(myBroadcastReceiver, filter);
 
-        DynamicArray();
+        datas = DateTimeUtils.getDynamicArray();
     }
 
     @Override
@@ -337,7 +337,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
             @Override
             public void onDateSetting(String textDate) {
                 datepickerTV.setText(textDate);
-                int type = equalsDate(datepickerTV.getText().toString());
+                int type = DateTimeUtils.equalsDate(datepickerTV.getText().toString());
                 //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
                 if(type==0 || type == -1){
                     initHttp();
@@ -876,7 +876,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
+        requestBodyBuilder.add("date", DateTimeUtils.transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_ALL_CHIDAOLIST;
         Request request = builder.url(request_url).post(requestBody).build();
@@ -974,7 +974,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
+        requestBodyBuilder.add("date", DateTimeUtils.transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_ALL_ZAOTUILIST;
         Request request = builder.url(request_url).post(requestBody).build();
@@ -1071,7 +1071,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
+        requestBodyBuilder.add("date", DateTimeUtils.transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_ALL_QUEKALIST;
         Request request = builder.url(request_url).post(requestBody).build();
@@ -1168,7 +1168,7 @@ public class KaoqingTongjiFragment extends FragmentSupport {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
-        requestBodyBuilder.add("date", transferDateTime(tv_datepicker.getText().toString()));
+        requestBodyBuilder.add("date", DateTimeUtils.transferDateTime(tv_datepicker.getText().toString()));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_ALL_KUANGGONGLIST;
         Request request = builder.url(request_url).post(requestBody).build();
@@ -1295,91 +1295,6 @@ public class KaoqingTongjiFragment extends FragmentSupport {
 
         }
 
-    }
-
-    /**
-     * 进行时间转换
-     */
-    public String transferDateTime(String date){
-        String newDate = date.replace("年","-");
-        newDate = newDate.replace("月","");
-        return newDate;
-    }
-
-    /**
-     * 产生一个动态数组，从当前月份到之前月份的动态更新数组
-     */
-    private void DynamicArray() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int mouth = calendar.get(Calendar.MONTH) + 1;
-        datas = new String[10];
-        int j = 12;
-        for (int i = 0; i < 10; i++) {
-            if (mouth > 0) {
-                if(mouth<10){
-                    datas[i] = year + "年0" + mouth + "月";
-                }else{
-                    datas[i] = year + "年" + mouth + "月";
-                }
-                mouth--;
-            } else {
-                if(j<10){
-                    datas[i] = year - 1 + "年0"+j+"月";
-                }else{
-                    datas[i] = year - 1 + "年" + j + "月";
-                }
-                j--;
-            }
-        }
-    }
-
-    //日期比较测试       返回值：大于当前日期：1，等于当前日期：0，小于当前日期：-1
-    public static int equalsDate(String date){
-        //定义一个系统当前日期
-        Date date1 = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String currentTime = format.format(date1);
-        //传进来的日期数组
-        int[] dataArr = StringToIntArr(date);
-        //当前日期数组
-        int[] current = StringToIntArr(currentTime);
-        //进行比较
-        if (dataArr[0]>current[0]) {
-            System.out.println("大于当前日期");
-            return 1;
-        }
-        if (dataArr[0]==current[0]) {
-            //年份相等，判断月份
-            if (dataArr[1]>current[1]) {
-                System.out.println("大于当前日期");
-                return 1;
-            }else if(dataArr[1]==current[1]){
-                //月份相等，判断天
-                if (dataArr[2]>current[2]) {
-                    System.out.println("大于当前日期");
-                    return 1;
-                }else if(dataArr[2]==current[2]){
-                    System.out.println("等于当前日期");
-                    return 0;
-                }
-                System.out.println("小于当前日期");
-                return -1;
-            }
-        }
-        //年份小于
-        System.out.println("小于当前日期");
-        return -1;
-    }
-
-    //传入String类型日期，返回int 数组
-    public static int[] StringToIntArr(String date){
-        String[] strings = date.split("-");
-        int[] arr = new int[strings.length];
-        for (int i = 0; i < strings.length; i++) {
-            arr[i] = Integer.parseInt(strings[i]);
-        }
-        return arr;
     }
 
 }

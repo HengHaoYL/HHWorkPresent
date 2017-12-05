@@ -26,6 +26,7 @@ public class MeetingEntity implements Serializable {
     private String userIds;   //参会人员id
     private List<JPushToUser> jPushToUser;    //推送消息中间类
     private MeetingTrajectoryEntity meetingTrajectoryEntity;
+    private int isEnd;  //表示会议是否结束 1表示已经结束 0表示未结束
 
     public void setMeetingType(String meetingType) {
         this.meetingType = meetingType;
@@ -145,6 +146,14 @@ public class MeetingEntity implements Serializable {
 
     public void setUserIds(String userIds) {
         this.userIds = userIds;
+    }
+
+    public int getIsEnd() {
+        return isEnd;
+    }
+
+    public void setIsEnd(int isEnd) {
+        this.isEnd = isEnd;
     }
 
     public static class PersonnelEntity implements Serializable {

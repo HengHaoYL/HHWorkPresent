@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.henghao.hhworkpresent.utils.CustomDate;
-import com.henghao.hhworkpresent.utils.DateUtils;
+import com.henghao.hhworkpresent.utils.DateTimeUtils;
 
 import static com.henghao.hhworkpresent.activity.CalendarActivity.CALENDAR_TIME;
 
@@ -85,15 +85,15 @@ public class MyCalendarView extends View {
     }
 
     private void fillDate() {
-        int monthDay = DateUtils.getCurrentMonthDay(); // 今天
-        int lastMonthDays = DateUtils.getMonthDays(mShowDate.year,
+        int monthDay = DateTimeUtils.getCurrentMonthDay(); // 今天
+        int lastMonthDays = DateTimeUtils.getMonthDays(mShowDate.year,
                 mShowDate.month - 1); // 上个月的天数
-        int currentMonthDays = DateUtils.getMonthDays(mShowDate.year,
+        int currentMonthDays = DateTimeUtils.getMonthDays(mShowDate.year,
                 mShowDate.month); // 当前月的天数
-        int firstDayWeek = DateUtils.getWeekDayFromDate(mShowDate.year,
+        int firstDayWeek = DateTimeUtils.getWeekDayFromDate(mShowDate.year,
                 mShowDate.month);
         boolean isCurrentMonth = false;
-        if (DateUtils.isCurrentMonth(mShowDate)) {
+        if (DateTimeUtils.isCurrentMonth(mShowDate)) {
             isCurrentMonth = true;
         }
         int day = 0;

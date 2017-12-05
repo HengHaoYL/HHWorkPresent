@@ -28,6 +28,21 @@ public class ProtocolUrl {
      */
     public static final String UPLOAD_ERROR_SERVER = "appError";
 
+   /************************* app start **************************/
+
+    /**
+     * apk版本升级update.xml解析地址
+     */
+    public static final String APP_UPDATE_XML_PASER_ADDRESS = "/version/update.xml";
+
+
+    /**
+     * apk升级文件update.xml解析地址
+     */
+    public static final String APP_DOWNLOAD_APK_ADDRESS = "/apkFile/gyajj.apk";
+
+    /************************* app end **************************/
+
 
     /**
      * 实时上传经纬度接口
@@ -59,6 +74,11 @@ public class ProtocolUrl {
      * 上传工作纪要和现场图片
      */
     public static final String APP_UPDATE_MEETING_SUMMARY_FILE = "/istration/meetingTrajectory/updateMeetingImagePath";
+
+    /**
+     * 上传会议结束状态
+     */
+    public static final String APP_UPLOAD_MEETING_ISEND = "/istration/JPush/updateMeetingEntityByIsEnd";
 
     /**
     * 添加预约会议内容到服务器

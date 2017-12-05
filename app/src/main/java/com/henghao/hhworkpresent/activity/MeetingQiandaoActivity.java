@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.baidu.mapapi.SDKInitializer;
 import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
 import com.benefit.buy.library.utils.tools.ToolsKit;
+import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
@@ -47,6 +48,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -113,6 +117,12 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
 
     private SqliteDBUtils sqliteDBUtils;
 
+    private int mid;
+
+    private long msg_id;
+
+    private int isEnd;
+
     @ViewInject(R.id.et_meeting_upload_summary)
     private EditText et_meeting_upload_summary;
 
@@ -160,12 +170,25 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
         initWithCenterBar();
         mCenterTextView.setText("会议签到");
         mCenterTextView.setVisibility(View.VISIBLE);
+
+        initWithRightBar();
+        sqliteDBUtils = new SqliteDBUtils(this);
+        Intent intent = getIntent();
+        msg_id = intent.getLongExtra("msg_id",0);
+        httpRequestMeetingContent();
+
+        mRightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                httpChangeIsEndStatus();
+            }
+        });
     }
 
     @Override
     public void initData() {
         super.initData();
-        sqliteDBUtils = new SqliteDBUtils(this);
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         String currentDate = simpleDateFormat.format(new Date());
         tv_qiandao_start_time.setText(currentDate);
@@ -266,6 +289,10 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
             String ssid = "\"" + meetingEntity.getWifiSSID() + "\"";
             if(getWifiSSID().equals(ssid)){
                 if(tv_qiandao_start_text.getText().toString().equals("进场签到")){
+                    if(isEnd == 1){
+                        Toast.makeText(this, "会议已经被结束", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     String lat = String.valueOf(LocationUtils.getLat());
                     String lng = String.valueOf(LocationUtils.getLng());
                     if(lat==null && lng==null){
@@ -274,6 +301,10 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                     }
                     httpOnClickStartQiandaoUploadData(meetingEntity.getMid(),sqliteDBUtils.getLoginUid(),LocationUtils.getLat()+","+LocationUtils.getLng());
                 }else if (tv_qiandao_start_text.getText().toString().equals("退场签到")){
+                    if(isEnd == 1){
+                        Toast.makeText(this, "会议已经被结束", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     String lat = String.valueOf(LocationUtils.getLat());
                     String lng = String.valueOf(LocationUtils.getLng());
                     if(lat==null && lng==null){
@@ -416,6 +447,107 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
             }
         });
     }
+
+    /**
+     * 查询指定的消息
+     */
+    public void httpRequestMeetingContent(){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("msg_id", String.valueOf(msg_id))
+                .addFormDataPart("uid", sqliteDBUtils.getLoginUid());
+        RequestBody requestBody = multipartBuilder.build();
+        String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_TUI_SONG_MESSAGE;
+        Request request = builder.post(requestBody).url(request_url).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result_str = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result_str);
+                    int status = jsonObject.getInt("status");
+                    if(status==0) {
+                        result_str = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        meetingEntity = gson.fromJson(result_str,MeetingEntity.class);
+                        mid = meetingEntity.getMid();
+                        meetingTrajectoryEntity = meetingEntity.getMeetingTrajectoryEntity();
+                        final String faqirenId = meetingEntity.getUid();
+                        isEnd = meetingEntity.getIsEnd();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(isEnd == 0 && faqirenId.equals(sqliteDBUtils.getLoginUid())){
+                                    mRightTextView.setText("结束会议");
+                                    mRightTextView.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
+    /**
+     * 改变会议状态 是否结束
+     */
+    private void httpChangeIsEndStatus(){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request.Builder builder = new Request.Builder();
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("mid", String.valueOf(mid));
+        RequestBody requestBody = multipartBuilder.build();
+        String requestUrl = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_UPLOAD_MEETING_ISEND;
+        Request request = builder.post(requestBody).url(requestUrl).build();
+        Call call = okHttpClient.newCall(request);
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e){
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        msg("网络请求错误！");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msg("会议结束！");
+                        mActivityFragmentView.viewLoading(View.GONE);
+                        mRightTextView.setVisibility(View.GONE);
+                        finish();
+                    }
+                });
+            }
+        });
+    }
+
 
     public void choosePicture(){
         int selectedMode = MultiImageSelectorActivity.MODE_MULTI;

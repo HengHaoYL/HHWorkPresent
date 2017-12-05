@@ -20,6 +20,7 @@ import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.CalendarViewAdapter;
 import com.henghao.hhworkpresent.utils.CustomDate;
+import com.henghao.hhworkpresent.utils.DateTimeUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.CircleImageView;
 import com.henghao.hhworkpresent.views.MyCalendarView;
@@ -109,9 +110,6 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
     @ViewInject(R.id.daka_qiandao_layout)
     private LinearLayout daka_qiandao_layout;
 
-    /*@ViewInject(R.id.calendar_layout)
-    private LinearLayout calendar_layout;*/
-
     private SqliteDBUtils sqliteDBUtils;
 
     private int mCurrentIndex = 498;
@@ -177,7 +175,7 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
     public void onResume() {
         super.onResume();
         //初始化数据前，先判断时候是家假日
-        equalsHoliday(transferDateTime(tvCurrentDate.getText().toString().trim()));
+        equalsHoliday(DateTimeUtils.transferDateTime2(tvCurrentDate.getText().toString().trim()));
     }
 
     class MyBroadcastReceiver extends BroadcastReceiver {
@@ -190,7 +188,7 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
                 String weekDay = intent.getStringExtra("weekDay");
                 tvCurrentDate.setText(time);
                 tvCurrentWeek.setText("星期"+weekDay);
-                equalsHoliday(transferDateTime(tvCurrentDate.getText().toString().trim()));
+                equalsHoliday(DateTimeUtils.transferDateTime2(tvCurrentDate.getText().toString().trim()));
             }
         }
     }
@@ -207,15 +205,6 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
                 finish();
             }
         });
-        /*initWithRightBar();
-        mRightTextView.setText("月汇总");
-        mRightTextView.setVisibility(View.VISIBLE);
-        mRightTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });*/
     }
 
     @Override
@@ -248,7 +237,7 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
         setViewPager();
 
         //初始化数据前，先判断时候是家假日
-        equalsHoliday(transferDateTime(tvCurrentDate.getText().toString().trim()));
+        equalsHoliday(DateTimeUtils.transferDateTime2(tvCurrentDate.getText().toString().trim()));
     }
 
     public Handler handler = new Handler(){
@@ -313,7 +302,7 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
                     //代表是要上班的日子
                     if("无节假日信息".equals(status)){
                         //如果日期是当天
-                        if((transferDateTime(tvCurrentDate.getText().toString())).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
+                        if((DateTimeUtils.transferDateTime2(tvCurrentDate.getText().toString())).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
                             Message message = Message.obtain();
                             message.what = HOLIDAY_FALSE;
                             handler.sendMessage(message);
@@ -353,8 +342,6 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        /*calendar_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
                     }
                 });
             }
@@ -496,7 +483,7 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
         requestBodyBuilder.add("userId", uid);
         final String date = tvCurrentDate.getText().toString().trim();
-        int type = equalsDate(transferDateTime(date));
+        int type = DateTimeUtils.equalsDate(DateTimeUtils.transferDateTime2(date));
         //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
         if(type==1||type==0){
             carlendar_kaoing_layout.setVisibility(View.GONE);
@@ -505,7 +492,7 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
         }
 
 
-        requestBodyBuilder.add("date", transferDateTime(date));
+        requestBodyBuilder.add("date", DateTimeUtils.transferDateTime2(date));
         RequestBody requestBody = requestBodyBuilder.build();
         String request_url = ProtocolUrl.ROOT_URL + "/"+ ProtocolUrl.APP_QUERY_DAY_OF_KAOQING;
         Request request = builder.url(request_url).post(requestBody).
@@ -519,8 +506,6 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        /*calendar_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
                     }
                 });
             }
@@ -661,7 +646,6 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
                                 public void run() {
                                     tv_shangbanState.setText("缺卡");
                                     tv_shangbanTime.setText("无");
-                                    //        btn_shangbanBuka.setVisibility(View.VISIBLE);
                                     mActivityFragmentView.viewLoading(View.GONE);
                                 }
                             });
@@ -673,7 +657,6 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
                                 public void run() {
                                     tv_xiabanState.setText("缺卡");
                                     tv_xiabanTime.setText("无");
-                                    //        btn_xiabanBuka.setVisibility(View.VISIBLE);
                                     mActivityFragmentView.viewLoading(View.GONE);
                                 }
                             });
@@ -681,7 +664,7 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
 
                         //上班迟到情况
                         if(!("null").equals(clockInTime)){
-                            if(equalsStringShangban(clockInTime,shouldSBTime)){
+                            if(DateTimeUtils.equalsStringShangban(clockInTime,shouldSBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -694,7 +677,7 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
 
                         //下班早退情况
                         if(!("null").equals(clockOutTime)){
-                            if(equalsStringXiaban(clockOutTime,shouldXBTime)){
+                            if(DateTimeUtils.equalsStringXiaban(clockOutTime,shouldXBTime)){
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -711,127 +694,4 @@ public class RenyuanCalendarActivity extends ActivityFragmentSupport implements 
         });
     }
 
-    /**
-     * 比较上班时间  迟到返回true
-     */
-    public boolean equalsStringShangban(String clockInTime,String shouldSBTime){
-        //定义一个标准时间 08:00
-        //    int[] arr = {9,0,0};
-        String[] strings = clockInTime.split(":");
-        //    String[] shangTimes = shouldSBTime.split(":");
-        int[] temp = new int[strings.length];
-        //     int[] shangTime = new int[shangTimes.length];
-        int[] shangTime ={9,10,0};
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        /*for (int i = 0; i < shangTime.length; i++) {
-            shangTime[i]=Integer.parseInt(shangTimes[i]);
-        }*/
-        //比较小时
-        if (temp[0]>shangTime[0]) {
-            return true;
-        }
-        if(temp[0]==shangTime[0]){
-            //比较分钟
-            if (temp[1]>shangTime[1]) {
-                return true;
-            }
-            //如果分钟相等	9.0.0 , 9.0.0
-            if (temp[1]==shangTime[1]) {
-                //比较秒的用意，是为了对刚好在时间点打卡（如：9:00:00）的判断
-                if (temp[2]>shangTime[2]) {
-                    return true;
-                }
-            }
-
-        }
-        return false;
-    }
-
-    /**
-     * 比较下班时间  早退返回true
-     */
-    public boolean equalsStringXiaban(String clockOutTime,String shouldXBTime){
-        //定义一个标准时间
-        //    int[] arr = {17,0,0};
-        String[] strings = clockOutTime.split(":");
-        //    String[] xiaTimes = shouldXBTime.split(":");
-        int[] temp = new int[strings.length];
-        //    int[] xiaTime = new int[xiaTimes.length];
-        int[] xiaTime = {16,50,0};
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        /*//将字符数据转为int数组
-        for (int i = 0; i < xiaTime.length; i++) {
-            xiaTime[i]=Integer.parseInt(xiaTimes[i]);
-        }*/
-        //只要是在18点之前，都属于早退，在18点之后，都属于正常下班
-        if (temp[0]<xiaTime[0]) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 进行时间转换
-     */
-    public String transferDateTime(String date){
-        String newDate = date.replace("年","-");
-        newDate = newDate.replace("月","-");
-        newDate = newDate.replace("日","");
-        return newDate;
-    }
-
-
-    //日期比较测试       返回值：大于当前日期：1，等于当前日期：0，小于当前日期：-1
-    public static int equalsDate(String date){
-        //定义一个系统当前日期
-        Date date1 = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String currentTime = format.format(date1);
-        //传进来的日期数组
-        int[] dataArr = StringToIntArr(date);
-        //当前日期数组
-        int[] current = StringToIntArr(currentTime);
-        //进行比较
-        if (dataArr[0]>current[0]) {
-            System.out.println("大于当前日期");
-            return 1;
-        }
-        if (dataArr[0]==current[0]) {
-            //年份相等，判断月份
-            if (dataArr[1]>current[1]) {
-                System.out.println("大于当前日期");
-                return 1;
-            }else if(dataArr[1]==current[1]){
-                //月份相等，判断天
-                if (dataArr[2]>current[2]) {
-                    System.out.println("大于当前日期");
-                    return 1;
-                }else if(dataArr[2]==current[2]){
-                    System.out.println("等于当前日期");
-                    return 0;
-                }
-                System.out.println("小于当前日期");
-                return -1;
-            }
-        }
-        //年份小于
-        System.out.println("小于当前日期");
-        return -1;
-    }
-
-    //传入String类型日期，返回int 数组
-    public static int[] StringToIntArr(String date){
-        String[] strings = date.split("-");
-        int[] arr = new int[strings.length];
-        for (int i = 0; i < strings.length; i++) {
-            arr[i] = Integer.parseInt(strings[i]);
-        }
-        return arr;
-    }
 }

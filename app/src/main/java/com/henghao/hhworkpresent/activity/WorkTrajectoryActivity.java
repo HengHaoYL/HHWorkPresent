@@ -21,6 +21,7 @@ import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.WorkTrajectoryListAdapter;
 import com.henghao.hhworkpresent.entity.TrajectoryEntity;
 import com.henghao.hhworkpresent.listener.OnDateChooseDialogListener;
+import com.henghao.hhworkpresent.utils.DateTimeUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.henghao.hhworkpresent.views.DateChooseDialog;
 import com.lidroid.xutils.ViewUtils;
@@ -296,7 +297,7 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
                                     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                                     String currentTime = format.format(date);
                                     //如果没超过12.00 表示上午
-                                    if(equalsStringMiddle(currentTime,middleTime)){
+                                    if(DateTimeUtils.equalsStringMiddle(currentTime,middleTime)){
                                         null_trajectory_layout.setVisibility(View.GONE);
                                         work_trajectory_layout.setVisibility(View.VISIBLE);
                                     }else {
@@ -444,7 +445,7 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
             @Override
             public void onDateSetting(String textDate) {
                 datepickerTV.setText(textDate);
-                int type = equalsDate(datepickerTV.getText().toString());
+                int type = DateTimeUtils.equalsDate(datepickerTV.getText().toString());
                 //大于当前日期：1，    等于当前日期：0，      小于当前日期：-1
                 if(type==0){
                     null_trajectory_layout.setVisibility(View.GONE);
@@ -535,74 +536,4 @@ public class WorkTrajectoryActivity extends ActivityFragmentSupport {
         });
     }
 
-    //日期比较测试       返回值：大于当前日期：1，等于当前日期：0，小于当前日期：-1
-    public static int equalsDate(String date){
-        //定义一个系统当前日期
-        Date date1 = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String currentTime = format.format(date1);
-        //传进来的日期数组
-        int[] dataArr = StringToIntArr(date);
-        //当前日期数组
-        int[] current = StringToIntArr(currentTime);
-        //进行比较
-        if (dataArr[0]>current[0]) {
-            System.out.println("大于当前日期");
-            return 1;
-        }
-        if (dataArr[0]==current[0]) {
-            //年份相等，判断月份
-            if (dataArr[1]>current[1]) {
-                System.out.println("大于当前日期");
-                return 1;
-            }else if(dataArr[1]==current[1]){
-                //月份相等，判断天
-                if (dataArr[2]>current[2]) {
-                    System.out.println("大于当前日期");
-                    return 1;
-                }else if(dataArr[2]==current[2]){
-                    System.out.println("等于当前日期");
-                    return 0;
-                }
-                System.out.println("小于当前日期");
-                return -1;
-            }
-        }
-        //年份小于
-        System.out.println("小于当前日期");
-        return -1;
-    }
-
-    //传入String类型日期，返回int 数组
-    public static int[] StringToIntArr(String date){
-        String[] strings = date.split("-");
-        int[] arr = new int[strings.length];
-        for (int i = 0; i < strings.length; i++) {
-            arr[i] = Integer.parseInt(strings[i]);
-        }
-        return arr;
-    }
-
-    /**
-     * 比较是否超过了中间时间  超过返回false
-     */
-    public boolean equalsStringMiddle(String currentdate,String middleTime){
-        //定义一个标准时间
-        String[] strings = currentdate.split(":");
-        String[] middleArr = middleTime.split(":");
-        int[] temp = new int[strings.length];
-        int[] middle = new int[middleArr.length];
-        //将字符数据转为int数组
-        for (int i = 0; i < strings.length; i++) {
-            temp[i]=Integer.parseInt(strings[i]);
-        }
-        for (int i = 0; i < middle.length; i++) {
-            middle[i]=Integer.parseInt(middleArr[i]);
-        }
-        //只要是在12点之前，都属于上午，在12点之后，都属于下午
-        if (temp[0]<middle[0]) {
-            return true;
-        }
-        return false;
-    }
 }

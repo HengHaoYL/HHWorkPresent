@@ -50,12 +50,6 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_company_qiandaosubmit)
     private TextView tv_company_qiandaosubmit;
 
-  /*  @ViewInject(R.id.picture_gridView)
-    private GridView picture_gridView;*/
-
- //   private GridAdapter adapter;
-
-
     /**
      * 提交
      */
@@ -63,12 +57,6 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
     private Button btn_submit_qiandaosubmit;
     private String address;
     private double latitude,longitude;
-
-/*    private ArrayList<String> mSelectPath;
-
-    private ArrayList<String> mImageList=new ArrayList<>();
-
-    private static final int REQUEST_IMAGE = 0x00;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,11 +82,6 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
         this.mCenterTextView.setText("外勤签到");
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.henghao.wenbo.ActivityFragmentSupport#initData()
-     */
     @Override
     public void initData() {
         Intent intent = getIntent();
@@ -114,9 +97,6 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
             tv_address_qiandaosubmit.setText(address);
         }
         tv_company_qiandaosubmit.setText(company);
-/*
-        adapter = new GridAdapter();
-        picture_gridView.setAdapter(adapter);*/
 
     }
 
@@ -134,49 +114,6 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
         }
     }
 
-
-   /* public void choosePicture(){
-        // 查看session是否过期
-        // int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
-        int selectedMode = MultiImageSelectorActivity.MODE_MULTI;
-        int maxNum = 9;
-        Intent picIntent = new Intent(this, MultiImageSelectorActivity.class);
-        // 是否显示拍摄图片
-        picIntent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-        // 最大可选择图片数量
-        picIntent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, maxNum);
-        // 选择模式
-        picIntent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, selectedMode);
-        // 默认选择
-        if ((this.mSelectPath != null) && (this.mSelectPath.size() > 0)) {
-            picIntent.putExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, this.mSelectPath);
-        }
-        startActivityForResult(picIntent, REQUEST_IMAGE);
-    }
-
-    @SuppressWarnings("static-access")
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            if (requestCode == REQUEST_IMAGE) {
-                if ((resultCode == Activity.RESULT_OK) || (resultCode == Activity.RESULT_CANCELED)) {
-                    this.mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                    if (!ToolsKit.isEmpty(this.mSelectPath)) {
-                        mImageList.clear();
-                        for (String imagePath : mSelectPath) {
-                                if(!mImageList.contains(imagePath)){
-                                    mImageList.add(imagePath);
-                                    picture_gridView.setAdapter(adapter);
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-    }*/
-
     @Override
     public void OnMessageResponse(String url, Object jo, AjaxStatus status) throws JSONException {
         super.OnMessageResponse(url, jo, status);
@@ -189,84 +126,5 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
         }
 
     }
-
-   /* class GridAdapter extends BaseAdapter {
-
-        public LayoutInflater layoutInflater = LayoutInflater.from(context);
-        @Override
-        public int getCount() {
-            return mImageList.size()+ 1;
-
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder = null ;
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = layoutInflater.inflate(R.layout.gridview_picture_item, null);
-                holder.image = (ImageView) convertView.findViewById(R.id.imageView);
-                holder.btn = (Button) convertView.findViewById(R.id.delete);
-
-                holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-                convertView.setTag(holder);
-            }
-            else{
-                holder = (ViewHolder) convertView.getTag();
-            }
-            if (position == mImageList.size()) {
-
-                holder.image.setImageBitmap(BitmapFactory.decodeResource(
-                        context.getResources(), R.drawable.icon_camera_qiandao));
-                holder.btn.setVisibility(View.GONE);
-
-                holder.image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        choosePicture();
-                    }
-                });
-               *//* if (position == 3) {
-                    holder.image.setVisibility(View.GONE);
-                }*//*
-            } else {
-        //        ImageLoader.getInstance().displayImage("file://" + mImageList.get(position),
-         //               holder.image);
-                Bitmap bm = BitmapFactory.decodeFile(mSelectPath.get(position));
-                Log.d("mSelectPath",mSelectPath.get(position));
-                //将图片显示到ImageView中
-                holder.image.setImageBitmap(bm);
-                holder.btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //点击后移除图片
-                        mImageList.remove(position);
-
-                        //更新UI
-                        picture_gridView.setAdapter(adapter);
-                    }
-                });
-
-            }
-            return convertView;
-        }
-    }
-
-    public class ViewHolder {
-        public ImageView image;
-        public Button btn ;
-    }*/
 
 }

@@ -134,6 +134,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                 intent.setClass(this,MeetingQiandaoActivity.class);
                 intent.putExtra("meetingEntity",meetingEntity);
                 intent.putExtra("meetingTrajectoryEntity",meetingTrajectoryEntity);
+                intent.putExtra("msg_id",msg_id);
                 startActivity(intent);
                 break;
             case R.id.btn_notification_not_join:    //找人代替

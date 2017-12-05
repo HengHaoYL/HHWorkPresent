@@ -45,7 +45,7 @@ public class AboutAppActivity extends ActivityFragmentSupport {
     private TextView tv_check_update;
 
     private UpdateInfo info;
-    private String XML_PATH = ProtocolUrl.ROOT_URL + "/version/update.xml";//xml解析地址
+    private String XML_PATH = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_UPDATE_XML_PASER_ADDRESS;//xml解析地址
     public Handler mHandler = new Handler(){};
 
     @Override

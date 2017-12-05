@@ -42,8 +42,8 @@ public class CheckVersionTask extends Thread {
     private static final int GET_UNDATAINFO_ERROR = 6;//获取服务器更新信息失败
     private static final int DOWN_ERROR = 3;//下载失败
     private static final int UPDATE_DIALOG = 4;//更新进度条标题
-    private String XML_PATH = ProtocolUrl.ROOT_URL + "/version/update.xml";//xml解析地址
-    private String APK_PATH = ProtocolUrl.ROOT_URL + "/apkFile/gyajj.apk";//apk下载地址
+    private String XML_PATH = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_UPDATE_XML_PASER_ADDRESS;//xml解析地址
+    private String APK_PATH = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_DOWNLOAD_APK_ADDRESS;//apk下载地址
     private ProgressDialog pd;//下载进度条
     private int length;//下载长度,转换为M之后的大小
 
