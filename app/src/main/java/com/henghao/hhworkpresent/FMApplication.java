@@ -73,7 +73,7 @@ public class FMApplication extends Application {
         initImageLoader(getApplicationContext());
         LocationUtils.Location(this);
         SDKInitializer.initialize(this);
-    //    appException();
+        appException();
     }
 
     public static void initImageLoader(Context context) {
