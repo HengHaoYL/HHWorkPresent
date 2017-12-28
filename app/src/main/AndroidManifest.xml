@@ -61,6 +61,16 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
 
+        <provider
+            android:authorities="com.henghao.hhworkpresent.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths"/>
+        </provider>
+
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
