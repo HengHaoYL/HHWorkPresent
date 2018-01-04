@@ -9,12 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.benefit.buy.library.utils.tools.ToolsFile;
 import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.exception.CustomExceptionHandler;
 import com.henghao.hhworkpresent.service.ReConnectService;
-import com.henghao.hhworkpresent.utils.LocationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -33,15 +31,14 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
-/**
- * @author zhangxianwen
- */
 public class FMApplication extends Application {
 
     /** 对外提供整个应用生命周期的Context **/
     private static Context instance;
 
     private final List<Activity> activityList = new LinkedList<Activity>();
+
+    public static final String TAG = "FMApplication";
 
     /**
      * 对外提供Application Context
@@ -55,14 +52,11 @@ public class FMApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        // 注意该方法要再setContentView方法之前实现
-
-        //添加Jpush极光推送的初始化代码
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
         String alias = new SqliteDBUtils(this).getUsername();
-        JPushInterface.setAlias(this, //上下文对象
+        JPushInterface.setAlias(gainContext(), //上下文对象
                 alias, //别名
                 new TagAliasCallback() {  //回调接口,i=0表示成功,其它设置失败
                     @Override
@@ -71,8 +65,6 @@ public class FMApplication extends Application {
                 });
 
         initImageLoader(getApplicationContext());
-        LocationUtils.Location(this);
-        SDKInitializer.initialize(this);
     //    appException();
     }
 
@@ -111,11 +103,6 @@ public class FMApplication extends Application {
         }
         String path = Constant.LOG_DIR_PATH;
         ToolsFile.createDirFile(path);
-        // catch (Exception e) {
-        // //这里不能再向上抛异常，如果想要将log信息保存起来，则抛出runtime异常，
-        // 让自定义的handler来捕获，统一将文件保存起来上传
-        // throw new RuntimeException(e);
-        // }
         CustomExceptionHandler mCustomExceptionHandler = CustomExceptionHandler.getInstance();
         mCustomExceptionHandler.init(getApplicationContext(), path);
     }
@@ -151,7 +138,6 @@ public class FMApplication extends Application {
     }
 
     public void startService() {
-        // 自动恢复连接服务
         Intent reConnectService = new Intent(this, ReConnectService.class);
         startService(reConnectService);
     }

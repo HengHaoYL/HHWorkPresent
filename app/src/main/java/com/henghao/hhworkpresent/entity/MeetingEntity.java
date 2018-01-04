@@ -226,8 +226,29 @@ public class MeetingEntity implements Serializable {
         public String toString() {
             return JSONObject.toJSONString(this);
         }
-    }
 
+        @Override
+        public boolean equals(Object obj) {
+            if(obj == null){
+                return false;
+            }
+            if(obj == this){
+                return true;
+            }
+            if(obj instanceof PersonnelEntity){
+                PersonnelEntity p = (PersonnelEntity) obj;
+                if(p.id.equals(this.id) && p.name.equals(this.name)){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return id.hashCode() * name.hashCode();
+        }
+    }
 
     @Override
     public String toString() {

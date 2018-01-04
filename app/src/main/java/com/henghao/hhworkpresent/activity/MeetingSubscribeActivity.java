@@ -47,7 +47,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 预约会议界面
@@ -92,6 +94,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.tv_meeting_duration)
     private TextView tv_meeting_duration;
 
+    @ViewInject(R.id.tv_meeting_clear)
+    private TextView tv_meeting_clear;
+
     private String[] datas;
     private RadioOnClick listener = new RadioOnClick(0);
 
@@ -103,7 +108,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
 
     private PersonnelListAdapter personnelListAdapter;
 
-    private List<MeetingEntity.PersonnelEntity> mSelectPersonnelList;     //被选中的参会人员列表
+    private List<MeetingEntity.PersonnelEntity> mSelectPersonnelList;
 
     /**记录选中的条数*/
     private int checkNum;
@@ -142,7 +147,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         mCenterTextView.setText("会议预约");
         mCenterTextView.setVisibility(View.VISIBLE);
         initWithRightBar();
-        mRightTextView.setText("完成");
+        mRightTextView.setText("提交");
         mRightTextView.setVisibility(View.VISIBLE);
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,7 +192,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         httpRequestDeptList();
     }
 
-    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration,R.id.linear_meeting_type})
+    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration,R.id.linear_meeting_type,R.id.tv_meeting_clear})
     private void viewOnClick(View v) {
         switch (v.getId()){
             case R.id.linear_choose_meet_people:
@@ -201,6 +206,12 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 break;
             case R.id.linear_meeting_type:
                 popupWindowHelper.showFromTop(v);
+                break;
+            case R.id.tv_meeting_clear:
+                mSelectPersonnelList.clear();
+                tv_meeting_clear.setVisibility(View.GONE);
+                tv_meeting_people_num.setText("0人");
+                tv_join_meeting_people.setText("");
                 break;
         }
     }
@@ -396,7 +407,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     /**
      * 选择参会人员
      */
-    public void chooseJoinMeetingPeople(){
+    private void chooseJoinMeetingPeople(){
         View customView = View.inflate(this,R.layout.layout_list_dialog,null);
         xcDropDownDeptListView = (XCDropDownDeptListView) customView.findViewById(R.id.xCDropDownListView);
         TextView tv_zhifaduiwu = (TextView) customView.findViewById(R.id.tv_zhifaduiwu);
@@ -407,7 +418,43 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         //传空id代表查询全部人员
         httpRequestJianchaPersonalInfo("");
 
-        mSelectPersonnelList.clear();
+        CustomDialog.Builder dialog=new CustomDialog.Builder(this);
+        dialog.setTitle("选择参会人员")
+                .setContentView(customView)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        HashMap<Integer, Boolean> isSelected = PersonnelListAdapter.getIsSelected();
+                        for(int j=0;j<personnelEntityList.size();j++) {
+                            if(isSelected.get(j)) {      //如果被选中
+                                mSelectPersonnelList.add(personnelEntityList.get(j));
+                            }
+                        }
+
+                        //去重复
+                        Set<MeetingEntity.PersonnelEntity> set = new HashSet<>();
+                        set.addAll(mSelectPersonnelList);
+
+                        tv_meeting_people_num.setText(set.size()+"人");
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for(MeetingEntity.PersonnelEntity personnelEntity : set){
+                            stringBuilder.append(personnelEntity.getName()+";");
+                            tv_join_meeting_people.setText(stringBuilder);
+                        }
+
+                        if(set.size()>0){
+                            tv_meeting_clear.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).create().show();
+
+    //    mSelectPersonnelList.clear();
         personal_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -417,33 +464,6 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 personnelListAdapter.getIsSelected().put(position, holder.personal_checkbox.isChecked());
             }
         });
-        CustomDialog.Builder dialog=new CustomDialog.Builder(this);
-        dialog.setTitle("选择参会人员")
-                .setContentView(customView)//设置自定义customView
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        //得到参选人的集合
-                        HashMap<Integer, Boolean> isSelected = PersonnelListAdapter.getIsSelected();
-                        for(int j=0;j<personnelEntityList.size();j++){
-                            if(isSelected.get(j)){      //如果被选中
-                                mSelectPersonnelList.add(personnelEntityList.get(j));
-                            }
-                        }
-                        tv_meeting_people_num.setText(mSelectPersonnelList.size()+"人");
-                        StringBuilder stringBuilder = new StringBuilder();
-                        for(MeetingEntity.PersonnelEntity personnelEntity : mSelectPersonnelList){
-                            stringBuilder.append(personnelEntity.getName()+";");
-                            tv_join_meeting_people.setText(stringBuilder);
-                        }
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        }).create().show();
 
         xcDropDownDeptListView.setOnItemClickXCDropDownListViewListener(new XCDropDownDeptListView.XCDropDownListViewListener() {
             @Override
@@ -454,6 +474,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 httpRequestJianchaPersonalInfo(deptEntity.getId());
             }
         });
+
     }
 
     /**
