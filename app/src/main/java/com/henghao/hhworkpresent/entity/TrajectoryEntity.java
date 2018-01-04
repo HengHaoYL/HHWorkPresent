@@ -22,8 +22,10 @@ public class TrajectoryEntity {
     private String eventName;
     // * 地点
     private String eventAddress;
-    // * 上传时间
+    // * 开始时间
     private String eventTime;
+    //结束时间
+    private String eventEndTime;
     //图片地址
     private String eventImagePath;
 
@@ -83,6 +85,14 @@ public class TrajectoryEntity {
         this.eventTime = eventTime;
     }
 
+    public void setEventEndTime(String eventEndTime) {
+        this.eventEndTime = eventEndTime;
+    }
+
+    public String getEventEndTime() {
+        return eventEndTime;
+    }
+
     @Override
     public String toString() {
         return "TrajectoryEntity{" +
@@ -92,6 +102,7 @@ public class TrajectoryEntity {
                 ", eventName='" + eventName + '\'' +
                 ", eventAddress='" + eventAddress + '\'' +
                 ", eventTime='" + eventTime + '\'' +
+                ", eventEndTime='" + eventEndTime + '\'' +
                 ", eventImagePath='" + eventImagePath + '\'' +
                 '}';
     }

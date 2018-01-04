@@ -38,8 +38,6 @@ public class FMApplication extends Application {
 
     private final List<Activity> activityList = new LinkedList<Activity>();
 
-    public static final String TAG = "FMApplication";
-
     /**
      * 对外提供Application Context
      * @return
@@ -55,17 +53,16 @@ public class FMApplication extends Application {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
+        //别名
         String alias = new SqliteDBUtils(this).getUsername();
-        JPushInterface.setAlias(gainContext(), //上下文对象
-                alias, //别名
-                new TagAliasCallback() {  //回调接口,i=0表示成功,其它设置失败
+        JPushInterface.setAlias(this, alias, new TagAliasCallback() {  //回调接口,i=0表示成功,其它设置失败
                     @Override
                     public void gotResult(int i, String s, Set<String> set) {
                     }
                 });
 
         initImageLoader(getApplicationContext());
-    //    appException();
+        appException();
     }
 
     public static void initImageLoader(Context context) {

@@ -28,8 +28,10 @@ import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.utils.LocationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
+import com.henghao.hhworkpresent.views.MyDateChooseWheelViewDialog;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
@@ -50,7 +52,6 @@ import java.util.Date;
 import java.util.List;
 
 
-
 /**
  * Created by bryanrady on 2017/7/18.
  */
@@ -60,8 +61,11 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.et_tarjectory_event)
     private EditText et_tarjectory_event;
 
-    @ViewInject(R.id.et_tarjectory_time)
-    private EditText et_tarjectory_time;
+    @ViewInject(R.id.tv_tarjectory_time)
+    private TextView tv_tarjectory_time;
+
+    @ViewInject(R.id.tv_tarjectory_endtime)
+    private TextView tv_tarjectory_endtime;
 
     @ViewInject(R.id.tv_tarjectory_place)
     private TextView tv_tarjectory_place;
@@ -107,7 +111,7 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
         mLeftTextView.setText("添加记录");
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithRightBar();
-        mRightTextView.setText("完成");
+        mRightTextView.setText("提交");
         mRightTextView.setVisibility(View.VISIBLE);
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,18 +131,58 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
 
     }
 
+    @OnClick({R.id.tv_tarjectory_time,R.id.tv_tarjectory_endtime})
+    private void viewOnClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_tarjectory_time:
+                getDialogTime("请选择开始时间");
+                break;
+
+            case R.id.tv_tarjectory_endtime:
+                getDialogTime("请选择结束时间");
+                break;
+        }
+    }
+
+    /**
+     * 弹出时间选择器
+     * @param title
+     * @return
+     */
+    private MyDateChooseWheelViewDialog getDialogTime(final String title) {
+        MyDateChooseWheelViewDialog startDateChooseDialog = new MyDateChooseWheelViewDialog(this, new MyDateChooseWheelViewDialog.DateChooseInterface() {
+            @Override
+            public void getDateTime(String time, boolean longTimeChecked) {
+                if(title.equals("请选择开始时间")){
+                    tv_tarjectory_time.setText(time);
+                }else if(title.equals("请选择结束时间")){
+                    tv_tarjectory_endtime.setText(time);
+                }
+            }
+        });
+        startDateChooseDialog.setDateDialogTitle(title);
+        startDateChooseDialog.showDateChooseDialog();
+        startDateChooseDialog.setCanceledOnTouchOutside(true);
+        return startDateChooseDialog;
+    }
+
     /**
      * 上传工作轨迹到服务器
      */
     private void uploadWorkTrajectory(){
         SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(this);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         if(et_tarjectory_event.getText().toString().trim()==null||et_tarjectory_event.getText().toString().equals("")){
             Toast.makeText(this,"事件名称必须填写！",Toast.LENGTH_SHORT).show();
             return;
         }
-        if(et_tarjectory_time.getText().toString().trim()==null|et_tarjectory_time.getText().toString().equals("")){
-            Toast.makeText(this,"时间必须填写！",Toast.LENGTH_SHORT).show();
+        if(tv_tarjectory_time.getText().toString().trim()==null|tv_tarjectory_time.getText().toString().equals("")){
+            Toast.makeText(this,"开始时间必须填写！",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(tv_tarjectory_endtime.getText().toString().trim()==null|tv_tarjectory_endtime.getText().toString().equals("")){
+            Toast.makeText(this,"结束时间必须填写！",Toast.LENGTH_SHORT).show();
             return;
         }
         if(mFileList.size() == 0){
@@ -153,7 +197,8 @@ public class AddTrajectoryActivity extends ActivityFragmentSupport {
                 .addFormDataPart("userId", sqliteDBUtils.getLoginUid())
                 .addFormDataPart("eventDate",simpleDateFormat.format(new Date()))
                 .addFormDataPart("eventName",et_tarjectory_event.getText().toString())
-                .addFormDataPart("eventTime",et_tarjectory_time.getText().toString())
+                .addFormDataPart("eventTime",tv_tarjectory_time.getText().toString())
+                .addFormDataPart("eventEndTime",tv_tarjectory_endtime.getText().toString())
                 .addFormDataPart("eventAddress",tv_tarjectory_place.getText().toString());
         for (File file : mFileList) {
             multipartBuilder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));

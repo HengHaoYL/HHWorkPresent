@@ -44,18 +44,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/gj_f"
-                android:text="时间："/>
-            <EditText
-                android:id="@+id/et_tarjectory_time"
+                android:text="开始时间："/>
+            <TextView
+                android:id="@+id/tv_tarjectory_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:padding="@dimen/padding_big"
-                android:hint="请输入时间段"
                 android:textColor="@color/text_color_c"
                 android:textColorHint="@color/line"
+                android:drawableRight="@drawable/icon_datatime"
+                android:textSize="@dimen/gj_f" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dip"
+            android:background="@color/result_minor_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/gj_f"
+                android:text="结束时间："/>
+            <TextView
+                android:id="@+id/tv_tarjectory_endtime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="@dimen/padding_big"
+                android:textColor="@color/text_color_c"
+                android:textColorHint="@color/line"
+                android:drawableRight="@drawable/icon_datatime"
                 android:textSize="@dimen/gj_f" />
         </LinearLayout>
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dip"

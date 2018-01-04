@@ -45,6 +45,7 @@ public class WorkTrajectoryListAdapter extends ArrayAdapter<TrajectoryEntity> {
             convertView = this.inflater.inflate(R.layout.listview_item_trajectory, null);
             mHodlerView.tv_tarjectory_event = (TextView) convertView.findViewById(R.id.tarjectory_event);
             mHodlerView.tv_tarjectory_time = (TextView) convertView.findViewById(R.id.tarjectory_time);
+            mHodlerView.tv_tarjectory_endtime = (TextView) convertView.findViewById(R.id.tarjectory_endtime);
             mHodlerView.tv_tarjectory_place = (TextView) convertView.findViewById(R.id.tarjectory_place);
             mHodlerView.trajectory_picture_gridView = (GridView) convertView.findViewById(R.id.trajectory_picture_gridView);
             convertView.setTag(mHodlerView);
@@ -53,6 +54,7 @@ public class WorkTrajectoryListAdapter extends ArrayAdapter<TrajectoryEntity> {
         }
         mHodlerView.tv_tarjectory_event.setText(getItem(position).getEventName());
         mHodlerView.tv_tarjectory_time.setText(getItem(position).getEventTime());
+        mHodlerView.tv_tarjectory_endtime.setText(getItem(position).getEventEndTime());
         mHodlerView.tv_tarjectory_place.setText(getItem(position).getEventAddress());
         String filePath = getItem(position).getEventImagePath();
         if(filePath!=null) {
@@ -71,6 +73,8 @@ public class WorkTrajectoryListAdapter extends ArrayAdapter<TrajectoryEntity> {
         TextView tv_tarjectory_event;
 
         TextView tv_tarjectory_time;
+
+        TextView tv_tarjectory_endtime;
 
         TextView tv_tarjectory_place;
 
