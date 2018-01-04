@@ -79,6 +79,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.linear_meeting_duration)
     private LinearLayout linear_meeting_duration;
 
+    @ViewInject(R.id.linear_meeting_shenpiren)
+    private LinearLayout linear_meeting_shenpiren;
+
 /*    @ViewInject(R.id.tv_meeting_ok)
     private TextView tv_meeting_ok;*/
 
@@ -93,6 +96,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
 
     @ViewInject(R.id.tv_meeting_duration)
     private TextView tv_meeting_duration;
+
+    @ViewInject(R.id.tv_meeting_shenpiren)
+    private TextView tv_meeting_shenpiren;
 
     @ViewInject(R.id.tv_meeting_clear)
     private TextView tv_meeting_clear;
@@ -122,6 +128,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     private String meetingStartTime;
     private String meetingType;
     private String meetingDuration;
+    private String leadId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +199,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         httpRequestDeptList();
     }
 
-    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration,R.id.linear_meeting_type,R.id.tv_meeting_clear})
+    @OnClick({R.id.linear_choose_meet_people,R.id.tv_meeting_start_time,R.id.linear_meeting_duration,R.id.linear_meeting_type,R.id.linear_meeting_shenpiren,R.id.tv_meeting_clear})
     private void viewOnClick(View v) {
         switch (v.getId()){
             case R.id.linear_choose_meet_people:
@@ -207,6 +214,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
             case R.id.linear_meeting_type:
                 popupWindowHelper.showFromTop(v);
                 break;
+            case R.id.linear_meeting_shenpiren: //选择审批人
+                chooseMeetingShenpiren();
+                break;
             case R.id.tv_meeting_clear:
                 mSelectPersonnelList.clear();
                 tv_meeting_clear.setVisibility(View.GONE);
@@ -216,11 +226,74 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         }
     }
 
+    /**
+     * 选择会议审批人
+     */
+    private void chooseMeetingShenpiren(){
+        View customView = View.inflate(this,R.layout.layout_list_dialog,null);
+        xcDropDownDeptListView = (XCDropDownDeptListView) customView.findViewById(R.id.xCDropDownListView);
+        TextView tv_zhifaduiwu = (TextView) customView.findViewById(R.id.tv_zhifaduiwu);
+        tv_zhifaduiwu.setText("部门");
+        personal_listview = (ListView) customView.findViewById(R.id.personal_listview);
+        xcDropDownDeptListView.setItemsData(mDeptList);
+
+        //传空id代表查询全部人员
+        httpRequestJianchaPersonalInfo("");
+
+        mSelectPersonnelList.clear();
+        personal_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PersonnelListAdapter.HodlerView holder = (PersonnelListAdapter.HodlerView) view.getTag();
+                personnelListAdapter.getIsSelected().put(position,true);
+                holder.personal_checkbox.toggle();
+                personnelListAdapter.getIsSelected().put(position, holder.personal_checkbox.isChecked());
+
+                //使用checkbox实现单选功能
+                for (int i = 0; i < personnelEntityList.size(); i++) {
+                    personnelListAdapter.getIsSelected().put(i, false);
+                    personnelListAdapter.notifyDataSetChanged();
+                }
+                personnelListAdapter.getIsSelected().put(position,true);
+                mSelectPersonnelList.add((MeetingEntity.PersonnelEntity) personnelListAdapter.getItem(position));
+                personnelListAdapter.notifyDataSetChanged();
+            }
+        });
+        CustomDialog.Builder dialog=new CustomDialog.Builder(this);
+        dialog.setTitle("选择会议审批人员")
+                .setContentView(customView)//设置自定义customView
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        for(MeetingEntity.PersonnelEntity personnelEntity : mSelectPersonnelList){
+                            //得到被选中的人的id
+                            leadId = personnelEntity.getId();
+                            tv_meeting_shenpiren.setText(personnelEntity.getName());
+                        }
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).create().show();
+
+        xcDropDownDeptListView.setOnItemClickXCDropDownListViewListener(new XCDropDownDeptListView.XCDropDownListViewListener() {
+            @Override
+            public void getItemData(DeptEntity deptEntity) {
+                if(personnelEntityList!=null){
+                    personnelEntityList.clear();
+                }
+                httpRequestJianchaPersonalInfo(deptEntity.getId());
+            }
+        });
+    }
 
     /**
      * 上传会议到服务器
      */
-    public void httpSaveMeetingToService(){
+    private void httpSaveMeetingToService(){
         meetingTheme = et_meeting_theme.getText().toString();
         if(meetingTheme.equals("")){
             Toast.makeText(this,"必须填写会议主题",Toast.LENGTH_SHORT).show();
@@ -241,6 +314,12 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
             Toast.makeText(this,"必须选择会议类型！",Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if(leadId.equals("")){
+            Toast.makeText(this,"必须选择会议审批人！",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         meetingStartTime = tv_meeting_start_time.getText().toString();
         meetingDuration = tv_meeting_duration.getText().toString();
         if(mSelectPersonnelList == null){
@@ -253,6 +332,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         }
         MeetingEntity meetingEntity = new MeetingEntity();
         meetingEntity.setUid(new SqliteDBUtils(this).getLoginUid());
+        meetingEntity.setLeadId(leadId);
         meetingEntity.setMeetingTheme(meetingTheme);
         meetingEntity.setMeetingPlace(meetingPlace);
         meetingEntity.setWifiSSID(meetingWifiSSID);

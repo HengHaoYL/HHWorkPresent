@@ -163,6 +163,33 @@
                 android:background="@color/line"/>
 
             <LinearLayout
+                android:id="@+id/linear_meeting_shenpiren"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="选择审批"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_big"
+                    android:textSize="@dimen/gj_f"/>
+                <TextView
+                    android:id="@+id/tv_meeting_shenpiren"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:padding="@dimen/padding_big"
+                    android:textColor="@color/text_color_c"
+                    android:textColorHint="@color/line"
+                    android:drawableRight="@drawable/item_point_right"
+                    android:textSize="@dimen/gj_f"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/line"/>
+
+            <LinearLayout
                 android:id="@+id/linear_choose_meet_people"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -216,23 +243,6 @@
 
         </LinearLayout>
 
-        <!--<RelativeLayout
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_alignParentBottom="true">
-
-            <TextView
-                android:id="@+id/tv_meeting_ok"
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/btn_bluecircleframe"
-                android:gravity="center"
-                android:text="确定"
-                android:textColor="@color/white"
-                android:textSize="@dimen/gj_d" />
-        </RelativeLayout>-->
     </RelativeLayout>
 
 </ScrollView>

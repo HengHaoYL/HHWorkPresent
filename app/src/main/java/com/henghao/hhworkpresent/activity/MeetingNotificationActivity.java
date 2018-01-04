@@ -146,7 +146,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     /**
      * 选择参会人员
      */
-    public void chooseJoinMeetingPeople(){
+    private void chooseJoinMeetingPeople(){
         View customView = View.inflate(this,R.layout.layout_list_dialog,null);
         xcDropDownDeptListView = (XCDropDownDeptListView) customView.findViewById(R.id.xCDropDownListView);
         TextView tv_zhifaduiwu = (TextView) customView.findViewById(R.id.tv_zhifaduiwu);
