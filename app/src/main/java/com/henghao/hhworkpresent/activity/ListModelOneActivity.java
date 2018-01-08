@@ -31,6 +31,7 @@ public class ListModelOneActivity extends ActivityFragmentSupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.mActivityFragmentView.viewMain(R.layout.activity_listone_one);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);

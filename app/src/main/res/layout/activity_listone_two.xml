@@ -3,14 +3,12 @@
     android:id="@+id/scrollview_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <LinearLayout
             android:id="@+id/listone_two_linearlayout1"
             android:layout_width="match_parent"

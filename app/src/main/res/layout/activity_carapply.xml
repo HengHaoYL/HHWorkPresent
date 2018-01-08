@@ -7,7 +7,7 @@
     <com.henghao.hhworkpresent.views.ProgressWebView
         android:id="@+id/carapply_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        ></com.henghao.hhworkpresent.views.ProgressWebView>
+        android:layout_height="match_parent">
+    </com.henghao.hhworkpresent.views.ProgressWebView>
 
 </RelativeLayout>

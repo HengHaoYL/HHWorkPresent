@@ -85,11 +85,6 @@ public class MyFragment extends FragmentSupport {
     @ViewInject(R.id.tv_exitlogin)
     private TextView tv_exitlogin;
 
-/*
-    @ViewInject(R.id.my_layout)
-    private RelativeLayout my_layout;
-*/
-
     private SqliteDBUtils sqliteDBUtils;
 
     private ArrayList<String> mSelectPath;
@@ -107,7 +102,6 @@ public class MyFragment extends FragmentSupport {
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();
         this.mActivityFragmentView.viewLoading(View.GONE);
-  //      this.mActivityFragmentView.viewLoadingError(View.GONE);
         ViewUtils.inject(this, this.mActivityFragmentView);
         initWidget();
         initData();
@@ -116,15 +110,6 @@ public class MyFragment extends FragmentSupport {
 
     public void initWidget(){
         initwithContent();
-        /*//显示错误页面，点击重试
-        initLoadingError();
-        this.tv_viewLoadingError.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivityFragmentView.viewLoadingError(View.GONE);
-                httpLoadingHeadImage();
-            }
-        });*/
     }
 
     public void initData(){
@@ -150,8 +135,6 @@ public class MyFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                       /* my_layout.setVisibility(View.GONE);
-                        mActivityFragmentView.viewLoadingError(View.VISIBLE);*/
                     }
                 });
             }
@@ -176,8 +159,6 @@ public class MyFragment extends FragmentSupport {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                         //       my_layout.setVisibility(View.VISIBLE);
-
                                 // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
                                 options = new DisplayImageOptions.Builder()
                                         .showImageOnLoading(R.drawable.icon_logo) // 设置图片下载期间显示的图片

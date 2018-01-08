@@ -161,4 +161,23 @@ public class ContactSortModel {
     public void setBirth_DATE(String birth_DATE) {
         this.birth_DATE = birth_DATE;
     }
+
+    @Override
+    public String toString() {
+        return "ContactSortModel{" +
+                "sortLetters='" + sortLetters + '\'' +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", birth_DATE='" + birth_DATE + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", cellphone='" + cellphone + '\'' +
+                ", sex='" + sex + '\'' +
+                ", address='" + address + '\'' +
+                ", position='" + position + '\'' +
+                ", work_DESC='" + work_DESC + '\'' +
+                ", dept_NAME='" + dept_NAME + '\'' +
+                ", emp_NUM='" + emp_NUM + '\'' +
+                ", uid='" + uid + '\'' +
+                '}';
+    }
 }

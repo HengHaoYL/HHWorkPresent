@@ -2,14 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ecf0f1"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_layoutone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -44,7 +42,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:paddingBottom="10dp"
             android:paddingLeft="10dp" >
 
@@ -84,7 +81,6 @@
         android:visibility="gone"
         android:layout_below="@+id/ll_layoutone"
         android:layout_marginTop="10dp"
-        android:background="#ffffff"
         android:orientation="vertical"
         android:padding="10dp" >
 
@@ -105,7 +101,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="#ffffff"
         android:orientation="horizontal"
         android:padding="20dp" >
 
@@ -129,7 +124,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp">
-
         <Button
             android:id="@+id/btn_submit_qiandaosubmit"
             android:layout_width="match_parent"

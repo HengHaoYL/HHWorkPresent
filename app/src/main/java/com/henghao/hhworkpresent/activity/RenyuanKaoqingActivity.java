@@ -37,6 +37,7 @@ public class RenyuanKaoqingActivity extends ActivityFragmentSupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         if (this.tabAdapter != null) {
             this.tabAdapter.remove();
         }

@@ -13,72 +13,18 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:visibility="visible" >
-
-        <ImageView
-            android:id="@+id/imageview_splash"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scrollbars="none"
-            android:visibility="visible" />
-        <!--  -->
-
-        <LinearLayout
-            android:id="@+id/ll_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/padding_normal"
-            android:layout_marginTop="@dimen/padding_normal"
-            android:background="@drawable/btn_transblackcircleframe"
-            android:orientation="horizontal"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/padding_normal"
-                android:paddingLeft="@dimen/padding_big"
-                android:paddingRight="@dimen/padding_big"
-                android:paddingTop="@dimen/padding_normal"
-                android:text="跳过"
-
-                android:textSize="@dimen/gj_d" >
-            </TextView>
-        </LinearLayout>
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:visibility="visible" >
-
-        <ImageView
-            android:id="@+id/splash_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <TextView
-            android:id="@+id/splash_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center" />
-    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/relativelayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/opinions_edit_height"
+        android:layout_height="150dp"
         android:paddingBottom="@dimen/padding_normal"
         android:visibility="visible" >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/fitment_mark"
+            android:layout_height="80dp"
             android:gravity="center" >
 
             <ImageView
@@ -92,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/padding_big"
+                android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/imageview_logo"
                 android:gravity="center_horizontal"
                 android:orientation="vertical" >
@@ -103,8 +49,7 @@
                     android:layout_centerVertical="true"
                     android:text="贵阳市安监数据铁笼"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/gj_g"
-                    android:typeface="monospace" />
+                    android:textSize="@dimen/gj_g" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -121,6 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
             android:layout_centerInParent="true"
             android:text="Copyright © 2017-2018 HH.All rights reserved"
             android:textSize="10sp" />

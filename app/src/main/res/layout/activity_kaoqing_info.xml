@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#ffff">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/myview"
@@ -76,7 +75,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
-        android:background="#CCCCCC"
         android:layout_height="35dp">
         <TextView
             android:layout_width="match_parent"
@@ -85,7 +83,6 @@
             android:layout_gravity="center"
             android:text="班次：A 09:00-17:00  考勤组：考勤"/>
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dip"
@@ -103,7 +100,6 @@
             android:drawableLeft="@drawable/item_dakatoday"
             android:text="今日打卡0次，工时总计0分钟"/>
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dip"

@@ -12,7 +12,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -31,7 +30,6 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
@@ -40,10 +38,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -61,24 +57,19 @@
                     android:id="@+id/anquanfuwu"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"/>
-
                 <com.henghao.hhworkpresent.views.MyImageTextButton
                     android:id="@+id/shejishencha"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"/>
-
                 <com.henghao.hhworkpresent.views.MyImageTextButton
                     android:id="@+id/chushen"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"/>
-
                 <com.henghao.hhworkpresent.views.MyImageTextButton
                     android:id="@+id/fushen"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"/>
-
             </LinearLayout>
-
             <LinearLayout
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
@@ -90,7 +81,6 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
@@ -99,10 +89,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -120,24 +108,19 @@
                     android:id="@+id/zhidingjihua"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"/>
-
                 <com.henghao.hhworkpresent.views.MyImageTextButton
                     android:id="@+id/fabugonggao"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"/>
-
                 <com.henghao.hhworkpresent.views.MyImageTextButton
                     android:id="@+id/renwupaifa"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"/>
-
                 <com.henghao.hhworkpresent.views.MyImageTextButton
                     android:id="@+id/lingdaoquxiang"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"/>
-
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
@@ -146,10 +129,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -167,15 +148,12 @@
                     android:id="@+id/sanzhongyida"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"/>
-
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_height="1dip"
                 android:background="@color/line"/>
-
         </LinearLayout>
 
     </LinearLayout>

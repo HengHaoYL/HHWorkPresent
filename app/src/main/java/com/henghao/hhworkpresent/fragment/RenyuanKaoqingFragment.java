@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.benefit.buy.library.views.xlistview.XListView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
@@ -37,11 +39,11 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +73,10 @@ public class RenyuanKaoqingFragment extends FragmentSupport {
     @ViewInject(R.id.et_search)
     private EditTextWithDel mEtSearchName;
     private List<ContactSortModel> SourceDateList = new ArrayList<>();
+    private ArrayList<String> indexString = new ArrayList<>();
+
+    private Handler mHandler = new Handler(){};
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -211,10 +217,6 @@ public class RenyuanKaoqingFragment extends FragmentSupport {
         adapter.notifyDataSetChanged();
     }
 
-    private Handler mHandler = new Handler(){};
-
-    private ArrayList<String> indexString;
-
     private void httpRequestMyTongxunlu() {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
@@ -243,48 +245,39 @@ public class RenyuanKaoqingFragment extends FragmentSupport {
                 try {
                     JSONObject jsonObject = new JSONObject(result_str);
                     int status = jsonObject.getInt("status");
-                    if (status == 0) {
-                        mHandler.post(new Runnable() {
+
+                    if(status==0) {
+                        result_str = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<ArrayList<ContactSortModel>>() {}.getType();
+                        SourceDateList = gson.fromJson(result_str,type);
+
+                        for(ContactSortModel contactSortModel : SourceDateList ){
+                            //将名字转化为拼音
+                            String pinyin = PinyinUtils.getPingYin(contactSortModel.getName());
+                            String sortString = pinyin.substring(0, 1).toUpperCase();
+                            if (sortString.matches("[A-Z]")) {
+                                contactSortModel.setSortLetters(sortString.toUpperCase());
+                                if (!indexString.contains(sortString)) {
+                                    indexString.add(sortString);
+                                }
+                            }
+                        }
+
+                        mActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tongxunlu_layout.setVisibility(View.VISIBLE);
+                                Collections.sort(indexString);
+                                sideBar.setIndexText(indexString);
+
+                                Collections.sort(SourceDateList, new PinyinComparator());
+                                adapter = new SortAdapter(mActivity, SourceDateList);
+                                sortListView.setAdapter(adapter);
                                 mActivityFragmentView.viewLoading(View.GONE);
                             }
                         });
                     }
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-                    indexString = new ArrayList<>();
-                    for(int i=0;i<jsonArray.length();i++){
-                        ContactSortModel contactSortModel = new ContactSortModel();
-                        JSONObject dataObject = jsonArray.getJSONObject(i);
-                        String name = dataObject.getString("name");
-                        String uid = dataObject.getString("id");
-                        contactSortModel.setName(name);
-                        contactSortModel.setUid(uid);
-
-                        //将名字转化为拼音
-                        String pinyin = PinyinUtils.getPingYin(name);
-                        String sortString = pinyin.substring(0, 1).toUpperCase();
-                        if (sortString.matches("[A-Z]")) {
-                            contactSortModel.setSortLetters(sortString.toUpperCase());
-                            if (!indexString.contains(sortString)) {
-                                indexString.add(sortString);
-                            }
-                        }
-                        SourceDateList.add(contactSortModel);
-                    }
-
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            tongxunlu_layout.setVisibility(View.VISIBLE);
-                            Collections.sort(indexString);
-                            sideBar.setIndexText(indexString);
-                            Collections.sort(SourceDateList, new PinyinComparator());
-                            adapter = new SortAdapter(mActivity, SourceDateList);
-                            sortListView.setAdapter(adapter);
-                            mActivityFragmentView.viewLoading(View.GONE);
-                        }
-                    });
 
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="20dp"
-    android:background="#ecf0f1"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,9 +12,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="#D5D5D5"
             android:layout_height="30dp">
             <TextView
                 android:layout_width="wrap_content"
@@ -25,6 +28,11 @@
                 android:textSize="12dp"
                 android:text="迟到记录"/>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line" />
 
         <ListView
             android:id="@+id/listview_kaoqing_chidao"
@@ -43,10 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="#D5D5D5"
             android:layout_height="30dp">
             <TextView
                 android:layout_width="wrap_content"
@@ -56,7 +62,6 @@
                 android:textSize="12dp"
                 android:text="早退记录"/>
         </LinearLayout>
-
         <ListView
             android:id="@+id/listview_kaoqing_zaotui"
             android:layout_width="match_parent"
@@ -74,10 +79,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="#D5D5D5"
             android:layout_height="30dp">
             <TextView
                 android:layout_width="wrap_content"
@@ -97,6 +104,7 @@
             android:fadingEdge="none"
             android:listSelector="@drawable/list_selector_transition"
             android:splitMotionEvents="false" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -105,10 +113,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="#D5D5D5"
             android:layout_height="30dp">
             <TextView
                 android:layout_width="wrap_content"
@@ -118,6 +128,11 @@
                 android:textSize="12dp"
                 android:text="旷工记录"/>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/line" />
 
         <ListView
             android:id="@+id/listview_kaoqing_kuanggong"

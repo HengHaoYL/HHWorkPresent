@@ -61,6 +61,7 @@ public class WaiqingQiandaoSubmitActivity extends ActivityFragmentSupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         this.mActivityFragmentView.viewMain(R.layout.activity_waiqingqiandao_submit);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);
         this.mActivityFragmentView.viewEmptyGone();

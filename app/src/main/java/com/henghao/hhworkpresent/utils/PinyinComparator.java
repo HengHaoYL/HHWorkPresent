@@ -13,6 +13,9 @@ public class PinyinComparator implements Comparator<ContactSortModel> {
 
     public int compare(ContactSortModel o1, ContactSortModel o2) {
         //这里主要是用来对ListView里面的数据根据ABCDEFG...来排序
+        if(o1.getSortLetters()==null){
+            return 1;
+        }
         if (o1.getSortLetters().equals("@")
                 || o2.getSortLetters().equals("#")) {
             return -1;
@@ -22,5 +25,6 @@ public class PinyinComparator implements Comparator<ContactSortModel> {
         } else {
             return o1.getSortLetters().compareTo(o2.getSortLetters());
         }
+
     }
 }

@@ -126,6 +126,7 @@ public class CalendarActivity extends ActivityFragmentSupport implements MyCalen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.mActivityFragmentView.viewMain(R.layout.activity_calendar);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);

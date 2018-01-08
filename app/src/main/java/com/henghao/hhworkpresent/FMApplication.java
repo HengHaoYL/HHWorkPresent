@@ -33,39 +33,43 @@ import cn.jpush.android.api.TagAliasCallback;
 
 public class FMApplication extends Application {
 
-    /** 对外提供整个应用生命周期的Context **/
     private static Context instance;
 
     private final List<Activity> activityList = new LinkedList<Activity>();
-
-    /**
-     * 对外提供Application Context
-     * @return
-     */
-    public static Context gainContext() {
-        return instance;
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        JPushInterface.setDebugMode(true);
-        JPushInterface.init(this);
+        initThirdService(instance);
+    //    appException();
+    }
 
-        //别名
-        String alias = new SqliteDBUtils(this).getUsername();
-        JPushInterface.setAlias(this, alias, new TagAliasCallback() {  //回调接口,i=0表示成功,其它设置失败
+    /**
+     * 初始化第三方服务
+     * @param context
+     */
+    private void initThirdService(final Context context){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JPushInterface.setDebugMode(true);
+                JPushInterface.init(context);
+                //别名
+                String alias = new SqliteDBUtils(context).getUsername();
+                JPushInterface.setAlias(context, alias, new TagAliasCallback() {  //回调接口,i=0表示成功,其它设置失败
                     @Override
                     public void gotResult(int i, String s, Set<String> set) {
                     }
                 });
 
-        initImageLoader(getApplicationContext());
-        appException();
+                initImageLoader(context);
+            }
+        }).start();
+
     }
 
-    public static void initImageLoader(Context context) {
+    private static void initImageLoader(Context context) {
         //缓存文件的目录
         File cacheDir = StorageUtils.getOwnCacheDirectory(context, "universalimageloader/Cache");
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
@@ -87,11 +91,8 @@ public class FMApplication extends Application {
         ImageLoader.getInstance().init(config);
     }
 
-
     /**
      * 异常处理类
-     * @see [类、类#方法、类#成员]
-     * @since [产品/模块版本]
      */
     private void appException() {
         boolean sdcardExist = ToolsFile.isSdcardExist();
@@ -107,9 +108,6 @@ public class FMApplication extends Application {
 
     /**
      * 添加Activity到容器中
-     * @param activity
-     * @see [类、类#方法、类#成员]
-     * @since [产品/模块版本]
      */
     public void addActivity(Activity activity) {
         Log.e("@@@", "add:" + activity);
@@ -117,10 +115,7 @@ public class FMApplication extends Application {
     }
 
     /**
-     * 删除对应的activity 〈一句话功能简述〉 〈功能详细描述〉
-     * @param activity
-     * @see [类、类#方法、类#成员]
-     * @since [产品/模块版本]
+     * 删除对应的activity
      */
     public void removeActivity(Activity activity) {
         if (!ToolsKit.isEmpty(this.activityList)) {

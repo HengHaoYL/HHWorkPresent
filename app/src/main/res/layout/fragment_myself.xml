@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/my_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ecf0f1"
     android:orientation="vertical">
-
 
     <RelativeLayout
         android:id="@+id/myself_linear1"
@@ -23,7 +20,6 @@
             android:src="@drawable/icon_logo"
             app:border_width="2dp"
             app:border_color="@color/text_color_green" />
-
         <TextView
             android:id="@+id/fragment_my_login_username"
             android:layout_marginTop="10dp"
@@ -34,7 +30,6 @@
             android:text="[请登录]" />
 
     </RelativeLayout>
-
 
     <LinearLayout
         android:id="@+id/myself_linear2"

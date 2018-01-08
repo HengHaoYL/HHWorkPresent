@@ -61,6 +61,7 @@ public class DakaDetailActivity extends ActivityFragmentSupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.mActivityFragmentView.viewMain(R.layout.activity_dakadetail);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);

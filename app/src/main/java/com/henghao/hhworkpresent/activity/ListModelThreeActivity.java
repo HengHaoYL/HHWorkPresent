@@ -86,6 +86,7 @@ public class ListModelThreeActivity extends ActivityFragmentSupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.mActivityFragmentView.viewMain(R.layout.activity_listone_three);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);

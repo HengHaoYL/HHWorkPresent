@@ -48,13 +48,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import org.json.JSONException;
 
 
-
 /**
- * Activity 父类
- * @author qyl
- * @version HDMNV100R001, 2015-4-20
- * @see [相关类/方法]
- * @since [产品/模块版本]
+ * Activity的基类
  */
 public class ActivityFragmentSupport extends FragmentActivity implements IActivitySupport, BusinessResponse {
 
@@ -260,49 +255,6 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
         }
     }
 
-    /**
-     * 百度推送 〈一句话功能简述〉 〈功能详细描述〉
-     * @see [类、类#方法、类#成员]
-     * @since [产品/模块版本]
-     */
-    protected void bdPushManager() {
-        // Resources resource = this.getResources();
-        // String pkgName = this.getPackageName();
-        // PushManager.startWork(getApplicationContext(),
-        // PushConstants.LOGIN_TYPE_API_KEY, Constant.APIKEY);
-        // // Push: 如果想基于地理位置推送，可以打开支持地理位置的推送的开关
-        // // PushManager.enableLbs(getApplicationContext());
-        // // Push: 设置自定义的通知样式，具体API介绍见用户手册，如果想使用系统默认的可以不加这段代码
-        // // 请在通知推送界面中，高级设置->通知栏样式->自定义样式，选中并且填写值：1，
-        // // 与下方代码中 PushManager.setNotificationBuilder(this, 1,
-        // cBuilder)中的第二个参数对应
-        // CustomPushNotificationBuilder cBuilder = new
-        // CustomPushNotificationBuilder(
-        // resource.getIdentifier("notification_custom_builder", "layout",
-        // pkgName),
-        // resource.getIdentifier("notification_icon", "id", pkgName),
-        // resource.getIdentifier("notification_title", "id", pkgName),
-        // resource.getIdentifier("notification_text", "id", pkgName));
-        // cBuilder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);
-        // cBuilder.setNotificationDefaults(Notification.DEFAULT_VIBRATE);
-        // cBuilder.setStatusbarIcon(this.getApplicationInfo().icon);
-        // cBuilder.setLayoutDrawable(resource.getIdentifier("simple_notification_icon",
-        // "drawable", pkgName));
-        // cBuilder.setNotificationSound(Uri.withAppendedPath(Audio.Media.INTERNAL_CONTENT_URI,
-        // "6").toString());
-        // // 推送高级设置，通知栏样式设置为下面的ID
-        // PushManager.setNotificationBuilder(this, 1, cBuilder);
-    }
-
-    // public void statusBar(boolean status, int color) {
-    // mTintManager.setStatusBarTintEnabled(status);
-    // // mTintManager.setNavigationBarTintEnabled(true);
-    // mTintManager.setStatusBarTintResource(color);
-    // }
-    //
-    // public void statusBar(boolean status) {
-    // statusBar(status, R.color.header);
-    // }
     @TargetApi(19)
     private void setTranslucentStatus(boolean on) {
         Window win = getWindow();
@@ -522,31 +474,7 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
         }
     }
 
-    // @Override
-    // public void startActivity(Intent intent) {
-    // super.startActivity(intent);
-    // ComponentName com = intent.getComponent();
-    // if (com != null) {
-    // String className = com.getClassName();
-    // if (MobUIShell.class.getName().equals(className)) {
-    // return;
-    // }
-    // }
-    // overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-    // }
-    //
-    // @Override
-    // public void startActivityForResult(Intent intent, int requestCode) {
-    // super.startActivityForResult(intent, requestCode);
-    // ComponentName com = intent.getComponent();
-    // if (com != null) {
-    // String className = com.getClassName();
-    // if (MobUIShell.class.getName().equals(className)) {
-    // return;
-    // }
-    // }
-    // overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-    // }
+
     @Override
     public void finish() {
         this.mApplication.removeActivity(this);

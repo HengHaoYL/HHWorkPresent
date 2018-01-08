@@ -28,7 +28,6 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-
     <!-- 程序退出操作权限 -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
@@ -257,7 +256,7 @@
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -508,18 +507,6 @@
         <!-- 未读已读公告详情页面 -->
         <activity
             android:name=".activity.GonggaoDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
-        <!-- 下一步发送公告界面 -->
-        <activity
-            android:name=".activity.SendGonggaoNextActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
-        <!-- 选择联系人界面 -->
-        <activity
-            android:name=".activity.ChooseContactsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 

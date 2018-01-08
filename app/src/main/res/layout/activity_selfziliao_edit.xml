@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
-    android:background="#fff"
     android:scrollbars="none">
 
     <LinearLayout

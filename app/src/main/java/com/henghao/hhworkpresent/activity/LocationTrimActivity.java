@@ -84,6 +84,7 @@ public class LocationTrimActivity extends ActivityFragmentSupport implements OnG
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         SDKInitializer.initialize(getApplicationContext());
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.mActivityFragmentView.viewMain(R.layout.activity_locationtrim);
@@ -373,7 +374,9 @@ public class LocationTrimActivity extends ActivityFragmentSupport implements OnG
                     adapter.notifyDataSetChanged();
                     Message msg = new Message();
                     msg.what = 0;
-                    handler.sendMessage(msg);
+                    if(handler != null){
+                        handler.sendMessage(msg);
+                    }
                 }
             }
         }

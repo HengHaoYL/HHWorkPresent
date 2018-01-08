@@ -61,6 +61,7 @@ public class MyTongxunluDetailActivity extends ActivityFragmentSupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.mActivityFragmentView.viewMain(R.layout.activity_tongxunlu_detail);
         this.mActivityFragmentView.viewEmpty(R.layout.activity_empty);

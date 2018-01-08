@@ -41,9 +41,7 @@ public class Constant {
 	/**
 	 * 程序运行期间产生的文件，缓存根目录
 	 */
-	public static final String ROOT_DIR_PATH = Environment
-			.getExternalStorageDirectory().getAbsolutePath()
-			+ "/parkLand/cache";
+	public static final String ROOT_DIR_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/gyajj/cache";
 
 	/**
 	 * 缓存文件保存的根目录

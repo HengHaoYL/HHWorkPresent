@@ -62,6 +62,7 @@ public class MainActivity extends ActivityFragmentSupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         if (this.tabAdapter != null) {
             this.tabAdapter.remove();
         }
@@ -99,14 +100,8 @@ public class MainActivity extends ActivityFragmentSupport {
             }
         }
         catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // Intent intent = getIntent();
-        // page = intent.getIntExtra("page", 0);
-        // if (page == 3) {
-        // hcShopcar.setChecked(true);
-        // }
         this.tabAdapter = new FragmentTabAdapter(this, this.fragments, R.id.tab_content, this.radioGroup);
         this.tabAdapter.setOnRgsExtraCheckedChangedListener(new FragmentTabAdapter.OnRgsExtraCheckedChangedListener() {
 
