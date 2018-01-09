@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,8 +67,8 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     @ViewInject(R.id.btn_notification_not_join)
     private Button btn_notification_not_join;
 
-    @ViewInject(R.id.relativelayout_btn)
-    private RelativeLayout relativelayout_btn;
+    @ViewInject(R.id.linearlayout_btn)
+    private LinearLayout relativelayout_btn;
 
     private XCDropDownDeptListView xcDropDownDeptListView;
     private ListView personal_listview;

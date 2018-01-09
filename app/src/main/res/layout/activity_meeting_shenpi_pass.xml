@@ -32,7 +32,6 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
@@ -58,7 +57,6 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
@@ -84,7 +82,6 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
@@ -110,7 +107,6 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
@@ -136,7 +132,6 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="18dp" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
@@ -162,7 +157,6 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="18dp"/>
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
@@ -175,7 +169,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
-                android:text="朱志刚、张三、李四、王五、码子"
+                android:text="朱志刚、张三、李四、王五"
                 android:textSize="18dp">
             </TextView>
 
@@ -190,7 +184,6 @@
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -163,7 +163,7 @@ public class RenyuanKaoqingFragment extends FragmentSupport {
                 showname_layout.setVisibility(View.VISIBLE);
                 Intent intent = new Intent();
                 intent.setClass(mActivity, RenyuanKaoqingInfoActivity.class);
-                intent.putExtra("uid",((ContactSortModel) adapter.getItem(position1 -1 )).getUid());
+                intent.putExtra("uid",((ContactSortModel) adapter.getItem(position1 -1 )).getId());
                 intent.putExtra("name",((ContactSortModel) adapter.getItem(position1 -1 )).getName());
                 startActivity(intent);
             }

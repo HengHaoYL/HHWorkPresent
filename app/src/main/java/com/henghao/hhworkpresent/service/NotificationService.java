@@ -2,6 +2,7 @@ package com.henghao.hhworkpresent.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
@@ -37,6 +38,7 @@ public class NotificationService extends Service{
     private SqliteDBUtils sqliteDBUtils;
     private NotificationUtils notificationUtils;
     private DownLoadMsgAndGonggaoThread thread;
+    private Handler mHandler = new Handler();
 
     @Override
     public void onCreate() {
@@ -103,10 +105,15 @@ public class NotificationService extends Service{
                     JSONObject jsonObject = new JSONObject(result_str);
                     int status = jsonObject.getInt("status");
                     if (status == 0) {
-                        JSONArray jsonArray = jsonObject.getJSONArray("data");
-                        if(jsonArray.length()>0){
-                            notificationUtils.addNotfication("未读公告", "你有新的未读公告，请尽快查阅！", NO_1 , new GongGaoActivity());
-                        }
+                        final JSONArray jsonArray = jsonObject.getJSONArray("data");
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(jsonArray.length()>0){
+                                    notificationUtils.addNotfication("未读公告", "你有新的未读公告，请尽快查阅！", NO_1 , new GongGaoActivity());
+                                }
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -142,9 +149,14 @@ public class NotificationService extends Service{
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         gerendaiban_count = Integer.parseInt(jsonObject1.optString("gerendaiban_count"));
 
-                        if(gerendaiban_count>0){
-                            notificationUtils.addNotfication("需办理的工作", "你有新的需要办理的工作，请尽快办理！", NO_2 , new GerendaibanActivity());
-                        }
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(gerendaiban_count>0){
+                                    notificationUtils.addNotfication("需办理的工作", "你有新的需要办理的工作，请尽快办理！", NO_2 , new GerendaibanActivity());
+                                }
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

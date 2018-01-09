@@ -1,62 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tv_nopass_title"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
-        <TextView
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24dp"
-            android:text="会议审批不通过"/>
-    </RelativeLayout>
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:text="会议审批不通过"
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/tv_meeting_nopass_description"
-        android:layout_margin="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:text="你好，你发起的什么主题的会议因什么原因不能开会"/>
-
-    <RelativeLayout
+        android:layout_below="@id/tv_nopass_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="120dp"
-            android:layout_margin="10dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_meeting_faqiren"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="会议发起人：朱智刚"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="你好，你发起的什么主题的会议因什么原因不能开会"
+        android:textSize="18dp" />
 
-            <TextView
-                android:id="@+id/tv_meeting_shenpiren"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="18dp"
-                android:text="会议审批人：按油光"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_meeting_notification_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="18dp"
-                android:text="会议发起时间：2017-9-28 11:00"/>
-        </LinearLayout>
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_meeting_faqiren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="会议发起人：朱智刚"
+            android:textSize="18dp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_meeting_shenpiren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="会议审批人：按油光"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_meeting_notification_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="会议发起时间：2017-9-28 11:00"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+</RelativeLayout>

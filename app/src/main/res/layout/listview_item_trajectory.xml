@@ -1,105 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="事件："/>
-            <TextView
-                android:id="@+id/tarjectory_event"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="讨论四方粮油安全问题"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:text="事件："/>
+        <TextView
+            android:id="@+id/tarjectory_event"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="开始时间："/>
-            <TextView
-                android:id="@+id/tarjectory_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2017年7月18日 10：25"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="结束时间："/>
-            <TextView
-                android:id="@+id/tarjectory_endtime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2017年7月18日 10：25"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="地点："/>
-            <TextView
-                android:id="@+id/tarjectory_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="贵阳市政务大厅"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="图片："/>
-            <com.henghao.hhworkpresent.views.NoScrollGridView
-                android:id="@+id/trajectory_picture_gridView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:horizontalSpacing="5dp"
-                android:verticalSpacing="5dp"
-                android:numColumns="3"
-                android:columnWidth="90dp"
-                android:stretchMode="columnWidth"
-                android:gravity="center" >
-            </com.henghao.hhworkpresent.views.NoScrollGridView>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="@color/line" />
-
+            android:text="讨论四方粮油安全问题"/>
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始时间："/>
+        <TextView
+            android:id="@+id/tarjectory_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017年7月18日 10：25"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结束时间："/>
+        <TextView
+            android:id="@+id/tarjectory_endtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017年7月18日 10：25"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地点："/>
+        <TextView
+            android:id="@+id/tarjectory_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="贵阳市政务大厅"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图片："/>
+        <com.henghao.hhworkpresent.views.NoScrollGridView
+            android:id="@+id/trajectory_picture_gridView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:horizontalSpacing="5dp"
+            android:verticalSpacing="5dp"
+            android:numColumns="3"
+            android:columnWidth="90dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center" >
+        </com.henghao.hhworkpresent.views.NoScrollGridView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line" />
+
+</LinearLayout>
