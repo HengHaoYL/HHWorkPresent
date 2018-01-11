@@ -12,7 +12,7 @@ import android.os.Build;
  */
 public class Runnable {
 
-	@SuppressLint("NewApi")
+	/*@SuppressLint("NewApi")
 	@SuppressWarnings("unchecked")
 	public static void execAsync(AsyncTask<?, ?, ?> task) {
 		if (Build.VERSION.SDK_INT >= 11) {
@@ -22,6 +22,6 @@ public class Runnable {
 			task.execute();
 		}
 
-	}
+	}*/
 
 }

@@ -1,9 +1,5 @@
 package com.benefit.buy.library.phoneview;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.ListPopupWindow;
 import android.util.Log;
@@ -42,6 +39,10 @@ import com.benefit.buy.library.phoneview.bean.Image;
 import com.benefit.buy.library.phoneview.utils.FileUtils;
 import com.benefit.buy.library.phoneview.utils.TimeUtils;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 图片选择Fragment Created by Nereo on 2015/4/7.
@@ -397,7 +398,15 @@ public class MultiImageSelectorFragment extends Fragment {
             // 设置系统相机拍照后的输出路径
             // 创建临时文件
             mTmpFile = FileUtils.createTmpFile(getActivity());
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
+            //    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
+            //Android 7.0以上必须使用FileProvider来授予Uri临时访问权限，然后才能打开系统相机
+            Uri uri;
+            if (Build.VERSION.SDK_INT >= 24) {
+                uri = FileProvider.getUriForFile(getActivity().getApplicationContext(), "com.henghao.hhworkpresent.fileprovider", mTmpFile);
+            } else {
+                uri = Uri.fromFile(mTmpFile);
+            }
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             startActivityForResult(cameraIntent, REQUEST_CAMERA);
         }
         else {
