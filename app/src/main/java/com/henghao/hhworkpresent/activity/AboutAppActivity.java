@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
@@ -68,7 +69,7 @@ public class AboutAppActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("关于应用");
+        mLeftTextView.setText(R.string.tv_about_application);
         mLeftTextView.setVisibility(View.VISIBLE);
     }
 
@@ -76,7 +77,7 @@ public class AboutAppActivity extends ActivityFragmentSupport {
     public void initData() {
         super.initData();
         tv_device_info.setText(android.os.Build.MODEL);
-        tv_system_version_info.setText("Android  "+ android.os.Build.VERSION.RELEASE);
+        tv_system_version_info.setText(getString(R.string.android) + android.os.Build.VERSION.RELEASE);
         tv_softverion_info.setText(getVersion(this));
 
     }
@@ -93,7 +94,7 @@ public class AboutAppActivity extends ActivityFragmentSupport {
             return info.versionName;
         } catch (Exception e) {
             e.printStackTrace();
-            return "获取版本失败";
+            return getString(R.string.failed_get_version);
         }
     }
 
@@ -115,7 +116,7 @@ public class AboutAppActivity extends ActivityFragmentSupport {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(getApplication(), "当前已经是最新版本!", Toast.LENGTH_LONG).show();
+                                        ToastUtils.show(getApplication(), R.string.app_network_failure);
                                     }
                                 });
                             }else{

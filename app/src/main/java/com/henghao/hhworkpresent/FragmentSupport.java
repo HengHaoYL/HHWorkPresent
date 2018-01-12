@@ -166,8 +166,8 @@ public class FragmentSupport extends Fragment implements BusinessResponse {
 		        this.mRightLinearLayout);
 		this.mRightImageView = (ImageView) viewRight.findViewById(R.id.bar_right_img);
 		this.mRightTextView = (TextView) viewRight.findViewById(R.id.bar_right_title);
-		this.mRightTextView.setText("back");
-		this.mRightTextView.setVisibility(View.GONE);
+	//	this.mRightTextView.setText("back");
+	//	this.mRightTextView.setVisibility(View.GONE);
 		// mRightImageView.setImageResource(R.drawable.nav_logo);
 		return viewRight;
 	}

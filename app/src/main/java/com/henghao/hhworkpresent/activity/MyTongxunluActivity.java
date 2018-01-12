@@ -96,7 +96,7 @@ public class MyTongxunluActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("通讯录");
+        mLeftTextView.setText(R.string.tv_address_book);
         mLeftTextView.setVisibility(View.VISIBLE);
 
         initLoadingError();

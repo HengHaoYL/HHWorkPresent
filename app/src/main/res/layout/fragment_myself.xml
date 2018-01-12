@@ -27,7 +27,7 @@
             android:textSize="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="[请登录]" />
+            android:text="@string/please_login" />
 
     </RelativeLayout>
 
@@ -50,7 +50,7 @@
             android:drawableRight="@drawable/item_point_right"
             android:drawablePadding="@dimen/padding_big"
             android:textColor="@color/tab_text_nonr"
-            android:text="个人资料"/>
+            android:text="@string/tv_personal_data"/>
 
         <View
             android:layout_width="match_parent"
@@ -69,7 +69,7 @@
             android:drawableRight="@drawable/item_point_right"
             android:drawablePadding="@dimen/padding_big"
             android:textColor="@color/tab_text_nonr"
-            android:text="通讯录"/>
+            android:text="@string/tv_address_book"/>
 
         <View
             android:layout_width="match_parent"
@@ -88,7 +88,7 @@
             android:drawableRight="@drawable/item_point_right"
             android:drawablePadding="@dimen/padding_big"
             android:textColor="@color/tab_text_nonr"
-            android:text="关于我们"/>
+            android:text="@string/tv_about_us"/>
 
         <View
             android:layout_width="match_parent"
@@ -107,7 +107,7 @@
             android:drawableRight="@drawable/item_point_right"
             android:drawablePadding="@dimen/padding_big"
             android:textColor="@color/tab_text_nonr"
-            android:text="关于应用"/>
+            android:text="@string/tv_about_application"/>
 
         <View
             android:layout_width="match_parent"
@@ -131,7 +131,7 @@
             android:paddingLeft="@dimen/padding_big"
             android:paddingRight="@dimen/padding_big"
             android:paddingTop="@dimen/padding_normal"
-            android:text="退出登录"
+            android:text="@string/exit_login"
             android:textColor="#ffffff"
             android:textSize="16dp" />
     </LinearLayout>

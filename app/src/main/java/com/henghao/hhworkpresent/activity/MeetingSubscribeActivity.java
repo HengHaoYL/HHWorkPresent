@@ -2,6 +2,7 @@ package com.henghao.hhworkpresent.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.adapter.ListStringAdapter;
@@ -130,6 +133,8 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     private String meetingDuration;
     private String leadId;
 
+    private Resources res;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,13 +154,15 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     @Override
     public void initWidget() {
         super.initWidget();
+        res = this.getResources();
+
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("会议预约");
+        mCenterTextView.setText(R.string.meeting_subscirbe);
         mCenterTextView.setVisibility(View.VISIBLE);
         initWithRightBar();
-        mRightTextView.setText("提交");
+        mRightTextView.setText(getString(R.string.submit));
         mRightTextView.setVisibility(View.VISIBLE);
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,11 +173,11 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
 
         this.popView = LayoutInflater.from(this).inflate(R.layout.common_android_listview, null);
         ListView mListView = (ListView) this.popView.findViewById(R.id.mlistview);
+        String[] meetingTypeArr = res.getStringArray(R.array.meeting_type);
         final List<String> mList = new ArrayList<String>();
-        mList.add("小型会议");
-        mList.add("中型会议");
-        mList.add("大型会议");
-        mList.add("其他类型");
+        for(int i=0;i<meetingTypeArr.length;i++){
+            mList.add(meetingTypeArr[i]);
+        }
         ListStringAdapter mListStringAdapter = new ListStringAdapter(this, mList);
         mListView.setAdapter(mListStringAdapter);
         mListStringAdapter.notifyDataSetChanged();
@@ -193,7 +200,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         mDeptList = new ArrayList<>();
         mSelectPersonnelList = new ArrayList<>();
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat(Constant.DATE_TIME_MM_FORMAT);
         tv_meeting_start_time.setText(format.format(new Date()));
 
         //查询部门集合
@@ -207,7 +214,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 chooseJoinMeetingPeople();
                 break;
             case R.id.tv_meeting_start_time:
-                getDialogTime("请选择日期");
+                getDialogTime(getString(R.string.tv_choose_date));
                 break;
             case R.id.linear_meeting_duration:
                 showSingleChoiceButton();
@@ -221,8 +228,8 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
             case R.id.tv_meeting_clear:
                 mSelectPersonnelList.clear();
                 tv_meeting_clear.setVisibility(View.GONE);
-                tv_meeting_people_num.setText("0人");
-                tv_join_meeting_people.setText("");
+                tv_meeting_people_num.setText(R.string.meeting_zero_people);
+                tv_join_meeting_people.setText(R.string.tv_null);
                 break;
         }
     }
@@ -234,12 +241,12 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         View customView = View.inflate(this,R.layout.layout_list_dialog,null);
         xcDropDownDeptListView = (XCDropDownDeptListView) customView.findViewById(R.id.xCDropDownListView);
         TextView tv_zhifaduiwu = (TextView) customView.findViewById(R.id.tv_zhifaduiwu);
-        tv_zhifaduiwu.setText("部门");
+        tv_zhifaduiwu.setText(R.string.dept);
         personal_listview = (ListView) customView.findViewById(R.id.personal_listview);
         xcDropDownDeptListView.setItemsData(mDeptList);
 
         //传空id代表查询全部人员
-        httpRequestJianchaPersonalInfo("");
+        httpRequestJianchaPersonalInfo(getString(R.string.tv_null));
 
         mSelectPersonnelList.clear();
         personal_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -261,9 +268,9 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
             }
         });
         CustomDialog.Builder dialog=new CustomDialog.Builder(this);
-        dialog.setTitle("选择会议审批人员")
+        dialog.setTitle(R.string.choose_meeting_approver)
                 .setContentView(customView)//设置自定义customView
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -273,7 +280,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                             tv_meeting_shenpiren.setText(personnelEntity.getName());
                         }
                     }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -297,40 +304,43 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     private void httpSaveMeetingToService(){
         meetingTheme = et_meeting_theme.getText().toString();
         if(meetingTheme.equals("")){
-            Toast.makeText(this,"必须填写会议主题",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.meetingTheme_mustbe_selected);
             return;
         }
+
         meetingPlace = et_meeting_place.getText().toString();
         if(meetingPlace.equals("")){
-            Toast.makeText(this,"必须填写会议地点",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.meetingPlace_mustbe_selected);
             return;
         }
         meetingWifiSSID = et_meeting_wifi_ssid.getText().toString();
         if(meetingWifiSSID.equals("")){
-            Toast.makeText(this,"必须填写会议地点指定使用的wifi名称，否则无法实现会议签到！",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.meetingWifi_mustbe_selected);
             return;
         }
+
         meetingType = tv_meeting_type.getText().toString();
         if(meetingType.equals("")){
-            Toast.makeText(this,"必须选择会议类型！",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.meetingType_mustbe_selected);
             return;
         }
 
         if(leadId.equals("")){
-            Toast.makeText(this,"必须选择会议审批人！",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.meetingapprover_mustbe_selected);
             return;
         }
 
         meetingStartTime = tv_meeting_start_time.getText().toString();
         meetingDuration = tv_meeting_duration.getText().toString();
         if(mSelectPersonnelList == null){
-            Toast.makeText(this,"请选择参会人员",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.choose_meeting_people);
             return;
         }
         if(mSelectPersonnelList.size()<3){
-            Toast.makeText(this,"请选择至少3位以上参会人员",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.choose_three_people);
             return;
         }
+
         MeetingEntity meetingEntity = new MeetingEntity();
         meetingEntity.setUid(new SqliteDBUtils(this).getLoginUid());
         meetingEntity.setLeadId(leadId);
@@ -361,7 +371,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        msg("网络请求错误！");
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -372,7 +382,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        msg("数据上传成功");
+                        msg(getString(R.string.app_upload_succeed));
                         finish();
                     }
                 });
@@ -380,7 +390,6 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         });
 
     }
-
 
     /**
      * 弹出时间选择器
@@ -403,7 +412,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
     /**
      * 查询部门集合
      */
-    public void httpRequestDeptList(){
+    private void httpRequestDeptList(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         String request_url = ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERY_DEPT_LIST;
@@ -415,7 +424,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -455,7 +464,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -484,7 +493,6 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         });
     }
 
-
     /**
      * 选择参会人员
      */
@@ -492,17 +500,17 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
         View customView = View.inflate(this,R.layout.layout_list_dialog,null);
         xcDropDownDeptListView = (XCDropDownDeptListView) customView.findViewById(R.id.xCDropDownListView);
         TextView tv_zhifaduiwu = (TextView) customView.findViewById(R.id.tv_zhifaduiwu);
-        tv_zhifaduiwu.setText("部门");
+        tv_zhifaduiwu.setText(R.string.dept);
         personal_listview = (ListView) customView.findViewById(R.id.personal_listview);
         xcDropDownDeptListView.setItemsData(mDeptList);
 
         //传空id代表查询全部人员
-        httpRequestJianchaPersonalInfo("");
+        httpRequestJianchaPersonalInfo(getString(R.string.tv_null));
 
         CustomDialog.Builder dialog=new CustomDialog.Builder(this);
-        dialog.setTitle("选择参会人员")
+        dialog.setTitle(R.string.choose_meeting_people)
                 .setContentView(customView)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton( R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -517,10 +525,10 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                         Set<MeetingEntity.PersonnelEntity> set = new HashSet<>();
                         set.addAll(mSelectPersonnelList);
 
-                        tv_meeting_people_num.setText(set.size()+"人");
+                        tv_meeting_people_num.setText(set.size() + getString(R.string.people));
                         StringBuilder stringBuilder = new StringBuilder();
                         for(MeetingEntity.PersonnelEntity personnelEntity : set){
-                            stringBuilder.append(personnelEntity.getName()+";");
+                            stringBuilder.append(personnelEntity.getName()+ getString(R.string.semicolon));
                             tv_join_meeting_people.setText(stringBuilder);
                         }
 
@@ -528,7 +536,7 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                             tv_meeting_clear.setVisibility(View.VISIBLE);
                         }
                     }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -555,15 +563,14 @@ public class MeetingSubscribeActivity extends ActivityFragmentSupport {
                 httpRequestJianchaPersonalInfo(deptEntity.getId());
             }
         });
-
     }
 
     /**
      * 展示单选对话框
      */
-    public void showSingleChoiceButton() {
+    private void showSingleChoiceButton() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        datas = new String[]{"30分钟","1个小时","1个半小时","2个小时"};
+        datas = res.getStringArray(R.array.meeting_duration);
         builder.setSingleChoiceItems(datas, listener.getIndex(), listener);
         builder.show();
     }

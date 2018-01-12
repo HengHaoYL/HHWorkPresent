@@ -391,12 +391,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Activity.Theme" />
 
-        <!-- 个人待办界面 -->
-        <activity
-            android:name=".activity.GerendaibanActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Activity.Theme" />
-
         <!-- 清单流程界面 -->
         <activity
             android:name=".activity.ListProcessActivity"

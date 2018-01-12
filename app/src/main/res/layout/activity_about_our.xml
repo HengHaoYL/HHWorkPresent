@@ -5,52 +5,45 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="关于我们"
-        android:id="@+id/au_title"
-        android:background="#1788D8"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/au_content"
         android:layout_width="fill_parent"
-        android:textColor="#ffffff"
-        android:gravity="center"
-        android:layout_height="35dp">
-    </TextView>  
-    <TextView
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:paddingLeft="11dp"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:text="根据《中共贵州省委办公厅、贵州省人民政府办公厅关于印发〈贵阳市人民政府机构改革方案〉的通知》(黔委厅字〔2009〕71号)和《中共贵阳市委、贵阳市人民政府关于市人民政府机构改革的实施意见》(筑党发〔2010〕6号)，设立贵阳市安全生产监督管理局，为市人民政府工作部门。"
-        android:layout_width="fill_parent"
-        android:id="@+id/au_content"></TextView>
+        android:text="@string/tv_about_us_content"></TextView>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:layout_marginTop="10px"
-        android:background="#CCCCCC"/>  
+        android:background="#CCCCCC" />  
         
     <TextView
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:paddingLeft="15dp"
-        android:text="服务电话:\n 0851-87989019  、87989237"
-        android:layout_width="fill_parent"
         android:id="@+id/au_connetiontitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:autoLink="phone"
-        ></TextView>
+        android:paddingLeft="15dp"
+        android:text="@string/service_telephone"
+        android:textColor="#000000">
+    </TextView>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:layout_marginTop="10px"
-        android:background="#CCCCCC"/>       
+        android:background="#CCCCCC" />       
+
     <TextView
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:paddingLeft="15dp"
-        android:text="网址:\n http://ajj.gygov.gov.cn/"
+        android:id="@+id/au_connetiontitle1"
         android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:autoLink="web"
-        android:id="@+id/au_connetiontitle1"></TextView>
+        android:paddingLeft="15dp"
+        android:text="@string/web_address"
+        android:textColor="#000000">
+    </TextView>
 
 </LinearLayout>

@@ -9,7 +9,7 @@
         android:layout_height="80dp"
         android:gravity="center"
         android:textSize="24dp"
-        android:text="等待消息通知"/>
+        android:text="@string/wait_meeting_notification"/>
 
     <TextView
         android:id="@+id/tv_wait_meeting_descript"
@@ -17,8 +17,7 @@
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:text="你好，请在什么时候参加谁的会议时候参加谁的会议d时候参加谁的会议"/>
+        android:textSize="18dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,22 +30,19 @@
                 android:id="@+id/tv_wait_meeting_faqiren"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="会议发起人：朱智刚"/>
+                android:textSize="18dp" />
             <TextView
                 android:id="@+id/tv_wait_meeting_shenpiren"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="18dp"
-                android:text="会议审批人：按油光"/>
+                android:textSize="18dp" />
             <TextView
                 android:id="@+id/tv_wait_message_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="18dp"
-                android:text="会议发起时间：2017-9-28 11:00"/>
+                android:textSize="18dp" />
         </LinearLayout>
 
 </RelativeLayout>

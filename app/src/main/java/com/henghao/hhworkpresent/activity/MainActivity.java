@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.benefit.buy.library.views.ToastView;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.FragmentSupport;
@@ -133,17 +134,16 @@ public class MainActivity extends ActivityFragmentSupport {
 
     @PermissionSuccess(requestCode = 100)
     public void doSomething(){
-        Toast.makeText(this, "定位权限和读取sd卡被同意", Toast.LENGTH_SHORT).show();
+        ToastUtils.show(this,R.string.grant_permission);
     }
 
     @PermissionFail(requestCode = 100)
     public void doFailSomething(){
-        Toast.makeText(this, "定位权限和读取sd卡被拒绝", Toast.LENGTH_SHORT).show();
+        ToastUtils.show(this,R.string.refuse_permission);
     }
 
     @Override
     public void initData() {
-        // TODO Auto-generated method stub
         mActivityFragmentView.getNavitionBarView().setVisibility(View.GONE);
     }
 
@@ -244,11 +244,11 @@ public class MainActivity extends ActivityFragmentSupport {
         //设置对话框图标，可以使用自己的图片，Android本身也提供了一些图标供我们使用
         // builder.setIcon(android.R.drawable.ic_dialog_alert);
         //设置对话框标题
-        builder.setTitle("GPS定位服务");
+        builder.setTitle(getString(R.string.gps_location));
         //设置对话框内的文本
-        builder.setMessage("检测到你没有开启GPS定位服务，请你点击去设置去开启定位服务！");
+        builder.setMessage(getString(R.string.start_gps_service));
         //设置确定按钮，并给按钮设置一个点击侦听，注意这个OnClickListener使用的是DialogInterface类里的一个内部接口
-        builder.setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.goto_setting), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -260,7 +260,7 @@ public class MainActivity extends ActivityFragmentSupport {
             }
         });
         //设置取消按钮
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

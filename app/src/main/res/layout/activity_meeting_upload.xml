@@ -24,7 +24,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="18dp"
-                    android:text="会议主题"/>
+                    android:text="@string/meetingTheme"/>
                 <TextView
                     android:id="@+id/tv_meeting_upload_theme"
                     android:layout_width="230dp"
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="18dp"
-                    android:text="组织人员"/>
+                    android:text="@string/organization_personnel"/>
                 <TextView
                     android:id="@+id/tv_meeting_upload_people"
                     android:layout_width="230dp"
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="18dp"
-                    android:text="开始时间"/>
+                    android:text="@string/startTime"/>
                 <TextView
                     android:id="@+id/tv_meeting_upload_start_time"
                     android:layout_width="230dp"
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="18dp"
-                    android:text="会议时长"/>
+                    android:text="@string/meetingDuration2"/>
                 <TextView
                     android:id="@+id/tv_meeting_upload_duration"
                     android:layout_width="230dp"
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="18dp"
-                    android:text="会议地点"/>
+                    android:text="@string/meetingPlace"/>
                 <TextView
                     android:id="@+id/tv_meeting_upload_place"
                     android:layout_width="230dp"
@@ -119,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="18dp"
-                    android:text="应到人员"/>
+                    android:text="@string/persons_due"/>
                 <TextView
                     android:id="@+id/tv_meeting_join_people"
                     android:layout_width="230dp"
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="18dp"
-                    android:text="签到人员"/>
+                    android:text="@string/signIn_personnel"/>
                 <TextView
                     android:id="@+id/tv_meeting_upload_qiandao_people"
                     android:layout_width="230dp"
@@ -158,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="18dp"
-                    android:text="会议内容"/>
+                    android:text="@string/meetingContent"/>
                 <EditText
                     android:id="@+id/et_meeting_upload_content"
                     android:layout_width="230dp"
@@ -177,7 +177,7 @@
                      android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="18dp"
-                    android:text="会议总结"/>
+                    android:text="@string/meetingSummary"/>
                 <EditText
                     android:id="@+id/et_meeting_upload_summary"
                     android:layout_width="230dp"
@@ -198,7 +198,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="会议现场图片"/>
+                android:text="@string/meeting_site_picture"/>
             <LinearLayout
                 android:layout_width="315dp"
                 android:layout_height="170dp"
@@ -232,7 +232,7 @@
                     android:paddingLeft="35dp"
                     android:paddingRight="35dp"
                     android:paddingTop="5dp"
-                    android:text="上传"
+                    android:text="@string/upload"
                     android:textColor="@color/white"
                     android:textSize="15dp" />
                 <TextView
@@ -246,7 +246,7 @@
                     android:paddingRight="35dp"
                     android:paddingTop="5dp"
                     android:layout_marginLeft="50dp"
-                    android:text="取消"
+                    android:text="@string/cancel"
                     android:textColor="@color/white"
                     android:textSize="15dp" />
             </LinearLayout>

@@ -28,9 +28,11 @@ import android.widget.Toast;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
+import com.benefit.buy.library.utils.ToastUtils;
 import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.MeetingEntity;
@@ -169,7 +171,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("会议签到");
+        mCenterTextView.setText(R.string.meeting_signIn);
         mCenterTextView.setVisibility(View.VISIBLE);
 
         initWithRightBar();
@@ -190,7 +192,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
     public void initData() {
         super.initData();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constant.TIME_MM_FORMAT);
         String currentDate = simpleDateFormat.format(new Date());
         tv_qiandao_start_time.setText(currentDate);
 
@@ -206,10 +208,10 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
 
         meetingTrajectoryEntity = (MeetingTrajectoryEntity) getIntent().getSerializableExtra("meetingTrajectoryEntity");
         if(meetingTrajectoryEntity.getStartSignInTime()==null && meetingTrajectoryEntity.getEndSignInTime()==null){   //两个都是null,表示还没有进场签到
-            tv_qiandao_start_text.setText("进场签到");
+            tv_qiandao_start_text.setText(R.string.approach_SignIn);
         }
         if(meetingTrajectoryEntity.getStartSignInTime()!=null && meetingTrajectoryEntity.getEndSignInTime()==null){
-            tv_qiandao_start_text.setText("退场签到");
+            tv_qiandao_start_text.setText(R.string.exit_SignIn);
         }
         if(meetingTrajectoryEntity.getStartSignInTime()!=null && meetingTrajectoryEntity.getEndSignInTime()!=null
                 && meetingTrajectoryEntity.getMeetingSummary()==null){
@@ -229,7 +231,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 break;
             case R.id.tv_meeting_upload_save:
                 if(et_meeting_upload_summary.getText().toString().equals("")){
-                    Toast.makeText(this,"必须填写会议纪要",Toast.LENGTH_SHORT).show();
+                    ToastUtils.show(this,R.string.mustbe_edit_meeting_minutes);
                     return;
                 }
                 httpUploadSummaryAndSiteFile(meetingEntity.getMid(),sqliteDBUtils.getLoginUid(),et_meeting_upload_summary.getText().toString());
@@ -241,7 +243,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
     }
 
     //检查连接的是什么网络
-    public  Integer checkWifi(Context context) {
+    private Integer checkWifi(Context context) {
         ConnectivityManager ConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mNetworkInfo =  ConnectivityManager.getActiveNetworkInfo();
         if (mNetworkInfo.getState() == NetworkInfo.State.CONNECTED) {
@@ -257,7 +259,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
     }
 
     //获取IP
-    public String getLocalIpAddress() {
+    private String getLocalIpAddress() {
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
                 NetworkInterface intf = en.nextElement();
@@ -275,44 +277,45 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
     }
 
     //获取Wifi的SSID
-    public String getWifiSSID() {
+    private String getWifiSSID() {
         WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifi.getConnectionInfo();
         return info.getSSID();
     }
 
-    public void onClickQianDao(){
+    private void onClickQianDao(){
         if(checkWifi(this)== 1){
-            Toast.makeText(this,"你当前连接的移动网络，不能签到。",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.not_signIn);
         } else if(checkWifi(this)== 3){
-            Toast.makeText(this, "你当前没有连接wifi网络，签退失败！", Toast.LENGTH_LONG).show();
+            ToastUtils.show(this,R.string.exit_signIn_failure);
         } else if(checkWifi(this)== 2){
             String ssid = "\"" + meetingEntity.getWifiSSID() + "\"";
             if(getWifiSSID().equals(ssid)){
-                if(tv_qiandao_start_text.getText().toString().equals("进场签到")){
+                if(tv_qiandao_start_text.getText().toString().equals(R.string.approach_SignIn)){
                     if(isEnd == 1){
-                        Toast.makeText(this, "会议已经被结束", Toast.LENGTH_LONG).show();
+                        ToastUtils.show(this,R.string.meeting_end);
                         return;
                     }
                     String lat = String.valueOf(LocationUtils.getLat());
                     String lng = String.valueOf(LocationUtils.getLng());
                     if(lat==null && lng==null){
-                        Toast.makeText(this,"当前没有获取到你的位置信息，请重新点击!",Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(this,R.string.meeting_end);
                         return;
                     }
                     httpOnClickStartQiandaoUploadData(meetingEntity.getMid(),sqliteDBUtils.getLoginUid(),LocationUtils.getLat()+","+LocationUtils.getLng());
-                }else if (tv_qiandao_start_text.getText().toString().equals("退场签到")){
+                }else if (tv_qiandao_start_text.getText().toString().equals(R.string.exit_SignIn)){
                     if(isEnd == 1){
-                        Toast.makeText(this, "会议已经被结束", Toast.LENGTH_LONG).show();
+                        ToastUtils.show(this,R.string.meeting_end);
                         return;
                     }
                     String lat = String.valueOf(LocationUtils.getLat());
                     String lng = String.valueOf(LocationUtils.getLng());
                     if(lat==null && lng==null){
-                        Toast.makeText(this,"当前没有获取到你的位置信息，请重新点击!",Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(this,R.string.meeting_end);
                         return;
                     }
-                    httpOnClickEndQiandaoUploadData(meetingEntity.getMid(),sqliteDBUtils.getLoginUid(),LocationUtils.getLat()+","+LocationUtils.getLng());
+                    httpOnClickEndQiandaoUploadData(meetingEntity.getMid(),sqliteDBUtils.getLoginUid(),LocationUtils.getLat()
+                            + getString(R.string.comma)+LocationUtils.getLng());
                 }
             }
         }
@@ -321,7 +324,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
     /**
      * 进场签到更新数据
      */
-    public void httpOnClickStartQiandaoUploadData(int mid, String userId, String startSignInCoordinates){
+    private void httpOnClickStartQiandaoUploadData(int mid, String userId, String startSignInCoordinates){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -340,7 +343,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("网络请求错误！");
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -350,8 +353,8 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("签到成功");
-                        tv_qiandao_start_text.setText("退场签到");
+                        msg(getString(R.string.approve_signIn_succed));
+                        tv_qiandao_start_text.setText(R.string.exit_SignIn);
                     }
                 });
             }
@@ -361,7 +364,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
     /**
      * 退场签到更新数据
      */
-    public void httpOnClickEndQiandaoUploadData(int mid, String userId, String endSignInCoordinates){
+    private void httpOnClickEndQiandaoUploadData(int mid, String userId, String endSignInCoordinates){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -380,7 +383,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("网络请求错误！");
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -390,8 +393,8 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("签退成功");
-                        tv_qiandao_start_text.setText("退场签到");
+                        msg(getString(R.string.exit_signIn_succed));
+                        tv_qiandao_start_text.setText(R.string.exit_SignIn);
                         meeting_qiandao_linear1.setVisibility(View.GONE);
                         meeting_qiandao_linearlayout.setVisibility(View.GONE);
                         meeting_qiandao_linear2.setVisibility(View.VISIBLE);
@@ -404,7 +407,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
     /**
      * 上传工作纪要和现场图片
      */
-    public void httpUploadSummaryAndSiteFile(int mid, String userId, String meetingSummary){
+    private void httpUploadSummaryAndSiteFile(int mid, String userId, String meetingSummary){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -413,7 +416,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 .addFormDataPart("userId", userId)
                 .addFormDataPart("meetingSummary", meetingSummary);
         if(mMeetingFileList.size()==0){
-            Toast.makeText(this,"必须上传会议图片",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.mustbe_upload_meeting_picture);
             return;
         }
         for (File file : mMeetingFileList) {
@@ -431,7 +434,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("网络请求错误！");
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -441,7 +444,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("数据上传成功！");
+                        msg(getString(R.string.app_upload_succeed));
                         finish();
                     }
                 });
@@ -452,7 +455,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
     /**
      * 查询指定的消息
      */
-    public void httpRequestMeetingContent(){
+    private void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -470,7 +473,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -493,7 +496,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                             @Override
                             public void run() {
                                 if(isEnd == 0 && faqirenId.equals(sqliteDBUtils.getLoginUid())){
-                                    mRightTextView.setText("结束会议");
+                                    mRightTextView.setText(R.string.close_meeting);
                                     mRightTextView.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -529,7 +532,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        msg("网络请求错误！");
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -539,7 +542,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("会议结束！");
+                        msg(getString(R.string.meeting_ended));
                         mActivityFragmentView.viewLoading(View.GONE);
                         mRightTextView.setVisibility(View.GONE);
                         finish();
@@ -550,7 +553,7 @@ public class MeetingQiandaoActivity extends ActivityFragmentSupport {
     }
 
 
-    public void choosePicture(){
+    private void choosePicture(){
         int selectedMode = MultiImageSelectorActivity.MODE_MULTI;
         int maxNum = 6;
         Intent picIntent = new Intent(this, MultiImageSelectorActivity.class);

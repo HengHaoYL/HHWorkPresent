@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
+import com.benefit.buy.library.utils.ToastUtils;
 import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.FragmentSupport;
@@ -95,6 +96,8 @@ public class MyFragment extends FragmentSupport {
 
     private ArrayList<File> mFileList = new ArrayList<>();//被选中的用户头像文件
 
+    private Handler mHandler = new Handler(){};
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -109,16 +112,19 @@ public class MyFragment extends FragmentSupport {
     }
 
     public void initWidget(){
-        initwithContent();
+        initWithCenterBar();
+        this.mCenterTextView.setVisibility(View.VISIBLE);
+        this.mCenterTextView.setText(getString(R.string.hc_myself));
     }
 
     public void initData(){
         sqliteDBUtils = new SqliteDBUtils(mActivity);
         httpLoadingHeadImage();
-        tv_loginUsername.setText("["+sqliteDBUtils.getLoginFirstName() + sqliteDBUtils.getLoginGiveName()+"]");
+        tv_loginUsername.setText(getString(R.string.left_brackets) + sqliteDBUtils.getLoginFirstName()
+                + sqliteDBUtils.getLoginGiveName() + getString(R.string.right_brackets));
     }
 
-    public void httpLoadingHeadImage(){
+    private void httpLoadingHeadImage(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
@@ -150,7 +156,7 @@ public class MyFragment extends FragmentSupport {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
-                                mActivity.msg("下载错误");
+                                mActivity.msg(getString(R.string.download_error));
                             }
                         });
                     }
@@ -185,13 +191,7 @@ public class MyFragment extends FragmentSupport {
         });
     }
 
-    private void initwithContent() {
-        initWithCenterBar();
-        this.mCenterTextView.setVisibility(View.VISIBLE);
-        this.mCenterTextView.setText("个人中心");
-    }
-
-    public void choosePicture(){
+    private void choosePicture(){
         // 查看session是否过期
         // int selectedMode = MultiImageSelectorActivity.MODE_SINGLE;
         //设置单选模式
@@ -215,36 +215,10 @@ public class MyFragment extends FragmentSupport {
         return url.substring(url.lastIndexOf("/") + 1);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            if (requestCode == REQUEST_IMAGE) {
-                if ((resultCode == Activity.RESULT_OK) || (resultCode == Activity.RESULT_CANCELED)) {
-                    this.mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                    if (!ToolsKit.isEmpty(this.mSelectPath)) {
-                        List<String> fileNames = new ArrayList<>();
-                        mImageList.clear();
-                        mFileList.clear();
-                        for (String filePath : mSelectPath) {
-                            String imageName = getImageName(filePath);
-                            fileNames.add(imageName);
-                            File file = new File(filePath);
-                            mFileList.add(file);
-                            httpRequestHeadImage();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private Handler mHandler = new Handler(){};
-
     /**
      * 头像上传
      */
-    public void httpRequestHeadImage(){
+    private void httpRequestHeadImage(){
         OkHttpClient okHttpClient = new OkHttpClient();
         okHttpClient.setConnectTimeout(300, TimeUnit.SECONDS);
         okHttpClient.setWriteTimeout(300,TimeUnit.SECONDS);
@@ -282,7 +256,7 @@ public class MyFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        mActivity.msg("网络请求错误！");
+                        ToastUtils.show(mActivity,R.string.app_network_failure);
                     }
                 });
             }
@@ -297,7 +271,7 @@ public class MyFragment extends FragmentSupport {
                         @Override
                         public void run() {
                             mActivityFragmentView.viewLoading(View.GONE);
-                            if(("图片上传失败").equals(msg)){
+                            if((getString(R.string.picture_upload_failred)).equals(msg)){
                                 mActivity.msg(msg);
                                 return;
                             }
@@ -316,6 +290,29 @@ public class MyFragment extends FragmentSupport {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            if (requestCode == REQUEST_IMAGE) {
+                if ((resultCode == Activity.RESULT_OK) || (resultCode == Activity.RESULT_CANCELED)) {
+                    this.mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                    if (!ToolsKit.isEmpty(this.mSelectPath)) {
+                        List<String> fileNames = new ArrayList<>();
+                        mImageList.clear();
+                        mFileList.clear();
+                        for (String filePath : mSelectPath) {
+                            String imageName = getImageName(filePath);
+                            fileNames.add(imageName);
+                            File file = new File(filePath);
+                            mFileList.add(file);
+                            httpRequestHeadImage();
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     @OnClick({R.id.fragment_my_circleImageview,R.id.fragment_my_selfziliao,R.id.fragment_my_tongxunlu,
             R.id.fragment_my_aboutus,R.id.fragment_my_aboutapp,R.id.tv_exitlogin,R.id.fragment_my_login_username})
@@ -353,7 +350,7 @@ public class MyFragment extends FragmentSupport {
 
             case R.id.tv_exitlogin:        //退出登录
                 //删除数据库
-                mActivity.deleteDatabase("user_login.db");
+                mActivity.deleteDatabase(Constant.USER_LOGIN_DATABASE);
 
                 //发送停止服务的广播
                 intent.setAction(Constant.STOP_REALTIMESERVICE);

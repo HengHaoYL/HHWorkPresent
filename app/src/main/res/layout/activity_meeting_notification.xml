@@ -9,7 +9,7 @@
         android:layout_height="80dp"
         android:gravity="center"
         android:textSize="24dp"
-        android:text="会议通知"/>
+        android:text="@string/meeting_notification"/>
 
     <TextView
         android:id="@+id/tv_meeting_notification"
@@ -17,8 +17,7 @@
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:textSize="18dp"
-        android:text="你好，请在什么时候参加谁的会议时候参加谁的会议d时候参加谁的会议"/>
+        android:textSize="18dp" />
 
     <LinearLayout
         android:id="@+id/linear_notification"
@@ -32,15 +31,13 @@
             android:id="@+id/tv_meeting_faqiren"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="会议发起人：朱智刚"/>
+            android:textSize="18dp" />
         <TextView
             android:id="@+id/tv_notification_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textSize="18dp"
-            android:text="会议发起时间：2017-9-28 11:00"/>
+            android:textSize="18dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +54,7 @@
             android:textSize="18dp"
             android:layout_weight="1"
             android:layout_margin="10dp"
-            android:text="会议签到"/>
+            android:text="@string/meeting_signIn"/>
         <Button
             android:id="@+id/btn_notification_not_join"
             android:layout_width="wrap_content"
@@ -67,7 +64,7 @@
             android:layout_margin="10dp"
             android:background="@color/register_hint_select"
             android:textSize="18dp"
-            android:text="找人代替"/>
+            android:text="@string/replace_people"/>
     </LinearLayout>
 
 </RelativeLayout>

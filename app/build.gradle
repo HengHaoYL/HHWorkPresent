@@ -87,7 +87,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile project(':x_library')
-    compile 'com.android.support:multidex:1.0.0'  //然后就是引入multidex库文件
+    compile 'com.android.support:multidex:1.0.0'
+    //然后就是引入multidex库文件
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile files('libs/universal-image-loader-1.9.5.jar')

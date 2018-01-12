@@ -13,12 +13,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="会议主题"
+                android:text="@string/meetingTheme"
                 android:textSize="@dimen/gj_f" />
 
             <TextView
@@ -31,7 +30,6 @@
                 android:textColorHint="@color/line"
                 android:textSize="@dimen/gj_f" />
         </LinearLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
@@ -40,14 +38,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="会议地点"
+                android:text="@string/meetingPlace"
                 android:textSize="@dimen/gj_f" />
-
             <TextView
                 android:id="@+id/tv_meeting_qiandao_place"
                 android:layout_width="match_parent"
@@ -58,7 +54,6 @@
                 android:textColorHint="@color/line"
                 android:textSize="@dimen/gj_f" />
         </LinearLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
@@ -67,14 +62,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="开始时间"
+                android:text="@string/startTime"
                 android:textSize="@dimen/gj_f" />
-
             <TextView
                 android:id="@+id/tv_meeting_qiandao_start_time"
                 android:layout_width="match_parent"
@@ -85,7 +78,6 @@
                 android:textColorHint="@color/line"
                 android:textSize="@dimen/gj_f" />
         </LinearLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
@@ -95,14 +87,12 @@
             android:id="@+id/linear_meeting_duration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="预估时长"
+                android:text="@string/meetingDuration"
                 android:textSize="@dimen/gj_f" />
-
             <TextView
                 android:id="@+id/tv_meeting_qiandao_duration"
                 android:layout_width="match_parent"
@@ -113,7 +103,6 @@
                 android:textColorHint="@color/line"
                 android:textSize="@dimen/gj_f" />
         </LinearLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
@@ -123,14 +112,12 @@
             android:id="@+id/linear_choose_meet_people"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/gj_f"
-                android:text="参会人员"
+                android:text="@string/join_meetingig_people"
                 android:textSize="@dimen/gj_f" />
-
             <TextView
                 android:id="@+id/tv_meeting_qiandao_people_num"
                 android:layout_width="match_parent"
@@ -141,7 +128,6 @@
                 android:textColorHint="@color/line"
                 android:textSize="@dimen/gj_f" />
         </LinearLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
@@ -159,7 +145,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1">
-
             <ImageView
                 android:id="@+id/image_meeting_qiandao_start"
                 android:layout_width="120dp"
@@ -168,7 +153,6 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="60dp"
                 android:src="@drawable/icon_orangecircle" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -180,7 +164,7 @@
                     android:id="@+id/tv_qiandao_start_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="进场签到"
+                    android:text="@string/approach_SignIn"
                     android:textColor="#EAEAEA"
                     android:textSize="20sp" />
 
@@ -189,7 +173,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="13:30"
                     android:textColor="#ffffff"
                     android:textSize="25sp" />
             </LinearLayout>
@@ -222,7 +205,6 @@
                     android:id="@+id/tv_qiandao_end_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="散会签到"
                     android:textColor="#EAEAEA"
                     android:textSize="20sp" />
 
@@ -231,7 +213,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="14:30"
                     android:textColor="#ffffff"
                     android:textSize="25sp" />
             </LinearLayout>
@@ -249,7 +230,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="会议纪要" />
+            android:text="@string/meeting_minutes" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -276,7 +257,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="会议现场图片" />
+            android:text="@string/meeting_site_picture" />
 
         <LinearLayout
             android:layout_width="315dp"
@@ -294,7 +275,8 @@
                 android:horizontalSpacing="5dp"
                 android:numColumns="3"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="5dp"></GridView>
+                android:verticalSpacing="5dp">
+            </GridView>
         </LinearLayout>
 
         <LinearLayout
@@ -312,7 +294,7 @@
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
                 android:paddingTop="5dp"
-                android:text="上传"
+                android:text="@string/upload"
                 android:textColor="@color/white"
                 android:textSize="15dp" />
 
@@ -327,7 +309,7 @@
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
                 android:paddingTop="5dp"
-                android:text="取消"
+                android:text="@string/cancel"
                 android:textColor="@color/white"
                 android:textSize="15dp" />
         </LinearLayout>

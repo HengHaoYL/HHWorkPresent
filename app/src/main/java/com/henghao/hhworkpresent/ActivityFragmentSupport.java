@@ -153,7 +153,7 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
         // viewLeft.setBackgroundColor(getResources().getColor(R.color.blue));
         this.mLeftImageView = (ImageView) viewLeft.findViewById(R.id.bar_left_img);
         this.mLeftTextView = (TextView) viewLeft.findViewById(R.id.bar_left_title);
-        this.mLeftTextView.setText("返回");
+        this.mLeftTextView.setText(R.string.back);
         this.mLeftTextView.setVisibility(View.GONE);
         this.mLeftImageView.setImageResource(R.drawable.item_point_left);
         this.mLeftLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +203,7 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
         // viewRight.setBackgroundColor(getResources().getColor(R.color.blue));
         this.mRightImageView = (ImageView) viewRight.findViewById(R.id.bar_right_img);
         this.mRightTextView = (TextView) viewRight.findViewById(R.id.bar_right_title);
-        this.mRightTextView.setText("back");
+    //    this.mRightTextView.setText("back");
         this.mRightTextView.setVisibility(View.GONE);
         // mRightImageView.setImageResource(R.drawable.nav_logo);
         return viewRight;
@@ -222,7 +222,7 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
         this.mRightImageView = (ImageView) viewRight.findViewById(R.id.bar_right_img);
         this.mRightImageViewTips = (ImageView) viewRight.findViewById(R.id.bar_right_imgtips);
         this.mRightTextView = (TextView) viewRight.findViewById(R.id.bar_right_title);
-        this.mRightTextView.setText("back");
+    //    this.mRightTextView.setText("back");
         this.mRightTextView.setVisibility(View.GONE);
         this.mRightImageViewTips.setVisibility(View.GONE);
         // mRightImageView.setImageResource(R.drawable.nav_logo);
@@ -242,7 +242,7 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
         this.mLeftImageView = (ImageView) viewLeft.findViewById(R.id.bar_right_img);
         this.mLeftTextView = (TextView) viewLeft.findViewById(R.id.bar_right_title);
         this.mLeftImageViewTips = (ImageView) viewLeft.findViewById(R.id.bar_right_imgtips);
-        this.mLeftTextView.setText("back");
+    //    this.mLeftTextView.setText("back");
         this.mLeftTextView.setVisibility(View.GONE);
         this.mLeftImageViewTips.setVisibility(View.GONE);
         // mRightImageView.setImageResource(R.drawable.nav_logo);
@@ -408,7 +408,7 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
     @Override
     public void checkMemoryCard() {
         if (!ToolsFile.isSdcardExist()) {
-            new AlertDialog.Builder(this.context).setTitle(R.string.prompt).setMessage("请检查内存卡")
+            new AlertDialog.Builder(this.context).setTitle(R.string.prompt).setMessage(R.string.please_check_sdcard)
                     .setPositiveButton(R.string.menu_settings, new DialogInterface.OnClickListener() {
 
                         @Override
@@ -417,7 +417,7 @@ public class ActivityFragmentSupport extends FragmentActivity implements IActivi
                             Intent intent = new Intent(Settings.ACTION_SETTINGS);
                             ActivityFragmentSupport.this.context.startActivity(intent);
                         }
-                    }).setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

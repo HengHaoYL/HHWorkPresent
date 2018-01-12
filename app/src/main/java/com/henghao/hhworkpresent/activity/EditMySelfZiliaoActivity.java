@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
@@ -118,7 +119,7 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
         httpRequestDeptList();
 
         initWithBar();
-        mLeftTextView.setText("编辑个人资料");
+        mLeftTextView.setText(getString(R.string.tv_edit_personal_data));
         mLeftTextView.setVisibility(View.VISIBLE);
 
         this.popView = LayoutInflater.from(this).inflate(R.layout.common_android_listview, null);
@@ -137,7 +138,7 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
         });
 
         initWithRightBar();
-        mRightTextView.setText("完成");
+        mRightTextView.setText(getString(R.string.tv_complete));
         mRightTextView.setVisibility(View.VISIBLE);
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,7 +156,7 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
                 popupWindowHelper.showFromBottom(v);
                 break;
             case R.id.tongxunlu_et_birth_DATE:
-                getDialogTime("请选择日期");
+                getDialogTime(getString(R.string.tv_choose_date));
                 break;
         }
     }
@@ -191,37 +192,37 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
         deptId = intent.getStringExtra("deptId");
 
         if("0".equals(sex)){
-            sex = "男";
+            sex = getString(R.string.male);
         }else if("1".equals(sex)){
-            sex = "女";
+            sex = getString(R.string.female);
         }
 
         if("null".equals(position)||position==null){
-            position = "";
+            position = getString(R.string.tv_null);
         }
         if("null".equals(name)||name==null){
-            name="";
+            name = getString(R.string.tv_null);
         }
         if("null".equals(emp_NUM)||emp_NUM==null){
-            emp_NUM="";
+            emp_NUM = getString(R.string.tv_null);
         }
         if("null".equals(birth_DATE)||birth_DATE==null){
-            birth_DATE="";
+            birth_DATE = getString(R.string.tv_null);
         }
         if("null".equals(telephone)||telephone==null){
-            telephone="";
+            telephone = getString(R.string.tv_null);
         }
         if("null".equals(address)||address==null){
-            address="";
+            address = getString(R.string.tv_null);
         }
         if("null".equals(cellphone)||cellphone==null){
-            cellphone="";
+            cellphone = getString(R.string.tv_null);
         }
         if("null".equals(work_DESC)||work_DESC==null){
-            work_DESC="";
+            work_DESC = getString(R.string.tv_null);
         }
         if("null".equals(dept_NAME)||dept_NAME==null){
-            dept_NAME="";
+            dept_NAME = getString(R.string.tv_null);
         }
 
         et_name.setText(name);
@@ -251,7 +252,7 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(), R.string.app_network_failure);
                     }
                 });
             }
@@ -294,9 +295,9 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
         address = et_address.getText().toString().trim();
         work_DESC = et_work_DESC.getText().toString().trim();
         dept_NAME = et_dept_Name.getText().toString().trim();
-        if("男".equals(et_sex.getText().toString().trim())){
+        if(getString(R.string.male).equals(et_sex.getText().toString().trim())){
             sex = "0";
-        }else if("女".equals(et_sex.getText().toString().trim())){
+        }else if(getString(R.string.female).equals(et_sex.getText().toString().trim())){
             sex = "1";
         }
         SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(this);
@@ -326,7 +327,7 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("网络请求错误！");
+                        ToastUtils.show(getContext(), R.string.app_network_failure);
                     }
                 });
             }
@@ -337,7 +338,7 @@ public class EditMySelfZiliaoActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        msg("数据上传成功");
+                        msg(getString(R.string.app_upload_succeed));
                         finish();
                     }
                 });

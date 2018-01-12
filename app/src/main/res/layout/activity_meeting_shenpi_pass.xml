@@ -16,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="会议主题"
+                    android:text="@string/meetingTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="会议发起人"
+                    android:text="@string/meeting_faqiren"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="会议地点"
+                    android:text="@string/meetingPlace"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="开始时间"
+                    android:text="@string/startTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="预估时长"
+                    android:text="@string/meetingDuration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -146,7 +146,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginBottom="10dp"
-                    android:text="参会人员"
+                    android:text="@string/join_meetingig_people"
                     android:textSize="18dp"/>
                 <TextView
                     android:id="@+id/tv_join_meeting_people_num"
@@ -169,7 +169,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
-                android:text="朱志刚、张三、李四、王五"
                 android:textSize="18dp">
             </TextView>
 
@@ -193,16 +192,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="审批状态："
+                    android:text="@string/meeting_shenpi_state"
                     android:textSize="20dp" />
-
                 <TextView
                     android:id="@+id/tv_meeting_shenpi_result"
                     android:layout_marginLeft="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="通过或不通过"
                     android:textSize="20dp"/>
             </LinearLayout>
             <LinearLayout
@@ -215,16 +212,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="不通过理由："
+                    android:text="@string/meeting_notpass_reason"
                     android:textSize="20dp" />
-
                 <TextView
                     android:id="@+id/tv_meeting_dispass_reason"
                     android:layout_marginLeft="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="因为什么什么不通过因为什么什么不通过因为什么什么不通过因为什么什么不通过因为什么什么不通过因为什么什么不通过"
                     android:textSize="20dp"/>
             </LinearLayout>
         </LinearLayout>

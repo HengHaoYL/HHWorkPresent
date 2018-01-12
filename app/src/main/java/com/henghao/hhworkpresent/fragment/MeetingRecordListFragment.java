@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.FragmentSupport;
@@ -112,7 +113,7 @@ public class MeetingRecordListFragment extends FragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }

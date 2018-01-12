@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
@@ -75,7 +76,7 @@ public class MeetingShenpiNoPassActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("会议审批不通过");
+        mCenterTextView.setText(R.string.meeting_shenpi_notpass);
         mCenterTextView.setVisibility(View.VISIBLE);
     }
 
@@ -87,7 +88,7 @@ public class MeetingShenpiNoPassActivity extends ActivityFragmentSupport {
         httpRequestMeetingContent();
     }
 
-    public void httpRequestMeetingContent(){
+    private void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -105,7 +106,7 @@ public class MeetingShenpiNoPassActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -122,19 +123,17 @@ public class MeetingShenpiNoPassActivity extends ActivityFragmentSupport {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
                             for(JPushToUser jPushToUser : jPushToUserList){
                                 if(jPushToUser.getMsg_id()==msg_id){
                                     tv_meeting_nopass_description.setText(
-                                            "你好，" + "你发起的主题为"+meetingEntity.getMeetingTheme()+"的预约会议经"
-                                            +meetingEntity.getLeadName()+"审批，以"+meetingEntity.getNoPassReason()
-                                            +"原因最后不能通过，详情请自己咨询审批人。");
-                                    tv_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
-                                    tv_meeting_shenpiren.setText("会议审批人："+meetingEntity.getLeadName());
+                                            R.string.nopass_meeting_content1 + meetingEntity.getMeetingTheme() + R.string.nopass_meeting_content2
+                                            + meetingEntity.getLeadName()+ R.string.nopass_meeting_content3 + meetingEntity.getNoPassReason()
+                                            + R.string.nopass_meeting_content4 );
+                                    tv_meeting_faqiren.setText(R.string.tv_meeting_faqiren + jPushToUser.getMessageSendPeople());
+                                    tv_meeting_shenpiren.setText(R.string.tv_meeting_shenpiren + meetingEntity.getLeadName());
                                     tv_meeting_notification_time.setText(jPushToUser.getMessageSendTime());
                                 }
                             }
-
                         }
                     });
 

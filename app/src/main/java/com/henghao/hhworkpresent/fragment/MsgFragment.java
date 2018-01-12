@@ -18,7 +18,6 @@ import com.henghao.hhworkpresent.FragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.WorkflowUrl;
-import com.henghao.hhworkpresent.activity.GerendaibanActivity;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
 import com.henghao.hhworkpresent.activity.MeetingManageActivity;
 import com.henghao.hhworkpresent.activity.WebViewActivity;
@@ -81,6 +80,8 @@ public class MsgFragment extends FragmentSupport {
     public static final int NO_4 = 1004;    //审批过
     public static final int NO_5 = 1005;    //需阅知
 
+    private Handler mHandler = new Handler(){};
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -95,13 +96,9 @@ public class MsgFragment extends FragmentSupport {
     }
 
     public void initWidget(){
-        initwithContent();
-    }
-
-    private void initwithContent() {
         initWithCenterBar();
         this.mCenterTextView.setVisibility(View.VISIBLE);
-        this.mCenterTextView.setText("我的消息");
+        this.mCenterTextView.setText(getString(R.string.my_message));
     }
 
     public void initData(){
@@ -118,10 +115,33 @@ public class MsgFragment extends FragmentSupport {
         queryUnReadMeeting();
     }
 
+    @OnClick({R.id.huiyiguanli,R.id.tongzhigonggao,R.id.gerendaiban, R.id.daiyueshiyi})
+    private void viewOnClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()){
+            case R.id.huiyiguanli:
+                intent.setClass(mActivity, MeetingManageActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.tongzhigonggao:
+                intent.setClass(mActivity, GongGaoActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.gerendaiban:
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.work_tobe_done),
+                        WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.GERENDAIBAN_VIEWID);
+                break;
+            case R.id.daiyueshiyi:
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.matters_tobe_read),
+                        WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.DAIYUESHIYI_VIEWID);
+                break;
+        }
+    }
+
     /**
      * 查询未读的推送消息
      */
-    public void queryUnReadMeeting(){
+    private void queryUnReadMeeting(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -171,7 +191,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeBackground(Color.WHITE)
                                             .setTextSize(0)
                                             .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("")
+                                            .setBadgeCount(getString(R.string.tv_null))
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(huiyiguanli);
                                 }
@@ -187,34 +207,10 @@ public class MsgFragment extends FragmentSupport {
         });
     }
 
-
-    @OnClick({R.id.huiyiguanli,R.id.tongzhigonggao,R.id.gerendaiban, R.id.daiyueshiyi})
-    private void viewOnClick(View v) {
-        Intent intent = new Intent();
-        switch (v.getId()){
-            case R.id.huiyiguanli:
-                intent.setClass(mActivity, MeetingManageActivity.class);
-                mActivity.startActivity(intent);
-                break;
-            case R.id.tongzhigonggao:
-                intent.setClass(mActivity, GongGaoActivity.class);
-                mActivity.startActivity(intent);
-                break;
-            case R.id.gerendaiban:
-                intent.setClass(mActivity, GerendaibanActivity.class);
-                mActivity.startActivity(intent);
-                break;
-            case R.id.daiyueshiyi:
-                WebViewActivity.startToWebActivity(mActivity,"待阅事宜", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.DAIYUESHIYI_VIEWID);
-                break;
-
-        }
-    }
-
     /**
      * 查询未读公告数目
      */
-    public void queryUnReadGonggao(){
+    private void queryUnReadGonggao(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
@@ -271,8 +267,6 @@ public class MsgFragment extends FragmentSupport {
             }
         });
     }
-
-    private Handler mHandler = new Handler(){};
 
     /**
      * 请求消息内容数量
@@ -337,7 +331,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeBackground(Color.WHITE)
                                             .setTextSize(0)
                                             .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("")
+                                            .setBadgeCount(getString(R.string.tv_null))
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(geredaiban);
                                 }
@@ -351,7 +345,6 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeCount(gerendaiban_count)
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(geredaiban);
-               //                     notificationUtils.addNotfication("需办理的工作", "你有新的需要办理的工作，请尽快办理！", NO_2 , new GerendaibanActivity());
                                 }
                                 if(gerendaiban_count>99){
                                     BadgeFactory.create(mActivity)
@@ -360,7 +353,7 @@ public class MsgFragment extends FragmentSupport {
                                             .setBadgeBackground(Color.RED)
                                             .setTextSize(10)
                                             .setBadgeGravity(Gravity.RIGHT|Gravity.CENTER)
-                                            .setBadgeCount("99+")
+                                            .setBadgeCount(getString(R.string.more_message_count))
                                             .setShape(BadgeView.SHAPE_CIRCLE)
                                             .bind(geredaiban);
                                 }

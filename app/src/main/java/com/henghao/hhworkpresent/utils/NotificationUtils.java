@@ -40,7 +40,7 @@ public class NotificationUtils {
         builder.setContentText(content);
         builder.setSmallIcon(R.drawable.icon_ajj_logo);
         builder.setContentIntent(pendingIntent);
-        builder.setTicker("你有新消息来了");
+        builder.setTicker(mContext.getResources().getString(R.string.you_have_new_message));
      //   builder.setWhen(System.currentTimeMillis());
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
@@ -64,7 +64,7 @@ public class NotificationUtils {
         builder.setContentText(content);
         builder.setSmallIcon(R.drawable.icon_ajj_logo);
         builder.setContentIntent(pendingIntent);
-        builder.setTicker("你有新消息来了");
+        builder.setTicker(mContext.getResources().getString(R.string.you_have_new_message));
         //   builder.setWhen(System.currentTimeMillis());
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;

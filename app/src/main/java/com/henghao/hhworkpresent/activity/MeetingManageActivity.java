@@ -56,7 +56,7 @@ public class MeetingManageActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("会议管理");
+        mLeftTextView.setText(R.string.meeting_management);
         mLeftTextView.setVisibility(View.VISIBLE);
 
         initTabFragment();
@@ -77,25 +77,21 @@ public class MeetingManageActivity extends ActivityFragmentSupport {
 
         //初始化Fragment
         PushMessageListFragment fragment1 = new PushMessageListFragment();
-    //    MeetingPassListFragment fragment2 = new MeetingPassListFragment();
         MeetingRecordListFragment fragment2 = new MeetingRecordListFragment();
 
         //将Fragment装进列表中
         mFragment = new ArrayList<>();
         mFragment.add(fragment1);
-    //    mFragment.add(fragment2);
         mFragment.add(fragment2);
 
         //将名称添加daoTab列表
         mTitle = new ArrayList<>();
-        mTitle.add("推送消息");
-    //    mTitle.add("审批通过");
-        mTitle.add("会议记录");
+        mTitle.add(getString(R.string.pushMessage));
+        mTitle.add(getString(R.string.meetingRecord));
 
         //为TabLayout添加Tab名称
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(1)));
-    //    mTabLayout.addTab(mTabLayout.newTab().setText(mTitle.get(2)));
 
         mAdapter = new TopPagerAdapter(this.getSupportFragmentManager(), mFragment, mTitle);
 

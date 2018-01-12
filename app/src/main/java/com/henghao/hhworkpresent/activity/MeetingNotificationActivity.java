@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
@@ -107,7 +108,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("会议召开通知");
+        mCenterTextView.setText(R.string.meeting_notification);
         mCenterTextView.setVisibility(View.VISIBLE);
     }
 
@@ -151,12 +152,12 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
         View customView = View.inflate(this,R.layout.layout_list_dialog,null);
         xcDropDownDeptListView = (XCDropDownDeptListView) customView.findViewById(R.id.xCDropDownListView);
         TextView tv_zhifaduiwu = (TextView) customView.findViewById(R.id.tv_zhifaduiwu);
-        tv_zhifaduiwu.setText("部门");
+        tv_zhifaduiwu.setText(R.string.dept);
         personal_listview = (ListView) customView.findViewById(R.id.personal_listview);
         xcDropDownDeptListView.setItemsData(mDeptList);
 
         //传空id代表查询全部人员
-        httpRequestJianchaPersonalInfo("");
+        httpRequestJianchaPersonalInfo(getString(R.string.tv_null));
 
         mSelectPersonnelList.clear();
         personal_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -178,9 +179,9 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
             }
         });
         CustomDialog.Builder dialog=new CustomDialog.Builder(this);
-        dialog.setTitle("选择替代参会人员")
+        dialog.setTitle(R.string.choose_replace_people)
                 .setContentView(customView)//设置自定义customView
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -189,7 +190,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                             chooseReplacedMeeting(String.valueOf(personnelEntity.getId()));
                         }
                     }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -226,7 +227,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -261,7 +262,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     /**
      * 查询指定的消息
      */
-    public void httpRequestMeetingContent(){
+    private void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -280,7 +281,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -303,10 +304,13 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                             public void run() {
                                 for(JPushToUser jPushToUser : jPushToUserList){
                                     if(jPushToUser.getMsg_id()==msg_id){
-                                        tv_meeting_notification.setText("你好，请于"+meetingEntity.getMeetingStartTime()+"在"+meetingEntity.getMeetingPlace()
-                                                +"参加" +jPushToUser.getMessageSendPeople()+"发起的主题为"+meetingEntity.getMeetingTheme()
-                                                +"的会议，并在抵达会议地点的时候在会议的时候连接名字为"+meetingEntity.getWifiSSID()+"的wifi进行签到，谢谢！");
-                                        tv_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
+                                        tv_meeting_notification.setText(R.string.meeting_notification_content1 + meetingEntity.getMeetingStartTime()
+                                                + R.string.meeting_notification_content2 + meetingEntity.getMeetingPlace()
+                                                + R.string.meeting_notification_content3 + jPushToUser.getMessageSendPeople()
+                                                + R.string.meeting_notification_content4 + meetingEntity.getMeetingTheme()
+                                                + R.string.meeting_notification_content5 + meetingEntity.getWifiSSID()
+                                                + R.string.meeting_notification_content6 );
+                                        tv_meeting_faqiren.setText(R.string.tv_meeting_faqiren + jPushToUser.getMessageSendPeople());
                                         tv_notification_time.setText(jPushToUser.getMessageSendTime());
                                     }
                                 }
@@ -337,7 +341,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
     /**
      * 选择代替人开会的接口
      */
-    public void chooseReplacedMeeting(String fungibleId){
+    private void chooseReplacedMeeting(String fungibleId){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -358,7 +362,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        msg("网络请求错误！");
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -377,7 +381,7 @@ public class MeetingNotificationActivity extends ActivityFragmentSupport {
                                 if(resultStr.equals("null")){     //代表选择人成功
                                     mActivityFragmentView.viewLoading(View.GONE);
                                     relativelayout_btn.setVisibility(View.GONE);     //选择替代人成功之后把会议签到去掉
-                                    msg("选择代替开会人员成功!");
+                                    msg(getString(R.string.choose_replace_people_succeed));
                                 }else{
                                     msg(resultStr);
                                 }

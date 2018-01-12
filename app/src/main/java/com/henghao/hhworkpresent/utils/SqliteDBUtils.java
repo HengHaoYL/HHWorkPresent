@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.views.DatabaseHelper;
 
 /**
@@ -18,7 +19,7 @@ public class SqliteDBUtils {
 
     public SqliteDBUtils(Context context){
         mContext = context;
-        dbHelper = new DatabaseHelper(mContext,"user_login.db");
+        dbHelper = new DatabaseHelper(mContext, Constant.USER_LOGIN_DATABASE);
         db = dbHelper.getWritableDatabase();
     }
 

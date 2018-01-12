@@ -78,7 +78,7 @@ public class MyTongxunluDetailActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("通讯录详细界面");
+        mLeftTextView.setText(R.string.tv_address_book_detail);
         mLeftTextView.setVisibility(View.VISIBLE);
     }
 
@@ -98,37 +98,37 @@ public class MyTongxunluDetailActivity extends ActivityFragmentSupport {
         dept_NAME = intent.getStringExtra("dept_NAME");
 
         if("0".equals(sex)){
-            sex = "男";
+            sex = getString(R.string.male);
         }else if("1".equals(sex)){
-            sex = "女";
+            sex = getString(R.string.female);
         }
 
         if("null".equals(position)||position==null){
-            position = "";
+            position = getString(R.string.tv_null);
         }
         if("null".equals(name)||name==null){
-            name="";
+            name = getString(R.string.tv_null);
         }
         if("null".equals(emp_NUM)||emp_NUM==null){
-            emp_NUM="";
+            emp_NUM = getString(R.string.tv_null);
         }
         if("null".equals(birth_DATE)||birth_DATE==null){
-            birth_DATE="";
+            birth_DATE = getString(R.string.tv_null);
         }
         if("null".equals(telephone)||telephone==null){
-            telephone="";
+            telephone = getString(R.string.tv_null);
         }
         if("null".equals(address)||address==null){
-            address="";
+            address = getString(R.string.tv_null);
         }
         if("null".equals(cellphone)||cellphone==null){
-            cellphone="";
+            cellphone = getString(R.string.tv_null);
         }
         if("null".equals(work_DESC)||work_DESC==null){
-            work_DESC="";
+            work_DESC = getString(R.string.tv_null);
         }
         if("null".equals(dept_NAME)||dept_NAME==null){
-            dept_NAME="";
+            dept_NAME = getString(R.string.tv_null);
         }
 
         tv_name.setText(name);

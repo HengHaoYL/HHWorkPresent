@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:gravity="center"
-        android:text="会议审批不通过"
+        android:text="@string/meeting_shenpi_notpass"
         android:textSize="24dp" />
 
     <TextView
@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="你好，你发起的什么主题的会议因什么原因不能开会"
         android:textSize="18dp" />
 
     <LinearLayout
@@ -32,7 +31,6 @@
             android:id="@+id/tv_meeting_faqiren"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="会议发起人：朱智刚"
             android:textSize="18dp" />
 
         <TextView
@@ -40,7 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="会议审批人：按油光"
             android:textSize="18dp" />
 
         <TextView
@@ -48,7 +45,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="会议发起时间：2017-9-28 11:00"
             android:textSize="18dp" />
     </LinearLayout>
 

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@null</item>
     </style>
@@ -11,7 +11,7 @@
     </style>
 
     <!-- activity 启动样式 -->
-    <style name="Activity.Theme" parent="AppBaseTheme">
+    <style name="Activity.Theme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- 将Activity的Theme设置成透明 -->
     //    <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/white</item>

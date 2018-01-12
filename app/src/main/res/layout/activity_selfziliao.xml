@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
@@ -20,7 +19,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="姓        名"
+                android:text="@string/tv_name"
                 android:textSize="@dimen/gj_f" />
 
 
@@ -48,7 +47,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="性        别"
+                android:text="@string/tv_sex"
                 android:textSize="@dimen/gj_f" />
 
             <TextView
@@ -75,7 +74,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="出生日期"
+                android:text="@string/tv_birthday"
                 android:textSize="@dimen/gj_f" />
 
             <TextView
@@ -102,7 +101,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="执法证号"
+                android:text="@string/tv_law_no"
                 android:textSize="@dimen/gj_f" />
 
 
@@ -130,7 +129,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="工作电话"
+                android:text="@string/tv_telephone"
                 android:textSize="@dimen/gj_f" />
 
 
@@ -159,7 +158,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="手机号码"
+                android:text="@string/tv_phoneNumber"
                 android:textSize="@dimen/gj_f" />
 
 
@@ -188,7 +187,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="职        务"
+                android:text="@string/tv_position"
                 android:textSize="@dimen/gj_f" />
 
 
@@ -216,7 +215,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="工作地点"
+                android:text="@string/tv_address"
                 android:textSize="@dimen/gj_f" />
 
 
@@ -244,7 +243,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="部        门"
+                android:text="@string/tv_dept_NAME"
                 android:textSize="@dimen/gj_f" />
 
 
@@ -272,7 +271,7 @@
                 android:layout_width="100dip"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_big"
-                android:text="工作职责"
+                android:text="@string/tv_work_DESC"
                 android:textSize="@dimen/gj_f" />
 
 

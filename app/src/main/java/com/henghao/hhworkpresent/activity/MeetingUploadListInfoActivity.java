@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.MeetingTrajectoryEntity;
@@ -86,8 +87,7 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
         super.initWidget();
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
-        mLeftTextView.setText("会议详情");
-
+        mLeftTextView.setText(R.string.meetingDetail);
     }
 
     @Override
@@ -98,17 +98,19 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
         tv_meeting_upload_detail_start_time.setText(meetingTrajectoryEntity.getMeetingEntity().getMeetingStartTime());
         tv_meeting_upload_detail_duration.setText(meetingTrajectoryEntity.getMeetingEntity().getMeetingDuration());
         tv_meeting_upload_detail_place.setText(meetingTrajectoryEntity.getMeetingEntity().getMeetingPlace());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat(Constant.DATE_TIME_SS_FORMAT);
         if(meetingTrajectoryEntity.getStartSignInTime()!=null){
-            tv_meeting_upload_detail_start_qiandao.setText(meetingTrajectoryEntity.getStartSignInCoordinates()+"\n"+format.format(new Date(Long.parseLong(meetingTrajectoryEntity.getStartSignInTime()))));
+            tv_meeting_upload_detail_start_qiandao.setText(meetingTrajectoryEntity.getStartSignInCoordinates()+"\n"
+                    + format.format(new Date(Long.parseLong(meetingTrajectoryEntity.getStartSignInTime()))));
         }
         if(meetingTrajectoryEntity.getEndSignInTime()!=null){
-            tv_meeting_upload_detail_end_qiandao.setText(meetingTrajectoryEntity.getEndSignInCoordinates()+"\n"+format.format(new Date(Long.parseLong(meetingTrajectoryEntity.getEndSignInTime()))));
+            tv_meeting_upload_detail_end_qiandao.setText(meetingTrajectoryEntity.getEndSignInCoordinates()+"\n"
+                    + format.format(new Date(Long.parseLong(meetingTrajectoryEntity.getEndSignInTime()))));
         }
         tv_meeting_upload_detail_summary.setText(meetingTrajectoryEntity.getMeetingSummary());
         String imagePath = meetingTrajectoryEntity.getMeetingImagePath();
         if(imagePath!=null){
-            String[] imagePathArr = imagePath.split(",");
+            String[] imagePathArr = imagePath.split(getString(R.string.comma));
             mSelectPath = Arrays.asList(imagePathArr);
             GridAdapter adapter = new GridAdapter();
             upload_meeting_picture_gridview.setAdapter(adapter);
@@ -160,7 +162,8 @@ public class MeetingUploadListInfoActivity extends ActivityFragmentSupport {
                     .build(); // 构建完成
             imageLoader = ImageLoader.getInstance();
             String[] imageUrl = mSelectPath.toArray(new String[mSelectPath.size()]);
-            imageLoader.displayImage(ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERT_MEETING_TRAJECTORY_DETAIL_IMAGEPATH + imageUrl[position], holder.image, options);
+            imageLoader.displayImage(ProtocolUrl.ROOT_URL + ProtocolUrl.APP_QUERT_MEETING_TRAJECTORY_DETAIL_IMAGEPATH + imageUrl[position],
+                    holder.image, options);
             return convertView;
         }
     }

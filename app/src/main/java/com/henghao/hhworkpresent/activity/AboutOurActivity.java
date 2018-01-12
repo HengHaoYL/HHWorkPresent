@@ -35,7 +35,7 @@ public class AboutOurActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("关于我们");
+        mLeftTextView.setText(R.string.tv_about_us);
         mLeftTextView.setVisibility(View.VISIBLE);
     }
 

@@ -84,7 +84,7 @@ public class WebViewActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftImageView.setImageResource(R.drawable.icon_webfinish);
         mLeftImageView.setVisibility(View.VISIBLE);
-        mLeftTextView.setText("退出");
+        mLeftTextView.setText(getString(R.string.exit));
         mLeftTextView.setVisibility(View.VISIBLE);
         mLeftImageView.setOnClickListener(new View.OnClickListener() {
             @Override

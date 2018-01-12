@@ -13,9 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.benefit.buy.library.utils.tools.ToolsKit;
 import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.entity.UserInfoEntity;
@@ -87,7 +89,7 @@ public class LoginActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftImageView.setVisibility(View.GONE);
         initWithCenterBar();
-        mCenterTextView.setText("登录");
+        mCenterTextView.setText(R.string.login);
         mCenterTextView.setVisibility(View.VISIBLE);
     }
 
@@ -101,13 +103,12 @@ public class LoginActivity extends ActivityFragmentSupport {
             login_pass.setText(getRemPassword());
         }else{
             login_user.setText(getRemUsername());
-            login_pass.setText("");
+            login_pass.setText(R.string.tv_null);
         }
     }
 
     @OnClick({R.id.tv_login})
     public void viewClick(View v) {
-        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.tv_login:
                 //登录
@@ -136,7 +137,7 @@ public class LoginActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(), R.string.app_network_failure);
                     }
                 });
             }
@@ -153,7 +154,7 @@ public class LoginActivity extends ActivityFragmentSupport {
                             @Override
                             public void run() {
                                 mActivityFragmentView.viewLoading(View.GONE);
-                                msg("登录失败，请重新登录！");
+                                ToastUtils.show(getContext(), R.string.login_failure);
                             }
                         });
                     }
@@ -163,7 +164,7 @@ public class LoginActivity extends ActivityFragmentSupport {
                         String firstName = userInfo.getFirstname();
                         String giveName = userInfo.getGivenname();
 
-                        dbHelper = new DatabaseHelper(LoginActivity.this,"user_login.db");
+                        dbHelper = new DatabaseHelper(LoginActivity.this, Constant.USER_LOGIN_DATABASE);
                         db = dbHelper.getWritableDatabase();
                         ContentValues contentValues = new ContentValues();
                         contentValues.put("uid",uid);
@@ -173,7 +174,7 @@ public class LoginActivity extends ActivityFragmentSupport {
                         contentValues.put("giveName",giveName);
                         db.insert("user", null, contentValues);
 
-                        remDBHelper = new RemenberDatabaseHelper(LoginActivity.this,"user_login_remenber.db");
+                        remDBHelper = new RemenberDatabaseHelper(LoginActivity.this,Constant.USER_LOGIN_REMEMBER_DATABASE);
                         db = remDBHelper.getWritableDatabase();
                         contentValues = new ContentValues();
                         contentValues.put("uid",uid);
@@ -274,11 +275,11 @@ public class LoginActivity extends ActivityFragmentSupport {
 
     private boolean checkData() {
         if (ToolsKit.isEmpty(login_user.getText().toString().trim())) {
-            this.msg("用户名不能为空");
+            Toast.makeText(getContext(), R.string.username_not_null, Toast.LENGTH_SHORT).show();
             return false;
         }
         if (ToolsKit.isEmpty(login_pass.getText().toString().trim())) {
-            this.msg("密码不能为空");
+            Toast.makeText(getContext(), R.string.password_not_null, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

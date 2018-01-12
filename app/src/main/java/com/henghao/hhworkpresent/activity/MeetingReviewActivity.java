@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
+import com.benefit.buy.library.utils.tools.ToolsSecret;
 import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
@@ -97,9 +99,8 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("会议审批");
+        mCenterTextView.setText(R.string.meetingShenpi);
         mCenterTextView.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -114,7 +115,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
     private void viewOnClick(View v) {
         switch (v.getId()){
             case R.id.tv_meeting_agree:
-                httpRequestAgreeOrCancel(1,"");
+                httpRequestAgreeOrCancel(1,getString(R.string.tv_null));
                 break;
             case R.id.tv_meeting_reject:
                 showNoPassDialog();
@@ -125,11 +126,11 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
     /**
      * 展示不同意对话框
      */
-    public void showNoPassDialog(){
+    private void showNoPassDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("您选择的处理方式");
-        builder.setMessage("此会议确定驳回？");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.processingMode);
+        builder.setMessage(R.string.meetingIsReject);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // 执行点击确定按钮的业务逻辑
@@ -137,7 +138,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                 showNoPassReasonDialog();
             }
         });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -150,23 +151,23 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
     /**
      * 显示不同意理由对话框
      */
-    public void showNoPassReasonDialog(){
+    private void showNoPassReasonDialog(){
         final View customView = View.inflate(this,R.layout.layout_no_pass_dialog,null);
         final EditText et_no_pass_reason = (EditText) customView.findViewById(R.id.et_no_pass_reason);
         CustomDialog.Builder dialog=new CustomDialog.Builder(this);
-        dialog.setTitle("请填写驳回会议的原因")
+        dialog.setTitle(R.string.edit_reject_reason)
                 .setContentView(customView)//设置自定义customView
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if(et_no_pass_reason.getText().toString().equals("")){
-                            Toast.makeText(MeetingReviewActivity.this,"请填写不通过原因",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MeetingReviewActivity.this,R.string.mustbe_edit_reject_reason,Toast.LENGTH_SHORT).show();
                             return;
                         }
                         httpRequestAgreeOrCancel(2,et_no_pass_reason.getText().toString());
                         dialogInterface.dismiss();
                     }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -179,7 +180,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
      * 点击同意或取消会走的接口并且上传理由
      * @param whetherPass
      */
-    public void httpRequestAgreeOrCancel(final int whetherPass,String noPassReason){
+    private void httpRequestAgreeOrCancel(final int whetherPass,String noPassReason){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -201,7 +202,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        msg("网络请求错误！");
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -212,7 +213,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        msg("数据上传成功");
+                        msg(getString(R.string.app_upload_succeed));
                         Intent intent = new Intent();
                         intent.setClass(MeetingReviewActivity.this,MeetingShenpiResultsActivity.class);
                         intent.putExtra("msg_id",msg_id);
@@ -228,7 +229,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
     /**
      * 从后台获取会议数据和消息数据
      */
-    public void httpRequestMeetingContent(){
+    private void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -246,7 +247,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -276,7 +277,7 @@ public class MeetingReviewActivity extends ActivityFragmentSupport {
                                 tv_meeting_start_time.setText(meetingEntity.getMeetingStartTime());
                                 tv_meeting_duration.setText(meetingEntity.getMeetingDuration());
                                 String name = meetingEntity.getUserIds();   //获取参会人员
-                                String[] strings = name.split(",");
+                                String[] strings = name.split(getString(R.string.comma));
                                 tv_join_meeting_people_num.setText(String.valueOf(strings.length));
                                 tv_join_meeting_people.setText(name);
                             }

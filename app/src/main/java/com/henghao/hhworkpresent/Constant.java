@@ -69,6 +69,18 @@ public class Constant {
 
 	public static final String USERSTATE = "user_state";
 
+	public static final String USER_LOGIN_DATABASE = "user_login.db";
+
+	public static final String USER_LOGIN_REMEMBER_DATABASE = "user_login_remenber.db";
+
+	public static final String DATE_TIME_MM_FORMAT = "yyyy-MM-dd HH:mm";
+
+	public static final String DATE_TIME_SS_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+	public static final String TIME_MM_FORMAT = "HH:mm";
+
+
+	public static final String IMAGELOADER_CACHE = "universalimageloader/Cache";
 
 	/** 我要检查列表*/
 	public final static int WOYAO_CHECK = 0;

@@ -3,6 +3,7 @@ package com.henghao.hhworkpresent.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -107,11 +108,11 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("个人资料");
+        mLeftTextView.setText(R.string.tv_personal_data);
         mLeftTextView.setVisibility(View.VISIBLE);
 
         initWithRightBar();
-        mRightTextView.setText("编辑");
+        mRightTextView.setText(R.string.tv_edit);
         mRightTextView.setVisibility(View.VISIBLE);
         mRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,36 +125,36 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
 
     public void toNextActivity(){
         if("0".equals(sex)){
-            sex = "男";
+            sex = getString(R.string.male);
         }else if("1".equals(sex)){
-            sex = "女";
+            sex = getString(R.string.female);
         }
         if("null".equals(position)||"".equals(position)){
-            position = "";
+            position = getString(R.string.tv_null);
         }
         if("null".equals(name)||name==null){
-            name="";
+            name = getString(R.string.tv_null);
         }
         if("null".equals(emp_NUM)||emp_NUM==null){
-            emp_NUM="";
+            emp_NUM = getString(R.string.tv_null);
         }
         if("null".equals(birth_DATE)||birth_DATE==null){
-            birth_DATE="";
+            birth_DATE = getString(R.string.tv_null);
         }
         if("null".equals(telephone)||telephone==null){
-            telephone="";
+            telephone = getString(R.string.tv_null);
         }
         if("null".equals(address)||address==null){
-            address="";
+            address = getString(R.string.tv_null);
         }
         if("null".equals(cellphone)||cellphone==null){
-            cellphone="";
+            cellphone = getString(R.string.tv_null);
         }
         if("null".equals(work_DESC)||work_DESC==null){
-            work_DESC="";
+            work_DESC = getString(R.string.tv_null);
         }
         if("null".equals(dept_NAME)||dept_NAME==null){
-            dept_NAME="";
+            dept_NAME = getString(R.string.tv_null);
         }
         Intent intent = new Intent();
         intent.setClass(MySelfZiliaoActivity.this,EditMySelfZiliaoActivity.class);
@@ -279,36 +280,36 @@ public class MySelfZiliaoActivity extends ActivityFragmentSupport {
                         @Override
                         public void run() {
                             if("0".equals(sex)){
-                                sex = "男";
+                                sex = getString(R.string.male);
                             }else if("1".equals(sex)){
-                                sex = "女";
+                                sex = getString(R.string.female);
                             }
                             if("null".equals(position)||"".equals(position)){
-                                position = "";
+                                position = getString(R.string.tv_null);
                             }
                             if("null".equals(name)||name==null){
-                                name="";
+                                name = getString(R.string.tv_null);
                             }
                             if("null".equals(emp_NUM)||emp_NUM==null){
-                                emp_NUM="";
+                                emp_NUM = getString(R.string.tv_null);
                             }
                             if("null".equals(birth_DATE)||birth_DATE==null){
-                                birth_DATE="";
+                                birth_DATE = getString(R.string.tv_null);
                             }
                             if("null".equals(telephone)||telephone==null){
-                                telephone="";
+                                telephone = getString(R.string.tv_null);
                             }
                             if("null".equals(address)||address==null){
-                                address="";
+                                address = getString(R.string.tv_null);
                             }
                             if("null".equals(cellphone)||cellphone==null){
-                                cellphone="";
+                                cellphone = getString(R.string.tv_null);
                             }
                             if("null".equals(work_DESC)||work_DESC==null){
-                                work_DESC="";
+                                work_DESC = getString(R.string.tv_null);
                             }
                             if("null".equals(dept_NAME)||dept_NAME==null){
-                                dept_NAME="";
+                                dept_NAME = getString(R.string.tv_null);
                             }
 
                             tv_name.setText(name);

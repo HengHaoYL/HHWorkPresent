@@ -35,13 +35,13 @@ import java.util.List;
 
 public class GongGaoActivity extends ActivityFragmentSupport {
 
-    private TabHost tabHost;
-
     @ViewInject(R.id.gonggao_read_lisview)
     private XListView read_listView;
 
     @ViewInject(R.id.gonggao_unread_listview)
     private XListView unread_listView;
+
+    private TabHost tabHost;
 
     private NotificatReadGonggaoAdapter mReadAdapter;
 
@@ -75,11 +75,11 @@ public class GongGaoActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("公告");
+        mLeftTextView.setText(getString(R.string.announcement));
         mLeftTextView.setVisibility(View.VISIBLE);
 
         initWithRightBar();
-        mRightTextView.setText("全部已读");
+        mRightTextView.setText(getString(R.string.all_read));
         mRightTextView.setVisibility(View.VISIBLE);
 
         //得到TabHost对象实例
@@ -87,39 +87,9 @@ public class GongGaoActivity extends ActivityFragmentSupport {
         //调用 TabHost.setup()
         tabHost.setup();
         //创建Tab标签
-        tabHost.addTab(tabHost.newTabSpec("one").setIndicator("未读").setContent(R.id.frame_unread));
-        tabHost.addTab(tabHost.newTabSpec("two").setIndicator("已读").setContent(R.id.frame_read));
-
-
+        tabHost.addTab(tabHost.newTabSpec(getString(R.string.one)).setIndicator(getString(R.string.unread)).setContent(R.id.frame_unread));
+        tabHost.addTab(tabHost.newTabSpec(getString(R.string.two)).setIndicator(getString(R.string.read)).setContent(R.id.frame_read));
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        queryUnReadGonggao();
-    }
-
-    public void queryUnReadGonggao(){
-        gonggaoProtocol.addResponseListener(this);
-        gonggaoProtocol.queryUnreadGongao(sqliteDBUtils.getLoginUid());
-        mActivityFragmentView.viewLoading(View.VISIBLE);
-    }
-
-    public void queryReadGonggao(){
-        gonggaoProtocol.addResponseListener(this);
-        gonggaoProtocol.queryReadGongao(sqliteDBUtils.getLoginUid());
-        mActivityFragmentView.viewLoading(View.VISIBLE);
-    }
-
-    /**
-     * 将全部未读变为已读
-     */
-    public void addAllReadGonggao(){
-        gonggaoProtocol.addResponseListener(this);
-        gonggaoProtocol.addAllReadGonggao(sqliteDBUtils.getLoginUid());
-        mActivityFragmentView.viewLoading(View.VISIBLE);
-    }
-
 
     @Override
     public void initData() {
@@ -137,7 +107,7 @@ public class GongGaoActivity extends ActivityFragmentSupport {
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                if (tabId.equals("one")) {
+                if (tabId.equals(getString(R.string.one))) {
                     queryUnReadGonggao();
                     mRightTextView.setVisibility(View.VISIBLE);
                     mRightTextView.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +117,7 @@ public class GongGaoActivity extends ActivityFragmentSupport {
                             queryUnReadGonggao();
                         }
                     });
-                } else if (tabId.equals("two")) {
+                } else if (tabId.equals(getString(R.string.two))) {
                     mRightTextView.setVisibility(View.GONE);
                     queryReadGonggao();
                 }
@@ -199,6 +169,33 @@ public class GongGaoActivity extends ActivityFragmentSupport {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        queryUnReadGonggao();
+    }
+
+    private void queryUnReadGonggao(){
+        gonggaoProtocol.addResponseListener(this);
+        gonggaoProtocol.queryUnreadGongao(sqliteDBUtils.getLoginUid());
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+    }
+
+    private void queryReadGonggao(){
+        gonggaoProtocol.addResponseListener(this);
+        gonggaoProtocol.queryReadGongao(sqliteDBUtils.getLoginUid());
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+    }
+
+    /**
+     * 将全部未读变为已读
+     */
+    private void addAllReadGonggao(){
+        gonggaoProtocol.addResponseListener(this);
+        gonggaoProtocol.addAllReadGonggao(sqliteDBUtils.getLoginUid());
+        mActivityFragmentView.viewLoading(View.VISIBLE);
+    }
+
+    @Override
     public void OnMessageResponse(String url, Object jo, AjaxStatus status) throws JSONException {
         super.OnMessageResponse(url, jo, status);
         if (url.endsWith(ProtocolUrl.APP_QUERY_UNREAD_GONGGAO)) {
@@ -219,7 +216,6 @@ public class GongGaoActivity extends ActivityFragmentSupport {
             readData.clear();
             readData.addAll(homedata);
             mReadAdapter.notifyDataSetChanged();
-
         }
     }
 }

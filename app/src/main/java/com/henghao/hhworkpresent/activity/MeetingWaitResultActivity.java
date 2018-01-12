@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
@@ -75,7 +76,7 @@ public class MeetingWaitResultActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("等待审批结果");
+        mCenterTextView.setText(R.string.wait_meeting_notification);
         mCenterTextView.setVisibility(View.VISIBLE);
     }
 
@@ -87,7 +88,7 @@ public class MeetingWaitResultActivity extends ActivityFragmentSupport {
         httpRequestMeetingContent();
     }
 
-    public void httpRequestMeetingContent(){
+    private void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -105,7 +106,7 @@ public class MeetingWaitResultActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -125,10 +126,11 @@ public class MeetingWaitResultActivity extends ActivityFragmentSupport {
                             for(JPushToUser jPushToUser : jPushToUserList){
                                 if(jPushToUser.getMsg_id()==msg_id){
                                     tv_wait_meeting_descript.setText(
-                                            "你好，" + "你发起的主题为"+meetingEntity.getMeetingTheme()+"的预约会议已经成功推送给"
-                                                    +meetingEntity.getLeadName()+"审批，请留意通知消息等待审批结果。");
-                                    tv_wait_meeting_faqiren.setText("会议发起人："+jPushToUser.getMessageSendPeople());
-                                    tv_wait_meeting_shenpiren.setText("会议审批人："+meetingEntity.getLeadName());
+                                            R.string.nopass_meeting_content1 + meetingEntity.getMeetingTheme() +
+                                            R.string.wait_meeting_content2 + meetingEntity.getLeadName() +
+                                            R.string.wait_meeting_content3 );
+                                    tv_wait_meeting_faqiren.setText(R.string.tv_meeting_faqiren + jPushToUser.getMessageSendPeople());
+                                    tv_wait_meeting_shenpiren.setText(R.string.tv_meeting_shenpiren + meetingEntity.getLeadName());
                                     tv_wait_message_time.setText(jPushToUser.getMessageSendTime());
                                 }
                             }

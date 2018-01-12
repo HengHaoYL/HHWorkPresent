@@ -24,7 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.benefit.buy.library.phoneview.MultiImageSelectorActivity;
+import com.benefit.buy.library.utils.ToastUtils;
 import com.benefit.buy.library.utils.tools.ToolsKit;
+import com.benefit.buy.library.utils.tools.ToolsSecret;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
 import com.henghao.hhworkpresent.R;
@@ -135,7 +137,7 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("会议上传");
+        mCenterTextView.setText(R.string.meetingUpload);
         mCenterTextView.setVisibility(View.VISIBLE);
     }
 
@@ -153,7 +155,7 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
         tv_meeting_join_people.setText(data.getStringExtra("meetingJoinPeople"));
 
         joinPeopleList = new ArrayList<>();
-        String[] joinArr = data.getStringExtra("meetingJoinPeople").split(",");
+        String[] joinArr = data.getStringExtra("meetingJoinPeople").split(getString(R.string.comma));
         for (String name : joinArr) {
             joinPeopleList.add(name);
         }
@@ -179,7 +181,7 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
         }
     }
 
-    public void saveCheckMeetingUploadDataToSerivce(){
+    private void saveCheckMeetingUploadDataToSerivce(){
         String meetingUploadTheme = tv_meeting_upload_theme.getText().toString();
         String meetingUploadFaqiren = tv_meeting_upload_people.getText().toString();
         String meetingUploadStartTime = tv_meeting_upload_start_time.getText().toString();
@@ -190,15 +192,15 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
         String meetingUploadContent = et_meeting_upload_content.getText().toString();
         String meetingUploadSummary = et_meeting_upload_summary.getText().toString();
         if(meetingUploadQiandaoPeople.equals("")){
-            Toast.makeText(this,"必须选择实际到场人员",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.actual_presence_mustbe_selected);
             return;
         }
         if(meetingUploadContent.equals("")){
-            Toast.makeText(this,"必须填写会议内容",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.mustbe_edit_meeting_content);
             return;
         }
         if(meetingUploadSummary.equals("")){
-            Toast.makeText(this,"必须填写会议总结",Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this,R.string.mustbe_edit_meeting_summary);
             return;
         }
         MeetingDataBean.MeetingUploadEntity meetingUploadEntity = new MeetingDataBean.MeetingUploadEntity();
@@ -237,7 +239,7 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("网络请求错误！");
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -247,7 +249,7 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        msg("数据上传成功！");
+                        msg(getString(R.string.app_upload_succeed));
                     }
                 });
             }
@@ -275,9 +277,9 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
             }
         });
         CustomDialog.Builder dialog=new CustomDialog.Builder(this);
-        dialog.setTitle("选择实际到场人员")
+        dialog.setTitle(R.string.actual_presence_selected)
                 .setContentView(customView)//设置自定义customView
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -290,11 +292,11 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
                         }
                         StringBuilder stringBuilder = new StringBuilder();
                         for(String peopleName : mSelectPeopleList){
-                            stringBuilder.append(peopleName+",");
+                            stringBuilder.append(peopleName+getString(R.string.comma));
                             tv_meeting_upload_qiandao_people.setText(stringBuilder);
                         }
                     }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -302,7 +304,6 @@ public class MeetingUploadActivity extends ActivityFragmentSupport {
         }).create().show();
 
     }
-
 
     public void choosePicture(){
         int selectedMode = MultiImageSelectorActivity.MODE_MULTI;

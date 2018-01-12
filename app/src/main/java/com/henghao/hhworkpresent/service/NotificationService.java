@@ -7,8 +7,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.henghao.hhworkpresent.ProtocolUrl;
-import com.henghao.hhworkpresent.activity.GerendaibanActivity;
+import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.activity.GongGaoActivity;
+import com.henghao.hhworkpresent.activity.MainActivity;
 import com.henghao.hhworkpresent.utils.NotificationUtils;
 import com.henghao.hhworkpresent.utils.SqliteDBUtils;
 import com.squareup.okhttp.Call;
@@ -31,7 +32,6 @@ import static com.henghao.hhworkpresent.fragment.MsgFragment.NO_2;
 /**
  * Created by bryanrady on 2017/6/5.
  */
-
 public class NotificationService extends Service{
 
     private int gerendaiban_count;
@@ -63,6 +63,11 @@ public class NotificationService extends Service{
         return super.onStartCommand(intent, flags, startId);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     /**
      * 开辟线程下载 消息数目和公告未读数目
      */
@@ -76,7 +81,7 @@ public class NotificationService extends Service{
                 try{
                     httpRequesMsgCounts();
                     queryUnReadGonggao();
-                    Thread.sleep(60000);
+                    Thread.sleep(600000);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -84,7 +89,7 @@ public class NotificationService extends Service{
         }
     }
 
-    public void queryUnReadGonggao(){
+    private void queryUnReadGonggao(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         FormEncodingBuilder requestBodyBuilder = new FormEncodingBuilder();
@@ -110,7 +115,7 @@ public class NotificationService extends Service{
                             @Override
                             public void run() {
                                 if(jsonArray.length()>0){
-                                    notificationUtils.addNotfication("未读公告", "你有新的未读公告，请尽快查阅！", NO_1 , new GongGaoActivity());
+                                    notificationUtils.addNotfication(getString(R.string.unread_announcement), getString(R.string.new_unread_announcement), NO_1 , new GongGaoActivity());
                                 }
                             }
                         });
@@ -153,7 +158,7 @@ public class NotificationService extends Service{
                             @Override
                             public void run() {
                                 if(gerendaiban_count>0){
-                                    notificationUtils.addNotfication("需办理的工作", "你有新的需要办理的工作，请尽快办理！", NO_2 , new GerendaibanActivity());
+                                    notificationUtils.addNotfication(getString(R.string.work_tobe_done), getString(R.string.new_work_tobe_done), NO_2 , new MainActivity());
                                 }
                             }
                         });
@@ -163,10 +168,5 @@ public class NotificationService extends Service{
                 }
             }
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 }

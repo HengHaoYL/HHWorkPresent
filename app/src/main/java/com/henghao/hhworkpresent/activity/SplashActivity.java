@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
+import com.henghao.hhworkpresent.Constant;
 import com.henghao.hhworkpresent.R;
 import com.henghao.hhworkpresent.service.KaoqingService;
 import com.henghao.hhworkpresent.service.NotificationService;
@@ -54,7 +55,7 @@ public class SplashActivity extends ActivityFragmentSupport {
 			switch (msg.what) {
 				case 101:
 					Intent _intent = new Intent();
-					dbHelper = new DatabaseHelper(SplashActivity.this,"user_login.db");
+					dbHelper = new DatabaseHelper(SplashActivity.this, Constant.USER_LOGIN_DATABASE);
 					// 只有调用了DatabaseHelper的getWritableDatabase()方法或者getReadableDatabase()方法之后，才会创建或打开一个连接
 					db = dbHelper.getReadableDatabase();
 					String uid = null;

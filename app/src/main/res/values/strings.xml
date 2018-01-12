@@ -1,81 +1,242 @@
 <resources>
+
     <string name="app_name">安监数据铁笼</string>
 
-    <string name="back">返回</string>
-    <string name="home_exit">再按一次退出^_^</string>
-    <string name="more">更多</string>
-    <string name="account_cancel_hint">提示</string>
-    <string name="account_cancel_affirm">是否确定注销？</string>
-    <string name="call_affirm">点击「确定」后将自动为您拨打客服热线  </string>
-    <string name="call_affirm_last">，为您解答疑问  </string>
-    <string name="cancel">取消</string>
-    <string name="ok">确定</string>
-    <string name="entry">进入</string>
-
-    <!-- 网络设置 -->
-    <string name="prompt">提示</string>
     <string name="check_connection">无可用网络连接，请检查网络设置！</string>
     <string name="menu_settings">设置</string>
     <string name="close">关闭</string>
-    <string name="wrong_connection">无法连接到服务器，请检查网络设置！</string>
-    <string name="wrong_location">定位失败</string>
-    <string name="setting_cach">清除本地缓存</string>
-    <string name="options_clean_hint">清除缓存将会删除已经加载好的商品图片哟！</string>
-    <string name="options_clean_loading">正在为你清除...</string>
     <string name="app_refrsh">刷新</string>
-    <string name="app_notaccesswifi">暂无网络连接</string>
+    <string name="app_network_failure">网络访问错误！</string>
+    <string name="app_upload_succeed">数据上传成功</string>
+    <string name="download_error">下载错误</string>
+    <string name="picture_upload_failred">图片上传失败</string>
+    <string name="please_check_sdcard">请检查内存卡</string>
 
-    <!-- main tab -->
+    <!-- 登录 -->
+    <string name="login_toservice">贵阳市安监“数据铁笼”</string>
+    <string name="login">登 录</string>
+    <string name="tv_null"></string>
+    <string name="login_failure">登录失败，请重新登录！</string>
+    <string name="username_not_null">用户名不能为空！</string>
+    <string name="password_not_null">密码不能为空！</string>
+
+    <!-- MainActivity -->
     <string name="hc_home">消息</string>
     <string name="hc_app">应用</string>
     <string name="hc_work">工作</string>
     <string name="hc_myself">个人中心</string>
+    <string name="back">返回</string>
+    <string name="home_exit">再按一次退出^_^</string>
+    <string name="prompt">提示</string>
+    <string name="grant_permission">定位权限和读取sd卡被同意</string>
+    <string name="refuse_permission">定位权限和读取sd卡被拒绝</string>
+    <string name="gps_location">GPS定位服务</string>
+    <string name="start_gps_service">检测到你没有开启GPS定位服务，请你点击去设置去开启定位服务！</string>
+    <string name="goto_setting">去设置</string>
+    <string name="exit">退出</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
 
-    <!-- 登录 -->
-    <string name="login">登 录</string>
-    <string name="click_login">点击登录</string>
-    <string name="login_user">用户名</string>
-    <string name="login_pass_hint">密码</string>
-    <string name="login_pass_find">忘记密码</string>
-    <string name="login_pass_quick">注册账号</string>
-    <string name="login_msg_hint">亲，你还没有登录^_^</string>
-    <string name="login_exit">注销</string>
-    <string name="cooperation_login">使用合作网站账号登录</string>
-    <string name="register_hint_protocol">我已阅读并接受</string>
-    <string name="register_hint_protocol_click">溯源用户协议</string>
-    <string name="user_hint_protocol_error">请勾选用户协议</string>
-    <string name="register_get_code">获取验证码</string>
-    <string name="register_echo_phone">请输入手机号</string>
-    <string name="next">下一步</string>
-    <string name="register_code">验  证</string>
-    <string name="register_echo_pass">请输入密码</string>
-    <string name="register_echo_repeat_pass">再次输入密码</string>
-    <string name="register_finish">注册完成</string>
-    <string name="account_exit">退出登录</string>
-    <string name="register_sender_code">重发验证码</string>
-    <string name="register_surplus_code">还有</string>
-    <string name="register_surplus_code_end">秒</string>
-    <string name="login_toservice">贵阳市安监“数据铁笼”</string>
-    <!-- 更新 -->
-    <string name="about_version">当前版本：</string>
-    <string name="about_update">检查更新</string>
-    <string name="about_protocol">用户协议</string>
-    <string name="about_help">使用帮助</string>
-    <string name="update_title">版本更新提示</string>
-    <string name="update_msg">请更新后再使用！</string>
-    <string name="update_null">您当前版本为最新版本，无需更新。</string>
-    <string name="update_btn_ok">马上更新</string>
-    <string name="update_btn_cancel">以后再说</string>
-    <string name="updateing_hint">新版本下载</string>
-    <string name="title_activity_login">登录</string>
+    <!-- 我的消息 start -->
+    <string name="my_message">我的消息</string>
+    <string name="meeting_management">会议管理</string>
+    <string name="meeting_management_descipt">显示用户接收到会议管理消息</string>
+    <string name="announcement">通知公告</string>
+    <string name="announcement_descipt">显示用户接收到的通知公告</string>
+    <string name="work_tobe_done">需办理的工作</string>
+    <string name="work_tobe_done_descript">显示用户的需办理的工作列表</string>
+    <string name="matters_tobe_read">需阅知的工作</string>
+    <string name="matters_tobe_read_descript">显示用户需要阅知的工作列表</string>
+    <string name="more_message_count">99+</string>
+    <string name="unread_announcement">未读公告</string>
+    <string name="new_unread_announcement">你有新的未读公告，请尽快查阅！</string>
+    <string name="new_work_tobe_done">你有新的需要办理的工作，请尽快办理！</string>
+    <string name="you_have_new_message">你有新消息来了</string>
 
-    <string-array name="spingarr">
-        <item>全部</item>
-        <item>北京</item>
-        <item>上海</item>
-        <item>广州</item>
-        <item>深圳</item>
+    <string name="all_read">全部已读</string>
+    <string name="one">one</string>
+    <string name="two">two</string>
+    <string name="read">已读</string>
+    <string name="unread">未读</string>
+    <string name="announcement_detail">通知公告详情</string>
+    <string name="announcement_title">公告标题:</string>
+    <string name="announcement_author">发布作者:</string>
+    <string name="announcement_time">发布时间:</string>
+    <string name="announcement_content">公告内容:</string>
+
+    <string name="meeting_subscirbe">会议预约</string>
+    <string name="submit">提交</string>
+
+    <string-array name="meeting_type">
+        <item>小型会议</item>
+        <item>中型会议</item>
+        <item>大型会议</item>
+        <item>其他类型</item>
     </string-array>
 
+    <string name="meeting_zero_people">0人</string>
+    <string name="people">人</string>
+    <string name="dept">部门</string>
+    <string name="semicolon">;</string>
+
+    <string name="meetingTheme">会议主题</string>
+    <string name="meetingPlace">会议地点</string>
+    <string name="signInWifi">签到WiFi</string>
+    <string name="startTime">开始时间</string>
+    <string name="meetingType">会议类型</string>
+    <string name="meetingDuration">预估时长</string>
+    <string name="chooseShenpi">选择审批</string>
+    <string name="meeting_faqiren">会议发起人</string>
+    <string name="join_meetingig_people">参会人员</string>
+
+    <string name="choose_meeting_approver">选择会议审批人员</string>
+    <string name="meetingTheme_mustbe_selected">必须填写会议主题!</string>
+    <string name="meetingPlace_mustbe_selected">必须填写会议地点!</string>
+    <string name="meetingWifi_mustbe_selected">必须填写会议地点指定使用的wifi名称，否则无法实现会议签到！</string>
+    <string name="meetingType_mustbe_selected">必须选择会议类型！</string>
+    <string name="meetingapprover_mustbe_selected">必须选择会议审批人！</string>
+    <string name="choose_three_people">请选择至少3位以上参会人员!</string>
+    <string name="choose_meeting_people">选择参会人员</string>
+    <string name="clear">清除</string>
+
+    <string-array name="meeting_duration">
+        <item>30分钟</item>
+        <item>1个小时</item>
+        <item>1个半小时</item>
+        <item>2个小时</item>
+    </string-array>
+
+    <string name="pushMessage">推送消息</string>
+    <string name="meetingRecord">会议记录</string>
+    <string name="meetingDetail">会议详情</string>
+    <string name="comma">,</string>
+    <string name="meetingDuration2">会议时长</string>
+    <string name="approach_SignIn">进场签到</string>
+    <string name="exit_SignIn">退场签到</string>
+    <string name="meetingSummary">会议总结</string>
+    <string name="meeting_site_picture">会议现场图片</string>
+
+    <string name="meetingShenpi">会议审批</string>
+    <string name="processingMode">您选择的处理方式</string>
+    <string name="meetingIsReject">此会议确定驳回？</string>
+    <string name="edit_reject_reason">请填写驳回会议的原因</string>
+    <string name="mustbe_edit_reject_reason">请填写驳回会议的原因</string>
+    <string name="agree">同意</string>
+    <string name="reject">驳回</string>
+    <string name="meeting_shenpi_result">会议审批结果</string>
+    <string name="not_pass">未通过</string>
+    <string name="already_pass">已通过</string>
+    <string name="meeting_shenpi_state">审批状态：</string>
+    <string name="meeting_notpass_reason">不通过理由：</string>
+    <string name="meeting_shenpi_notpass">会议审批不通过</string>
+    <string name="tv_meeting_faqiren">会议发起人：</string>
+    <string name="tv_meeting_shenpiren">会议审批人：</string>
+    <string name="nopass_meeting_content1">你好，你发起的主题为</string>
+    <string name="nopass_meeting_content2">的预约会议经</string>
+    <string name="nopass_meeting_content3">审批，以</string>
+    <string name="nopass_meeting_content4">原因最后不能通过，详情请自己咨询审批人。</string>
+
+    <string name="wait_meeting_notification">等待消息通知</string>
+    <string name="wait_meeting_content2">的预约会议已经成功推送给</string>
+    <string name="wait_meeting_content3">进行审批，请留意通知消息等待审批结果。</string>
+
+    <string name="meeting_notification">会议召开通知</string>
+    <string name="meeting_signIn">会议签到</string>
+    <string name="replace_people">找人代替</string>
+    <string name="choose_replace_people">选择替代参会人员</string>
+    <string name="choose_replace_people_succeed">选择代替开会人员成功!</string>
+    <string name="meeting_notification_content1">你好，请于</string>
+    <string name="meeting_notification_content2">在</string>
+    <string name="meeting_notification_content3">参加</string>
+    <string name="meeting_notification_content4">发起的主题为</string>
+    <string name="meeting_notification_content5">的会议，并在抵达会议地点的时候在会议的时候连接名字为</string>
+    <string name="meeting_notification_content6">的wifi进行签到，谢谢！</string>
+
+    <string name="mustbe_edit_meeting_minutes">必须填写会议纪要!</string>
+    <string name="not_signIn">你当前连接的移动网络，不能签到。</string>
+    <string name="exit_signIn_failure">你当前没有连接wifi网络，签退失败！</string>
+    <string name="meeting_end">会议已经被结束</string>
+    <string name="click_agin">当前没有获取到你的位置信息，请重新点击!</string>
+    <string name="approve_signIn_succed">签到成功</string>
+    <string name="exit_signIn_succed">签到成功</string>
+    <string name="mustbe_upload_meeting_picture">必须上传会议图片!</string>
+    <string name="close_meeting">结束会议</string>
+    <string name="meeting_ended">会议结束！</string>
+
+    <string name="meeting_minutes">会议纪要</string>
+    <string name="organization_personnel">组织人员</string>
+    <string name="persons_due">应到人员</string>
+    <string name="signIn_personnel">签到人员</string>
+    <string name="upload">上传</string>
+    <string name="meetingContent">会议内容</string>
+    <string name="meetingUpload">会议上传</string>
+    <string name="actual_presence_mustbe_selected">必须选择实际到场人员</string>
+    <string name="actual_presence_selected">选择实际到场人员</string>
+    <string name="mustbe_edit_meeting_content">必须填写会议内容</string>
+    <string name="mustbe_edit_meeting_summary">必须填写会议总结</string>
+
+    <!-- 我的消息 end -->
+
+    <!-- 应用 start -->
+    <string name="performance_improvement_system">效能提升系统</string>
+    <string name="security_services">安全服务</string>
+    <string name="office_task_management">办公任务管理</string>
+    <string name="triple_one_big_deal">三重一大事项</string>
+    <string name="paicheshenqing">派车申请</string>
+    <string name="anquanfuwu">安全服务(非煤矿山)</string>
+    <string name="shejishencha">设计审查(非煤矿山)</string>
+    <string name="standard_first_application">标准化初次申请</string>
+    <string name="standard_second_application">标准化复审</string>
+    <string name="makeplan">年初计划</string>
+    <string name="sendgonggao">发布公告</string>
+    <string name="renwupaifa">任务派发</string>
+    <string name="lingdaoquxiang">领导去向</string>
+    <string name="sanzhongyida">三重一大</string>
+    <!-- 应用 end -->
+
+    <!--个人中心 start -->
+    <string name="please_login">[请登录]</string>
+    <string name="exit_login">退出登录</string>
+    <string name="left_brackets">[</string>
+    <string name="right_brackets">]</string>
+
+    <string name="tv_personal_data">个人资料</string>
+    <string name="tv_edit">编辑</string>
+    <string name="tv_edit_personal_data">编辑个人资料</string>
+    <string name="tv_complete">完成</string>
+
+    <string name="tv_address_book">通讯录</string>
+    <string name="tv_address_book_detail">通讯录详细界面</string>
+    <string name="tv_search_contact">搜索联系人</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="tv_name">姓&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;名</string>
+    <string name="tv_sex">性&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;别</string>
+    <string name="tv_birthday">出生日期</string>
+    <string name="tv_law_no">执法证号</string>
+    <string name="tv_telephone">工作电话</string>
+    <string name="tv_phoneNumber">手机号码</string>
+    <string name="tv_position">职&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;务</string>
+    <string name="tv_address">工作地点</string>
+    <string name="tv_dept_NAME">部&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;门</string>
+    <string name="tv_work_DESC">工作职责</string>
+    <string name="tv_choose_date">请选择日期</string>
+    <string name="tv_please_enter">请输入</string>
+
+    <string name="tv_about_us">关于我们</string>
+    <string name="tv_about_us_content">根据《中共贵州省委办公厅、贵州省人民政府办公厅关于印发〈贵阳市人民政府机构改革方案〉的通知》(黔委厅字〔2009〕71号)和《中共贵阳市委、贵阳市人民政府关于市人民政府机构改革的实施意见》(筑党发〔2010〕6号)，设立贵阳市安全生产监督管理局，为市人民政府工作部门。</string>
+    <string name="service_telephone">服务电话:\n 0851-87989019</string>
+    <string name="web_address">网址:\n http://ajj.gygov.gov.cn/</string>
+
+    <string name="tv_about_application">关于应用</string>
+    <string name="android">Android&#160;&#160;&#160;</string>
+    <string name="failed_get_version">获取版本失败</string>
+    <string name="current_latest_version">当前已经是最新版本!</string>
+    <string name="equipment_type">设备型号</string>
+    <string name="current_version">当前版本</string>
+    <string name="system_version">系统版本</string>
+    <string name="check_update">检查更新</string>
+
+    <!--个人中心 end -->
 
 </resources>

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.benefit.buy.library.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.henghao.hhworkpresent.ActivityFragmentSupport;
 import com.henghao.hhworkpresent.ProtocolUrl;
@@ -94,7 +95,7 @@ public class MeetingShenpiResultsActivity extends ActivityFragmentSupport {
         initWithBar();
         mLeftTextView.setVisibility(View.VISIBLE);
         initWithCenterBar();
-        mCenterTextView.setText("会议审批结果");
+        mCenterTextView.setText(R.string.meeting_shenpi_result);
         mCenterTextView.setVisibility(View.VISIBLE);
     }
 
@@ -109,7 +110,7 @@ public class MeetingShenpiResultsActivity extends ActivityFragmentSupport {
     /**
      * 从后台获取会议数据
      */
-    public void httpRequestMeetingContent(){
+    private void httpRequestMeetingContent(){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
         MultipartBuilder multipartBuilder = new MultipartBuilder();
@@ -127,7 +128,7 @@ public class MeetingShenpiResultsActivity extends ActivityFragmentSupport {
                     @Override
                     public void run() {
                         mActivityFragmentView.viewLoading(View.GONE);
-                        Toast.makeText(getContext(), "网络访问错误！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getContext(),R.string.app_network_failure);
                     }
                 });
             }
@@ -154,15 +155,15 @@ public class MeetingShenpiResultsActivity extends ActivityFragmentSupport {
                             tv_meeting_start_time.setText(meetingEntity.getMeetingStartTime());
                             tv_meeting_duration.setText(meetingEntity.getMeetingDuration());
                             String name = meetingEntity.getUserIds();   //获取参会人员
-                            String[] strings = name.split(",");
+                            String[] strings = name.split(getString(R.string.comma));
                             tv_join_meeting_people_num.setText(String.valueOf(strings.length));
                             tv_join_meeting_people.setText(name);
                             if(meetingEntity.getWhetherPass()==2){  //表示未通过审批
-                                tv_meeting_shenpi_result.setText("未通过");
+                                tv_meeting_shenpi_result.setText(R.string.not_pass);
                                 linear_meeting_dispass_reason.setVisibility(View.VISIBLE);
                                 tv_meeting_dispass_reason.setText(meetingEntity.getNoPassReason());
                             } else if(meetingEntity.getWhetherPass()==1){
-                                tv_meeting_shenpi_result.setText("已通过");
+                                tv_meeting_shenpi_result.setText(R.string.already_pass);
                                 linear_meeting_dispass_reason.setVisibility(View.GONE);
                             }
                         }

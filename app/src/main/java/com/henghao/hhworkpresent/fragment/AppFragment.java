@@ -1,6 +1,5 @@
 package com.henghao.hhworkpresent.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,9 +37,6 @@ public class AppFragment extends FragmentSupport {
     @ViewInject(R.id.fushen)
     private MyImageTextButton fushen;
 
-    @ViewInject(R.id.banfa)
-    private MyImageTextButton banfa;
-
     @ViewInject(R.id.zhidingjihua)
     private MyImageTextButton zhidingjihua;
 
@@ -74,37 +70,34 @@ public class AppFragment extends FragmentSupport {
     }
 
     public void initData(){
-        cheliangyuding.setItemTextResource("派车申请");
+        cheliangyuding.setItemTextResource(getString(R.string.paicheshenqing));
         cheliangyuding.setItemImageResource(R.drawable.item_cheliangyuding);
 
-        anquanfuwu.setItemTextResource("安全服务(非煤矿山)");
+        anquanfuwu.setItemTextResource(getString(R.string.anquanfuwu));
         anquanfuwu.setItemImageResource(R.drawable.item_anquanfuwu);
 
-        shejishencha.setItemTextResource("设计审查(非煤矿山)");
+        shejishencha.setItemTextResource(getString(R.string.shejishencha));
         shejishencha.setItemImageResource(R.drawable.item_shejishencha);
 
-        chushen.setItemTextResource("标准化初次申请");
+        chushen.setItemTextResource(getString(R.string.standard_first_application));
         chushen.setItemImageResource(R.drawable.chushen);
 
-        fushen.setItemTextResource("标准化复审");
+        fushen.setItemTextResource(getString(R.string.standard_second_application));
         fushen.setItemImageResource(R.drawable.fushen);
 
-        /*banfa.setItemTextResource("许可颁发");
-        banfa.setItemImageResource(R.drawable.banfa);*/
-
-        zhidingjihua.setItemTextResource("年初计划");
+        zhidingjihua.setItemTextResource(getString(R.string.makeplan));
         zhidingjihua.setItemImageResource(R.drawable.zhidingjihua);
 
-        fabugonggao.setItemTextResource("发布公告");
+        fabugonggao.setItemTextResource(getString(R.string.sendgonggao));
         fabugonggao.setItemImageResource(R.drawable.fabugonggao);
 
-        renwupaifa.setItemTextResource("任务派发");
+        renwupaifa.setItemTextResource(getString(R.string.renwupaifa));
         renwupaifa.setItemImageResource(R.drawable.renwupaifa);
 
-        lingdaoquxiang.setItemTextResource("领导去向");
+        lingdaoquxiang.setItemTextResource(getString(R.string.lingdaoquxiang));
         lingdaoquxiang.setItemImageResource(R.drawable.lingdaoquxiang);
 
-        sanzhongyida.setItemTextResource("三重一大");
+        sanzhongyida.setItemTextResource(getString(R.string.sanzhongyida));
         sanzhongyida.setItemImageResource(R.drawable.sanzhongyida);
 
     }
@@ -112,47 +105,43 @@ public class AppFragment extends FragmentSupport {
     private void initwithContent() {
         initWithCenterBar();
         this.mCenterTextView.setVisibility(View.VISIBLE);
-        this.mCenterTextView.setText("应用");
+        this.mCenterTextView.setText(getString(R.string.hc_app));
     }
 
     @OnClick({R.id.cheliangyuding,R.id.anquanfuwu,R.id.shejishencha,R.id.chushen, R.id.fushen,
-            R.id.banfa,R.id.zhidingjihua,R.id.fabugonggao,R.id.renwupaifa,R.id.lingdaoquxiang,R.id.sanzhongyida})
+            R.id.zhidingjihua,R.id.fabugonggao,R.id.renwupaifa,R.id.lingdaoquxiang,R.id.sanzhongyida})
     private void viewOnClick(View v){
-        Intent intent = new Intent();
         SqliteDBUtils sqliteDBUtils = new SqliteDBUtils(mActivity);
         switch (v.getId()){
             case R.id.cheliangyuding:
-                WebViewActivity.startToWebActivity(mActivity,"派车申请", WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.CHELIANG_FLOWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.paicheshenqing), WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.CHELIANG_FLOWID);
                 break;
             case R.id.anquanfuwu:
-                WebViewActivity.startToWebActivity(mActivity,"安全服务", WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.ANQUANFUWU_FLOWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.anquanfuwu), WorkflowUrl.WORKFLOW_VIEW_URL + sqliteDBUtils.getUsername()+WorkflowUrl.ANQUANFUWU_FLOWID);
                 break;
             case R.id.shejishencha:
-                WebViewActivity.startToWebActivity(mActivity,"设计审查", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+ WorkflowUrl.SHEJISHENCHA_FLOWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.shejishencha), WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+ WorkflowUrl.SHEJISHENCHA_FLOWID);
                 break;
             case R.id.chushen:
-                WebViewActivity.startToWebActivity(mActivity,"标准化初次申请", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.CHUSHEN_FLOWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.standard_first_application), WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.CHUSHEN_FLOWID);
                 break;
             case R.id.fushen:
-                WebViewActivity.startToWebActivity(mActivity,"标准化复审", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.FUSHEN_FLOWID);
-                break;
-            case R.id.banfa:
-                WebViewActivity.startToWebActivity(mActivity,"许可颁发", WorkflowUrl.WORKFLOW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.XUKEBANFA_FLOWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.standard_second_application), WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.FUSHEN_FLOWID);
                 break;
             case R.id.zhidingjihua:
-                WebViewActivity.startToWebActivity(mActivity,"年初计划", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.ZHIDINGJIHUA_FLOWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.makeplan), WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.ZHIDINGJIHUA_FLOWID);
                 break;
             case R.id.fabugonggao:
-                WebViewActivity.startToWebActivity(mActivity,"发布公告", WorkflowUrl.WORKFLOW_VIEW_URL+ sqliteDBUtils.getUsername()+ WorkflowUrl.SENDGONGGAO_FLOWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.sendgonggao), WorkflowUrl.WORKFLOW_VIEW_URL+ sqliteDBUtils.getUsername()+ WorkflowUrl.SENDGONGGAO_FLOWID);
                 break;
             case R.id.renwupaifa:
-                WebViewActivity.startToWebActivity(mActivity,"任务派发", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.RENWUPAIFA_FLOWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.renwupaifa), WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.RENWUPAIFA_FLOWID);
                 break;
             case R.id.lingdaoquxiang:
-                WebViewActivity.startToWebActivity(mActivity,"领导去向", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.LINGDAOQUXIANG_VIEWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.lingdaoquxiang), WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+WorkflowUrl.LINGDAOQUXIANG_VIEWID);
                 break;
             case R.id.sanzhongyida:
-                WebViewActivity.startToWebActivity(mActivity,"三重一大", WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+ WorkflowUrl.SANZHONGYIDA_FLOWID);
+                WebViewActivity.startToWebActivity(mActivity,getString(R.string.sanzhongyida), WorkflowUrl.WORKFLOW_VIEW_URL+sqliteDBUtils.getUsername()+ WorkflowUrl.SANZHONGYIDA_FLOWID);
                 break;
         }
     }

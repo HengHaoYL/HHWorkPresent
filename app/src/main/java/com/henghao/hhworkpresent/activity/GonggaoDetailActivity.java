@@ -50,9 +50,8 @@ public class GonggaoDetailActivity extends ActivityFragmentSupport {
     public void initWidget() {
         super.initWidget();
         initWithBar();
-        mLeftTextView.setText("公告详情");
+        mLeftTextView.setText(getString(R.string.announcement_detail));
         mLeftTextView.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -63,10 +62,9 @@ public class GonggaoDetailActivity extends ActivityFragmentSupport {
         String author = intent.getStringExtra("gongao_author");
         String date = intent.getStringExtra("gongao_date");
         String content = intent.getStringExtra("gongao_content");
-        gonggao_titile.setText("公告标题:"+titile);
-        gonggao_author.setText("发布作者:"+author);
-        gonggao_date.setText("发布时间:"+date);
-        gonggao_content.setText("公告内容:"+content);
-
+        gonggao_titile.setText(getString(R.string.announcement_title) + titile);
+        gonggao_author.setText(getString(R.string.announcement_author) + author);
+        gonggao_date.setText(getString(R.string.announcement_time) + date);
+        gonggao_content.setText(getString(R.string.announcement_content)+content);
     }
 }

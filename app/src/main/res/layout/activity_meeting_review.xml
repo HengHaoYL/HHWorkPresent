@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="会议主题"
+                android:text="@string/meetingTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="会议发起人"
+                android:text="@string/meeting_faqiren"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="会议地点"
+                android:text="@string/meetingPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="开始时间"
+                android:text="@string/startTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="预估时长"
+                android:text="@string/meetingDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -142,7 +142,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="10dp"
-                android:text="参会人员"
+                android:text="@string/join_meetingig_people"
                 android:textSize="18dp"/>
             <TextView
                 android:id="@+id/tv_join_meeting_people_num"
@@ -182,7 +182,7 @@
             android:paddingLeft="@dimen/padding_vertical_a"
             android:paddingRight="@dimen/padding_vertical_a"
             android:paddingTop="@dimen/padding_big"
-            android:text="同意"
+            android:text="@string/agree"
             android:textColor="@color/white" />
 
         <TextView
@@ -196,8 +196,8 @@
             android:paddingRight="@dimen/padding_vertical_a"
             android:paddingTop="@dimen/padding_big"
             android:layout_gravity="center"
-            android:text="驳回"
+            android:text="@string/reject"
             android:textColor="@color/white" />
-
     </LinearLayout>
+
 </RelativeLayout>

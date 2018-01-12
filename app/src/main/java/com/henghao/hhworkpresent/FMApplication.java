@@ -71,7 +71,7 @@ public class FMApplication extends Application {
 
     private static void initImageLoader(Context context) {
         //缓存文件的目录
-        File cacheDir = StorageUtils.getOwnCacheDirectory(context, "universalimageloader/Cache");
+        File cacheDir = StorageUtils.getOwnCacheDirectory(context, Constant.IMAGELOADER_CACHE);
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .memoryCacheExtraOptions(480, 800) // max width, max height，即保存的每个缓存文件的最大长宽
                 .threadPoolSize(3) //线程池内线程的数量
