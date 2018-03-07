@@ -198,15 +198,12 @@ public class DateTimeUtils {
      * 比较是否超过了12:00  超过返回false
      */
     public static boolean equalsString12(String currentdate){
-        //定义一个标准时间
         int[] arr = {12,0,0};
         String[] strings = currentdate.split(":");
         int[] temp = new int[strings.length];
-        //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
-        //只要是在12点之前，都属于上午，在12点之后，都属于下午
         if (temp[0]<arr[0]) {
             return true;
         }
@@ -217,19 +214,16 @@ public class DateTimeUtils {
      * 比较是否超过了中间时间  超过返回false
      */
     public static boolean equalsStringMiddle(String currentdate,String middleTime){
-        //定义一个标准时间
         String[] strings = currentdate.split(":");
         String[] middleArr = middleTime.split(":");
         int[] temp = new int[strings.length];
         int[] middle = new int[middleArr.length];
-        //将字符数据转为int数组
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
         for (int i = 0; i < middle.length; i++) {
             middle[i]=Integer.parseInt(middleArr[i]);
         }
-        //只要是在12点之前，都属于上午，在12点之后，都属于下午
         if (temp[0]<middle[0]) {
             return true;
         }
@@ -259,22 +253,12 @@ public class DateTimeUtils {
      * 比较下班时间  早退返回true
      */
     public static boolean equalsStringXiaban(String clockOutTime,String shouldXBTime){
-        //定义一个标准时间
-        //    int[] arr = {17,0,0};
         String[] strings = clockOutTime.split(":");
-        //    String[] xiaTimes = shouldXBTime.split(":");
         int[] temp = new int[strings.length];
-        //    int[] xiaTime = new int[xiaTimes.length];
-        int[] xiaTime = {17,0,0};
-        //将字符数据转为int数组
+        int[] xiaTime = {16,50,0};
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
-        /*//将字符数据转为int数组
-        for (int i = 0; i < xiaTime.length; i++) {
-            xiaTime[i]=Integer.parseInt(xiaTimes[i]);
-        }*/
-        //只要是在18点之前，都属于早退，在18点之后，都属于正常下班
         if (temp[0]<xiaTime[0]) {
             return true;
         }
@@ -285,32 +269,20 @@ public class DateTimeUtils {
      * 比较上班时间  迟到返回true
      */
     public static boolean equalsStringShangban(String clockInTime,String shouldSBTime){
-        //定义一个标准时间 08:00
-        //    int[] arr = {9,0,0};
         String[] strings = clockInTime.split(":");
-        //    String[] shangTimes = shouldSBTime.split(":");
         int[] temp = new int[strings.length];
-        //     int[] shangTime = new int[shangTimes.length];
-        int[] shangTime ={9,0,0};
-        //将字符数据转为int数组
+        int[] shangTime ={8,50,0};
         for (int i = 0; i < strings.length; i++) {
             temp[i]=Integer.parseInt(strings[i]);
         }
-        /*for (int i = 0; i < shangTime.length; i++) {
-            shangTime[i]=Integer.parseInt(shangTimes[i]);
-        }*/
-        //比较小时
         if (temp[0]>shangTime[0]) {
             return true;
         }
         if(temp[0]==shangTime[0]){
-            //比较分钟
             if (temp[1]>shangTime[1]) {
                 return true;
             }
-            //如果分钟相等	9.0.0 , 9.0.0
             if (temp[1]==shangTime[1]) {
-                //比较秒的用意，是为了对刚好在时间点打卡（如：9:00:00）的判断
                 if (temp[2]>shangTime[2]) {
                     return true;
                 }
